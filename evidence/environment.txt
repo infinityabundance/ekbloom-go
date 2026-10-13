@@ -1,0 +1,25 @@
+EKBLOOM-GO — environment capture (local development host)
+
+Go:            go1.27.1 linux/amd64
+Rust (ref):    rustc 1.98.0 / cargo 1.98.0  (only for the fixture generator + Rust verifier)
+Host:          x86_64, 16 logical CPUs
+OS:            linux
+
+Module:        github.com/infinityabundance/ekbloom-go
+Dependencies:  none (module has no require lines; stdlib only)
+go.sum:        absent
+unsafe/cgo:    none
+
+Cross-compilation (pure Go, no cgo, no unsafe):
+  linux/arm64    OK
+  linux/riscv64  OK
+  linux/ppc64le  OK
+  linux/s390x    OK
+
+Reproduce:
+  go test ./...                 # 338 tests pass, 2 skipped
+  go test -race .               # 64-reader path, race-detector clean
+  go test -fuzz FuzzOpenBytes   # Open never panics on arbitrary bytes
+  sh scripts/roundtrip.sh       # Go <-> Rust bidirectional byte-for-byte identity
+  sh scripts/bench.sh           # micro-benchmarks -> evidence/bench.txt
+  sh scripts/reproduce.sh       # clean build + full tests -> testdata/reproduce.json

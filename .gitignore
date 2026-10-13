@@ -1,0 +1,14 @@
+# Rust reference checkout + fixture generator (large; not part of the Go module)
+.reference/
+
+# Rust build artifacts
+target/
+**/target/
+
+# Go build/test artifacts
+*.test
+*.out
+coverage.txt
+
+# Editor / OS
+.DS_Store

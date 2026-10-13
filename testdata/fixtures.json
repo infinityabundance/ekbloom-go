@@ -1,0 +1,24 @@
+{
+  "fixtures": [
+    {"name": "m1_root_empty", "machine_id": 1, "profile": "root", "logical_len": 0, "core_len": 0, "visible_bytes": 0, "physical_bytes": 0, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m1_root_allbytes", "machine_id": 1, "profile": "root", "logical_len": 256, "core_len": 256, "visible_bytes": 256, "physical_bytes": 256, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m1_root_text", "machine_id": 1, "profile": "root", "logical_len": 100, "core_len": 100, "visible_bytes": 100, "physical_bytes": 100, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m1_full_rand", "machine_id": 1, "profile": "full", "logical_len": 4096, "core_len": 4096, "visible_bytes": 4096, "physical_bytes": 20484, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m1_sparse64_text", "machine_id": 1, "profile": "sparse(64)", "logical_len": 1000, "core_len": 1000, "visible_bytes": 1000, "physical_bytes": 1032, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m1_path4_rand", "machine_id": 1, "profile": "path(4)", "logical_len": 4096, "core_len": 4096, "visible_bytes": 4096, "physical_bytes": 12523, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m2_root_skew", "machine_id": 2, "profile": "root", "logical_len": 5000, "core_len": 1561, "visible_bytes": 1561, "physical_bytes": 1561, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m2_sparse256_skew", "machine_id": 2, "profile": "sparse(256)", "logical_len": 5000, "core_len": 1561, "visible_bytes": 1561, "physical_bytes": 1801, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m3_root_rand", "machine_id": 3, "profile": "root", "logical_len": 4096, "core_len": 4096, "visible_bytes": 4096, "physical_bytes": 4096, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m4_root_skew", "machine_id": 4, "profile": "root", "logical_len": 5000, "core_len": 1550, "visible_bytes": 1550, "physical_bytes": 1550, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m5_root_skew", "machine_id": 5, "profile": "root", "logical_len": 5000, "core_len": 1264, "visible_bytes": 1264, "physical_bytes": 1264, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m5_root_const", "machine_id": 5, "profile": "root", "logical_len": 500, "core_len": 11, "visible_bytes": 11, "physical_bytes": 11, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m6_root_mixed", "machine_id": 6, "profile": "root", "logical_len": 8192, "core_len": 8400, "visible_bytes": 8400, "physical_bytes": 8400, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m6_root_const", "machine_id": 6, "profile": "root", "logical_len": 9000, "core_len": 267, "visible_bytes": 267, "physical_bytes": 267, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m7_root_skew", "machine_id": 7, "profile": "root", "logical_len": 5000, "core_len": 1562, "visible_bytes": 1562, "physical_bytes": 1562, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m8_root_skew", "machine_id": 8, "profile": "root", "logical_len": 5000, "core_len": 1575, "visible_bytes": 1575, "physical_bytes": 1575, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m9_root_small", "machine_id": 9, "profile": "root", "logical_len": 38, "core_len": 600, "visible_bytes": 600, "physical_bytes": 600, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m9_full_small", "machine_id": 9, "profile": "full", "logical_len": 38, "core_len": 600, "visible_bytes": 600, "physical_bytes": 756, "generation": 1, "encode_matches": true, "dict": null},
+    {"name": "m9_ref_kv", "machine_id": 9, "profile": "root", "logical_len": 38, "core_len": 56, "visible_bytes": 56, "physical_bytes": 56, "generation": 1, "encode_matches": false, "dict": "fixtures/m9_ref_kv.dict"},
+    {"name": "m9_embed_kv", "machine_id": 9, "profile": "root", "logical_len": 41, "core_len": 596, "visible_bytes": 596, "physical_bytes": 596, "generation": 1, "encode_matches": false, "dict": null}
+  ]
+}

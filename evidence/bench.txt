@@ -1,0 +1,17 @@
+goos: linux
+goarch: amd64
+pkg: github.com/infinityabundance/ekbloom-go
+cpu: AMD Ryzen 7 9800X3D 8-Core Processor           
+BenchmarkMachine1Encode-16        	    1846	    651557 ns/op	1609.34 MB/s	 1048580 B/op	       1 allocs/op
+BenchmarkMachine2Encode-16        	     248	   4838296 ns/op	 216.72 MB/s	 1263674 B/op	       5 allocs/op
+BenchmarkMachine2Decode-16        	     151	   8037843 ns/op	 130.45 MB/s	 1081521 B/op	       6 allocs/op
+BenchmarkBlake3_1MiB-16           	     356	   3284755 ns/op	 319.22 MB/s	       0 B/op	       0 allocs/op
+BenchmarkByteAtProbe-16           	418376580	         3.076 ns/op	       0 B/op	       0 allocs/op
+BenchmarkReadAt4KiB-16            	 3606404	       332.8 ns/op	12306.17 MB/s	    4096 B/op	       1 allocs/op
+BenchmarkStreamBuildBounded-16    	      18	  65149235 ns/op	 128.76 MB/s	31101178 B/op	    4121 allocs/op
+PASS
+ok  	github.com/infinityabundance/ekbloom-go	10.996s
+PASS
+ok  	github.com/infinityabundance/ekbloom-go/internal/blake3	0.001s
+?   	github.com/infinityabundance/ekbloom-go/internal/tools/roundtripgen	[no test files]
+?   	github.com/infinityabundance/ekbloom-go/internal/tools/testsum	[no test files]
