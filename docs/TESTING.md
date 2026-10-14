@@ -14,8 +14,11 @@ go vet ./...
   match the authoritative decode and avoid materialising the symbol array.
 - `auth_test.go` — verifies a Rust-written AUTH fixture; Go AUTH round-trip;
   wrong/stripped key rejected.
-- `append_test.go` — additive generations, and torn-write fault injection (every
-  truncation of an appended image recovers the newest valid generation).
+- `append_test.go` — additive generations, torn-write fault injection (every
+  truncation of an appended image recovers the newest valid generation), and
+  in-place EIO (every single-bit flip in the appended region is recovered exactly
+  or rejected with a typed error; a flip in a section payload falls back to the
+  newest valid generation).
 - `corruption_test.go` — 100% single-bit-flip detection per covered structure,
   and localized `Corrupt { Section, Offset }`.
 - `roundtrip_test.go` — Go write/read round-trip for every machine and profile;

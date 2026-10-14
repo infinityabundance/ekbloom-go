@@ -2,6 +2,7 @@ package ekbloom
 
 import (
 	"bytes"
+	"errors"
 	"testing"
 )
 
@@ -128,6 +129,84 @@ func TestAppendFaultInjection(t *testing.T) {
 	}
 	if len(truncated) != len(root) {
 		t.Fatalf("truncate length %d want %d", len(truncated), len(root))
+	}
+}
+
+// TestAppendInPlaceCorruption models an EIO in the appended region. It proves two
+// properties:
+//
+//   - fallback: a bit flip anywhere in generation 2's section *payload* fails the
+//     section CRC, so the corrupt commit is dropped and the newest *valid*
+//     generation (1) is recovered with the correct bytes;
+//   - robustness: no single-bit flip anywhere at or after gen 1's end can ever
+//     yield wrong bytes or a panic — it yields either the correct bytes or a typed
+//     *Error.
+func TestAppendInPlaceCorruption(t *testing.T) {
+	src := sampleSource(2, 1500)
+	root, err := WriteBody(1, src, rootProfile())
+	if err != nil {
+		t.Fatal(err)
+	}
+	app, _, err := AppendGeneration(root, 1, src, fullProfile())
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	outcome, err := Scan(app)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(outcome.Commits) != 2 {
+		t.Fatalf("want 2 commits, got %d", len(outcome.Commits))
+	}
+	gen2 := outcome.Commits[1]
+	var hist *ScannedSection
+	for i := range gen2.Sections {
+		if gen2.Sections[i].Kind == SectionHistoryFull {
+			hist = &gen2.Sections[i]
+		}
+	}
+	if hist == nil {
+		t.Fatal("generation 2 has no history section")
+	}
+
+	// Fallback: corrupt one byte of gen 2's section payload -> CRC fails -> the
+	// newest valid generation (1) is selected, byte-exact.
+	for _, off := range []uint64{hist.PayloadOffset, hist.PayloadOffset + hist.PayloadLen/2, hist.PayloadOffset + hist.PayloadLen - 1} {
+		mutated := append([]byte(nil), app...)
+		mutated[off] ^= 0x80
+		r, err := Open(mutated)
+		if err != nil {
+			t.Fatalf("payload flip at %d: open: %v", off, err)
+		}
+		if r.Generation() != 1 {
+			t.Fatalf("payload flip at %d: generation %d, want fallback to 1", off, r.Generation())
+		}
+		if got, _ := r.ReadAt(0, uint64(len(src))); !bytes.Equal(got, src) {
+			t.Fatalf("payload flip at %d: recovered wrong bytes", off)
+		}
+	}
+
+	// Robustness: every flip in the appended region is either recovered exactly or
+	// rejected with a typed error — never wrong bytes, never a panic.
+	for off := len(root); off < len(app); off++ {
+		mutated := append([]byte(nil), app...)
+		mutated[off] ^= 0x01
+		r, err := Open(mutated)
+		if err != nil {
+			var e *Error
+			if !errors.As(err, &e) {
+				t.Fatalf("flip at %d: non-typed error %v", off, err)
+			}
+			continue
+		}
+		got, err := r.ReadAt(0, uint64(len(src)))
+		if err != nil {
+			t.Fatalf("flip at %d: read: %v", off, err)
+		}
+		if !bytes.Equal(got, src) {
+			t.Fatalf("flip at %d: recovered wrong bytes", off)
+		}
 	}
 }
 
