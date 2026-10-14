@@ -1,0 +1,30 @@
+{
+  "records": 20000,
+  "record_bytes": 100,
+  "parquet_bytes_per_record": 1.7417,
+  "parquet_bytes_total": 34834,
+  "ekbloom_m9_bytes_per_record": 60.9476,
+  "zstd_dict_bytes_per_record": 34.31575,
+  "raw_bytes_per_record": 100,
+  "ekbloom_read_p50_ns": 3156,
+  "parquet_read_p50_ns": 1914394,
+  "parquet_read_ns_per_value": 95.7197,
+  "ekbloom_read_allocations": 24581,
+  "samples": 8192,
+  "train_records": 2000,
+  "distinct_values": 512,
+  "ekbloom_dict_bytes": 540,
+  "ekbloom_m9_payload_bytes": 1218412,
+  "zstd_dict_bytes": 25687,
+  "zstd_payload_bytes": 660628,
+  "parquet_dict_page_bytes": 11829,
+  "parquet_column_encodings": [
+    "PLAIN",
+    "RLE_DICTIONARY"
+  ],
+  "parquet_compression": "ZSTD",
+  "parquet_read_allocations": 328867266,
+  "ekbloom_read_allocations_per_op": 3.0006103515625,
+  "parquet_read_allocations_per_op": 40144.929931640625,
+  "note": "Parquet = a per-column-chunk RLE_DICTIONARY page (dedupes identical values, ZSTD-framed). EKBLOOM m9 = one 540 B shared order-0 dictionary per file + a header-less core per value (amortised). zstd-dict = zstd.BuildDict trained on the same records, dictionary bytes amortised. Read cost is p50: EKBLOOM DecodeRecord per value vs. reading the full Parquet column into []string (which includes opening the file)."
+}

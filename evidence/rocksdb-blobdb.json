@@ -1,0 +1,1 @@
+{"records":20000,"record_bytes":100,"ops":50000,"bytes_per_record":63.384150,"get_p50_ns":4218,"get_p99_ns":16471,"ekbloom_physical_bytes":1267683,"ekbloom_expansion_ratio":0.633841,"breaches":0}

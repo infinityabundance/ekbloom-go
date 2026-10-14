@@ -1,0 +1,44 @@
+# syntax=docker/dockerfile:1
+# RocksDB value-codec integration for the EKBLOOM machine-9 shared dictionary.
+#
+#   docker build -f integrations/rocksdb/Dockerfile.rocksdb -t ekbloom-go-rocksdb-blobdb:local .
+#   docker run --rm ekbloom-go-rocksdb-blobdb:local      # one JSON object on stdout
+#
+# Or, with the capped runner that writes evidence/:
+#
+#   sh scripts/rocksdb.sh
+#
+# Stage 1 carries the Go toolchain and builds the c-shared bridge. Stage 2 is a
+# plain Ubuntu 24.04 with the system RocksDB and compiles + runs the C++ bench,
+# so the C++ is linked against the distribution's real librocksdb (8.9.x).
+
+# ---- stage 1: build the c-shared bridge (Go + cgo) --------------------------
+FROM golang:1.23-bookworm AS bridge
+ENV CGO_ENABLED=1 \
+    GOFLAGS=-mod=mod \
+    GOPROXY=off \
+    GOCACHE=/tmp/gocache
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends build-essential ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+WORKDIR /src
+COPY . .
+WORKDIR /src/integrations/rocksdb/bridge
+RUN go build -buildmode=c-shared -o /out/libekbloom.so .
+
+# ---- stage 2: compile + run the C++ against system RocksDB ------------------
+FROM ubuntu:24.04 AS runtime
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      librocksdb-dev build-essential ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+
+COPY --from=bridge /out/libekbloom.so /usr/local/lib/libekbloom.so
+COPY --from=bridge /out/libekbloom.h /usr/local/include/libekbloom.h
+COPY integrations/rocksdb/rocksdb_blob.cc /src/rocksdb_blob.cc
+
+RUN g++ -O2 -std=c++17 /src/rocksdb_blob.cc -o /usr/local/bin/rocksdb_blob \
+      -I/usr/local/include -L/usr/local/lib -lekbloom -lrocksdb -lpthread -ldl
+
+ENV LD_LIBRARY_PATH=/usr/local/lib
+ENTRYPOINT ["/usr/local/bin/rocksdb_blob"]

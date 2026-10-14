@@ -1,0 +1,9 @@
+== docker run --memory=2g --memory-swap=2g --cpus=2 ekbloom-go-sandbox:latest ==
+== go -C integrations/parquet mod tidy && go -C integrations/parquet run . ==
+records=20000 record_bytes=100 distinct=512 samples=8192
+codec                    B/record   read p50
+parquet(rle_dict)            1.74  1914394 ns
+ekbloom-m9                  60.95     3156 ns
+zstd-dict                   34.32          -
+raw                        100.00          -
+parquet column encodings=[PLAIN RLE_DICTIONARY] dict_page_bytes=11829 codec=ZSTD

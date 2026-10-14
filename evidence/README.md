@@ -32,6 +32,7 @@ because they need hardware or privileges a laptop may not have.
 | `chaos.json` | 400 append/damage/repair rounds (truncate + bit flips): 400/400 recovered exact |
 | `fuzz.json`, `fuzz/` | fuzz campaign logs and the published corpus (`FuzzOpenBytes` 1.13B execs) |
 | `roundtrip.log` | Go-written `.ekb`/`.stream` opened and decoded by the Rust reference (22 files) |
+| `parquet-dict.json` / `parquet-dict.log` | EKBLOOM machine-9 shared dictionary vs a **real Parquet `RLE_DICTIONARY` page** on the same 20,000 × 100 B column (`scripts/parquet.sh`) |
 | `container-test.json`, `container-reproduce.json` | the suite and CLI inside the ~9.7 MB image |
 | `reproduce.json` | JSON summary from `scripts/reproduce.sh` |
 

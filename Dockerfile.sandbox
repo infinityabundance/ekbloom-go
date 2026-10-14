@@ -1,0 +1,23 @@
+# OOM-protected minimal sandbox for building and testing EKBLOOM-Go.
+#
+# Everything heavy (go build / go test / go test -bench / cgo builds) runs in this
+# container, never on the host, so a runaway allocation is OOM-killed by the
+# container's cgroup instead of taking down the editor.
+#
+# Build:  docker build -f Dockerfile.sandbox -t ekbloom-go-sandbox:latest .
+# Run it via scripts/sandbox.sh (which applies the memory/CPU/pid caps).
+#
+# Debian (not Alpine) so cgo works for the RocksDB bridge (-buildmode=c-shared).
+FROM golang:1.23-bookworm
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates gcc g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV CGO_ENABLED=1 \
+    GOFLAGS=-mod=mod \
+    GOCACHE=/tmp/gocache \
+    GOMODCACHE=/tmp/gomod \
+    HOME=/tmp
+
+WORKDIR /src
