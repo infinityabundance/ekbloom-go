@@ -11,13 +11,26 @@ The wire format is **frozen** and follows the Rust reference
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-14
+
+### Added
+
+- `DecodeCore(machineID, core, logicalLen)` (and `MachineByID`) — decode a machine
+  core directly, e.g. for a value-log adapter that stores codec-encoded values.
+
 ### Changed
 
 - **Layout.** The engine moved to `internal/ekb`; the root package is now the
   public API only (type aliases + wrappers over the engine). The wire format and
   the public API are unchanged — root types are aliases (`type Reader = ekb.Reader`),
-  so method sets and interfaces are identical, and `go test ./...`, the Rust
-  round-trip and the cross-arch cross-FS fingerprints all still pass.
+  so method sets and interfaces are identical. `go list -f '{{.GoFiles}}' .` now
+  lists 7 files instead of 42.
+
+### Notes
+
+- Continuous publishing: the suite image (`ghcr.io/…:test`) is republished on
+  every push to `main`; releases also publish `:<version>` and `:<version>-test`
+  (runtime and suite), plus moving `:latest`.
 
 ## [0.1.0] - 2026-10-14
 
@@ -64,5 +77,6 @@ reference.
   64 readers p99.9 ≈1 µs under `-race`; 2 GiB bounded stream at ≈9.5 MiB peak.
 - Fuzzing: `FuzzOpenBytes` 1.13B executions, no crashes.
 
-[Unreleased]: https://github.com/infinityabundance/ekbloom-go/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/infinityabundance/ekbloom-go/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/infinityabundance/ekbloom-go/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/infinityabundance/ekbloom-go/releases/tag/v0.1.0
