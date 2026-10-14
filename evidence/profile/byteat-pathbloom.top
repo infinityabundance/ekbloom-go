@@ -1,0 +1,13 @@
+File: ekbloom.test
+Build ID: b658550e131f677c3f8da1958cbeb73d6cd6d46a
+Type: cpu
+Time: 2026-10-14 03:05:44 BST
+Duration: 580.09ms, Total samples = 580ms (  100%)
+Showing nodes accounting for 580ms, 100% of 580ms total
+      flat  flat%   sum%        cum   cum%
+     280ms 48.28% 48.28%      460ms 79.31%  github.com/infinityabundance/ekbloom-go.(*Reader).ByteAt
+     120ms 20.69% 68.97%      580ms   100%  github.com/infinityabundance/ekbloom-go.BenchmarkByteAtPathBloom
+     100ms 17.24% 86.21%      100ms 17.24%  github.com/infinityabundance/ekbloom-go.(*Reader).directlyAddressable (inline)
+      80ms 13.79%   100%       80ms 13.79%  github.com/infinityabundance/ekbloom-go.(*Reader).readPathBloom (inline)
+         0     0%   100%      580ms   100%  testing.(*B).launch
+         0     0%   100%      580ms   100%  testing.(*B).runN

@@ -17,15 +17,16 @@ reference (`tools/fixturegen/src/bin/corpusbench.rs`) and the two reports are
 required to agree on `physical_bytes` and `logical_len` for every row.
 
 ```sh
-sh scripts/corpus.sh     # corpus/ + evidence/corpus.json + evidence/corpus-rust.json
+sh scripts/corpus.sh                        # corpus/ + evidence/corpus{,-rust}.json
+EKB_CORPUS_ENWIK9=1 sh scripts/corpus.sh    # also download enwik9 (1 GB)
 ```
 
 ## Cross-implementation result
 
-`evidence/corpus-compare.log`: **48/48 rows identical** (physical_bytes,
-logical_len, and therefore `E_V`) across Canterbury (14 files), Silesia (12 files)
-and enwik8 (1 file), machines 1 and 2 — the two implementations encode the same
-bytes on real corpora, not just on synthetic fixtures.
+`evidence/corpus-compare.log`: **50/50 rows identical** (physical_bytes,
+logical_len, and therefore `E_V`) across Canterbury (14 files), Silesia (12 files),
+enwik8 (1 file) and enwik9 (1 file), machines 1 and 2 — the two implementations
+encode the same bytes on real corpora, not just on synthetic fixtures.
 
 Representative rows (`evidence/corpus.json`):
 
@@ -38,6 +39,7 @@ Representative rows (`evidence/corpus.json`):
 | silesia/`mozilla` | 4,194,304 | 2 | 4,039,434 | 0.9631 |
 | silesia/`xml` | 4,194,304 | 2 | 2,877,437 | 0.6860 |
 | enwik8/`enwik8` | 4,194,304 | 2 | 2,687,412 | 0.6407 |
+| enwik9/`enwik9` | 4,194,304 | 2 | 2,687,412 | 0.6407 |
 
 Machine 1 (`OrANS-NL2`) is a pure positional machine: its core is exactly the
 source, so `E_V = 1.000` by construction. Machine 2 (`OrANS-RANS0`) is the base
@@ -55,4 +57,7 @@ entropy machine; its `E_V` is the honest order-0 expansion ratio on each file.
   array on first random access; the reference's `byte_at` p50/p99 come from its
   bounded engine and are not directly comparable, so they are not asserted here.
 - Slices are bounded to `EKB_CORPORA_CAP` (default 4 MiB) per file, matching the
-  reference's corpus cap; the full archives are never committed.
+  reference's corpus cap; the full archives are never committed. Because the cap
+  is per file, enwik8 and enwik9 share the same leading 4 MiB Wikipedia slice and
+  therefore the same `E_V` — the larger corpus is included to show the pipeline
+  scales, not to change the slice.

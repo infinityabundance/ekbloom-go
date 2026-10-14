@@ -51,8 +51,11 @@ target), run each target with a long `-fuzztime` under `scripts/fuzz.sh`.
 
 The primary entry point **`FuzzOpenBytes` has been driven past the 1B-execution
 bar**: 1,131,205,714 executions in 30 minutes with no crashes, logged verbatim at
-`evidence/fuzz/FuzzOpenBytes-1b.log`. `FuzzStreamBytes`/`FuzzMachineRoundTrip`
-are run for the short duration by default; extend them the same way.
+`evidence/fuzz/FuzzOpenBytes-1b.log`. `FuzzStreamBytes` (which builds *and* reads a
+whole stream per execution, ~3k execs/s) and `FuzzMachineRoundTrip` (nine
+machines per execution) are structurally ~300× heavier per execution, so they are
+bounded-fuzzed with `FUZZTARGETS` rather than driven to 1B; extend with
+`FUZZTARGETS=FuzzStreamBytes FUZZTIME=30m sh scripts/fuzz.sh`.
 
 ## Benchmarks
 
@@ -66,18 +69,25 @@ sh scripts/courts.sh              # the skewed small-record court (separate modu
 
 ```sh
 sh scripts/cross-fs.sh            # ext4/btrfs/tmpfs fingerprints (evidence/cross-fs.json)
+sh scripts/profile.sh             # CPU profiles (SVG + top) for m1/m2/m9 + path bloom
 sh scripts/container-aarch64.sh   # full suite + fingerprints on linux/arm64 under qemu
 ```
 
 Determinism is proven at runtime, not merely asserted:
 
 - **Cross-filesystem.** `scripts/cross-fs.sh` copies the fixtures to every
-writable filesystem type mounted on the host and confirms the fingerprint (machine
-id, `physical_bytes`, and a SHA-256 over the fully decoded bytes) is identical
-(`evidence/cross-fs.json`, `evidence/cross-fs.log`). On this host that is **ext4,
-btrfs and tmpfs**; a type that is not mounted (or not writable) is reported as
-"not exercised" — on this host `xfs` needs root to create a loopback mount, so it
-is not exercised here rather than claimed.
+filesystem type it can reach and confirms the fingerprint (machine id,
+`physical_bytes`, and a SHA-256 over the fully decoded bytes) is identical
+(`evidence/cross-fs.json`, `evidence/cross-fs.log`). A rootless host reaches the
+repository's own **ext4** plus **tmpfs** (and a real **btrfs** mount where one is
+mounted); when privileged (root or passwordless sudo) it additionally creates
+loopback **ext4/xfs/btrfs** images. The CI `fsmatrix` job uses the runner's
+passwordless sudo to exercise **all four (ext4, xfs, btrfs, tmpfs)**. A type that
+cannot be reached is reported as "not exercised", never silently skipped.
+- **Cross-architecture (native).** The CI `arm64-native` job runs the suite and
+benchmarks on real arm64 hardware (`ubuntu-24.04-arm`) and requires its
+fingerprint to equal the recorded amd64 fingerprint. `scripts/container-aarch64.sh`
+additionally checks amd64 == arm64 under qemu.
 - **Cross-architecture.** `scripts/container-aarch64.sh` runs the full suite on
 `linux/arm64` under qemu and compares fingerprints; `evidence/aarch64-determinism.json`
 records `identical: true` with **equal** amd64/arm64 fingerprint SHA-256s over the

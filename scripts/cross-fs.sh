@@ -70,9 +70,9 @@ run_fs() {
 loopback() {
     type=$1
     case $type in
-        ext4) tool=mkfs.ext4 ;;
-        xfs) tool=mkfs.xfs ;;
-        btrfs) tool=mkfs.btrfs ;;
+        ext4) tool=mkfs.ext4; opts="-q -F" ;;
+        xfs) tool=mkfs.xfs; opts="-q -f" ;;
+        btrfs) tool=mkfs.btrfs; opts="-q -f" ;;
     esac
     if ! command -v "$tool" >/dev/null 2>&1; then
         echo "note: $tool not installed; $type not exercised"
@@ -81,14 +81,18 @@ loopback() {
     d="$work/$type"
     mkdir -p "$d/mnt"
     img="$d/fs.img"
-    if ! truncate -s 256M "$img" 2>/dev/null; then
-        dd if=/dev/zero of="$img" bs=1M count=256 2>/dev/null || { echo "note: no image for $type"; return; }
+    # xfs refuses an image below ~300 MB, so use 512 MB for every loopback.
+    if ! truncate -s 512M "$img" 2>/dev/null; then
+        dd if=/dev/zero of="$img" bs=1M count=512 2>/dev/null || { echo "note: no image for $type"; return; }
     fi
-    case $type in
-        ext4) as_root "$tool" -q -F "$img" >/dev/null 2>&1 || { echo "note: mkfs $type failed"; return; } ;;
-        *) as_root "$tool" -q -f "$img" >/dev/null 2>&1 || { echo "note: mkfs $type failed"; return; } ;;
-    esac
+    if ! as_root "$tool" $opts "$img" >"$d/mkfs.log" 2>&1; then
+        echo "note: mkfs $type failed ($(tail -n 1 "$d/mkfs.log" 2>/dev/null)); not exercised"
+        return
+    fi
     if as_root mount -o loop "$img" "$d/mnt" 2>/dev/null; then
+        # A root-mounted filesystem root is root-owned; make it writable so the
+        # unprivileged fingerprint run can create its working directory.
+        as_root chmod 0777 "$d/mnt" 2>/dev/null || true
         run_fs "$type" "$d/mnt"
         as_root umount "$d/mnt" 2>/dev/null || as_root umount -l "$d/mnt" 2>/dev/null || true
     else

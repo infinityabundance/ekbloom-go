@@ -33,6 +33,13 @@ fetch https://corpus.canterbury.ac.nz/resources/cantrbry.zip corpus/canterbury
 fetch http://mattmahoney.net/dc/silesia.zip corpus/silesia
 fetch http://mattmahoney.net/dc/enwik8.zip corpus/enwik8
 
+# enwik9 (1 GB) is optional: set EKB_CORPUS_ENWIK9=1 to include it. The harness
+# measures a bounded leading slice (EKB_CORPORA_CAP, default 4 MiB), so the extra
+# corpus is only a download-and-slice cost.
+if [ "${EKB_CORPUS_ENWIK9:-0}" = 1 ]; then
+    fetch http://mattmahoney.net/dc/enwik9.zip corpus/enwik9
+fi
+
 echo
 echo "== Go: corpusbench -> evidence/corpus.json =="
 go run ./internal/tools/corpusbench corpus evidence/corpus.json

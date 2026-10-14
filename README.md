@@ -43,7 +43,7 @@ byte-compatible with the Rust reference implementation
 | Benchmarks (`go test -bench`, incl. arm64) | ✅ amd64 + arm64/qemu | `bench_test.go`, `evidence/bench.txt`, `evidence/aarch64-bench.txt` |
 | Cross-FS determinism (ext4/btrfs/tmpfs; xfs not exercised) | ✅ identical fingerprints | `scripts/cross-fs.sh`, `evidence/cross-fs.json` |
 | Cross-arch runtime determinism | ✅ amd64 == arm64 fingerprints | `evidence/aarch64-determinism.json` |
-| Standard corpora `E_V` (Canterbury/Silesia/enwik8) | ✅ Go == Rust, 48/48 rows | `scripts/corpus.sh`, `evidence/corpus-compare.log` |
+| Standard corpora `E_V` (Canterbury/Silesia/enwik8/enwik9) | ✅ Go == Rust, 50/50 rows | `scripts/corpus.sh`, `evidence/corpus-compare.log` |
 | Skewed small-record court vs zstd/lz4/zstd-dict | ✅ space win, decode cost, allocs/get (honest) | `courts/`, `docs/COURTS.md`, `evidence/courts.json` |
 | Fuzz campaign | ✅ **1.13B execs** (Open), corpus published | `evidence/fuzz.json`, `evidence/fuzz/FuzzOpenBytes-1b.log` |
 | CI + captured logs | ✅ | `.github/workflows/ci.yml`, `scripts/ci.sh`, `evidence/` |
@@ -86,6 +86,7 @@ EKB_RUN_SCALE=1 go test -run 2GiB .   # the 2 GiB bounded-memory stream build (~
 sh scripts/roundtrip.sh           # Go -> .ekb/.stream -> Rust decode, byte-for-byte
 sh scripts/cross-fs.sh            # cross-filesystem determinism (ext4/btrfs/tmpfs)
 sh scripts/corpus.sh              # standard corpora E_V: Go vs Rust on the same files
+sh scripts/profile.sh             # CPU profiles (SVG + top) for m1/m2/m9 encode + path bloom
 sh scripts/container-aarch64.sh   # amd64 == arm64 runtime determinism (qemu)
 sh scripts/courts.sh              # 100-byte, 80/20 court vs zstd/lz4/zstd-dict
 sh scripts/container-reproduce.sh # everything inside a ~10 MB Docker image

@@ -23,6 +23,8 @@ canterbury/xargs.1       1  4227     4227           4227             1.0000  ok
 canterbury/xargs.1       2  4227     3175           3175             0.7511  ok
 enwik8/enwik8            1  4194304  4194304        4194304          1.0000  ok
 enwik8/enwik8            2  4194304  2687412        2687412          0.6407  ok
+enwik9/enwik9            1  4194304  4194304        4194304          1.0000  ok
+enwik9/enwik9            2  4194304  2687412        2687412          0.6407  ok
 silesia/dickens          1  4194304  4194304        4194304          1.0000  ok
 silesia/dickens          2  4194304  2409557        2409557          0.5745  ok
 silesia/mozilla          1  4194304  4194304        4194304          1.0000  ok
@@ -48,5 +50,5 @@ silesia/x-ray            2  4194304  3380582        3380582          0.8060  ok
 silesia/xml              1  4194304  4194304        4194304          1.0000  ok
 silesia/xml              2  4194304  2877437        2877437          0.6860  ok
 
-48/48 rows identical (physical_bytes, logical_len, E_V)
+50/50 rows identical (physical_bytes, logical_len, E_V)
 PASS: Go and Rust agree on every corpus row

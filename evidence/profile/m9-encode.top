@@ -1,0 +1,28 @@
+File: ekbloom.test
+Build ID: b658550e131f677c3f8da1958cbeb73d6cd6d46a
+Type: cpu
+Time: 2026-10-14 03:05:43 BST
+Duration: 364.12ms, Total samples = 370ms (101.62%)
+Showing nodes accounting for 370ms, 100% of 370ms total
+      flat  flat%   sum%        cum   cum%
+     280ms 75.68% 75.68%      280ms 75.68%  github.com/infinityabundance/ekbloom-go.Dictionary.EncodeRecord
+      70ms 18.92% 94.59%       70ms 18.92%  github.com/infinityabundance/ekbloom-go.TrainDictionary
+      10ms  2.70% 97.30%       10ms  2.70%  runtime.preemptone
+      10ms  2.70%   100%       10ms  2.70%  runtime.procyieldAsm
+         0     0%   100%      350ms 94.59%  github.com/infinityabundance/ekbloom-go.BenchmarkMachineEncode.func1
+         0     0%   100%      350ms 94.59%  github.com/infinityabundance/ekbloom-go.dictMachine.Encode
+         0     0%   100%       20ms  5.41%  runtime.gcBgMarkWorker
+         0     0%   100%       10ms  2.70%  runtime.gcBgMarkWorker.func2
+         0     0%   100%       10ms  2.70%  runtime.gcDrain
+         0     0%   100%       10ms  2.70%  runtime.gcDrainMarkWorkerDedicated (inline)
+         0     0%   100%       10ms  2.70%  runtime.gcMarkDone
+         0     0%   100%       10ms  2.70%  runtime.gcMarkDone.func2
+         0     0%   100%       10ms  2.70%  runtime.markroot
+         0     0%   100%       10ms  2.70%  runtime.markroot.func1
+         0     0%   100%       10ms  2.70%  runtime.preemptall
+         0     0%   100%       10ms  2.70%  runtime.procyield (inline)
+         0     0%   100%       10ms  2.70%  runtime.stopTheWorldWithSema
+         0     0%   100%       10ms  2.70%  runtime.suspendG
+         0     0%   100%       20ms  5.41%  runtime.systemstack
+         0     0%   100%      350ms 94.59%  testing.(*B).launch
+         0     0%   100%      350ms 94.59%  testing.(*B).runN

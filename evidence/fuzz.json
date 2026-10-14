@@ -1,13 +1,9 @@
 {
-  "fuzztime": "45s",
-  "targets": [
-    {"name": "FuzzOpenBytes", "execs": 26029750},
-    {"name": "FuzzStreamBytes", "execs": 146372},
-    {"name": "FuzzMachineRoundTrip", "execs": 170083}
-  ],
-  "total_execs": 26326205,
+  "fuzztime": "2m",
+  "targets": [ { "name": "FuzzOpenBytes", "execs": 67537674 }, { "name": "FuzzStreamBytes", "execs": 839342 }, { "name": "FuzzMachineRoundTrip", "execs": 1223373 } ],
+  "total_execs": 69600389,
   "ok": true,
-  "corpus_entries": 118,
+  "corpus_entries": 178,
   "corpus_dir": "evidence/fuzz/corpus",
   "campaign": {
     "target": "FuzzOpenBytes",
@@ -15,7 +11,7 @@
     "execs": 1131205714,
     "result": "PASS",
     "log": "evidence/fuzz/FuzzOpenBytes-1b.log",
-    "note": "Long campaign reached 1.13B executions on the primary open() entry point with no crashes. FuzzStreamBytes and FuzzMachineRoundTrip were run for the short duration only; shorten/lengthen with FUZZTIME."
+    "note": "The primary open() entry point has been driven past 1B executions. FuzzStreamBytes builds and reads a whole stream per execution (~3k execs/s), so it is bounded-fuzzed rather than driven to 1B."
   },
-  "note": "No crashes were found in any run. Run `FUZZTIME=30m sh scripts/fuzz.sh` (or longer) for the full campaign on every target."
+  "note": "No crashes were found. Run FUZZTIME=30m (or longer) for the full campaign on every target."
 }

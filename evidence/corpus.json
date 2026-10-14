@@ -15,9 +15,9 @@
       "logical_len": 152089,
       "physical_bytes": 152089,
       "E_V": 1,
-      "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p50_ns": 30,
+      "byte_at_p99_ns": 41,
+      "byte_at_p999_ns": 90
     },
     {
       "corpus": "canterbury",
@@ -43,7 +43,7 @@
       "E_V": 1,
       "byte_at_p50_ns": 20,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p999_ns": 111
     },
     {
       "corpus": "canterbury",
@@ -68,7 +68,7 @@
       "physical_bytes": 24603,
       "E_V": 1,
       "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 31,
+      "byte_at_p99_ns": 30,
       "byte_at_p999_ns": 31
     },
     {
@@ -81,7 +81,7 @@
       "physical_bytes": 16800,
       "E_V": 0.6828435556639434,
       "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 30,
+      "byte_at_p99_ns": 31,
       "byte_at_p999_ns": 31
     },
     {
@@ -107,7 +107,7 @@
       "physical_bytes": 7604,
       "E_V": 0.6819730941704036,
       "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 31,
+      "byte_at_p99_ns": 30,
       "byte_at_p999_ns": 31
     },
     {
@@ -132,9 +132,9 @@
       "logical_len": 3721,
       "physical_bytes": 2733,
       "E_V": 0.7344799785004031,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 40,
-      "byte_at_p999_ns": 60
+      "byte_at_p50_ns": 20,
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 31
     },
     {
       "corpus": "canterbury",
@@ -145,9 +145,9 @@
       "logical_len": 1029744,
       "physical_bytes": 1029744,
       "E_V": 1,
-      "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 40
+      "byte_at_p50_ns": 21,
+      "byte_at_p99_ns": 110,
+      "byte_at_p999_ns": 240
     },
     {
       "corpus": "canterbury",
@@ -159,8 +159,8 @@
       "physical_bytes": 462279,
       "E_V": 0.44892614086607935,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 120
+      "byte_at_p99_ns": 51,
+      "byte_at_p999_ns": 90
     },
     {
       "corpus": "canterbury",
@@ -171,9 +171,9 @@
       "logical_len": 426754,
       "physical_bytes": 426754,
       "E_V": 1,
-      "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p50_ns": 30,
+      "byte_at_p99_ns": 40,
+      "byte_at_p999_ns": 51
     },
     {
       "corpus": "canterbury",
@@ -185,8 +185,8 @@
       "physical_bytes": 253142,
       "E_V": 0.5931801459388781,
       "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 100,
-      "byte_at_p999_ns": 121
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 31
     },
     {
       "corpus": "canterbury",
@@ -197,9 +197,9 @@
       "logical_len": 481861,
       "physical_bytes": 481861,
       "E_V": 1,
-      "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p50_ns": 30,
+      "byte_at_p99_ns": 51,
+      "byte_at_p999_ns": 61
     },
     {
       "corpus": "canterbury",
@@ -211,8 +211,8 @@
       "physical_bytes": 277737,
       "E_V": 0.5763840609636389,
       "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 51,
-      "byte_at_p999_ns": 61
+      "byte_at_p99_ns": 50,
+      "byte_at_p999_ns": 51
     },
     {
       "corpus": "canterbury",
@@ -225,7 +225,7 @@
       "E_V": 1,
       "byte_at_p50_ns": 20,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p999_ns": 100
     },
     {
       "corpus": "canterbury",
@@ -251,7 +251,7 @@
       "E_V": 1,
       "byte_at_p50_ns": 20,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p999_ns": 40
     },
     {
       "corpus": "canterbury",
@@ -302,8 +302,8 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 120,
-      "byte_at_p999_ns": 180
+      "byte_at_p99_ns": 110,
+      "byte_at_p999_ns": 191
     },
     {
       "corpus": "enwik8",
@@ -315,8 +315,34 @@
       "physical_bytes": 2687412,
       "E_V": 0.6407289505004883,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 140,
-      "byte_at_p999_ns": 241
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 110
+    },
+    {
+      "corpus": "enwik9",
+      "file": "enwik9/enwik9",
+      "bytes": 4194304,
+      "slice_blake3": "dfef7ad7602bdd43174d2fbd77fa6af3fa6e9ed3666c446439cb534d75519faa",
+      "machine_id": 1,
+      "logical_len": 4194304,
+      "physical_bytes": 4194304,
+      "E_V": 1,
+      "byte_at_p50_ns": 30,
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 40
+    },
+    {
+      "corpus": "enwik9",
+      "file": "enwik9/enwik9",
+      "bytes": 4194304,
+      "slice_blake3": "dfef7ad7602bdd43174d2fbd77fa6af3fa6e9ed3666c446439cb534d75519faa",
+      "machine_id": 2,
+      "logical_len": 4194304,
+      "physical_bytes": 2687412,
+      "E_V": 0.6407289505004883,
+      "byte_at_p50_ns": 30,
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 110
     },
     {
       "corpus": "silesia",
@@ -329,7 +355,7 @@
       "E_V": 1,
       "byte_at_p50_ns": 30,
       "byte_at_p99_ns": 110,
-      "byte_at_p999_ns": 230
+      "byte_at_p999_ns": 231
     },
     {
       "corpus": "silesia",
@@ -341,8 +367,8 @@
       "physical_bytes": 2409557,
       "E_V": 0.5744831562042236,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 110,
-      "byte_at_p999_ns": 200
+      "byte_at_p99_ns": 40,
+      "byte_at_p999_ns": 110
     },
     {
       "corpus": "silesia",
@@ -355,7 +381,7 @@
       "E_V": 1,
       "byte_at_p50_ns": 30,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 100
+      "byte_at_p999_ns": 110
     },
     {
       "corpus": "silesia",
@@ -367,8 +393,8 @@
       "physical_bytes": 4039434,
       "E_V": 0.963076114654541,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 60,
-      "byte_at_p999_ns": 120
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 110
     },
     {
       "corpus": "silesia",
@@ -380,8 +406,8 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 50,
-      "byte_at_p999_ns": 110
+      "byte_at_p99_ns": 101,
+      "byte_at_p999_ns": 190
     },
     {
       "corpus": "silesia",
@@ -393,8 +419,8 @@
       "physical_bytes": 1885428,
       "E_V": 0.4495210647583008,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 110,
-      "byte_at_p999_ns": 160
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 40
     },
     {
       "corpus": "silesia",
@@ -406,8 +432,8 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 110,
-      "byte_at_p999_ns": 171
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 40
     },
     {
       "corpus": "silesia",
@@ -419,8 +445,8 @@
       "physical_bytes": 1315728,
       "E_V": 0.3136940002441406,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 60
+      "byte_at_p99_ns": 101,
+      "byte_at_p999_ns": 181
     },
     {
       "corpus": "silesia",
@@ -432,8 +458,8 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 100
+      "byte_at_p99_ns": 50,
+      "byte_at_p999_ns": 141
     },
     {
       "corpus": "silesia",
@@ -445,8 +471,8 @@
       "physical_bytes": 3446656,
       "E_V": 0.821746826171875,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 110,
-      "byte_at_p999_ns": 250
+      "byte_at_p99_ns": 50,
+      "byte_at_p999_ns": 181
     },
     {
       "corpus": "silesia",
@@ -458,8 +484,8 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 50,
-      "byte_at_p999_ns": 151
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 51
     },
     {
       "corpus": "silesia",
@@ -472,7 +498,7 @@
       "E_V": 0.8258962631225586,
       "byte_at_p50_ns": 30,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 110
+      "byte_at_p999_ns": 100
     },
     {
       "corpus": "silesia",
@@ -484,7 +510,7 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 40,
+      "byte_at_p99_ns": 31,
       "byte_at_p999_ns": 90
     },
     {
@@ -497,8 +523,8 @@
       "physical_bytes": 2533962,
       "E_V": 0.6041436195373535,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 110,
-      "byte_at_p999_ns": 210
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 110
     },
     {
       "corpus": "silesia",
@@ -510,8 +536,8 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 251,
-      "byte_at_p999_ns": 992
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 40
     },
     {
       "corpus": "silesia",
@@ -523,8 +549,8 @@
       "physical_bytes": 2964521,
       "E_V": 0.7067968845367432,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 40,
-      "byte_at_p999_ns": 211
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 100
     },
     {
       "corpus": "silesia",
@@ -536,8 +562,8 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 241,
-      "byte_at_p999_ns": 390
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 120
     },
     {
       "corpus": "silesia",
@@ -549,8 +575,8 @@
       "physical_bytes": 3928612,
       "E_V": 0.9366540908813477,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 50,
-      "byte_at_p999_ns": 140
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 110
     },
     {
       "corpus": "silesia",
@@ -562,8 +588,8 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 130,
-      "byte_at_p999_ns": 220
+      "byte_at_p99_ns": 110,
+      "byte_at_p999_ns": 150
     },
     {
       "corpus": "silesia",
@@ -575,8 +601,8 @@
       "physical_bytes": 2644102,
       "E_V": 0.6304030418395996,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 100,
-      "byte_at_p999_ns": 131
+      "byte_at_p99_ns": 111,
+      "byte_at_p999_ns": 260
     },
     {
       "corpus": "silesia",
@@ -588,8 +614,8 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 140,
-      "byte_at_p999_ns": 240
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 100
     },
     {
       "corpus": "silesia",
@@ -601,8 +627,8 @@
       "physical_bytes": 3380582,
       "E_V": 0.8059935569763184,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 40,
-      "byte_at_p999_ns": 140
+      "byte_at_p99_ns": 100,
+      "byte_at_p999_ns": 161
     },
     {
       "corpus": "silesia",
@@ -614,8 +640,8 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 361,
-      "byte_at_p999_ns": 661
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 111
     },
     {
       "corpus": "silesia",
@@ -627,8 +653,8 @@
       "physical_bytes": 2877437,
       "E_V": 0.6860344409942627,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 170,
-      "byte_at_p999_ns": 261
+      "byte_at_p99_ns": 111,
+      "byte_at_p999_ns": 240
     }
   ],
   "note": "E_V = physical_bytes / logical_len (lower is smaller). Go numbers; compare against evidence/corpus-rust.json for the same files."
