@@ -67,7 +67,7 @@ for the RocksDB and Parquet case studies.
 | Performance regression history | ✅ `bench-history.jsonl`, appended by CI | `scripts/bench-history.sh`, `evidence/bench-history.jsonl` |
 | Fuzz campaign | ✅ **1.13B execs** (Open), corpus published | `evidence/fuzz.json`, `evidence/fuzz/FuzzOpenBytes-1b.log` |
 | WebAssembly (`wasip1` == amd64 == arm64) | ✅ suite runs under wasip1 | `scripts/wasm.sh`, `evidence/wasip1-test.log` |
-| Release + published container (GHCR/Docker Hub) | ✅ `v0.1.0`; `:test` refreshed on main | `CHANGELOG.md`, `.github/workflows/publish.yml` |
+| Release + published container (GHCR/Docker Hub) | ✅ `v0.5.0`; `:test` refreshed on main | `CHANGELOG.md`, `.github/workflows/publish.yml` |
 | CI + captured logs | ✅ | `.github/workflows/ci.yml`, `scripts/ci.sh`, `evidence/` |
 
 ## Quick start
@@ -142,7 +142,7 @@ suite), `bench`, `inspect`, `verify`.
 
 The `publish` workflow (`.github/workflows/publish.yml`) builds `linux/amd64` and
 `linux/arm64` and pushes a **runtime** image and a **test** image. Tag a release to
-publish: `git tag v0.1.0 && git push origin v0.1.0`.
+publish: `git tag v0.5.0 && git push origin v0.5.0`.
 
 ```sh
 docker run --rm ghcr.io/infinityabundance/ekbloom-go:latest version

@@ -11,21 +11,48 @@ The wire format is **frozen** and follows the Rust reference
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-10-14
+
 ### Added
 
+- **`io.ReaderAt` service surface** — `(*Reader).File()` / `NewFile` return an
+  `io.ReaderAt` over the logical content (concurrency-safe, `io.EOF` semantics),
+  `ReadRanges` decodes a batch with a single prepare of the machine model (bounded
+  by `max(Off+Len)`), and `ReadAtContext` is `ReadAt` with cooperative cancellation
+  returning the typed `ctx.Err()` promptly. `WorstCaseStepsFor` gives the per-range
+  step bound for pre-read budgeting. `scripts/readerat.sh` → `evidence/readerat.json`.
+- **CPU/heap profiling** — `scripts/profile.sh` now runs entirely inside the
+  OOM-capped sandbox and emits, per hot path, a pprof call-graph SVG, an
+  `-alloc_space` allocation breakdown and an `-inuse_space` retained-heap view,
+  plus GC-pause quantiles and peak/retained heap. `evidence/profile.json`.
+- **Pebble integration depth** — `courts/pebblebench` adds end-to-end **scan**,
+  **ingest** (offline SSTable + `db.Ingest`), **compaction** (forced, with write
+  amplification) and **cache-pressure** (bounded block cache, hit/miss + p99 under
+  pressure), all round-trips byte-verified. `scripts/pebble-integration.sh` →
+  `evidence/pebble-integration.json`.
+- **Enforcing conformance authority** — both verifiers publish per-fixture JSON;
+  an independent, stdlib-only comparator (`conformance/tools/divergence`, imports
+  neither implementation) fails the run when an observed cross-implementation
+  difference is not in the ruled `manifest.json.divergences` set. Every ruled
+  divergence now cites a `SPEC.md` section (`rule`), and `SPEC.md` §7.3/§7.4/§9.4/§10
+  describe the policy. `evidence/conformance.json` reports
+  `{ruled, observed, unruled, resolved, ruled_without_rule}`.
 - **Implementation-neutral conformance suite** (`conformance/`): an authoritative
   `SPEC.md`, an immutable format-versioned `manifest.json` of **73 golden fixtures**
   (positive + negative with expected error kinds, and each expectation labelled
   `derived` vs `asserted`), and **independent Go and Rust verifiers** that consume
   the same manifest and import neither the other implementation nor the generator.
-  `sh scripts/conformance.sh` → `evidence/conformance.json`. It already records 21
-  documented divergences between the two implementations' error kinds, which
-  `SPEC.md` §7.2/§7.3 rules on. CI job `conformance`.
 - **Long-run randomized roundtrip soak** (`internal/tools/soak/`): random machines,
   profiles, sizes and content, round-tripped byte-exact with **no per-iteration
   retention**; reaches the 1e9-symbol target in ~25 s at ~77 MiB peak heap (a 60 s
   run reached 2.19e9 symbols at ~81 MiB, 0 mismatches) — bounded well inside the 2g
   container cap. `scripts/soak.sh` → `evidence/soak.json`. CI job `soak` (60 s).
+
+### Notes
+
+- The Go API remains **v0.x** and additive: `ReaderAt`, `Range`, `ReadRanges`,
+  `ReadAtContext` and the profiling/CI tooling add to the frozen surface without
+  changing any existing signature.
 
 ## [0.4.0] - 2026-10-14
 
@@ -132,7 +159,8 @@ reference.
   64 readers p99.9 ≈1 µs under `-race`; 2 GiB bounded stream at ≈9.5 MiB peak.
 - Fuzzing: `FuzzOpenBytes` 1.13B executions, no crashes.
 
-[Unreleased]: https://github.com/infinityabundance/ekbloom-go/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/infinityabundance/ekbloom-go/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/infinityabundance/ekbloom-go/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/infinityabundance/ekbloom-go/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/infinityabundance/ekbloom-go/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/infinityabundance/ekbloom-go/compare/v0.1.0...v0.2.0

@@ -16,10 +16,13 @@ compatibility promise a storage team can plan against.
    but the surface below is intended to be stable and any break is called out in
    `CHANGELOG.md`.
 
-## Frozen surface (v0.1.0)
+## Frozen surface
 
 These signatures are the contract; they will not change without a major version
-and a changelog entry.
+and a changelog entry. The surface is stable **since v0.1.0** and has only been
+**extended additively** since (`DecodeCore`/`MachineByID` in v0.2.0, `DictDecoder`
+in v0.3.0, the `io.ReaderAt` surface in v0.5.0); no existing signature has
+changed.
 
 ```go
 // Construction
