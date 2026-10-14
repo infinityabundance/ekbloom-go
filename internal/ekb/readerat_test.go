@@ -390,10 +390,17 @@ func TestReaderAtCancellation(t *testing.T) {
 	}
 
 	// A deadline that expires mid-decode: returns context.DeadlineExceeded, and
-	// the latency to return is far below the full decode.
+	// the latency to return is far below the full decode. The budget is a small
+	// fraction of the measured full decode, so it is guaranteed to expire
+	// mid-decode on any machine — a fixed budget (e.g. 1 ms) races a fast decode
+	// and flakes when the decode happens to finish before the deadline fires.
+	budget := fullDur / 8
+	if budget < time.Microsecond {
+		budget = time.Microsecond
+	}
 	deadlineLat := none
 	for i := 0; i < trials; i++ {
-		dctx, dcancel := context.WithTimeout(live, time.Millisecond)
+		dctx, dcancel := context.WithTimeout(live, budget)
 		start := time.Now()
 		_, err := r.ReadAtContext(dctx, 0, n)
 		if d := time.Since(start); d < deadlineLat {
@@ -470,16 +477,33 @@ func TestReaderAtEvidence(t *testing.T) {
 		t.Errorf("batch measurement failed")
 	}
 
-	// Cancellation latency on a body whose full decode dominates: the best of a
-	// few trials, so the recorded number reflects the codec rather than an
-	// occasional scheduler deschedule.
+	// Cancellation latency on a body whose full decode dominates. The baseline is
+	// ReadAtContext with a live context — the same decode path cancellation
+	// aborts — and the deadline is a small fraction of it, so the deadline is
+	// guaranteed to expire mid-decode on any machine. Both are the best of a few
+	// trials so the recorded number reflects the codec, not a scheduler hiccup.
 	cancel := int64(-1)
 	{
 		cr2, _ := cancelBackedReader(t)
 		cn := cr2.LogicalLen()
+		live := context.Background()
+		base := time.Duration(1<<63 - 1)
+		for i := 0; i < 3; i++ {
+			start := time.Now()
+			if _, err := cr2.ReadAtContext(live, 0, cn); err != nil {
+				t.Fatalf("cancel baseline: %v", err)
+			}
+			if d := time.Since(start); d < base {
+				base = d
+			}
+		}
+		budget := base / 8
+		if budget < time.Microsecond {
+			budget = time.Microsecond
+		}
 		best := time.Duration(1<<63 - 1)
 		for i := 0; i < 5; i++ {
-			dctx, dcancel := context.WithTimeout(context.Background(), time.Millisecond)
+			dctx, dcancel := context.WithTimeout(live, budget)
 			start := time.Now()
 			_, err := cr2.ReadAtContext(dctx, 0, cn)
 			if d := time.Since(start); d < best {
