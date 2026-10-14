@@ -142,3 +142,28 @@ jobs:
         with:
           name: wasip1
           path: evidence/wasip1-fingerprint.txt
+
+  rocksdb:
+    # RocksDB value-codec integration. Built and run inside a container capped at
+    # --memory=2g --memory-swap=2g --cpus=2 --pids-limit=512 by scripts/rocksdb.sh.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: RocksDB value codec (Put/Get + MergeOperator)
+        run: sh scripts/rocksdb.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rocksdb-blobdb
+          path: evidence/rocksdb-blobdb.json
+
+  parquet:
+    # Parquet dictionary-page court vs the machine-9 shared dictionary.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parquet dictionary court
+        run: sh scripts/parquet.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: parquet-dict
+          path: evidence/parquet-dict.json

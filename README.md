@@ -1,8 +1,16 @@
 # EKBLOOM-GO
 
+[![release](https://img.shields.io/github/v/release/infinityabundance/ekbloom-go)](https://github.com/infinityabundance/ekbloom-go/releases)
+[![GHCR](https://img.shields.io/badge/ghcr.io-infinityabundance%2Fekbloom--go-blue)](https://github.com/infinityabundance/ekbloom-go/pkgs/container/ekbloom-go)
+[![CI](https://github.com/infinityabundance/ekbloom-go/actions/workflows/ci.yml/badge.svg)](https://github.com/infinityabundance/ekbloom-go/actions/workflows/ci.yml)
+
 A **pure-Go** implementation of the EKBLOOM concealed-expansion codec, wire- and
 byte-compatible with the Rust reference implementation
 ([`infinityabundance/EKBLOOM`](https://github.com/infinityabundance/EKBLOOM)).
+
+Container images: `ghcr.io/infinityabundance/ekbloom-go:latest` (runtime CLI) and
+`:test` (full suite, no clone needed). See [`docs/INTEGRATIONS.md`](docs/INTEGRATIONS.md)
+for the RocksDB and Parquet case studies.
 
 - **No cgo. No `unsafe`.** The format, all nine machines, the reader, the writer,
   the dictionary and the streaming container are written in portable Go. The only
@@ -34,6 +42,9 @@ byte-compatible with the Rust reference implementation
 | `worst_case_steps_for` bound | ✅ 1.2M samples, 0 violations | `internal/ekb/bound_test.go`, `evidence/bound.json` |
 | 64 readers, quiet vs 1 writer publish, p99.9 (`-race` clean) | ✅ tails indistinguishable (≈1 µs) | `internal/ekb/concurrency_test.go`, `evidence/concurrency.json` |
 | Shared dictionaries (machine 9) | ✅ P5: 83.5 vs 590.0 B/rec, break-even 2 recs | `internal/ekb/dictionary.go`, `internal/ekb/dictbench_test.go`, `docs/DICTIONARY.md` |
+| Zero-allocation dictionary decode (`DictDecoder`) | ✅ 0 allocs/op, 410 ns (was 2805) | `internal/ekb/dictionary.go`, `evidence/ycsb.json` |
+| RocksDB value codec (Put/Get + MergeOperator) | ✅ containerized, honest boundary | `integrations/rocksdb/`, `evidence/rocksdb-blobdb.json` |
+| Parquet dictionary-page comparison | ✅ real `RLE_DICTIONARY`, honest boundary | `integrations/parquet/`, `evidence/parquet-dict.json` |
 | Corruption detection (`Corrupt{Section,Offset}`) | ✅ 100% of covered bits, ≤1 structure (≤4096 B) | `internal/ekb/corruption_test.go` |
 | Streaming (`StreamBuilder`/`StreamReader`, bounded RSS) | ✅ 2 GiB @ 9.5 MiB peak heap | `internal/ekb/stream_test.go`, `internal/ekb/scale_test.go` |
 | Resource policy (1 GiB default cap + breach counter) | ✅ | `internal/ekb/resource.go` |
@@ -94,6 +105,9 @@ sh scripts/corpus.sh              # standard corpora E_V: Go vs Rust on the same
 sh scripts/profile.sh             # CPU profiles (SVG + top) for m1/m2/m9 encode + path bloom
 sh scripts/wasm.sh                # WebAssembly build + amd64 == arm64 == wasip1
 sh scripts/verify-external.sh     # pull the published image, run the suite, no clone
+sh scripts/sandbox.sh go test ./...   # the whole suite in a 2g-capped container (OOM-safe)
+sh scripts/rocksdb.sh             # RocksDB value-codec case study (capped container)
+sh scripts/parquet.sh             # Parquet dictionary-page case study (capped container)
 sh scripts/container-aarch64.sh   # amd64 == arm64 runtime determinism (qemu)
 sh scripts/courts.sh              # 100-byte 80/20 court + 4 KiB point-read court (Pebble)
 sh scripts/container-reproduce.sh # everything inside a ~10 MB Docker image
@@ -164,7 +178,8 @@ internal/tools      roundtripgen, fingerprint, corpusbench, corpuscompare, tests
 courts/             separate module: the competitor courts (zstd/lz4/Pebble/zstd-dict)
 tools/fixturegen    committed Rust crate: fixture generator + verifygo (Rust reads Go)
 testdata/           Rust-generated .ekb/.stream/auth fixtures + BLAKE3 vectors
-docs/               CORE-LAYOUT.md, MIGRATION.md, STABILITY.md, SECURITY.md, THREAT_MODEL.md, OPERATIONS.md, MACHINE_CONTRACT.md, DICTIONARY.md, COURTS.md, CORPORA.md, PERFORMANCE.md, SCOPE.md, TESTING.md
+docs/               CORE-LAYOUT.md, MIGRATION.md, STABILITY.md, SECURITY.md, THREAT_MODEL.md, OPERATIONS.md, MACHINE_CONTRACT.md, DICTIONARY.md, COURTS.md, CORPORA.md, PERFORMANCE.md, SCOPE.md, INTEGRATIONS.md, TESTING.md
+integrations/       rocksdb/ (value codec), parquet/ (dictionary court) — separate modules
 scripts/            roundtrip.sh, setup-reference.sh, cross-fs.sh, corpus.sh, profile.sh, wasm.sh, verify-external.sh, bench.sh, fuzz.sh, reproduce.sh, container-*.sh
 examples/wasm/      WebAssembly build + run notes (wasip1 + js/wasm)
 CHANGELOG.md        release history (Keep a Changelog + SemVer)

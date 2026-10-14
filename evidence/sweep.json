@@ -7,20 +7,20 @@
       "machine_id": 1,
       "physical_bytes": 1048576,
       "E_V": 1,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 240,
-      "read4k_p50_ns": 350,
-      "seq_mb_per_s": 19706.741340750625
+      "byte_at_p50_ns": 120,
+      "byte_at_p99_ns": 281,
+      "read4k_p50_ns": 671,
+      "seq_mb_per_s": 13932.713260696253
     },
     {
       "profile": "m2_root",
       "machine_id": 2,
       "physical_bytes": 208084,
       "E_V": 0.19844436645507812,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 71,
-      "read4k_p50_ns": 621,
-      "seq_mb_per_s": 17751.4135771119
+      "byte_at_p50_ns": 20,
+      "byte_at_p99_ns": 120,
+      "read4k_p50_ns": 832,
+      "seq_mb_per_s": 15208.21488658119
     },
     {
       "profile": "m1_full",
@@ -28,9 +28,9 @@
       "physical_bytes": 5242884,
       "E_V": 5.000003814697266,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "read4k_p50_ns": 3386,
-      "seq_mb_per_s": 1267.9673121524982
+      "byte_at_p99_ns": 50,
+      "read4k_p50_ns": 3757,
+      "seq_mb_per_s": 1284.1336185940338
     },
     {
       "profile": "m1_sparse64",
@@ -38,29 +38,29 @@
       "physical_bytes": 1081346,
       "E_V": 1.0312519073486328,
       "byte_at_p50_ns": 100,
-      "byte_at_p99_ns": 170,
-      "read4k_p50_ns": 9388,
-      "seq_mb_per_s": 467.34629388045806
+      "byte_at_p99_ns": 191,
+      "read4k_p50_ns": 8897,
+      "seq_mb_per_s": 457.1151563342588
     },
     {
       "profile": "m1_path4",
       "machine_id": 1,
       "physical_bytes": 3145963,
       "E_V": 3.0002241134643555,
-      "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 30,
-      "read4k_p50_ns": 280,
-      "seq_mb_per_s": 20529.720416634034
+      "byte_at_p50_ns": 30,
+      "byte_at_p99_ns": 221,
+      "read4k_p50_ns": 821,
+      "seq_mb_per_s": 18403.819151923617
     },
     {
       "profile": "m2_full",
       "machine_id": 2,
       "physical_bytes": 4402392,
       "E_V": 4.198448181152344,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 241,
-      "read4k_p50_ns": 771,
-      "seq_mb_per_s": 12368.4918257095
+      "byte_at_p50_ns": 20,
+      "byte_at_p99_ns": 160,
+      "read4k_p50_ns": 821,
+      "seq_mb_per_s": 19250.169815130987
     }
   ],
   "note": "E_V = physical_bytes / N on a 4-symbol 60/25/10/5 skewed source. Single host, scalar Go; a decision aid, not a portable benchmark."

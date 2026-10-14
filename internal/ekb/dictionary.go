@@ -250,6 +250,80 @@ func (d Dictionary) DecodeRecord(core []byte) ([]byte, error) {
 	return out, nil
 }
 
+// DictDecoder is a reusable order-0 rANS decoder for one fixed Dictionary. Because
+// the dictionary's model never changes, the fused decode table is built once by
+// NewDictDecoder and reused for every record; only the per-record initial coder
+// state differs. DecodeInto writes into a caller-provided buffer and performs no
+// allocations on the steady-state path.
+//
+// A DictDecoder is not safe for concurrent use. Its Decode/DecodeInto calls keep
+// no state between invocations, but a single instance must not be shared between
+// goroutines without external synchronization.
+type DictDecoder struct {
+	rans *ransContext
+}
+
+// NewDictDecoder builds a reusable decoder for d, constructing the order-0 rANS
+// context once (instead of once per record as Dictionary.DecodeRecord does). It
+// returns an error only if d carries an invalid model.
+func NewDictDecoder(d Dictionary) (*DictDecoder, error) {
+	rans, err := ransContextFromCore(d.modelHeader(0))
+	if err != nil {
+		return nil, err
+	}
+	return &DictDecoder{rans: rans}, nil
+}
+
+// DecodeInto decodes core into dst and returns the number of bytes written. dst
+// must be at least as long as the record's logical length (the little-endian
+// u32 at core[0:4]).
+//
+// It mirrors Dictionary.DecodeRecord exactly: core[0:4] is the logical length,
+// core[4:8] is the initial coder state, and logical_len symbols are revealed
+// from the payload that follows. Malformed input is a typed error, never a
+// panic. On success the steady-state path allocates nothing, so a caller that
+// reuses dst can decode with 0 allocs/op.
+func (dec *DictDecoder) DecodeInto(dst, core []byte) (int, error) {
+	if len(core) < dictRecordHeaderBytes {
+		return 0, truncated(dictRecordHeaderBytes, uint64(len(core)))
+	}
+	logicalLen := uint64(binary.LittleEndian.Uint32(core[0:]))
+	state := binary.LittleEndian.Uint32(core[4:])
+	if !validState(state) {
+		return 0, badSection("dictionary record state out of range")
+	}
+	if uint64(len(dst)) < logicalLen {
+		return 0, badSection("dictionary decode destination is smaller than the record's logical length")
+	}
+	var s Snapshot
+	s.State = state
+	s.Cursor = dictRecordHeaderBytes
+	out := dst[:logicalLen]
+	for i := uint64(0); i < logicalLen; i++ {
+		b, err := dec.rans.reveal(core, &s)
+		if err != nil {
+			return int(i), err
+		}
+		out[i] = b
+	}
+	return int(logicalLen), nil
+}
+
+// Decode decodes core into a freshly allocated slice. It is the allocating
+// convenience form of DecodeInto; use DecodeInto with a reused buffer to avoid
+// the allocation.
+func (dec *DictDecoder) Decode(core []byte) ([]byte, error) {
+	if len(core) < dictRecordHeaderBytes {
+		return nil, truncated(dictRecordHeaderBytes, uint64(len(core)))
+	}
+	logicalLen := uint64(binary.LittleEndian.Uint32(core[0:]))
+	out := make([]byte, logicalLen)
+	if _, err := dec.DecodeInto(out, core); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func frameReference(d Dictionary, core []byte) []byte {
 	out := make([]byte, 0, dictFramePrefixBytes+len(core))
 	out = append(out, d.id[:]...)

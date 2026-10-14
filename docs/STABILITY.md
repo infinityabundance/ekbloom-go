@@ -60,6 +60,9 @@ func (d Dictionary) Bytes() []byte
 func DictionaryFromBytes(b []byte) (Dictionary, error)
 func (d Dictionary) EncodeRecord(record []byte) ([]byte, error)
 func (d Dictionary) DecodeRecord(core []byte) ([]byte, error)
+func NewDictDecoder(d Dictionary) (*DictDecoder, error)
+func (dec *DictDecoder) DecodeInto(dst, core []byte) (int, error)
+func (dec *DictDecoder) Decode(core []byte) ([]byte, error)
 
 // Core encode/decode (for storing cores yourself, e.g. a value-log adapter)
 func MachineByID(id uint32) (Machine, bool)

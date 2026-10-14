@@ -11,6 +11,29 @@ The wire format is **frozen** and follows the Rust reference
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-14
+
+### Added
+
+- **`DictDecoder`** — a reusable, zero-allocation dictionary decoder
+  (`NewDictDecoder`, `DecodeInto`, `Decode`). The dictionary model is fixed, so the
+  prepared rANS context is built once and reused; `DecodeInto` writes into a caller
+  buffer with **0 allocs/op** (machine-9 read p50 2,805 ns → **410 ns**).
+- **`integrations/rocksdb`** — RocksDB value-codec case study: a separate Go module
+  built `-buildmode=c-shared` (`ekbloom_train` / `ekbloom_compress` /
+  `ekbloom_decompress`) and a C++ program that stores EKBLOOM-encoded values in
+  RocksDB (`Put`/`Get`) and registers a custom `MergeOperator` through the Object
+  Registry. Evidence: `evidence/rocksdb-blobdb.json`.
+- **`integrations/parquet`** — a real Parquet file (`RLE_DICTIONARY`, ZSTD) compared
+  against the machine-9 shared dictionary on identical records. Evidence:
+  `evidence/parquet-dict.json`.
+- **`Dockerfile.sandbox` + `scripts/sandbox.sh`** — run every build/test/bench in a
+  container hard-capped at `--memory=2g --memory-swap=2g --cpus=2 --pids-limit=512`,
+  so nothing runs on the host.
+- **CI jobs** `rocksdb` and `parquet` (both OOM-capped), and the `court` job now
+  also runs the 4 KiB point-read and YCSB courts.
+- `docs/INTEGRATIONS.md`.
+
 ## [0.2.0] - 2026-10-14
 
 ### Added
@@ -77,6 +100,7 @@ reference.
   64 readers p99.9 ≈1 µs under `-race`; 2 GiB bounded stream at ≈9.5 MiB peak.
 - Fuzzing: `FuzzOpenBytes` 1.13B executions, no crashes.
 
-[Unreleased]: https://github.com/infinityabundance/ekbloom-go/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/infinityabundance/ekbloom-go/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/infinityabundance/ekbloom-go/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/infinityabundance/ekbloom-go/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/infinityabundance/ekbloom-go/releases/tag/v0.1.0

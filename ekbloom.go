@@ -37,6 +37,9 @@ import "github.com/infinityabundance/ekbloom-go/internal/ekb"
 type (
 	// Dictionary is a trained machine-9 shared order-0 model.
 	Dictionary = ekb.Dictionary
+	// DictDecoder is a reusable machine-9 decoder built once per Dictionary;
+	// DecodeInto writes into a caller-provided buffer with 0 allocs/op.
+	DictDecoder = ekb.DictDecoder
 	// Machine is a reproducible, resumable symbol-generating machine.
 	Machine = ekb.Machine
 	// Snapshot is the resumable operational state of a Machine.

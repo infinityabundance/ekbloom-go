@@ -6,8 +6,8 @@
       "machine_id": 1,
       "logical_len": 100,
       "p50_ns": 20,
-      "p99_ns": 31,
-      "p99_9_ns": 31,
+      "p99_ns": 40,
+      "p99_9_ns": 50,
       "surface": "materialized"
     },
     {
@@ -15,8 +15,8 @@
       "machine_id": 1,
       "logical_len": 4096,
       "p50_ns": 20,
-      "p99_ns": 30,
-      "p99_9_ns": 50,
+      "p99_ns": 31,
+      "p99_9_ns": 60,
       "surface": "history"
     },
     {
@@ -24,8 +24,8 @@
       "machine_id": 1,
       "logical_len": 4096,
       "p50_ns": 20,
-      "p99_ns": 30,
-      "p99_9_ns": 31,
+      "p99_ns": 40,
+      "p99_9_ns": 61,
       "surface": "path-bloom"
     },
     {
@@ -33,8 +33,8 @@
       "machine_id": 1,
       "logical_len": 1000,
       "p50_ns": 90,
-      "p99_ns": 160,
-      "p99_9_ns": 171,
+      "p99_ns": 161,
+      "p99_9_ns": 181,
       "surface": "checkpoint"
     },
     {
@@ -42,8 +42,8 @@
       "machine_id": 2,
       "logical_len": 5000,
       "p50_ns": 20,
-      "p99_ns": 31,
-      "p99_9_ns": 31,
+      "p99_ns": 40,
+      "p99_9_ns": 50,
       "surface": "materialized"
     },
     {
@@ -51,8 +51,8 @@
       "machine_id": 3,
       "logical_len": 4096,
       "p50_ns": 20,
-      "p99_ns": 30,
-      "p99_9_ns": 31,
+      "p99_ns": 41,
+      "p99_9_ns": 70,
       "surface": "direct"
     },
     {
@@ -60,17 +60,17 @@
       "machine_id": 4,
       "logical_len": 5000,
       "p50_ns": 20,
-      "p99_ns": 31,
-      "p99_9_ns": 31,
+      "p99_ns": 40,
+      "p99_9_ns": 41,
       "surface": "materialized"
     },
     {
       "fixture": "m5_root_skew",
       "machine_id": 5,
       "logical_len": 5000,
-      "p50_ns": 20,
-      "p99_ns": 31,
-      "p99_9_ns": 50,
+      "p50_ns": 30,
+      "p99_ns": 40,
+      "p99_9_ns": 41,
       "surface": "direct"
     },
     {
@@ -78,8 +78,8 @@
       "machine_id": 6,
       "logical_len": 8192,
       "p50_ns": 20,
-      "p99_ns": 31,
-      "p99_9_ns": 31,
+      "p99_ns": 40,
+      "p99_9_ns": 60,
       "surface": "direct"
     },
     {
@@ -88,7 +88,7 @@
       "logical_len": 5000,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 50,
+      "p99_9_ns": 40,
       "surface": "materialized"
     },
     {
@@ -97,7 +97,7 @@
       "logical_len": 5000,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 50,
+      "p99_9_ns": 31,
       "surface": "materialized"
     },
     {
@@ -106,7 +106,7 @@
       "logical_len": 38,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 50,
+      "p99_9_ns": 40,
       "surface": "materialized"
     }
   ]

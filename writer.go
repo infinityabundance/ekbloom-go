@@ -48,3 +48,8 @@ func RegisterDictionary(d Dictionary) { ekb.RegisterDictionary(d) }
 
 // LookupDictionary resolves a registered dictionary by content id.
 func LookupDictionary(id [16]byte) (Dictionary, bool) { return ekb.LookupDictionary(id) }
+
+// NewDictDecoder builds a reusable machine-9 decoder for dict, constructing the
+// rANS context once. DecodeInto writes into a caller-provided buffer with 0
+// allocations on the steady-state path.
+func NewDictDecoder(d Dictionary) (*DictDecoder, error) { return ekb.NewDictDecoder(d) }

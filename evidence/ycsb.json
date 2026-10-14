@@ -7,170 +7,191 @@
       "store": "raw",
       "workload": "C-read-only",
       "bytes_per_record": 100,
-      "ops_per_s": 16021040.111557705,
+      "ops_per_s": 15201098.370563863,
       "read_p50_ns": 20,
-      "read_p99_ns": 111
+      "read_p99_ns": 131,
+      "allocs_per_op": 0
     },
     {
       "store": "machine2-per-record",
       "workload": "C-read-only",
       "bytes_per_record": 589.9911,
-      "ops_per_s": 170361.5607595341,
-      "read_p50_ns": 5570,
-      "read_p99_ns": 8395
+      "ops_per_s": 122691.63751000099,
+      "read_p50_ns": 8366,
+      "read_p99_ns": 12273,
+      "allocs_per_op": 6
     },
     {
       "store": "zstd-dict",
       "workload": "C-read-only",
       "bytes_per_record": 45.6626,
-      "ops_per_s": 2507468.8721560477,
-      "read_p50_ns": 321,
-      "read_p99_ns": 711
+      "ops_per_s": 2336147.6280836156,
+      "read_p50_ns": 341,
+      "read_p99_ns": 792,
+      "allocs_per_op": 2
     },
     {
       "store": "ekbloom-m9",
       "workload": "C-read-only",
       "bytes_per_record": 63.35745,
-      "ops_per_s": 334109.1347442094,
-      "read_p50_ns": 2805,
-      "read_p99_ns": 4588
+      "ops_per_s": 2176959.272052685,
+      "read_p50_ns": 410,
+      "read_p99_ns": 681,
+      "allocs_per_op": 0
     },
     {
       "store": "pebble+raw",
       "workload": "C-read-only",
       "bytes_per_record": 100,
-      "ops_per_s": 2033505.7488630975,
-      "read_p50_ns": 441,
-      "read_p99_ns": 851
+      "ops_per_s": 1926554.650614305,
+      "read_p50_ns": 451,
+      "read_p99_ns": 962,
+      "allocs_per_op": 1
     },
     {
       "store": "pebble+zstd-dict",
       "workload": "C-read-only",
       "bytes_per_record": 45.6626,
-      "ops_per_s": 1116420.4345577226,
-      "read_p50_ns": 822,
-      "read_p99_ns": 1432
+      "ops_per_s": 753185.473685349,
+      "read_p50_ns": 1372,
+      "read_p99_ns": 1934,
+      "allocs_per_op": 3
     },
     {
       "store": "pebble+ekbloom-m9",
       "workload": "C-read-only",
       "bytes_per_record": 63.35745,
-      "ops_per_s": 278497.4880055727,
-      "read_p50_ns": 3377,
-      "read_p99_ns": 6422
+      "ops_per_s": 841875.223854622,
+      "read_p50_ns": 1142,
+      "read_p99_ns": 1843,
+      "allocs_per_op": 2
     },
     {
       "store": "raw",
       "workload": "B-95/5",
       "bytes_per_record": 100,
-      "ops_per_s": 14993474.83974974,
+      "ops_per_s": 13290347.034883706,
       "read_p50_ns": 20,
-      "read_p99_ns": 120
+      "read_p99_ns": 120,
+      "allocs_per_op": 0
     },
     {
       "store": "machine2-per-record",
       "workload": "B-95/5",
       "bytes_per_record": 589.9903,
-      "ops_per_s": 170012.74068678197,
-      "read_p50_ns": 5721,
-      "read_p99_ns": 8657
+      "ops_per_s": 117595.61530730929,
+      "read_p50_ns": 8697,
+      "read_p99_ns": 14587,
+      "allocs_per_op": 6
     },
     {
       "store": "zstd-dict",
       "workload": "B-95/5",
       "bytes_per_record": 45.72495,
-      "ops_per_s": 456147.5109526491,
-      "read_p50_ns": 430,
-      "read_p99_ns": 1021
+      "ops_per_s": 391477.52488773345,
+      "read_p50_ns": 701,
+      "read_p99_ns": 1342,
+      "allocs_per_op": 2
     },
     {
       "store": "ekbloom-m9",
       "workload": "B-95/5",
       "bytes_per_record": 63.3559,
-      "ops_per_s": 333708.9717249923,
-      "read_p50_ns": 2925,
-      "read_p99_ns": 4910
+      "ops_per_s": 1646409.572567708,
+      "read_p50_ns": 531,
+      "read_p99_ns": 811,
+      "allocs_per_op": 0
     },
     {
       "store": "pebble+raw",
       "workload": "B-95/5",
       "bytes_per_record": 100,
-      "ops_per_s": 1975860.3607320357,
-      "read_p50_ns": 361,
-      "read_p99_ns": 961
+      "ops_per_s": 1270670.117874476,
+      "read_p50_ns": 561,
+      "read_p99_ns": 1322,
+      "allocs_per_op": 1
     },
     {
       "store": "pebble+zstd-dict",
       "workload": "B-95/5",
       "bytes_per_record": 45.72495,
-      "ops_per_s": 371667.9291854553,
-      "read_p50_ns": 972,
-      "read_p99_ns": 2164
+      "ops_per_s": 293264.83980501967,
+      "read_p50_ns": 1513,
+      "read_p99_ns": 2755,
+      "allocs_per_op": 3
     },
     {
       "store": "pebble+ekbloom-m9",
       "workload": "B-95/5",
       "bytes_per_record": 63.3559,
-      "ops_per_s": 279694.07531927625,
-      "read_p50_ns": 3487,
-      "read_p99_ns": 6442
+      "ops_per_s": 698253.6898657638,
+      "read_p50_ns": 1242,
+      "read_p99_ns": 2074,
+      "allocs_per_op": 2
     },
     {
       "store": "raw",
       "workload": "A-50/50",
       "bytes_per_record": 100,
-      "ops_per_s": 8377235.632873345,
-      "read_p50_ns": 20,
-      "read_p99_ns": 121
+      "ops_per_s": 6307892.258172442,
+      "read_p50_ns": 30,
+      "read_p99_ns": 131,
+      "allocs_per_op": 0
     },
     {
       "store": "machine2-per-record",
       "workload": "A-50/50",
       "bytes_per_record": 589.9963,
-      "ops_per_s": 199166.21136938807,
-      "read_p50_ns": 5590,
-      "read_p99_ns": 9658
+      "ops_per_s": 137549.050713617,
+      "read_p50_ns": 8455,
+      "read_p99_ns": 13946,
+      "allocs_per_op": 6
     },
     {
       "store": "zstd-dict",
       "workload": "A-50/50",
       "bytes_per_record": 45.9616,
-      "ops_per_s": 65975.1400552601,
-      "read_p50_ns": 681,
-      "read_p99_ns": 1483
+      "ops_per_s": 53665.47522764473,
+      "read_p50_ns": 882,
+      "read_p99_ns": 2845,
+      "allocs_per_op": 2
     },
     {
       "store": "ekbloom-m9",
       "workload": "A-50/50",
       "bytes_per_record": 63.354,
-      "ops_per_s": 512337.2080542483,
-      "read_p50_ns": 2966,
-      "read_p99_ns": 6101
+      "ops_per_s": 1508438.7342328555,
+      "read_p50_ns": 460,
+      "read_p99_ns": 842,
+      "allocs_per_op": 0
     },
     {
       "store": "pebble+raw",
       "workload": "A-50/50",
       "bytes_per_record": 100,
-      "ops_per_s": 1034209.4348982432,
-      "read_p50_ns": 420,
-      "read_p99_ns": 4238
+      "ops_per_s": 821680.4393729086,
+      "read_p50_ns": 501,
+      "read_p99_ns": 4989,
+      "allocs_per_op": 1
     },
     {
       "store": "pebble+zstd-dict",
       "workload": "A-50/50",
       "bytes_per_record": 45.9616,
-      "ops_per_s": 59383.41701666234,
-      "read_p50_ns": 1423,
-      "read_p99_ns": 4659
+      "ops_per_s": 49876.879173145484,
+      "read_p50_ns": 1693,
+      "read_p99_ns": 6121,
+      "allocs_per_op": 3
     },
     {
       "store": "pebble+ekbloom-m9",
       "workload": "A-50/50",
       "bytes_per_record": 63.354,
-      "ops_per_s": 346030.5889933372,
-      "read_p50_ns": 3437,
-      "read_p99_ns": 8656
+      "ops_per_s": 682404.972548554,
+      "read_p50_ns": 912,
+      "read_p99_ns": 2665,
+      "allocs_per_op": 2
     }
   ],
-  "note": "YCSB-style zipfian (theta=0.99), deterministic trace. Pebble uses NoSync. EKBLOOM is an in-memory codec; the pebble+* rows place the same codec inside an embedded LSM value log. Single host, scalar Go."
+  "note": "YCSB-style zipfian (theta=0.99), deterministic trace. Pebble uses NoSync. EKBLOOM is an in-memory codec; the pebble+* rows place the same codec inside an embedded LSM value log. allocs_per_op is testing.AllocsPerRun over the decode path: machine-9 uses the reusable DictDecoder.DecodeInto with a reused buffer (0 allocs), while the other in-memory rows allocate a fresh destination per read. Single host, scalar Go."
 }
