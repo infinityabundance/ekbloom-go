@@ -33,48 +33,15 @@ import (
 
 	"github.com/cockroachdb/pebble"
 	ekbloom "github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go/courts/internal/workload"
 )
 
 const (
 	records     = 20000
-	recordBytes = 100
+	recordBytes = workload.RecordBytes
 	gets        = 50000
 	trainFrac   = 4 // 1/trainFrac of the records train the shared dictionary
-	hotFrac     = 5 // 1/hotFrac of the keys is "hot" (80/20 access skew)
 )
-
-// tokens is the same skewed/repetitive alphabet the ycsb court uses, so the two
-// courts measure the same byte distribution.
-var tokens = []string{"id=", "user", "kind=", "alpha", "beta", "gamma", "region=",
-	"us-east-1", "eu-west-1", "ap-south-1", "score=", "000", "111", "222",
-	"status=", "active", "idle", "|"}
-
-// record builds one text-like record of exactly recordBytes bytes.
-func record(seed int) []byte {
-	out := make([]byte, 0, recordBytes+16)
-	k := uint64(seed)
-	for len(out) < recordBytes {
-		k = k*6364136223846793005 + 1442695040888963407
-		out = append(out, tokens[(k>>33)%uint64(len(tokens))]...)
-	}
-	return out[:recordBytes]
-}
-
-// skewIndex picks a key index with an 80/20 skew: 80% of accesses target the
-// first 20% of the keys.
-func skewIndex(s *uint64, n int) int {
-	hot := n / hotFrac
-	if hot < 1 {
-		hot = 1
-	}
-	*s = *s*6364136223846793005 + 1442695040888963407
-	if (*s>>33)%100 < 80 {
-		*s = *s*6364136223846793005 + 1442695040888963407
-		return int((*s >> 20) % uint64(hot))
-	}
-	*s = *s*6364136223846793005 + 1442695040888963407
-	return int((*s >> 20) % uint64(n))
-}
 
 func pct(sorted []time.Duration, perMille int) float64 {
 	return float64(sorted[len(sorted)*perMille/1000].Nanoseconds())
@@ -108,7 +75,7 @@ func main() {
 	// --- records + shared dictionary ----------------------------------------
 	src := make([][]byte, records)
 	for i := range src {
-		src[i] = record(i)
+		src[i] = workload.Record(i)
 	}
 	trainN := records / trainFrac
 	dict, err := ekbloom.TrainDictionary(src[:trainN])
@@ -166,7 +133,7 @@ func main() {
 	s := uint64(0x5EED1234)
 	// Warm the block cache / memtable read path.
 	for i := 0; i < 1000; i++ {
-		idx := skewIndex(&s, records)
+		idx := workload.SkewIndex(&s, records)
 		binary.BigEndian.PutUint64(key[:], uint64(idx))
 		b, c, gerr := db.Get(key[:])
 		check(gerr)
@@ -178,7 +145,7 @@ func main() {
 	durs := make([]time.Duration, gets)
 	mismatches := 0
 	for i := 0; i < gets; i++ {
-		idx := skewIndex(&s, records)
+		idx := workload.SkewIndex(&s, records)
 		binary.BigEndian.PutUint64(key[:], uint64(idx))
 		t0 := time.Now()
 		core, closer, gerr := db.Get(key[:])

@@ -1,0 +1,68 @@
+{
+  "records": 20000,
+  "record_bytes": 100,
+  "gets": 50000,
+  "bytes_per_record": 63.35745,
+  "dict_bytes": 540,
+  "decode_allocs_per_op": 0,
+  "scan": {
+    "keys": 20000,
+    "ns_per_key": 482.45,
+    "mb_per_s": 207.2753653228314,
+    "p99_ns": 481,
+    "mismatches": 0
+  },
+  "ingest": {
+    "records": 20000,
+    "logical_bytes": 2000000,
+    "sstable_bytes": 1533676,
+    "build_ms": 12.205,
+    "ingest_ms": 0.186,
+    "total_ms": 12.391,
+    "mb_per_s": 161.39830325191758,
+    "post_read_mismatches": 0
+  },
+  "compaction": {
+    "flush_ms": 3.117,
+    "compact_ms": 6.951,
+    "db_bytes_before_flush": 1942089,
+    "db_bytes_after_flush": 3483039,
+    "db_bytes_after_compact": 7742711,
+    "db_bytes_final": 4675071,
+    "flush_sst_bytes": 1533964,
+    "compact_sst_bytes": 3066798,
+    "compact_bytes_read": 3067640,
+    "sst_bytes_written": 4600762,
+    "wal_bytes_written": 1947725,
+    "logical_bytes": 4000000,
+    "core_bytes": 2533950,
+    "write_amplification": 1.1501905,
+    "write_amplification_stored": 1.81564829613844,
+    "post_sample_point_mismatches": 0,
+    "post_scan_keys": 40000,
+    "post_scan_mismatches": 0
+  },
+  "point_read_warm": {
+    "gets": 50000,
+    "cache_bytes": 8388608,
+    "p50_ns": 1292,
+    "p99_ns": 2414,
+    "p999_ns": 3878,
+    "cache_hits": 150000,
+    "cache_misses": 0,
+    "hit_rate": 1,
+    "mismatches": 0
+  },
+  "point_read_pressure": {
+    "gets": 50000,
+    "cache_bytes": 131072,
+    "p50_ns": 3977,
+    "p99_ns": 5140,
+    "p999_ns": 9658,
+    "cache_hits": 0,
+    "cache_misses": 150000,
+    "hit_rate": 0,
+    "mismatches": 0
+  },
+  "note": "bytes_per_record is the machine-9 codec payload only (excludes Pebble keys, seqnums, checksums, filters, WAL and LSM overhead; Pebble also snappy-compresses blocks). scan throughput is decoded logical MB/s. The two datasets interleave on even/odd keys so the ingested SSTable overlaps the flushed dataset and the forced compaction rewrites bytes. Automatic compactions are disabled so the forced db.Compact is the only compaction measured. db_bytes_after_compact is measured immediately after db.Compact and may include not-yet-unlinked obsolete inputs; db_bytes_final is measured after db.Close (obsolete inputs unlinked). write_amplification = all SST bytes Pebble wrote (flush+compaction, cumulative) / logical source bytes; write_amplification_stored divides by the machine-9 core bytes handed to Pebble. warm reads use Pebble's default 8 MiB cache; pressure reads reopen the same DB with a 128 KiB cache (working set ~2.5 MB). Latency is single-host and the OS page cache is warm in both read phases."
+}

@@ -46,6 +46,7 @@ for the RocksDB and Parquet case studies.
 | RocksDB value codec (Put/Get + MergeOperator) | ✅ containerized, honest boundary | `integrations/rocksdb/`, `evidence/rocksdb-blobdb.json` |
 | Parquet dictionary-page comparison | ✅ real `RLE_DICTIONARY`, honest boundary | `integrations/parquet/`, `evidence/parquet-dict.json` |
 | Pebble value-log adapter (zero-alloc decode) | ✅ 63.36 B/rec, 0 allocs/op, p50 872 ns | `courts/pebble/`, `evidence/pebble-vlog.json` |
+| Pebble integration depth (scan / ingest / compaction / cache pressure) | ✅ 40k keys verified; compact 7.0 ms, WA 1.15; pressure p50 4.0 µs vs 1.3 µs warm | `courts/pebblebench/`, `evidence/pebble-integration.json` |
 | Prometheus exporter + Grafana dashboard | ✅ 5 metrics / 5 panels | `integrations/prometheus/`, `grafana/ekbloom-dashboard.json` |
 | Implementation-neutral conformance suite | ✅ 73 fixtures, Go + Rust verifiers | `conformance/`, `evidence/conformance.json` |
 | Long-run randomized roundtrip (soak) | ✅ 2.19e9 symbols, peak heap ~81 MiB, 0 mismatches | `internal/tools/soak/`, `evidence/soak.json` |
@@ -114,6 +115,7 @@ sh scripts/sandbox.sh go test ./...   # the whole suite in a 2g-capped container
 sh scripts/rocksdb.sh             # RocksDB value-codec case study (capped container)
 sh scripts/parquet.sh             # Parquet dictionary-page case study (capped container)
 sh scripts/pebble.sh              # Pebble value-log case study (capped container)
+sh scripts/pebble-integration.sh  # Pebble integration depth: scan/ingest/compaction/cache pressure (capped container)
 sh scripts/prometheus.sh          # Prometheus scrape + Grafana dashboard
 sh scripts/conformance.sh         # the neutral conformance suite (Go + Rust verifiers)
 sh scripts/soak.sh                # long-run randomized roundtrip (bounded memory, 2g cap)

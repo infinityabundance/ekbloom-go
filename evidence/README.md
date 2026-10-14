@@ -41,6 +41,7 @@ because they need hardware or privileges a laptop may not have.
 | `soak.json` / `soak.log` | long-run randomized roundtrip: cumulative symbols, peak heap, GC pause, 0 mismatches (`scripts/soak.sh`) |
 | `readerat.json` | `io.ReaderAt` section-copy, batch equality, 64-reader race, cancellation latency (`scripts/readerat.sh`) |
 | `pebble-vlog.json` / `pebble-vlog.log` / `pebble-vlog.prom` | machine-9 as a **Pebble value-log adapter**: 20,000 × 100 B cores via `db.Set`, 50,000 80/20 Gets with a single reusable `DictDecoder.DecodeInto` (0 allocs/op), plus a sealed-body `worst_case_steps`/`E_V` probe (`scripts/pebble.sh`) |
+| `pebble-integration.json` / `pebble-integration.log` / `pebble-integration.prom` | machine-9 Pebble **integration depth**: full range **scan** (verified), offline-SSTable **ingest** (`sstable.NewWriter` + `db.Ingest`), forced **compaction** (write amplification from Pebble metrics), and 80/20 point reads under a 128 KiB cache **vs** the 8 MiB warm case — every round-trip verified, 0 mismatches (`scripts/pebble-integration.sh`) |
 | `container-test.json`, `container-reproduce.json` | the suite and CLI inside the ~9.7 MB image |
 | `reproduce.json` | JSON summary from `scripts/reproduce.sh` |
 

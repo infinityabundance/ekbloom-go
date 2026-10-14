@@ -189,10 +189,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Pebble value-log case study
         run: sh scripts/pebble.sh
+      - name: Pebble integration depth (scan / ingest / compaction / cache pressure)
+        run: sh scripts/pebble-integration.sh
       - uses: actions/upload-artifact@v4
         with:
           name: pebble-vlog
-          path: evidence/pebble-vlog.json
+          path: |
+            evidence/pebble-vlog.json
+            evidence/pebble-integration.json
 
   prometheus:
     # Prometheus exporter + Grafana dashboard (one scrape captured).

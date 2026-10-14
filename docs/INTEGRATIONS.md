@@ -11,6 +11,8 @@ Reproduce:
 ```sh
 sh scripts/rocksdb.sh     # -> evidence/rocksdb-blobdb.json
 sh scripts/parquet.sh     # -> evidence/parquet-dict.json
+sh scripts/pebble.sh              # -> evidence/pebble-vlog.json
+sh scripts/pebble-integration.sh  # -> evidence/pebble-integration.json
 sh scripts/sandbox.sh go test ./...   # the main module suite, capped
 ```
 
@@ -94,6 +96,38 @@ One 540 B dictionary serves all 20,000 values; it never falls back.
 
 ```sh
 sh scripts/pebble.sh    # -> evidence/pebble-vlog.json (+ .prom exposition)
+```
+
+## 2c. Pebble — integration depth (`courts/pebblebench/`)
+
+The point-read story above is extended with the four LSM-shaped scenarios a
+storage reviewer asks about, all on the same value-log DB (values = machine-9
+cores, decoded with one reusable `DictDecoder`). The two datasets interleave on
+even/odd keys over `[0, 2·N)` so the ingested SSTable overlaps the flushed one
+and the forced compaction **rewrites** bytes rather than trivially moving a file
+(automatic compactions are disabled so the forced `db.Compact` is the only
+compaction measured).
+
+`evidence/pebble-integration.json` (20,000 × 100 B per dataset, 80/20 skew):
+
+| scenario | result |
+| --- | --- |
+| **scan** (`db.NewIter`) | 20,000 keys, **482 ns/key**, 207 MB/s decoded, p99 481 ns, 0 mismatches |
+| **ingest** (`sstable.NewWriter` + `db.Ingest`) | 20,000 records / 2 MB logical; build 12.2 ms + ingest 0.19 ms (161 MB/s, ingest is a link+metadata op), 0 mismatches on all 40,000 live keys |
+| **compaction** (`db.Flush` + `db.Compact`) | flush 3.1 ms, compact **7.0 ms**, 3.07 MB written / 3.07 MB read, **write amplification 1.15** (1.82 vs the stored cores); all 40,000 keys re-verified |
+| **cache pressure** (128 KiB cache vs default 8 MiB) | warm p50/p99/p99.9 **1,292 / 2,414 / 3,878 ns** (100% hit); pressure **3,977 / 5,140 / 9,658 ns** (0% hit, 3 misses/Get) |
+
+**Honest boundary.** `bytes_per_record` is the codec payload only. `write_amplification`
+is all SST bytes Pebble wrote (flush + compaction) over the **logical source**
+bytes; `write_amplification_stored` divides by the machine-9 core bytes actually
+handed to Pebble — the codec's ~2.5× space saving keeps the logical-relative WA
+near 1. `db_bytes_after_compact` may include not-yet-unlinked obsolete inputs;
+`db_bytes_final` is measured after `db.Close`. The warm and pressure read phases
+both have the OS page cache warm, so the block-cache effect is a floor on the
+degradation, not a cold-cache worst case.
+
+```sh
+sh scripts/pebble-integration.sh    # -> evidence/pebble-integration.json (+ .prom)
 ```
 
 ## 3. Zero-allocation decode (`DictDecoder`)
