@@ -22,7 +22,8 @@ because they need hardware or privileges a laptop may not have.
 | `bound.json` | `worst_case_steps_for`: 1,200,000 samples, 0 violations |
 | `byteat.json` | per-machine `byte_at` p50/p99/p99.9 |
 | `concurrency.json` | 64 readers quiet vs 1 writer publish, p50/p99/p99.9 |
-| `profile/` | CPU profiles (`*.prof`), SVG call graphs, and top functions for m1/m2/m9 + path bloom |
+| `profile/` | per hot path (m1/m2/m9 encode + path bloom): CPU profile (`*.prof`), heap profile (`*.mem.prof`), flat-CPU/allocation/retained tables (`*.top`, `*.alloc.top`, `*.inuse.top`), and CPU + heap SVG call graphs (`*.svg`, `*.heap.svg`), all produced in the sandbox (`scripts/profile.sh`) |
+| `profile.json` | consolidated profile report: per hot path top allocation sites, flat CPU shares and retained (inuse) bytes, plus GC-pause count/total/quantiles and peak heap from a soak-style workload (`scripts/profile.sh`) |
 | `sweep.json` | writer-profile frontier: `E_V` / `byte_at` / 4 KiB / bulk per profile |
 | `courts-point.json` | 4 KiB point read vs raw/LZ4/zstd/Pebble/EKBLOOM |
 | `ycsb.json` | YCSB value-log court (zipfian) vs zstd-dict / Pebble / m2 |

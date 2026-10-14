@@ -1,13 +1,24 @@
 File: ekbloom.test
-Build ID: b658550e131f677c3f8da1958cbeb73d6cd6d46a
 Type: cpu
-Time: 2026-10-14 03:05:44 BST
-Duration: 580.09ms, Total samples = 580ms (  100%)
-Showing nodes accounting for 580ms, 100% of 580ms total
+Time: Oct 14, 2026 at 4:19pm (UTC)
+Duration: 701.44ms, Total samples = 590ms (84.11%)
+Showing nodes accounting for 590ms, 100% of 590ms total
       flat  flat%   sum%        cum   cum%
-     280ms 48.28% 48.28%      460ms 79.31%  github.com/infinityabundance/ekbloom-go.(*Reader).ByteAt
-     120ms 20.69% 68.97%      580ms   100%  github.com/infinityabundance/ekbloom-go.BenchmarkByteAtPathBloom
-     100ms 17.24% 86.21%      100ms 17.24%  github.com/infinityabundance/ekbloom-go.(*Reader).directlyAddressable (inline)
-      80ms 13.79%   100%       80ms 13.79%  github.com/infinityabundance/ekbloom-go.(*Reader).readPathBloom (inline)
-         0     0%   100%      580ms   100%  testing.(*B).launch
-         0     0%   100%      580ms   100%  testing.(*B).runN
+     160ms 27.12% 27.12%      280ms 47.46%  runtime.mallocgc
+     120ms 20.34% 47.46%      440ms 74.58%  github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).readPathBloom (inline)
+      70ms 11.86% 59.32%      550ms 93.22%  github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).ByteAt
+      40ms  6.78% 66.10%       40ms  6.78%  github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).directlyAddressable (inline)
+      40ms  6.78% 72.88%      590ms   100%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkByteAtPathBloom
+      40ms  6.78% 79.66%       40ms  6.78%  runtime.getMCache (inline)
+      40ms  6.78% 86.44%      320ms 54.24%  runtime.makeslice
+      30ms  5.08% 91.53%       30ms  5.08%  runtime.deductAssistCredit
+      20ms  3.39% 94.92%       20ms  3.39%  runtime.nextFreeFast (inline)
+      20ms  3.39% 98.31%       20ms  3.39%  runtime.releasem (inline)
+      10ms  1.69%   100%       10ms  1.69%  runtime.tracebackPCs
+         0     0%   100%       10ms  1.69%  runtime.callers
+         0     0%   100%       10ms  1.69%  runtime.callers.func1
+         0     0%   100%       10ms  1.69%  runtime.mProf_Malloc
+         0     0%   100%       10ms  1.69%  runtime.profilealloc
+         0     0%   100%       10ms  1.69%  runtime.systemstack
+         0     0%   100%      590ms   100%  testing.(*B).launch
+         0     0%   100%      590ms   100%  testing.(*B).runN

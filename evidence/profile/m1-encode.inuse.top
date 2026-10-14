@@ -1,0 +1,9 @@
+File: ekbloom.test
+Type: inuse_space
+Time: Oct 14, 2026 at 4:19pm (UTC)
+Showing nodes accounting for 8.45kB, 100% of 8.45kB total
+      flat  flat%   sum%        cum   cum%
+    8.45kB   100%   100%     8.45kB   100%  runtime.malg
+         0     0%   100%     8.45kB   100%  runtime.newproc.func1
+         0     0%   100%     8.45kB   100%  runtime.newproc1
+         0     0%   100%     8.45kB   100%  runtime.systemstack

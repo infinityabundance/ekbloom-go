@@ -1,28 +1,21 @@
 File: ekbloom.test
-Build ID: b658550e131f677c3f8da1958cbeb73d6cd6d46a
 Type: cpu
-Time: 2026-10-14 03:05:43 BST
-Duration: 364.12ms, Total samples = 370ms (101.62%)
-Showing nodes accounting for 370ms, 100% of 370ms total
+Time: Oct 14, 2026 at 4:19pm (UTC)
+Duration: 502.25ms, Total samples = 350ms (69.69%)
+Showing nodes accounting for 350ms, 100% of 350ms total
       flat  flat%   sum%        cum   cum%
-     280ms 75.68% 75.68%      280ms 75.68%  github.com/infinityabundance/ekbloom-go.Dictionary.EncodeRecord
-      70ms 18.92% 94.59%       70ms 18.92%  github.com/infinityabundance/ekbloom-go.TrainDictionary
-      10ms  2.70% 97.30%       10ms  2.70%  runtime.preemptone
-      10ms  2.70%   100%       10ms  2.70%  runtime.procyieldAsm
-         0     0%   100%      350ms 94.59%  github.com/infinityabundance/ekbloom-go.BenchmarkMachineEncode.func1
-         0     0%   100%      350ms 94.59%  github.com/infinityabundance/ekbloom-go.dictMachine.Encode
-         0     0%   100%       20ms  5.41%  runtime.gcBgMarkWorker
-         0     0%   100%       10ms  2.70%  runtime.gcBgMarkWorker.func2
-         0     0%   100%       10ms  2.70%  runtime.gcDrain
-         0     0%   100%       10ms  2.70%  runtime.gcDrainMarkWorkerDedicated (inline)
-         0     0%   100%       10ms  2.70%  runtime.gcMarkDone
-         0     0%   100%       10ms  2.70%  runtime.gcMarkDone.func2
-         0     0%   100%       10ms  2.70%  runtime.markroot
-         0     0%   100%       10ms  2.70%  runtime.markroot.func1
-         0     0%   100%       10ms  2.70%  runtime.preemptall
-         0     0%   100%       10ms  2.70%  runtime.procyield (inline)
-         0     0%   100%       10ms  2.70%  runtime.stopTheWorldWithSema
-         0     0%   100%       10ms  2.70%  runtime.suspendG
-         0     0%   100%       20ms  5.41%  runtime.systemstack
-         0     0%   100%      350ms 94.59%  testing.(*B).launch
-         0     0%   100%      350ms 94.59%  testing.(*B).runN
+     310ms 88.57% 88.57%      320ms 91.43%  github.com/infinityabundance/ekbloom-go/internal/ekb.Dictionary.EncodeRecord
+      20ms  5.71% 94.29%       20ms  5.71%  github.com/infinityabundance/ekbloom-go/internal/ekb.TrainDictionary
+      10ms  2.86% 97.14%       10ms  2.86%  github.com/infinityabundance/ekbloom-go/internal/ekb.benchPattern (inline)
+      10ms  2.86%   100%       10ms  2.86%  runtime.newBucket
+         0     0%   100%       10ms  2.86%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode
+         0     0%   100%      340ms 97.14%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
+         0     0%   100%      340ms 97.14%  github.com/infinityabundance/ekbloom-go/internal/ekb.dictMachine.Encode
+         0     0%   100%       10ms  2.86%  runtime.mProf_Malloc
+         0     0%   100%       10ms  2.86%  runtime.makeslice
+         0     0%   100%       10ms  2.86%  runtime.mallocgc
+         0     0%   100%       10ms  2.86%  runtime.profilealloc
+         0     0%   100%       10ms  2.86%  runtime.stkbucket
+         0     0%   100%      340ms 97.14%  testing.(*B).launch
+         0     0%   100%       10ms  2.86%  testing.(*B).run1.func1
+         0     0%   100%      350ms   100%  testing.(*B).runN

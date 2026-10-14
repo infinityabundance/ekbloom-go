@@ -80,6 +80,36 @@ sh scripts/bench-history.sh     # appends and prints the full history
 tail -n 5 evidence/bench-history.jsonl
 ```
 
+## Profiling
+
+`scripts/profile.sh` produces storage-review-grade profiles with everything running
+inside the OOM-capped sandbox (`scripts/sandbox.sh`, 2 GiB): it builds a test binary,
+runs the m1/m2/m9 encode and path-bloom read benchmarks with `-test.cpuprofile` and
+`-test.memprofile`, and renders the artifacts with `go tool pprof` (Graphviz `dot`
+comes from the sandbox image).
+
+```sh
+sh scripts/profile.sh
+```
+
+Artifacts, per hot path `<name>` under `evidence/profile/`:
+
+| artifact | what it is | pprof view |
+| --- | --- | --- |
+| `<name>.prof` / `<name>.mem.prof` | raw CPU / heap profile | `go tool pprof -http=:0 evidence/profile/<name>.prof` |
+| `<name>.top` | flat CPU shares | `-top` |
+| `<name>.alloc.top` | allocation breakdown | `-top -alloc_space` |
+| `<name>.inuse.top` | retained heap | `-top -inuse_space` |
+| `<name>.svg` / `<name>.heap.svg` | CPU / heap call graphs | `-svg` |
+
+`evidence/profile.json` consolidates it: per hot path the top allocation sites,
+flat CPU shares and retained (inuse) bytes, plus GC-pause count/total/quantiles and
+peak heap from a soak-style roundtrip + machine-9 decode workload
+(`internal/tools/profstats`, sampling `runtime/metrics` `/gc/pauses:seconds` and
+`runtime.MemStats`). `evidence/profile/gcstats.json` is the GC measurement alone.
+
+Rerun the raw micro-benchmarks with `sh scripts/bench.sh`.
+
 ## Native arm64 (`evidence/aarch64-native-bench.txt`, 4 vCPU)
 
 | benchmark | amd64 | native arm64 |
@@ -91,5 +121,5 @@ tail -n 5 evidence/bench-history.jsonl
 | `ResidentView.Get` | ≈1.35 ns | ≈1.77 ns |
 | `ReadAt` 4 KiB path bloom | ≈350 ns | ≈881 ns |
 
-Rerun locally with `sh scripts/profile.sh` (CPU profiles) and
+Rerun locally with `sh scripts/profile.sh` (CPU + heap + GC profiles) and
 `sh scripts/bench.sh`.

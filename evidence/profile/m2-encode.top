@@ -1,27 +1,14 @@
 File: ekbloom.test
-Build ID: b658550e131f677c3f8da1958cbeb73d6cd6d46a
 Type: cpu
-Time: 2026-10-14 03:05:43 BST
-Duration: 369.77ms, Total samples = 360ms (97.36%)
-Showing nodes accounting for 360ms, 100% of 360ms total
+Time: Oct 14, 2026 at 4:19pm (UTC)
+Duration: 501.42ms, Total samples = 370ms (73.79%)
+Showing nodes accounting for 370ms, 100% of 370ms total
       flat  flat%   sum%        cum   cum%
-     290ms 80.56% 80.56%      350ms 97.22%  github.com/infinityabundance/ekbloom-go.rans0.Encode
-      50ms 13.89% 94.44%       50ms 13.89%  github.com/infinityabundance/ekbloom-go.modelFromSource
-      10ms  2.78% 97.22%       10ms  2.78%  runtime.memclrNoHeapPointers
-      10ms  2.78%   100%       10ms  2.78%  runtime.procyieldAsm
-         0     0%   100%      350ms 97.22%  github.com/infinityabundance/ekbloom-go.BenchmarkMachineEncode.func1
-         0     0%   100%       10ms  2.78%  runtime.gcBgMarkWorker
-         0     0%   100%       10ms  2.78%  runtime.gcBgMarkWorker.func2
-         0     0%   100%       10ms  2.78%  runtime.gcDrain
-         0     0%   100%       10ms  2.78%  runtime.gcDrainMarkWorkerIdle (inline)
-         0     0%   100%       10ms  2.78%  runtime.makeslice
-         0     0%   100%       10ms  2.78%  runtime.mallocgc
-         0     0%   100%       10ms  2.78%  runtime.mallocgcLarge
-         0     0%   100%       10ms  2.78%  runtime.markroot
-         0     0%   100%       10ms  2.78%  runtime.markroot.func1
-         0     0%   100%       10ms  2.78%  runtime.memclrNoHeapPointersChunked
-         0     0%   100%       10ms  2.78%  runtime.procyield (inline)
-         0     0%   100%       10ms  2.78%  runtime.suspendG
-         0     0%   100%       10ms  2.78%  runtime.systemstack
-         0     0%   100%      350ms 97.22%  testing.(*B).launch
-         0     0%   100%      350ms 97.22%  testing.(*B).runN
+     270ms 72.97% 72.97%      360ms 97.30%  github.com/infinityabundance/ekbloom-go/internal/ekb.rans0.Encode
+      90ms 24.32% 97.30%       90ms 24.32%  github.com/infinityabundance/ekbloom-go/internal/ekb.modelFromSource
+      10ms  2.70%   100%       10ms  2.70%  github.com/infinityabundance/ekbloom-go/internal/ekb.benchPattern (inline)
+         0     0%   100%       10ms  2.70%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode
+         0     0%   100%      360ms 97.30%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
+         0     0%   100%      360ms 97.30%  testing.(*B).launch
+         0     0%   100%       10ms  2.70%  testing.(*B).run1.func1
+         0     0%   100%      370ms   100%  testing.(*B).runN

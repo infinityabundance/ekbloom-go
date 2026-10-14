@@ -1,25 +1,22 @@
 File: ekbloom.test
-Build ID: b658550e131f677c3f8da1958cbeb73d6cd6d46a
 Type: cpu
-Time: 2026-10-14 03:05:42 BST
-Duration: 432.26ms, Total samples = 470ms (108.73%)
-Showing nodes accounting for 470ms, 100% of 470ms total
+Time: Oct 14, 2026 at 4:19pm (UTC)
+Duration: 601.14ms, Total samples = 460ms (76.52%)
+Showing nodes accounting for 460ms, 100% of 460ms total
       flat  flat%   sum%        cum   cum%
-     440ms 93.62% 93.62%      440ms 93.62%  github.com/infinityabundance/ekbloom-go.nl2.Encode
-      10ms  2.13% 95.74%       10ms  2.13%  github.com/infinityabundance/ekbloom-go.benchPattern (inline)
-      10ms  2.13% 97.87%       10ms  2.13%  runtime.procyieldAsm
-      10ms  2.13%   100%       10ms  2.13%  runtime.scanObject
-         0     0%   100%       10ms  2.13%  github.com/infinityabundance/ekbloom-go.BenchmarkMachineEncode
-         0     0%   100%      440ms 93.62%  github.com/infinityabundance/ekbloom-go.BenchmarkMachineEncode.func1
-         0     0%   100%       20ms  4.26%  runtime.gcBgMarkWorker
-         0     0%   100%       20ms  4.26%  runtime.gcBgMarkWorker.func2
-         0     0%   100%       20ms  4.26%  runtime.gcDrain
-         0     0%   100%       20ms  4.26%  runtime.gcDrainMarkWorkerDedicated (inline)
-         0     0%   100%       10ms  2.13%  runtime.markroot
-         0     0%   100%       10ms  2.13%  runtime.markroot.func1
-         0     0%   100%       10ms  2.13%  runtime.procyield (inline)
-         0     0%   100%       10ms  2.13%  runtime.suspendG
-         0     0%   100%       20ms  4.26%  runtime.systemstack
-         0     0%   100%      440ms 93.62%  testing.(*B).launch
-         0     0%   100%       10ms  2.13%  testing.(*B).run1.func1
-         0     0%   100%      450ms 95.74%  testing.(*B).runN
+     440ms 95.65% 95.65%      440ms 95.65%  github.com/infinityabundance/ekbloom-go/internal/ekb.nl2.Encode
+      10ms  2.17% 97.83%       10ms  2.17%  github.com/infinityabundance/ekbloom-go/internal/ekb.benchPattern (inline)
+      10ms  2.17%   100%       10ms  2.17%  runtime.futex
+         0     0%   100%       10ms  2.17%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode
+         0     0%   100%      440ms 95.65%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
+         0     0%   100%       10ms  2.17%  runtime.findRunnable
+         0     0%   100%       10ms  2.17%  runtime.futexwakeup
+         0     0%   100%       10ms  2.17%  runtime.gopreempt_m
+         0     0%   100%       10ms  2.17%  runtime.goschedImpl
+         0     0%   100%       10ms  2.17%  runtime.mcall
+         0     0%   100%       10ms  2.17%  runtime.notewakeup
+         0     0%   100%       10ms  2.17%  runtime.runSafePointFn
+         0     0%   100%       10ms  2.17%  runtime.schedule
+         0     0%   100%      440ms 95.65%  testing.(*B).launch
+         0     0%   100%       10ms  2.17%  testing.(*B).run1.func1
+         0     0%   100%      450ms 97.83%  testing.(*B).runN

@@ -1,0 +1,24 @@
+File: ekbloom.test
+Type: inuse_space
+Time: Oct 14, 2026 at 4:19pm (UTC)
+Showing nodes accounting for 9.45kB, 100% of 9.45kB total
+      flat  flat%   sum%        cum   cum%
+    5.23kB 55.33% 55.33%     5.23kB 55.33%  sync.(*Pool).pinSlow
+    4.22kB 44.67%   100%     4.22kB 44.67%  runtime.malg
+         0     0%   100%     5.23kB 55.33%  fmt.Fprintf
+         0     0%   100%     5.23kB 55.33%  fmt.newPrinter
+         0     0%   100%     5.23kB 55.33%  main.main
+         0     0%   100%     5.23kB 55.33%  runtime.main
+         0     0%   100%     4.22kB 44.67%  runtime.newproc.func1
+         0     0%   100%     4.22kB 44.67%  runtime.newproc1
+         0     0%   100%     4.22kB 44.67%  runtime.systemstack
+         0     0%   100%     5.23kB 55.33%  sync.(*Pool).Get
+         0     0%   100%     5.23kB 55.33%  sync.(*Pool).pin
+         0     0%   100%     5.23kB 55.33%  testing.(*B).Run
+         0     0%   100%     5.23kB 55.33%  testing.(*B).run
+         0     0%   100%     5.23kB 55.33%  testing.(*B).runN
+         0     0%   100%     5.23kB 55.33%  testing.(*M).Run
+         0     0%   100%     5.23kB 55.33%  testing.(*benchContext).processBench
+         0     0%   100%     5.23kB 55.33%  testing.BenchmarkResult.String
+         0     0%   100%     5.23kB 55.33%  testing.runBenchmarks
+         0     0%   100%     5.23kB 55.33%  testing.runBenchmarks.func1

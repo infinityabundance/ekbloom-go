@@ -1,0 +1,24 @@
+File: ekbloom.test
+Type: alloc_space
+Time: Oct 14, 2026 at 4:19pm (UTC)
+Showing nodes accounting for 88.49MB, 99.32% of 89.10MB total
+Dropped 60 nodes (cum <= 0.45MB)
+      flat  flat%   sum%        cum   cum%
+   85.42MB 95.87% 95.87%    85.60MB 96.08%  github.com/infinityabundance/ekbloom-go/internal/ekb.rans0.Encode
+    1.12MB  1.26% 97.14%     1.12MB  1.26%  runtime/pprof.StartCPUProfile
+       1MB  1.12% 98.26%        1MB  1.12%  github.com/infinityabundance/ekbloom-go/internal/ekb.benchPattern (inline)
+    0.63MB  0.71% 98.97%     1.14MB  1.28%  compress/flate.NewWriter (inline)
+    0.31MB  0.35% 99.32%     0.51MB  0.57%  compress/flate.(*compressor).init
+         0     0% 99.32%     1.15MB  1.29%  compress/gzip.(*Writer).Write
+         0     0% 99.32%     1.13MB  1.27%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode
+         0     0% 99.32%    85.60MB 96.08%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
+         0     0% 99.32%     1.19MB  1.33%  main.main
+         0     0% 99.32%     1.19MB  1.33%  runtime.main
+         0     0% 99.32%     1.17MB  1.32%  runtime/pprof.(*profileBuilder).build
+         0     0% 99.32%     1.17MB  1.32%  runtime/pprof.profileWriter
+         0     0% 99.32%    84.40MB 94.73%  testing.(*B).launch
+         0     0% 99.32%     2.34MB  2.62%  testing.(*B).run1.func1
+         0     0% 99.32%    86.75MB 97.37%  testing.(*B).runN
+         0     0% 99.32%     1.19MB  1.33%  testing.(*M).Run
+         0     0% 99.32%     1.12MB  1.26%  testing.(*M).before
+         0     0% 99.32%     1.12MB  1.26%  testing/internal/testdeps.TestDeps.StartCPUProfile

@@ -107,7 +107,7 @@ EKB_RUN_SCALE=1 go test -run 2GiB .   # the 2 GiB bounded-memory stream build (~
 sh scripts/roundtrip.sh           # Go -> .ekb/.stream -> Rust decode, byte-for-byte
 sh scripts/cross-fs.sh            # cross-filesystem determinism (ext4/btrfs/tmpfs)
 sh scripts/corpus.sh              # standard corpora E_V: Go vs Rust on the same files
-sh scripts/profile.sh             # CPU profiles (SVG + top) for m1/m2/m9 encode + path bloom
+sh scripts/profile.sh             # CPU + heap profiles, GC pauses (SVG/top) for m1/m2/m9 encode + path bloom
 sh scripts/wasm.sh                # WebAssembly build + amd64 == arm64 == wasip1
 sh scripts/verify-external.sh     # pull the published image, run the suite, no clone
 sh scripts/sandbox.sh go test ./...   # the whole suite in a 2g-capped container (OOM-safe)
@@ -184,7 +184,7 @@ internal/ekb/      the engine (was package ekbloom; one cohesive package):
 
 cmd/ekbloom        minimal CLI (inspect/byte/read/verify/stream) for the container image
 internal/blake3     dependency-free pure-Go BLAKE3 (unkeyed + keyed, streaming)
-internal/tools      roundtripgen, fingerprint, corpusbench, corpuscompare, testsum
+internal/tools      roundtripgen, fingerprint, corpusbench, corpuscompare, testsum, soak, profstats
 courts/             separate module: the competitor courts (zstd/lz4/Pebble/zstd-dict)
 tools/fixturegen    committed Rust crate: fixture generator + verifygo (Rust reads Go)
 testdata/           Rust-generated .ekb/.stream/auth fixtures + BLAKE3 vectors
