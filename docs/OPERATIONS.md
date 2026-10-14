@@ -34,6 +34,37 @@ cross-core cache traffic on the shared published pointer and the per-read clock
 read, not by the codec; the quiet and publish distributions are statistically
 indistinguishable, which is the property the RCU publication exists to provide.
 
+## Concurrent reads and cancellation
+
+A `*Reader` is **safe for concurrent reads** by any number of goroutines with no
+caller locking: it is immutable after `Open`, and the first random access
+materialises the symbol array once under a `sync.Once` (machines 5/6 likewise
+build their positioning context under a `sync.Once`). `*File`, `ReadRanges` and
+`ReadAtContext` all inherit this — an `io.ReaderAt` for a storage service needs
+no mutex, and the 64-goroutine `-race` check in `internal/ekb/readerat_test.go`
+proves it.
+
+- **`io.ReaderAt`** — `r.File()` (or `NewFile(r)`) returns a `*File`; `off` is a
+  logical offset, a negative offset is a typed `KindInvalidArgument` error, and a
+  read that reaches the end returns `io.EOF` per the contract. It slots straight
+  into `io.NewSectionReader`, `io.Copy`, HTTP `Range`, or a `databases/sql`
+  driver.
+- **Batch** — `r.ReadRanges([]ekbloom.Range{{Off, Len}, ...})` decodes the whole
+  batch with a single `prepare` of the machine model and returns one slice per
+  request. Ranges a certified fast path can answer are served individually; the
+  rest are sliced from one shared prefix decode, so work is bounded by
+  `max(Off+Len)`, not by the number of requests. `Batch ReadRanges` p50 is
+  recorded in `evidence/readerat.json`.
+- **Step bound** — `r.WorstCaseStepsFor(off, length)` is the certified upper bound
+  on positioning + output steps for a single range; sum it over a batch to budget
+  worst-case work before issuing reads.
+- **Cancellation** — `r.ReadAtContext(ctx, off, length)` returns the typed
+  `ctx.Err()` (`context.Canceled` / `context.DeadlineExceeded`) promptly on
+  cancellation, checking the context at least every few thousand symbols during
+  any decode or replay, and never conflating "cancelled" with "corrupt". A live
+  context returns the same bytes as `ReadAt`; the return latency is measured
+  against a full decode in `evidence/readerat.json` (`cancel_latency_ns`).
+
 ## Publishing the container
 
 The minimal runtime image (~9.7 MB, non-root, `scratch`-free Alpine) is the whole

@@ -38,6 +38,7 @@ because they need hardware or privileges a laptop may not have.
 | `prometheus-scrape.txt` / `grafana-dashboard.json` | the exporter's five metric families and the Grafana dashboard (`scripts/prometheus.sh`) |
 | `conformance.json` / `conformance.log` | the implementation-neutral conformance suite: 73 immutable fixtures verified independently by Go and Rust (`scripts/conformance.sh`) |
 | `soak.json` / `soak.log` | long-run randomized roundtrip: cumulative symbols, peak heap, GC pause, 0 mismatches (`scripts/soak.sh`) |
+| `readerat.json` | `io.ReaderAt` section-copy, batch equality, 64-reader race, cancellation latency (`scripts/readerat.sh`) |
 | `pebble-vlog.json` / `pebble-vlog.log` / `pebble-vlog.prom` | machine-9 as a **Pebble value-log adapter**: 20,000 × 100 B cores via `db.Set`, 50,000 80/20 Gets with a single reusable `DictDecoder.DecodeInto` (0 allocs/op), plus a sealed-body `worst_case_steps`/`E_V` probe (`scripts/pebble.sh`) |
 | `container-test.json`, `container-reproduce.json` | the suite and CLI inside the ~9.7 MB image |
 | `reproduce.json` | JSON summary from `scripts/reproduce.sh` |

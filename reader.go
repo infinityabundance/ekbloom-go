@@ -1,11 +1,37 @@
 package ekbloom
 
-import "github.com/infinityabundance/ekbloom-go/internal/ekb"
+import (
+	"context"
+
+	"github.com/infinityabundance/ekbloom-go/internal/ekb"
+)
 
 // Reader is a validated, opened `.ekb` image. Its methods (ByteAt, ReadAt,
-// PhysicalBytes, Estimate, WorstCaseStepsFor, Report, Metrics, View, ...) are the
-// aliased engine methods.
+// PhysicalBytes, Estimate, WorstCaseStepsFor, Report, Metrics, View, File,
+// ReadRanges, ReadAtContext, ...) are the aliased engine methods.
 type Reader = ekb.Reader
+
+// File is an io.ReaderAt adapter over a Reader, for driving the codec from a Go
+// storage service (a SectionReader, an HTTP Range handler, a SQL driver, ...).
+// A *File is safe for concurrent use: it shares the immutable *Reader.
+type File = ekb.File
+
+// Range is a logical read request for Reader.ReadRanges: Len symbols at Off.
+type Range = ekb.Range
+
+// NewFile wraps r in an io.ReaderAt adapter. (The same adapter is available as
+// the (*Reader).File method, which the Reader alias promotes directly.)
+func NewFile(r *Reader) *File { return ekb.NewFile(r) }
+
+// ReadRanges decodes a batch of logical ranges in one call, one slice per
+// request, with a single prepare of the machine model.
+func ReadRanges(r *Reader, reqs []Range) ([][]byte, error) { return r.ReadRanges(reqs) }
+
+// ReadAtContext reads length logical symbols at off, returning the typed
+// ctx.Err() promptly if ctx is cancelled or its deadline passes mid-decode.
+func ReadAtContext(ctx context.Context, r *Reader, off, length uint64) ([]byte, error) {
+	return r.ReadAtContext(ctx, off, length)
+}
 
 // Open validates and opens an in-memory `.ekb` file.
 func Open(data []byte) (*Reader, error) { return ekb.Open(data) }

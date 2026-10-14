@@ -42,6 +42,17 @@ func (r *Reader) WorstCaseStepsFor(off, length uint64) (uint64, error)
 func (r *Reader) Report() Report
 func (r *Reader) Metrics() ReaderMetrics
 
+// I/O / ReaderAt
+func (r *Reader) File() *File
+type File struct{ *Reader }              // implements io.ReaderAt
+func NewFile(r *Reader) *File
+func (f *File) ReadAt(p []byte, off int64) (int, error)
+type Range struct{ Off, Len uint64 }
+func (r *Reader) ReadRanges(reqs []Range) ([][]byte, error)
+func (r *Reader) ReadAtContext(ctx context.Context, off, length uint64) ([]byte, error)
+func ReadRanges(r *Reader, reqs []Range) ([][]byte, error)
+func ReadAtContext(ctx context.Context, r *Reader, off, length uint64) ([]byte, error)
+
 // Zero-allocation borrowed view
 func (r *Reader) View() (*ResidentView, error)
 func (v *ResidentView) Get(i uint64) (byte, error)
@@ -77,6 +88,27 @@ var (ErrUnsupportedVersion, ErrUnsupportedCoreVersion, ErrUnsupportedManifestVer
 `errors.Is` against the sentinels, or `CorruptDetail` for a corruption's
 location. `go doc github.com/infinityabundance/ekbloom-go` renders the full
 surface.
+
+### I/O / ReaderAt
+
+`Open` returns a `*Reader` that is **safe for concurrent reads** by any number of
+goroutines with no external locking: it is immutable after `Open`, and the first
+random access materialises the symbol array under a `sync.Once`. `*File` (the
+`io.ReaderAt` adapter), `ReadRanges` and `ReadAtContext` inherit that guarantee.
+
+- `(*Reader).File()` / `NewFile` return an `io.ReaderAt` over the logical
+  (decompressed) content: `off` is a logical byte offset, a negative offset is a
+  typed `KindInvalidArgument` error, and a read reaching the end returns `io.EOF`
+  exactly as the contract requires.
+- `ReadRanges` decodes a batch with a **single prepare** of the machine model,
+  returning one slice per request; ranges covered by a certified fast path are
+  served directly and the rest are sliced from one shared prefix decode bounded
+  by `max(Off+Len)`. Use `WorstCaseStepsFor` for the per-range step bound.
+- `ReadAtContext` is `ReadAt` with cooperative cancellation. It checks the
+  context before any work and at least every few thousand symbols inside any
+  decode or replay, so it returns the typed `ctx.Err()` (`context.Canceled` /
+  `context.DeadlineExceeded`) promptly — well below a full decode — rather than a
+  codec error. Validation errors remain typed codec errors.
 
 ## Error-handling contract
 

@@ -1,0 +1,7 @@
+{
+  "readerat_section_copy": "pass",
+  "batch_equal": "pass",
+  "concurrent_64_race": "pass",
+  "cancel_latency_ns": 1122297,
+  "batch_p50_ns": 2414
+}
