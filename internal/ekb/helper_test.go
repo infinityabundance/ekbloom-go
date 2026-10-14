@@ -29,3 +29,15 @@ func testdataPath(parts ...string) string {
 func writeEvidence(name string, b []byte, _ ...os.FileMode) error {
 	return os.WriteFile(filepath.Join(repoRoot(), "evidence", name), b, 0o644)
 }
+
+// writeTimingEvidence writes a latency/throughput artifact, unless the race
+// detector is active. The race detector adds memory accesses to every read and
+// inflates every measured latency (~5-25x here), so timing evidence is generated
+// WITHOUT -race (the valid measurement method) and `go test -race ./...` stays a
+// pure correctness gate that never overwrites it with race-timed numbers.
+func writeTimingEvidence(name string, b []byte, _ ...os.FileMode) error {
+	if raceDetectorEnabled {
+		return nil
+	}
+	return writeEvidence(name, b)
+}

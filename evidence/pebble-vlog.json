@@ -3,12 +3,18 @@
   "record_bytes": 100,
   "gets": 50000,
   "bytes_per_record": 63.35745,
-  "get_p50_ns": 862,
-  "get_p99_ns": 1142,
+  "get_p50_ns": 901,
+  "get_p99_ns": 1462,
+  "get_p50_ns_min": 891,
+  "get_p50_ns_max": 912,
+  "get_p99_ns_min": 1382,
+  "get_p99_ns_max": 1573,
   "decode_allocs_per_op": 0,
   "breaches": 0,
   "worst_case_steps": 100,
   "expansion_ratio": 1,
   "physical_bytes": 80,
-  "dict_bytes": 540
+  "dict_bytes": 540,
+  "runs": 5,
+  "statistic": "median-of-runs"
 }

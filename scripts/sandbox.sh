@@ -40,6 +40,7 @@ exec docker run --rm \
     --ulimit nofile=4096:4096 \
     --ulimit nproc=1024:1024 \
     -e GOMAXPROCS="$CPUS" \
+    -e EKB_RUNS \
     -e GIT_CONFIG_COUNT=1 \
     -e GIT_CONFIG_KEY_0=safe.directory \
     -e GIT_CONFIG_VALUE_0=/src \

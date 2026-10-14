@@ -53,6 +53,7 @@ import (
 	"github.com/cockroachdb/pebble/sstable"
 	"github.com/cockroachdb/pebble/vfs"
 	ekbloom "github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go/courts/internal/stats"
 	"github.com/infinityabundance/ekbloom-go/courts/internal/workload"
 )
 
@@ -86,12 +87,9 @@ func check(err error) {
 	}
 }
 
-func pct(sorted []time.Duration, perMille int) float64 {
-	return float64(sorted[len(sorted)*perMille/1000].Nanoseconds())
-}
-
 // report is the machine-readable stdout artifact. Field order fixes the JSON key
-// order.
+// order. Latency fields (scan p99 + point-read p50/p99/p99.9) are the median across
+// R = EKB_RUNS runs; ingest/compaction are one-time wall-clock operations.
 type report struct {
 	Records           int              `json:"records"`
 	RecordBytes       int              `json:"record_bytes"`
@@ -104,15 +102,23 @@ type report struct {
 	Compaction        compactionReport `json:"compaction"`
 	PointReadWarm     pointReport      `json:"point_read_warm"`
 	PointReadPressure pointReport      `json:"point_read_pressure"`
+	Runs              int              `json:"runs"`
+	Statistic         string           `json:"statistic"`
 	Note              string           `json:"note"`
 }
 
 type scanReport struct {
-	Keys       int     `json:"keys"`
-	NsPerKey   float64 `json:"ns_per_key"`
-	MBPerS     float64 `json:"mb_per_s"`
-	P99Ns      float64 `json:"p99_ns"`
-	Mismatches int     `json:"mismatches"`
+	Keys        int     `json:"keys"`
+	NsPerKey    float64 `json:"ns_per_key"`
+	MBPerS      float64 `json:"mb_per_s"`
+	P99Ns       float64 `json:"p99_ns"`
+	Mismatches  int     `json:"mismatches"`
+	NsPerKeyMin float64 `json:"ns_per_key_min"`
+	NsPerKeyMax float64 `json:"ns_per_key_max"`
+	MBPerSMin   float64 `json:"mb_per_s_min"`
+	MBPerSMax   float64 `json:"mb_per_s_max"`
+	P99Min      float64 `json:"p99_ns_min"`
+	P99Max      float64 `json:"p99_ns_max"`
 }
 
 type ingestReport struct {
@@ -157,6 +163,12 @@ type pointReport struct {
 	CacheMisses int64   `json:"cache_misses"`
 	HitRate     float64 `json:"hit_rate"`
 	Mismatches  int     `json:"mismatches"`
+	P50Min      float64 `json:"p50_ns_min"`
+	P50Max      float64 `json:"p50_ns_max"`
+	P99Min      float64 `json:"p99_ns_min"`
+	P99Max      float64 `json:"p99_ns_max"`
+	P999Min     float64 `json:"p999_ns_min"`
+	P999Max     float64 `json:"p999_ns_max"`
 }
 
 func main() {
@@ -220,10 +232,23 @@ func main() {
 	})
 	closer0.Close()
 
-	// --- scenario 1: scan ----------------------------------------------------
-	scanKeys, scanElapsed, scanDurs, scanMismatches := scanRange(db, dec, 0, keyspace, srcFor)
-	sort.Slice(scanDurs, func(i, j int) bool { return scanDurs[i] < scanDurs[j] })
-	scanMBs := float64(scanKeys*recordBytes) / 1e6 / scanElapsed.Seconds()
+	// --- scenario 1: scan (median-of-runs) -----------------------------------
+	runs := stats.Runs()
+	var scanKeys, scanMismatches int
+	scanNsPerKey := make([]float64, 0, runs)
+	scanMBsV := make([]float64, 0, runs)
+	scanP99V := make([]int64, 0, runs)
+	for run := 0; run < runs; run++ {
+		k, elapsed, durs, mm := scanRange(db, dec, 0, keyspace, srcFor)
+		scanKeys, scanMismatches = k, mm
+		sort.Slice(durs, func(i, j int) bool { return durs[i] < durs[j] })
+		scanNsPerKey = append(scanNsPerKey, float64(elapsed.Nanoseconds())/float64(k))
+		scanMBsV = append(scanMBsV, float64(k*recordBytes)/1e6/elapsed.Seconds())
+		scanP99V = append(scanP99V, stats.Pct(durs, 990))
+	}
+	scanNsKey := stats.Collect(scanNsPerKey)
+	scanMBsS := stats.Collect(scanMBsV)
+	scanP99 := stats.Collect(scanP99V)
 
 	// --- scenario 2: flush dataset 1, then ingest a foreign SSTable ----------
 	// Flushing first puts dataset 1 in L0 so the (overlapping) ingested SSTable
@@ -283,12 +308,33 @@ func main() {
 	postScanKeys, _, _, postScanMismatches := scanRange(db, dec, 0, keyspace, srcFor)
 
 	// --- scenario 4a: warm point reads (default cache) -----------------------
-	// The 80/20 trace over dataset 1 keys (an existing point-read story).
+	// The 80/20 trace over dataset 1 keys (an existing point-read story). The
+	// p50/p99/p99.9 are the median across R = EKB_RUNS runs.
 	trace := buildTrace(records)
 	runGets(db, dec, trace[:warmWarmupOps], s1) // warm-up; not measured
-	warmH0, warmM0 := cacheStats(db)
-	warmDurs, warmMismatches := runGets(db, dec, trace, s1)
-	warmH1, warmM1 := cacheStats(db)
+	warmP50v := make([]int64, 0, runs)
+	warmP99v := make([]int64, 0, runs)
+	warmP999v := make([]int64, 0, runs)
+	warmHitsV := make([]int64, 0, runs)
+	warmMissV := make([]int64, 0, runs)
+	warmMismatches := 0
+	for run := 0; run < runs; run++ {
+		h0, m0 := cacheStats(db)
+		warmDurs, mm := runGets(db, dec, trace, s1)
+		h1, m1 := cacheStats(db)
+		warmMismatches += mm
+		sort.Slice(warmDurs, func(i, j int) bool { return warmDurs[i] < warmDurs[j] })
+		warmP50v = append(warmP50v, stats.Pct(warmDurs, 500))
+		warmP99v = append(warmP99v, stats.Pct(warmDurs, 990))
+		warmP999v = append(warmP999v, stats.Pct(warmDurs, 999))
+		warmHitsV = append(warmHitsV, h1-h0)
+		warmMissV = append(warmMissV, m1-m0)
+	}
+	warmP50 := stats.Collect(warmP50v)
+	warmP99 := stats.Collect(warmP99v)
+	warmP999 := stats.Collect(warmP999v)
+	warmHits := stats.Collect(warmHitsV)
+	warmMiss := stats.Collect(warmMissV)
 
 	check(db.Close())
 	// After Close, Pebble has unlinked the compaction's obsolete inputs, so this is
@@ -302,13 +348,30 @@ func main() {
 	dbP, err := pebble.Open(dbPath, &pebble.Options{Cache: pcache, DisableAutomaticCompactions: true})
 	check(err)
 	runGets(dbP, dec, trace[:warmWarmupOps], s1) // same warm-up
-	pressH0, pressM0 := cacheStats(dbP)
-	pressDurs, pressMismatches := runGets(dbP, dec, trace, s1)
-	pressH1, pressM1 := cacheStats(dbP)
+	pressP50v := make([]int64, 0, runs)
+	pressP99v := make([]int64, 0, runs)
+	pressP999v := make([]int64, 0, runs)
+	pressHitsV := make([]int64, 0, runs)
+	pressMissV := make([]int64, 0, runs)
+	pressMismatches := 0
+	for run := 0; run < runs; run++ {
+		h0, m0 := cacheStats(dbP)
+		pressDurs, mm := runGets(dbP, dec, trace, s1)
+		h1, m1 := cacheStats(dbP)
+		pressMismatches += mm
+		sort.Slice(pressDurs, func(i, j int) bool { return pressDurs[i] < pressDurs[j] })
+		pressP50v = append(pressP50v, stats.Pct(pressDurs, 500))
+		pressP99v = append(pressP99v, stats.Pct(pressDurs, 990))
+		pressP999v = append(pressP999v, stats.Pct(pressDurs, 999))
+		pressHitsV = append(pressHitsV, h1-h0)
+		pressMissV = append(pressMissV, m1-m0)
+	}
+	pressP50 := stats.Collect(pressP50v)
+	pressP99 := stats.Collect(pressP99v)
+	pressP999 := stats.Collect(pressP999v)
+	pressHits := stats.Collect(pressHitsV)
+	pressMiss := stats.Collect(pressMissV)
 	check(dbP.Close())
-
-	sort.Slice(warmDurs, func(i, j int) bool { return warmDurs[i] < warmDurs[j] })
-	sort.Slice(pressDurs, func(i, j int) bool { return pressDurs[i] < pressDurs[j] })
 
 	rep := report{
 		Records:           records,
@@ -318,11 +381,14 @@ func main() {
 		DictBytes:         dictBytes,
 		DecodeAllocsPerOp: decodeAllocs,
 		Scan: scanReport{
-			Keys:       scanKeys,
-			NsPerKey:   float64(scanElapsed.Nanoseconds()) / float64(scanKeys),
-			MBPerS:     scanMBs,
-			P99Ns:      pct(scanDurs, 990),
-			Mismatches: scanMismatches,
+			Keys:        scanKeys,
+			NsPerKey:    scanNsKey.Median,
+			MBPerS:      scanMBsS.Median,
+			P99Ns:       float64(scanP99.Median),
+			Mismatches:  scanMismatches,
+			NsPerKeyMin: scanNsKey.Min, NsPerKeyMax: scanNsKey.Max,
+			MBPerSMin: scanMBsS.Min, MBPerSMax: scanMBsS.Max,
+			P99Min: float64(scanP99.Min), P99Max: float64(scanP99.Max),
 		},
 		Ingest: ingestReport{
 			Records:            records,
@@ -357,25 +423,33 @@ func main() {
 		PointReadWarm: pointReport{
 			Gets:        gets,
 			CacheBytes:  pebbleDefaultCacheBytes,
-			P50Ns:       pct(warmDurs, 500),
-			P99Ns:       pct(warmDurs, 990),
-			P999Ns:      pct(warmDurs, 999),
-			CacheHits:   warmH1 - warmH0,
-			CacheMisses: warmM1 - warmM0,
-			HitRate:     hitRate(warmH1-warmH0, warmM1-warmM0),
+			P50Ns:       float64(warmP50.Median),
+			P99Ns:       float64(warmP99.Median),
+			P999Ns:      float64(warmP999.Median),
+			CacheHits:   warmHits.Median,
+			CacheMisses: warmMiss.Median,
+			HitRate:     hitRate(warmHits.Median, warmMiss.Median),
 			Mismatches:  warmMismatches,
+			P50Min:      float64(warmP50.Min), P50Max: float64(warmP50.Max),
+			P99Min: float64(warmP99.Min), P99Max: float64(warmP99.Max),
+			P999Min: float64(warmP999.Min), P999Max: float64(warmP999.Max),
 		},
 		PointReadPressure: pointReport{
 			Gets:        gets,
 			CacheBytes:  pressureCacheBytes,
-			P50Ns:       pct(pressDurs, 500),
-			P99Ns:       pct(pressDurs, 990),
-			P999Ns:      pct(pressDurs, 999),
-			CacheHits:   pressH1 - pressH0,
-			CacheMisses: pressM1 - pressM0,
-			HitRate:     hitRate(pressH1-pressH0, pressM1-pressM0),
+			P50Ns:       float64(pressP50.Median),
+			P99Ns:       float64(pressP99.Median),
+			P999Ns:      float64(pressP999.Median),
+			CacheHits:   pressHits.Median,
+			CacheMisses: pressMiss.Median,
+			HitRate:     hitRate(pressHits.Median, pressMiss.Median),
 			Mismatches:  pressMismatches,
+			P50Min:      float64(pressP50.Min), P50Max: float64(pressP50.Max),
+			P99Min: float64(pressP99.Min), P99Max: float64(pressP99.Max),
+			P999Min: float64(pressP999.Min), P999Max: float64(pressP999.Max),
 		},
+		Runs:      runs,
+		Statistic: "median-of-runs",
 		Note: "bytes_per_record is the machine-9 codec payload only (excludes Pebble keys, " +
 			"seqnums, checksums, filters, WAL and LSM overhead; Pebble also snappy-compresses blocks). " +
 			"scan throughput is decoded logical MB/s. The two datasets interleave on even/odd keys so " +
@@ -387,7 +461,8 @@ func main() {
 			"source bytes; write_amplification_stored divides by the machine-9 core bytes handed to Pebble. " +
 			"warm reads use Pebble's default 8 MiB cache; pressure reads reopen the same DB with a 128 KiB " +
 			"cache (working set ~2.5 MB). Latency is single-host and the OS page cache is warm in both " +
-			"read phases.",
+			"read phases. scan and point-read latencies are the median across EKB_RUNS runs (min/max retained); " +
+			"ingest and compaction are one-time wall-clock operations, reported single-shot.",
 	}
 
 	// --- human table -> stderr ----------------------------------------------

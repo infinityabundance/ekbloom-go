@@ -8,7 +8,10 @@
 // it beats an LSM. EKBLOOM reads are in-memory; Pebble is on-disk with a block
 // cache. Both are reported with their footprint.
 //
-// Usage: go run ./point            (writes ../evidence/courts-point.json)
+// The Get p50/p99/p99.9 are the MEDIAN across R = EKB_RUNS runs (default 5; 3 in
+// CI), with min/max retained.
+//
+// Usage: EKB_RUNS=R go run ./point   (writes ../evidence/courts-point.json)
 package main
 
 import (
@@ -23,6 +26,7 @@ import (
 
 	"github.com/cockroachdb/pebble"
 	ekbloom "github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go/courts/internal/stats"
 	"github.com/klauspost/compress/zstd"
 	"github.com/pierrec/lz4/v4"
 )
@@ -47,10 +51,6 @@ func value(seed int) []byte {
 	return out[:valueSize]
 }
 
-func pct(sorted []time.Duration, perMille int) int64 {
-	return sorted[len(sorted)*perMille/1000].Nanoseconds()
-}
-
 type row struct {
 	Codec       string  `json:"codec"`
 	BytesPerVal float64 `json:"bytes_per_value"`
@@ -58,6 +58,29 @@ type row struct {
 	P99ns       int64   `json:"get_p99_ns"`
 	P999ns      int64   `json:"get_p999_ns"`
 	TotalBytes  uint64  `json:"total_bytes"`
+	P50Min      int64   `json:"get_p50_ns_min"`
+	P50Max      int64   `json:"get_p50_ns_max"`
+	P99Min      int64   `json:"get_p99_ns_min"`
+	P99Max      int64   `json:"get_p99_ns_max"`
+	P999Min     int64   `json:"get_p999_ns_min"`
+	P999Max     int64   `json:"get_p999_ns_max"`
+}
+
+// measure runs decode R = EKB_RUNS times and reduces each run's per-get durations
+// to the median across runs (with min/max) for p50/p99/p99.9, in nanoseconds.
+func measure(decode func() []time.Duration) (p50, p99, p999 stats.Stats[int64]) {
+	runs := stats.Runs()
+	a := make([]int64, 0, runs)
+	b := make([]int64, 0, runs)
+	c := make([]int64, 0, runs)
+	for r := 0; r < runs; r++ {
+		durs := decode()
+		sort.Slice(durs, func(i, j int) bool { return durs[i] < durs[j] })
+		a = append(a, stats.Pct(durs, 500))
+		b = append(b, stats.Pct(durs, 990))
+		c = append(c, stats.Pct(durs, 999))
+	}
+	return stats.Collect(a), stats.Collect(b), stats.Collect(c)
 }
 
 func main() {
@@ -80,9 +103,9 @@ func main() {
 	}
 
 	var rows []row
-	add := func(codec string, total uint64, durs []time.Duration) {
-		sort.Slice(durs, func(i, j int) bool { return durs[i] < durs[j] })
-		rows = append(rows, row{codec, float64(total) / values, pct(durs, 500), pct(durs, 990), pct(durs, 999), total})
+	add := func(codec string, total uint64, p50, p99, p999 stats.Stats[int64]) {
+		rows = append(rows, row{codec, float64(total) / values, p50.Median, p99.Median, p999.Median, total,
+			p50.Min, p50.Max, p99.Min, p99.Max, p999.Min, p999.Max})
 	}
 
 	// raw positional slab
@@ -91,13 +114,17 @@ func main() {
 		for _, v := range vals {
 			slab = append(slab, v...)
 		}
-		durs := make([]time.Duration, gets)
-		for i, idx := range order {
-			t0 := time.Now()
-			_ = append([]byte(nil), slab[idx*valueSize:(idx+1)*valueSize]...)
-			durs[i] = time.Since(t0)
+		decode := func() []time.Duration {
+			durs := make([]time.Duration, gets)
+			for i, idx := range order {
+				t0 := time.Now()
+				_ = append([]byte(nil), slab[idx*valueSize:(idx+1)*valueSize]...)
+				durs[i] = time.Since(t0)
+			}
+			return durs
 		}
-		add("raw-slab", uint64(len(slab)), durs)
+		p50, p99, p999 := measure(decode)
+		add("raw-slab", uint64(len(slab)), p50, p99, p999)
 	}
 
 	// block LZ4 per value
@@ -115,15 +142,19 @@ func main() {
 			total += uint64(len(comps[i]))
 		}
 		out := make([]byte, valueSize)
-		durs := make([]time.Duration, gets)
-		for i, idx := range order {
-			t0 := time.Now()
-			if _, err := lz4.UncompressBlock(comps[idx], out); err != nil {
-				_ = append([]byte(nil), comps[idx]...)
+		decode := func() []time.Duration {
+			durs := make([]time.Duration, gets)
+			for i, idx := range order {
+				t0 := time.Now()
+				if _, err := lz4.UncompressBlock(comps[idx], out); err != nil {
+					_ = append([]byte(nil), comps[idx]...)
+				}
+				durs[i] = time.Since(t0)
 			}
-			durs[i] = time.Since(t0)
+			return durs
 		}
-		add("lz4-block", total, durs)
+		p50, p99, p999 := measure(decode)
+		add("lz4-block", total, p50, p99, p999)
 	}
 
 	// per-value zstd
@@ -136,13 +167,17 @@ func main() {
 			comps[i] = enc.EncodeAll(v, nil)
 			total += uint64(len(comps[i]))
 		}
-		durs := make([]time.Duration, gets)
-		for i, idx := range order {
-			t0 := time.Now()
-			_, _ = dec.DecodeAll(comps[idx], nil)
-			durs[i] = time.Since(t0)
+		decode := func() []time.Duration {
+			durs := make([]time.Duration, gets)
+			for i, idx := range order {
+				t0 := time.Now()
+				_, _ = dec.DecodeAll(comps[idx], nil)
+				durs[i] = time.Since(t0)
+			}
+			return durs
 		}
-		add("zstd", total, durs)
+		p50, p99, p999 := measure(decode)
+		add("zstd", total, p50, p99, p999)
 	}
 
 	// Pebble (embedded LSM) point Get
@@ -175,22 +210,26 @@ func main() {
 			_ = val
 			closer.Close()
 		}
-		durs := make([]time.Duration, gets)
-		for i, idx := range order {
-			binary.BigEndian.PutUint64(key[:], uint64(idx))
-			t0 := time.Now()
-			val, closer, err := db.Get(key[:])
-			durs[i] = time.Since(t0)
-			if err != nil {
-				fatal(err)
+		decode := func() []time.Duration {
+			durs := make([]time.Duration, gets)
+			for i, idx := range order {
+				binary.BigEndian.PutUint64(key[:], uint64(idx))
+				t0 := time.Now()
+				val, closer, err := db.Get(key[:])
+				durs[i] = time.Since(t0)
+				if err != nil {
+					fatal(err)
+				}
+				_ = val
+				closer.Close()
 			}
-			_ = val
-			closer.Close()
+			return durs
 		}
+		p50, p99, p999 := measure(decode)
 		if err := db.Close(); err != nil {
 			fatal(err)
 		}
-		add("pebble", total, durs)
+		add("pebble", total, p50, p99, p999)
 	}
 
 	// EKBLOOM representations: one body whose logical bytes are the concatenation.
@@ -218,27 +257,33 @@ func main() {
 		}
 		// Warm (the in-memory reader materialises once on first random access).
 		_, _ = r.ReadAt(0, valueSize)
-		durs := make([]time.Duration, gets)
-		for i, idx := range order {
-			off := uint64(idx) * valueSize
-			t0 := time.Now()
-			b, err := r.ReadAt(off, valueSize)
-			durs[i] = time.Since(t0)
-			if err != nil || len(b) != valueSize {
-				fatal(fmt.Errorf("%s: read at %d: %v", e.name, off, err))
+		decode := func() []time.Duration {
+			durs := make([]time.Duration, gets)
+			for i, idx := range order {
+				off := uint64(idx) * valueSize
+				t0 := time.Now()
+				b, err := r.ReadAt(off, valueSize)
+				durs[i] = time.Since(t0)
+				if err != nil || len(b) != valueSize {
+					fatal(fmt.Errorf("%s: read at %d: %v", e.name, off, err))
+				}
 			}
+			return durs
 		}
-		add(e.name, r.PhysicalBytes(), durs)
+		p50, p99, p999 := measure(decode)
+		add(e.name, r.PhysicalBytes(), p50, p99, p999)
 	}
 
 	report := struct {
 		Values     int    `json:"values"`
 		ValueBytes int    `json:"value_bytes"`
 		Gets       int    `json:"gets"`
+		Runs       int    `json:"runs"`
+		Statistic  string `json:"statistic"`
 		Rows       []row  `json:"rows"`
 		Note       string `json:"note"`
-	}{values, valueSize, gets, rows,
-		"One random 4 KiB point read, same payloads, 80/20 skew. EKBLOOM is an in-memory codec; Pebble is an on-disk LSM (block cache warmed). Footprint is bytes/value. Single host, scalar Go — a decision aid, not a portable benchmark."}
+	}{values, valueSize, gets, stats.Runs(), "median-of-runs", rows,
+		"One random 4 KiB point read, same payloads, 80/20 skew. Get p50/p99/p99.9 are the median across EKB_RUNS runs (min/max retained). EKBLOOM is an in-memory codec; Pebble is an on-disk LSM (block cache warmed). Footprint is bytes/value. Single host, scalar Go — a decision aid, not a portable benchmark."}
 
 	out, _ := json.MarshalIndent(report, "", "  ")
 	if err := os.WriteFile("../evidence/courts-point.json", append(out, '\n'), 0o644); err != nil {

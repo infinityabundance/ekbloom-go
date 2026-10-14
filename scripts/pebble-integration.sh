@@ -37,6 +37,7 @@ if ! docker run --rm \
       --memory="$mem" --memory-swap="$mem" \
       --cpus="$cpus" \
       -e GOMAXPROCS="$cpus" \
+      -e EKB_RUNS \
       --pids-limit=512 \
       --ulimit nofile=4096:4096 \
       --ulimit nproc=1024:1024 \

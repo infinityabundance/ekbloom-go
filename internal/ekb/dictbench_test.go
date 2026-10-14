@@ -7,6 +7,8 @@ import (
 	"sort"
 	"testing"
 	"time"
+
+	"github.com/infinityabundance/ekbloom-go/internal/tools/stat"
 )
 
 // dictParts is the small, repetitive token alphabet the reference uses to build
@@ -60,11 +62,24 @@ func dictP50(d []time.Duration) time.Duration {
 	return d[len(d)/2]
 }
 
+// methodRow is one row of the dictionary study; decode_p50_ns is the median across
+// R = EKB_RUNS runs (default 5; 3 in CI), with min/max retained.
+type methodRow struct {
+	Method       string  `json:"method"`
+	TotalBytes   uint64  `json:"total_bytes"`
+	BytesPerRec  float64 `json:"bytes_per_record"`
+	DecodeP50ns  int64   `json:"decode_p50_ns"`
+	DecodeP50Min int64   `json:"decode_p50_ns_min"`
+	DecodeP50Max int64   `json:"decode_p50_ns_max"`
+	Note         string  `json:"note,omitempty"`
+}
+
 // TestDictionaryBreakEven reproduces the reference's P5 shared-dictionary study:
 // on 4096 text-like ~100-byte records, machine 9 (one shared trained dictionary +
 // header-less per-record cores) versus per-record machine 2 (a 512-byte model
 // header in *every* core). It asserts the shared dictionary wins in space, breaks
-// even at the reference's 2 records, and writes evidence/dictionary.json.
+// even at the reference's 2 records, and writes evidence/dictionary.json. The
+// decode p50s are the median across R = EKB_RUNS runs.
 func TestDictionaryBreakEven(t *testing.T) {
 	const records, recBytes = 4096, 100
 	corpus := dictCorpus(records, recBytes)
@@ -136,80 +151,87 @@ func TestDictionaryBreakEven(t *testing.T) {
 
 	// Decode latency: one prepared machine-9 context reused across records (the
 	// shared-model path), against per-record machine-2 decode (each core rebuilds
-	// its model). Encoding is outside the timed region, as in the reference.
+	// its model). Encoding is outside the timed region, as in the reference. Each of
+	// the R runs yields a per-record p50; the reported p50 is the median across
+	// runs, with min/max retained.
 	ctx, err := dictContextFromCore(framed[0])
 	if err != nil {
 		t.Fatal(err)
 	}
-	var dictLat []time.Duration
-	for _, f := range framed {
-		s := Snapshot{State: binary.LittleEndian.Uint32(f[ctx.recordOffset+4:]), Cursor: ctx.headerBytes()}
-		t0 := time.Now()
-		for i := uint64(0); i < ctx.logicalLen; i++ {
-			if _, err := ctx.reveal(f, &s); err != nil {
-				t.Fatal(err)
+	measureDict := func() []time.Duration {
+		lat := make([]time.Duration, 0, len(framed))
+		for _, f := range framed {
+			s := Snapshot{State: binary.LittleEndian.Uint32(f[ctx.recordOffset+4:]), Cursor: ctx.headerBytes()}
+			t0 := time.Now()
+			for i := uint64(0); i < ctx.logicalLen; i++ {
+				if _, err := ctx.reveal(f, &s); err != nil {
+					t.Fatal(err)
+				}
 			}
+			lat = append(lat, time.Since(t0))
 		}
-		dictLat = append(dictLat, time.Since(t0))
+		return lat
 	}
-	var m2Lat []time.Duration
-	for i := range m2cores {
-		t0 := time.Now()
-		p, err := prepare(m2, m2cores[i])
-		if err != nil {
-			t.Fatal(err)
-		}
-		s, err := m2.Init(m2cores[i])
-		if err != nil {
-			t.Fatal(err)
-		}
-		for j := uint64(0); j < uint64(len(corpus[i])); j++ {
-			if _, err := p.reveal(m2cores[i], &s); err != nil {
+	measureM2 := func() []time.Duration {
+		lat := make([]time.Duration, 0, len(m2cores))
+		for i := range m2cores {
+			t0 := time.Now()
+			p, err := prepare(m2, m2cores[i])
+			if err != nil {
 				t.Fatal(err)
 			}
+			s, err := m2.Init(m2cores[i])
+			if err != nil {
+				t.Fatal(err)
+			}
+			for j := uint64(0); j < uint64(len(corpus[i])); j++ {
+				if _, err := p.reveal(m2cores[i], &s); err != nil {
+					t.Fatal(err)
+				}
+			}
+			lat = append(lat, time.Since(t0))
 		}
-		m2Lat = append(m2Lat, time.Since(t0))
+		return lat
 	}
 
+	dictStat := stat.Sample(func(int) []time.Duration { return measureDict() }, 500)[0]
+	m2Stat := stat.Sample(func(int) []time.Duration { return measureM2() }, 500)[0]
+
 	report := struct {
-		Records    int `json:"records"`
-		RecordSize int `json:"record_bytes"`
-		Methods    []struct {
-			Method      string  `json:"method"`
-			TotalBytes  uint64  `json:"total_bytes"`
-			BytesPerRec float64 `json:"bytes_per_record"`
-			DecodeP50ns int64   `json:"decode_p50_ns"`
-			Note        string  `json:"note,omitempty"`
-		} `json:"methods"`
-		BreakEvenVsMachine2 int    `json:"break_even_vs_machine2_records"`
-		SharedDictBytes     uint64 `json:"shared_dictionary_bytes"`
-		Note                string `json:"note"`
+		Records             int         `json:"records"`
+		RecordSize          int         `json:"record_bytes"`
+		Runs                int         `json:"runs"`
+		Statistic           string      `json:"statistic"`
+		Methods             []methodRow `json:"methods"`
+		BreakEvenVsMachine2 int         `json:"break_even_vs_machine2_records"`
+		SharedDictBytes     uint64      `json:"shared_dictionary_bytes"`
+		Note                string      `json:"note"`
 	}{
 		Records:             records,
 		RecordSize:          recBytes,
+		Runs:                stat.Runs(),
+		Statistic:           "median-of-runs",
 		BreakEvenVsMachine2: be,
 		SharedDictBytes:     shared,
 	}
-	add := func(method string, total uint64, p50 int64, note string) {
-		report.Methods = append(report.Methods, struct {
-			Method      string  `json:"method"`
-			TotalBytes  uint64  `json:"total_bytes"`
-			BytesPerRec float64 `json:"bytes_per_record"`
-			DecodeP50ns int64   `json:"decode_p50_ns"`
-			Note        string  `json:"note,omitempty"`
-		}{method, total, float64(total) / records, p50, note})
+	add := func(method string, total uint64, p50 stat.Stats[int64], note string) {
+		report.Methods = append(report.Methods, methodRow{
+			Method: method, TotalBytes: total, BytesPerRec: float64(total) / records,
+			DecodeP50ns: p50.Median, DecodeP50Min: p50.Min, DecodeP50Max: p50.Max, Note: note,
+		})
 	}
-	add("ekbloom-m9", dictTotal, dictP50(dictLat).Nanoseconds(), "one 540-byte shared dictionary + header-less cores")
-	add("machine2-per-record", m2Total, dictP50(m2Lat).Nanoseconds(), "a 516-byte model header in every core")
-	add("raw", rawTotal, 0, "uncompressed records")
-	report.Note = "Reproduces the reference P5 study (docs/DICTIONARY.md). Every row is asserted byte-exact before timing."
+	add("ekbloom-m9", dictTotal, dictStat, "one 540-byte shared dictionary + header-less cores")
+	add("machine2-per-record", m2Total, m2Stat, "a 516-byte model header in every core")
+	add("raw", rawTotal, stat.Stats[int64]{}, "uncompressed records")
+	report.Note = "Reproduces the reference P5 study (docs/DICTIONARY.md). Every row is asserted byte-exact before timing. decode_p50_ns is the median across EKB_RUNS runs (min/max retained)."
 
 	out, _ := json.MarshalIndent(report, "", "  ")
-	if err := writeEvidence("dictionary.json", append(out, '\n'), 0o644); err != nil {
+	if err := writeTimingEvidence("dictionary.json", append(out, '\n'), 0o644); err != nil {
 		t.Fatal(err)
 	}
-	t.Logf("m9 %.1f B/rec vs m2 %.1f B/rec; break-even %d records",
-		float64(dictTotal)/records, float64(m2Total)/records, be)
+	t.Logf("m9 %.1f B/rec vs m2 %.1f B/rec; break-even %d records; m9 decode p50=%dns(%d..%d) m2 p50=%dns(%d..%d)",
+		float64(dictTotal)/records, float64(m2Total)/records, be,
+		dictStat.Median, dictStat.Min, dictStat.Max, m2Stat.Median, m2Stat.Min, m2Stat.Max)
 }
 
 // TestWriteBodyWithDict proves the reference-framed machine-9 write/open pair:

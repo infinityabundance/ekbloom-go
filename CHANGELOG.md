@@ -46,6 +46,23 @@ The wire format is **frozen** and follows the Rust reference
   `FuzzOpenAuthenticatedBytes` to ~132M executions in 30 minutes and
   bounded-fuzzes the heavier `FuzzStreamBytes`/`FuzzMachineRoundTrip`.
 
+### Changed
+
+- **Latency evidence is now median-of-runs.** Every Go timing harness (`byteat`,
+  `sweep`, `concurrency`, `dictionary`, `readerat`, the `courts/` module,
+  `corpusbench`, `profstats`) now repeats its workload `R` times and reports the
+  **median** across runs (with `min`/`max` retained for auditability), instead of a
+  single noisy p99/p99.9 sample that a 2-CPU container can swing. `R` is `EKB_RUNS`
+  (default 5, odd preferred; 3 in CI), read through a shared, dependency-free
+  helper (`internal/tools/stat` for the root module, `courts/internal/stats` for
+  the separate `courts` module). Each affected JSON gains a top-level `"runs"` and
+  `"statistic": "median-of-runs"`. Deterministic fields (`physical_bytes`, `E_V`,
+  `bytes_per_record`, `bytes_per_value`, `expansion_ratio`, hashes,
+  `worst_case_steps`) are unchanged. Timing evidence is generated **without
+  `-race`** — the race detector inflates every measured latency (~5–25×) — so the
+  `-race` suite stays a pure correctness gate and no longer overwrites the timing
+  artifacts (see `writeTimingEvidence`).
+
 ### Fixed
 
 - **Sandbox scheduler sizing (`GOMAXPROCS`).** Go 1.23 does not read the cgroup CPU

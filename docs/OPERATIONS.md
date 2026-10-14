@@ -25,11 +25,13 @@ service, `internal/ekb/metrics.go` provides ready-made exports:
 - `MetricsText(r)` / `MetricsJSON(r)` — Prometheus-style / JSON rendering.
 
 Measured latency (this host): `ByteAt` via path bloom ≈7 ns (≈1.35 ns via the
-borrowed `ResidentView.Get`, zero allocs/op) single-threaded. Under 64 concurrent
-readers the end-to-end `ByteAt` (including the timing harness) is reported in two
-phases in `evidence/concurrency.json`: **quiet** (readers only) p50 ≈90 ns /
-p99 ≈330 ns / p99.9 ≈1.5 µs, and **publish** (a live writer RCU-republishing
-generations) p50 ≈110 ns / p99 ≈260 ns / p99.9 ≈1.6 µs. The tail is dominated by
+borrowed `ResidentView.Get`, zero allocs/op) single-threaded. Every latency in
+`evidence/` is a **median-of-runs** statistic (`EKB_RUNS`, default 5, 3 in CI),
+measured without `-race`. Under 64 concurrent readers the end-to-end `ByteAt`
+(including the timing harness) is reported in two phases in
+`evidence/concurrency.json`: **quiet** (readers only) p50 ≈30 ns / p99 ≈60 ns /
+p99.9 ≈320 ns, and **publish** (a live writer RCU-republishing generations)
+p50 ≈30 ns / p99 ≈70 ns / p99.9 ≈270 ns. The tail is dominated by
 cross-core cache traffic on the shared published pointer and the per-read clock
 read, not by the codec; the quiet and publish distributions are statistically
 indistinguishable, which is the property the RCU publication exists to provide.

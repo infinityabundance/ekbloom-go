@@ -21,6 +21,7 @@ import (
 
 	ekbloom "github.com/infinityabundance/ekbloom-go"
 	"github.com/infinityabundance/ekbloom-go/internal/blake3"
+	"github.com/infinityabundance/ekbloom-go/internal/tools/stat"
 )
 
 const samples = 4096
@@ -37,6 +38,12 @@ type row struct {
 	P50ns       int64   `json:"byte_at_p50_ns"`
 	P99ns       int64   `json:"byte_at_p99_ns"`
 	P999ns      int64   `json:"byte_at_p999_ns"`
+	P50Min      int64   `json:"byte_at_p50_ns_min"`
+	P50Max      int64   `json:"byte_at_p50_ns_max"`
+	P99Min      int64   `json:"byte_at_p99_ns_min"`
+	P99Max      int64   `json:"byte_at_p99_ns_max"`
+	P999Min     int64   `json:"byte_at_p999_ns_min"`
+	P999Max     int64   `json:"byte_at_p999_ns_max"`
 }
 
 func die(format string, a ...any) {
@@ -109,46 +116,55 @@ func main() {
 				die("%s m%d: open: %v", rel, m, err)
 			}
 			// Warm the read path (the in-memory reader materialises once), then
-			// sample single-byte reads at deterministic pseudo-random offsets.
+			// sample single-byte reads at deterministic pseudo-random offsets. The
+			// reported p50/p99/p99.9 are the median across R = EKB_RUNS runs (default
+			// 5; 3 in CI), with the observed min/max retained; physical_bytes/E_V and
+			// the BLAKE3 slice hash are deterministic.
 			if _, err := r.ByteAt(0); err != nil {
 				die("%v", err)
 			}
 			n := r.LogicalLen()
-			durs := make([]time.Duration, samples)
-			seed := uint64(0x9E3779B97F4A7C15)
-			for i := 0; i < samples; i++ {
-				seed = seed*6364136223846793005 + 1442695040888963407
-				off := (seed >> 33) % n
-				t0 := time.Now()
-				b, err := r.ByteAt(off)
-				durs[i] = time.Since(t0)
-				if err != nil {
-					die("%v", err)
+			q := stat.Sample(func(run int) []time.Duration {
+				durs := make([]time.Duration, samples)
+				seed := uint64(0x9E3779B97F4A7C15) + uint64(run)*0x9E37_79B9_7F4A_7C15
+				for i := 0; i < samples; i++ {
+					seed = seed*6364136223846793005 + 1442695040888963407
+					off := (seed >> 33) % n
+					t0 := time.Now()
+					b, err := r.ByteAt(off)
+					durs[i] = time.Since(t0)
+					if err != nil {
+						die("%v", err)
+					}
+					if b != data[off] {
+						die("%s m%d: ByteAt(%d) mismatch", rel, m, off)
+					}
 				}
-				if b != data[off] {
-					die("%s m%d: ByteAt(%d) mismatch", rel, m, off)
-				}
-			}
-			sort.Slice(durs, func(i, j int) bool { return durs[i] < durs[j] })
-			pct := func(p int) int64 { return durs[len(durs)*p/1000].Nanoseconds() }
+				return durs
+			}, 500, 990, 999)
 			rows = append(rows, row{
 				Corpus: corpus, File: rel, Bytes: len(data),
 				SliceBLAKE3: fmt.Sprintf("%x", sum),
 				Machine:     m, LogicalLen: n, Physical: r.PhysicalBytes(),
 				EV:    float64(r.PhysicalBytes()) / float64(n),
-				P50ns: pct(500), P99ns: pct(990), P999ns: pct(999),
+				P50ns: q[0].Median, P99ns: q[1].Median, P999ns: q[2].Median,
+				P50Min: q[0].Min, P50Max: q[0].Max,
+				P99Min: q[1].Min, P99Max: q[1].Max,
+				P999Min: q[2].Min, P999Max: q[2].Max,
 			})
 		}
 	}
 
 	report := struct {
-		Cap      int    `json:"corpus_cap_bytes"`
-		Samples  int    `json:"byte_at_samples"`
-		Machines []int  `json:"machines"`
-		Rows     []row  `json:"rows"`
-		Note     string `json:"note"`
-	}{cap, samples, []int{1, 2}, rows,
-		"E_V = physical_bytes / logical_len (lower is smaller). Go numbers; compare against evidence/corpus-rust.json for the same files."}
+		Cap       int    `json:"corpus_cap_bytes"`
+		Samples   int    `json:"byte_at_samples"`
+		Runs      int    `json:"runs"`
+		Statistic string `json:"statistic"`
+		Machines  []int  `json:"machines"`
+		Rows      []row  `json:"rows"`
+		Note      string `json:"note"`
+	}{cap, samples, stat.Runs(), "median-of-runs", []int{1, 2}, rows,
+		"E_V = physical_bytes / logical_len (lower is smaller). byte_at p50/p99/p99.9 are the median across EKB_RUNS runs (min/max retained). Go numbers; compare against evidence/corpus-rust.json for the same files."}
 
 	blob, _ := json.MarshalIndent(report, "", "  ")
 	if err := os.WriteFile(out, append(blob, '\n'), 0o644); err != nil {

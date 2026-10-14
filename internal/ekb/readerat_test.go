@@ -11,6 +11,8 @@ import (
 	"sync"
 	"testing"
 	"time"
+
+	"github.com/infinityabundance/ekbloom-go/internal/tools/stat"
 )
 
 // Compile-time proof that the adapter satisfies the standard interface.
@@ -429,6 +431,8 @@ func TestReaderAtCancellation(t *testing.T) {
 }
 
 // TestReaderAtEvidence runs the surface checks and writes evidence/readerat.json.
+// The latency fields are the median across R = EKB_RUNS runs (default 5; 3 in CI),
+// with the observed min/max retained.
 func TestReaderAtEvidence(t *testing.T) {
 	// Section copy via io.NewSectionReader/io.Copy.
 	src := sampleSource(0, 4096)
@@ -469,24 +473,31 @@ func TestReaderAtEvidence(t *testing.T) {
 		t.Errorf("concurrent: %v", err)
 	}
 
-	// Batch p50 over >= 4096 samples.
+	runs := stat.Runs()
+
+	// Batch p50 over >= 4096 samples per run; median across runs.
 	const samples = 4096
 	reqs := buildRanges(uint64(len(src)), 4, 99)
-	batchP50 := measureBatchP50Ns(r, reqs, samples)
-	if batchP50 < 0 {
-		t.Errorf("batch measurement failed")
+	batchVals := make([]int64, 0, runs)
+	for run := 0; run < runs; run++ {
+		p := measureBatchP50Ns(r, reqs, samples)
+		if p < 0 {
+			t.Errorf("batch measurement failed")
+		}
+		batchVals = append(batchVals, p)
 	}
+	batchP50 := stat.Collect(batchVals)
 
-	// Cancellation latency on a body whose full decode dominates. The baseline is
-	// ReadAtContext with a live context — the same decode path cancellation
-	// aborts — and the deadline is a small fraction of it, so the deadline is
-	// guaranteed to expire mid-decode on any machine. Both are the best of a few
-	// trials so the recorded number reflects the codec, not a scheduler hiccup.
-	cancel := int64(-1)
-	{
-		cr2, _ := cancelBackedReader(t)
-		cn := cr2.LogicalLen()
-		live := context.Background()
+	// Cancellation latency on a body whose full decode dominates. Within a run the
+	// deadline latency is the BEST of a few trials (a single wall-clock sample can
+	// be inflated by an unlucky scheduler deschedule); across runs the reported value
+	// is the median. The baseline is ReadAtContext with a live context — the same
+	// decode path cancellation aborts — and the deadline is a small fraction of it,
+	// so the deadline is guaranteed to expire mid-decode on any machine.
+	cr2, _ := cancelBackedReader(t)
+	cn := cr2.LogicalLen()
+	live := context.Background()
+	measureCancel := func() int64 {
 		base := time.Duration(1<<63 - 1)
 		for i := 0; i < 3; i++ {
 			start := time.Now()
@@ -514,21 +525,33 @@ func TestReaderAtEvidence(t *testing.T) {
 				t.Errorf("cancel: err=%v, want context.DeadlineExceeded", err)
 			}
 		}
-		cancel = best.Nanoseconds()
+		return best.Nanoseconds()
 	}
+	cancelVals := make([]int64, 0, runs)
+	for run := 0; run < runs; run++ {
+		cancelVals = append(cancelVals, measureCancel())
+	}
+	cancelS := stat.Collect(cancelVals)
 
 	ev := struct {
-		SectionCopy string `json:"readerat_section_copy"`
-		BatchEqual  string `json:"batch_equal"`
-		Concurrent  string `json:"concurrent_64_race"`
-		CancelNs    int64  `json:"cancel_latency_ns"`
-		BatchP50Ns  int64  `json:"batch_p50_ns"`
-	}{sectionCopy, batchEqual, concurrent, cancel, batchP50}
+		SectionCopy   string `json:"readerat_section_copy"`
+		BatchEqual    string `json:"batch_equal"`
+		Concurrent    string `json:"concurrent_64_race"`
+		Runs          int    `json:"runs"`
+		Statistic     string `json:"statistic"`
+		CancelNs      int64  `json:"cancel_latency_ns"`
+		CancelNsMin   int64  `json:"cancel_latency_ns_min"`
+		CancelNsMax   int64  `json:"cancel_latency_ns_max"`
+		BatchP50Ns    int64  `json:"batch_p50_ns"`
+		BatchP50NsMin int64  `json:"batch_p50_ns_min"`
+		BatchP50NsMax int64  `json:"batch_p50_ns_max"`
+	}{sectionCopy, batchEqual, concurrent, runs, "median-of-runs",
+		cancelS.Median, cancelS.Min, cancelS.Max, batchP50.Median, batchP50.Min, batchP50.Max}
 
 	out, _ := json.MarshalIndent(ev, "", "  ")
-	if err := writeEvidence("readerat.json", append(out, '\n'), 0o644); err != nil {
+	if err := writeTimingEvidence("readerat.json", append(out, '\n'), 0o644); err != nil {
 		t.Fatalf("write evidence: %v", err)
 	}
-	t.Logf("readerat_section_copy=%s batch_equal=%s concurrent_64_race=%s cancel_latency_ns=%d batch_p50_ns=%d",
-		sectionCopy, batchEqual, concurrent, cancel, batchP50)
+	t.Logf("readerat_section_copy=%s batch_equal=%s concurrent_64_race=%s cancel_latency_ns=%d(%d..%d) batch_p50_ns=%d(%d..%d)",
+		sectionCopy, batchEqual, concurrent, cancelS.Median, cancelS.Min, cancelS.Max, batchP50.Median, batchP50.Min, batchP50.Max)
 }

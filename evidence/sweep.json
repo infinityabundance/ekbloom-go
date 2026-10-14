@@ -1,26 +1,44 @@
 {
   "logical_bytes": 1048576,
   "source": "sweepSkewed(1 MiB) — 4-symbol 60/25/10/5",
+  "runs": 5,
+  "statistic": "median-of-runs",
   "rows": [
     {
       "profile": "m1_root",
       "machine_id": 1,
       "physical_bytes": 1048576,
       "E_V": 1,
-      "byte_at_p50_ns": 50,
-      "byte_at_p99_ns": 220,
-      "read4k_p50_ns": 791,
-      "seq_mb_per_s": 11972.232371209353
+      "byte_at_p50_ns": 30,
+      "byte_at_p99_ns": 51,
+      "read4k_p50_ns": 521,
+      "seq_mb_per_s": 13110.641543405143,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 40,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 70,
+      "read4k_p50_ns_min": 360,
+      "read4k_p50_ns_max": 781,
+      "seq_mb_per_s_min": 12346.646571213263,
+      "seq_mb_per_s_max": 14574.891582341821
     },
     {
       "profile": "m2_root",
       "machine_id": 2,
       "physical_bytes": 208084,
       "E_V": 0.19844436645507812,
-      "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 150,
-      "read4k_p50_ns": 791,
-      "seq_mb_per_s": 12487.953600819368
+      "byte_at_p50_ns": 30,
+      "byte_at_p99_ns": 51,
+      "read4k_p50_ns": 270,
+      "seq_mb_per_s": 12066.189500817012,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 40,
+      "byte_at_p99_ns_max": 451,
+      "read4k_p50_ns_min": 250,
+      "read4k_p50_ns_max": 802,
+      "seq_mb_per_s_min": 7178.978789828977,
+      "seq_mb_per_s_max": 14548.602824874433
     },
     {
       "profile": "m1_full",
@@ -28,9 +46,17 @@
       "physical_bytes": 5242884,
       "E_V": 5.000003814697266,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 141,
-      "read4k_p50_ns": 3747,
-      "seq_mb_per_s": 1286.4211131980796
+      "byte_at_p99_ns": 121,
+      "read4k_p50_ns": 3577,
+      "seq_mb_per_s": 1237.3760796017082,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 40,
+      "byte_at_p99_ns_max": 181,
+      "read4k_p50_ns_min": 3446,
+      "read4k_p50_ns_max": 3968,
+      "seq_mb_per_s_min": 1233.0458198837011,
+      "seq_mb_per_s_max": 1255.6653526146122
     },
     {
       "profile": "m1_sparse64",
@@ -38,9 +64,17 @@
       "physical_bytes": 1081346,
       "E_V": 1.0312519073486328,
       "byte_at_p50_ns": 110,
-      "byte_at_p99_ns": 270,
-      "read4k_p50_ns": 8967,
-      "seq_mb_per_s": 473.0822832810807
+      "byte_at_p99_ns": 261,
+      "read4k_p50_ns": 9527,
+      "seq_mb_per_s": 464.3828451651218,
+      "byte_at_p50_ns_min": 101,
+      "byte_at_p50_ns_max": 110,
+      "byte_at_p99_ns_min": 240,
+      "byte_at_p99_ns_max": 310,
+      "read4k_p50_ns_min": 9477,
+      "read4k_p50_ns_max": 9567,
+      "seq_mb_per_s_min": 451.0190528297082,
+      "seq_mb_per_s_max": 467.63850528859257
     },
     {
       "profile": "m1_path4",
@@ -48,20 +82,36 @@
       "physical_bytes": 3145963,
       "E_V": 3.0002241134643555,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 41,
-      "read4k_p50_ns": 692,
-      "seq_mb_per_s": 20530.1223690651
+      "byte_at_p99_ns": 60,
+      "read4k_p50_ns": 261,
+      "seq_mb_per_s": 14398.374207013978,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 41,
+      "byte_at_p99_ns_max": 60,
+      "read4k_p50_ns_min": 200,
+      "read4k_p50_ns_max": 661,
+      "seq_mb_per_s_min": 10647.279225856239,
+      "seq_mb_per_s_max": 15146.48485461295
     },
     {
       "profile": "m2_full",
       "machine_id": 2,
       "physical_bytes": 4402392,
       "E_V": 4.198448181152344,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 60,
-      "read4k_p50_ns": 651,
-      "seq_mb_per_s": 15537.681889577098
+      "byte_at_p50_ns": 20,
+      "byte_at_p99_ns": 40,
+      "read4k_p50_ns": 230,
+      "seq_mb_per_s": 13679.51678342661,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 50,
+      "read4k_p50_ns_min": 221,
+      "read4k_p50_ns_max": 691,
+      "seq_mb_per_s_min": 4517.523792290824,
+      "seq_mb_per_s_max": 14578.944441354763
     }
   ],
-  "note": "E_V = physical_bytes / N on a 4-symbol 60/25/10/5 skewed source. Single host, scalar Go; a decision aid, not a portable benchmark."
+  "note": "E_V = physical_bytes / N on a 4-symbol 60/25/10/5 skewed source. Latency/throughput are the median across EKB_RUNS runs (min/max retained); physical_bytes/E_V are deterministic. Single host, scalar Go; a decision aid, not a portable benchmark."
 }

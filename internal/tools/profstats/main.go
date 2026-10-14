@@ -48,6 +48,7 @@ import (
 	"time"
 
 	ekbloom "github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go/internal/tools/stat"
 )
 
 // Default hot-path mapping mirrors scripts/profile.sh.
@@ -65,23 +66,33 @@ var (
 )
 
 // gcReport is evidence/profile/gcstats.json: the GC-pause and heap measurement.
+// The pause quantiles are the median across R = EKB_RUNS runs; the min/max of each
+// quantile across runs is retained. Heap peaks are the maximum seen over all runs.
 type gcReport struct {
-	Seconds        float64 `json:"seconds"`
-	Iterations     int64   `json:"iterations"`
-	Symbols        int64   `json:"symbols"`
-	HeapPeakBytes  uint64  `json:"heap_peak_bytes"`
-	HeapInuseBytes uint64  `json:"heap_inuse_bytes"`
-	HeapAllocBytes uint64  `json:"heap_alloc_bytes"`
-	HeapSysBytes   uint64  `json:"heap_sys_bytes"`
-	PeakInuseBytes uint64  `json:"heap_peak_inuse_bytes"`
-	NumGC          uint32  `json:"num_gc"`
-	PauseTotalNs   uint64  `json:"gc_pause_total_ns"`
-	PauseCount     uint64  `json:"gc_pause_count"`
-	PauseP50Sec    float64 `json:"gc_pause_p50_s"`
-	PauseP99Sec    float64 `json:"gc_pause_p99_s"`
-	PauseP999Sec   float64 `json:"gc_pause_p99_9_s"`
-	PauseMaxSec    float64 `json:"gc_pause_max_s"`
-	Note           string  `json:"note"`
+	Seconds         float64 `json:"seconds"`
+	Iterations      int64   `json:"iterations"`
+	Symbols         int64   `json:"symbols"`
+	HeapPeakBytes   uint64  `json:"heap_peak_bytes"`
+	HeapInuseBytes  uint64  `json:"heap_inuse_bytes"`
+	HeapAllocBytes  uint64  `json:"heap_alloc_bytes"`
+	HeapSysBytes    uint64  `json:"heap_sys_bytes"`
+	PeakInuseBytes  uint64  `json:"heap_peak_inuse_bytes"`
+	NumGC           uint32  `json:"num_gc"`
+	PauseTotalNs    uint64  `json:"gc_pause_total_ns"`
+	PauseCount      uint64  `json:"gc_pause_count"`
+	PauseP50Sec     float64 `json:"gc_pause_p50_s"`
+	PauseP99Sec     float64 `json:"gc_pause_p99_s"`
+	PauseP999Sec    float64 `json:"gc_pause_p99_9_s"`
+	PauseMaxSec     float64 `json:"gc_pause_max_s"`
+	PauseP50MinSec  float64 `json:"gc_pause_p50_s_min"`
+	PauseP50MaxSec  float64 `json:"gc_pause_p50_s_max"`
+	PauseP99MinSec  float64 `json:"gc_pause_p99_s_min"`
+	PauseP99MaxSec  float64 `json:"gc_pause_p99_s_max"`
+	PauseP999MinSec float64 `json:"gc_pause_p99_9_s_min"`
+	PauseP999MaxSec float64 `json:"gc_pause_p99_9_s_max"`
+	PauseMaxMinSec  float64 `json:"gc_pause_max_s_min"`
+	PauseMaxMaxSec  float64 `json:"gc_pause_max_s_max"`
+	Note            string  `json:"note"`
 }
 
 // topEntry is one row of a `go tool pprof -top` table.
@@ -124,6 +135,8 @@ type report struct {
 	Binaries    map[string]string `json:"binaries"`
 	Toolchain   map[string]any    `json:"toolchain"`
 	Sandbox     string            `json:"sandbox"`
+	Runs        int               `json:"runs"`
+	Statistic   string            `json:"statistic"`
 	HotPaths    []hotPath         `json:"hot_paths"`
 	GC          *gcReport         `json:"gc"`
 	Notes       []string          `json:"notes"`
@@ -171,11 +184,13 @@ func main() {
 			"goarch":     runtime.GOARCH,
 			"num_cpu":    runtime.NumCPU(),
 		},
-		Sandbox: "docker --memory=2g --memory-swap=2g --cpus=2 --pids-limit=512 (scripts/sandbox.sh)",
-		GC:      gc,
+		Sandbox:   "docker --memory=2g --memory-swap=2g --cpus=2 --pids-limit=512 (scripts/sandbox.sh)",
+		Runs:      stat.Runs(),
+		Statistic: "median-of-runs",
+		GC:        gc,
 		Notes: []string{
 			"CPU shares and allocation/retained sites are go tool pprof tables over the test-binary profiles; values are pprof's own.",
-			"GC pause quantiles are bucket midpoints of runtime/metrics /gc/pauses:seconds (stop-the-world pauses only).",
+			"GC pause quantiles are bucket midpoints of runtime/metrics /gc/pauses:seconds (stop-the-world pauses only); each quantile is the median across EKB_RUNS runs, with min/max retained.",
 			"Heap peak/retained are runtime.MemStats sampled during the representative workload, not the allocation-profile sample.",
 		},
 	}
@@ -231,7 +246,6 @@ func writeJSON(path string, v any) error {
 
 func runWorkload(budget time.Duration, seed int64) *gcReport {
 	rng := rand.New(rand.NewSource(seed))
-	deadline := time.Now().Add(budget)
 	start := time.Now()
 
 	// Pre-train one machine-9 dictionary so the decode leg uses the shared-model
@@ -246,30 +260,64 @@ func runWorkload(budget time.Duration, seed int64) *gcReport {
 		dec, _ = ekbloom.NewDictDecoder(dict)
 	}
 
+	// Run the soak R times (R = EKB_RUNS) so the GC-pause quantiles can be reported
+	// as the median across runs. The wall-clock budget is SPLIT across the runs, so
+	// profile.sh stays time-bounded at any R; each per-run pause histogram is the
+	// delta of runtime/metrics /gc/pauses:seconds across that run.
+	runs := stat.Runs()
+	if runs < 1 {
+		runs = 1
+	}
+	seg := budget / time.Duration(runs)
+	if seg < time.Millisecond {
+		seg = time.Millisecond
+	}
+
 	var ms runtime.MemStats
 	runtime.ReadMemStats(&ms)
 	peakHeap, peakInuse := ms.HeapAlloc, ms.HeapInuse
 
 	var iterations, symbols int64
-	for i := 1; time.Now().Before(deadline); i++ {
-		n, err := roundtrip(rng)
-		if err != nil {
-			die("workload: %v", err)
-		}
-		symbols += n
-		if dec != nil && i%4 == 0 {
-			symbols += dictDecode(rng, dict, dec)
-		}
-		if i%16 == 0 {
-			runtime.ReadMemStats(&ms)
-			if ms.HeapAlloc > peakHeap {
-				peakHeap = ms.HeapAlloc
+	var pauseCount uint64
+	p50s := make([]float64, 0, runs)
+	p99s := make([]float64, 0, runs)
+	p999s := make([]float64, 0, runs)
+	maxs := make([]float64, 0, runs)
+
+	for run := 0; run < runs; run++ {
+		before, _ := gcHistogram()
+		deadline := time.Now().Add(seg)
+		for i := 1; time.Now().Before(deadline); i++ {
+			n, err := roundtrip(rng)
+			if err != nil {
+				die("workload: %v", err)
 			}
-			if ms.HeapInuse > peakInuse {
-				peakInuse = ms.HeapInuse
+			symbols += n
+			if dec != nil && i%4 == 0 {
+				symbols += dictDecode(rng, dict, dec)
 			}
+			if i%16 == 0 {
+				runtime.ReadMemStats(&ms)
+				if ms.HeapAlloc > peakHeap {
+					peakHeap = ms.HeapAlloc
+				}
+				if ms.HeapInuse > peakInuse {
+					peakInuse = ms.HeapInuse
+				}
+			}
+			iterations++
 		}
-		iterations++
+		after, buckets := gcHistogram()
+		delta := make([]uint64, len(after))
+		for i := range after {
+			delta[i] = after[i] - before[i]
+		}
+		count, _, p50, p99, p999, max := quantilesFrom(delta, buckets)
+		pauseCount += count
+		p50s = append(p50s, p50)
+		p99s = append(p99s, p99)
+		p999s = append(p999s, p999)
+		maxs = append(maxs, max)
 	}
 	runtime.ReadMemStats(&ms)
 	if ms.HeapAlloc > peakHeap {
@@ -279,39 +327,51 @@ func runWorkload(budget time.Duration, seed int64) *gcReport {
 		peakInuse = ms.HeapInuse
 	}
 
-	// MemStats.PauseTotalNs is the authoritative cumulative pause; the histogram
-	// total is discarded here (it is the same number estimated from buckets).
-	count, _, p50, p99, p999, max := gcQuantiles()
+	s50, s99, s999, smax := stat.Collect(p50s), stat.Collect(p99s), stat.Collect(p999s), stat.Collect(maxs)
 	return &gcReport{
-		Seconds:        time.Since(start).Seconds(),
-		Iterations:     iterations,
-		Symbols:        symbols,
-		HeapPeakBytes:  peakHeap,
-		HeapInuseBytes: ms.HeapInuse,
-		HeapAllocBytes: ms.HeapAlloc,
-		HeapSysBytes:   ms.HeapSys,
-		PeakInuseBytes: peakInuse,
-		NumGC:          ms.NumGC,
-		PauseTotalNs:   ms.PauseTotalNs,
-		PauseCount:     count,
-		PauseP50Sec:    p50,
-		PauseP99Sec:    p99,
-		PauseP999Sec:   p999,
-		PauseMaxSec:    max,
-		Note: "Stop-the-world GC pauses sampled from runtime/metrics /gc/pauses:seconds; " +
+		Seconds:         time.Since(start).Seconds(),
+		Iterations:      iterations,
+		Symbols:         symbols,
+		HeapPeakBytes:   peakHeap,
+		HeapInuseBytes:  ms.HeapInuse,
+		HeapAllocBytes:  ms.HeapAlloc,
+		HeapSysBytes:    ms.HeapSys,
+		PeakInuseBytes:  peakInuse,
+		NumGC:           ms.NumGC,
+		PauseTotalNs:    ms.PauseTotalNs,
+		PauseCount:      pauseCount,
+		PauseP50Sec:     s50.Median,
+		PauseP99Sec:     s99.Median,
+		PauseP999Sec:    s999.Median,
+		PauseMaxSec:     smax.Median,
+		PauseP50MinSec:  s50.Min,
+		PauseP50MaxSec:  s50.Max,
+		PauseP99MinSec:  s99.Min,
+		PauseP99MaxSec:  s99.Max,
+		PauseP999MinSec: s999.Min,
+		PauseP999MaxSec: s999.Max,
+		PauseMaxMinSec:  smax.Min,
+		PauseMaxMaxSec:  smax.Max,
+		Note: "Stop-the-world GC pauses sampled from runtime/metrics /gc/pauses:seconds over EKB_RUNS runs; " +
+			"each quantile is the median across runs (min/max retained); the wall-clock budget is split across runs. " +
 			"peak/retained heap from runtime.MemStats during a soak-style roundtrip + machine-9 decode workload.",
 	}
 }
 
-// gcQuantiles reads the runtime's GC-pause histogram and returns the pause count,
-// cumulative pause time, and p50/p99/p99.9/max pauses in seconds. Quantiles are
-// bucket midpoints (a documented histogram estimate, not a fabricated value).
-func gcQuantiles() (count uint64, total, p50, p99, p999, max float64) {
+// gcHistogram reads the runtime's cumulative GC-pause histogram
+// (/gc/pauses:seconds) and returns its per-bucket cumulative counts and bucket
+// bounds.
+func gcHistogram() ([]uint64, []float64) {
 	samples := []metrics.Sample{{Name: "/gc/pauses:seconds"}}
 	metrics.Read(samples)
 	h := samples[0].Value.Float64Histogram()
-	counts, buckets := h.Counts, h.Buckets
+	return h.Counts, h.Buckets
+}
 
+// quantilesFrom derives the pause count and p50/p99/p99.9/max pauses (seconds) from
+// a GC-pause histogram (bucket counts + bucket bounds). Quantiles are bucket
+// midpoints (a documented histogram estimate, not a fabricated value).
+func quantilesFrom(counts []uint64, buckets []float64) (count uint64, total, p50, p99, p999, max float64) {
 	mid := func(i int) float64 {
 		if i < 0 || i >= len(counts) {
 			return 0

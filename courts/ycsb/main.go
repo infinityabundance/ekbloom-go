@@ -32,6 +32,7 @@ import (
 
 	"github.com/cockroachdb/pebble"
 	ekbloom "github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go/courts/internal/stats"
 	"github.com/klauspost/compress/zstd"
 )
 
@@ -232,13 +233,19 @@ func sampleZipf(cdf []float64, u float64) int {
 }
 
 type row struct {
-	Store       string  `json:"store"`
-	Workload    string  `json:"workload"`
-	BytesPerR   float64 `json:"bytes_per_record"`
-	OpsPerSec   float64 `json:"ops_per_s"`
-	ReadP50     int64   `json:"read_p50_ns"`
-	ReadP99     int64   `json:"read_p99_ns"`
-	AllocsPerOp float64 `json:"allocs_per_op"`
+	Store        string  `json:"store"`
+	Workload     string  `json:"workload"`
+	BytesPerR    float64 `json:"bytes_per_record"`
+	OpsPerSec    float64 `json:"ops_per_s"`
+	ReadP50      int64   `json:"read_p50_ns"`
+	ReadP99      int64   `json:"read_p99_ns"`
+	AllocsPerOp  float64 `json:"allocs_per_op"`
+	ReadP50Min   int64   `json:"read_p50_ns_min"`
+	ReadP50Max   int64   `json:"read_p50_ns_max"`
+	ReadP99Min   int64   `json:"read_p99_ns_min"`
+	ReadP99Max   int64   `json:"read_p99_ns_max"`
+	OpsPerSecMin float64 `json:"ops_per_s_min"`
+	OpsPerSecMax float64 `json:"ops_per_s_max"`
 }
 
 func main() {
@@ -320,36 +327,56 @@ func main() {
 	}
 
 	var rows []row
+	runs := stats.Runs()
 	for _, w := range workloads {
 		for _, s := range stores {
 			// Warm.
 			for i := 0; i < 1000; i++ {
 				_, _ = s.get(keys[i])
 			}
-			reads := make([]time.Duration, 0, ops)
-			t0 := time.Now()
-			for i := 0; i < ops; i++ {
-				if w.isUpd(kind[i]) {
-					check(s.put(keys[i], record(keys[i]+i+1)))
-					continue
+			// Replay the deterministic trace R = EKB_RUNS times. The updates are
+			// idempotent (the same position i always writes the same value), so the
+			// store state — and thus bytes_per_record — is stable across runs.
+			p50v := make([]int64, 0, runs)
+			p99v := make([]int64, 0, runs)
+			opsv := make([]float64, 0, runs)
+			for run := 0; run < runs; run++ {
+				reads := make([]time.Duration, 0, ops)
+				t0 := time.Now()
+				for i := 0; i < ops; i++ {
+					if w.isUpd(kind[i]) {
+						check(s.put(keys[i], record(keys[i]+i+1)))
+						continue
+					}
+					r0 := time.Now()
+					got, err := s.get(keys[i])
+					d := time.Since(r0)
+					if err != nil || len(got) != recordBytes {
+						panic(fmt.Sprintf("%s: get(%d): err=%v len=%d", s.name(), keys[i], err, len(got)))
+					}
+					reads = append(reads, d)
 				}
-				r0 := time.Now()
-				got, err := s.get(keys[i])
-				d := time.Since(r0)
-				if err != nil || len(got) != recordBytes {
-					panic(fmt.Sprintf("%s: get(%d): err=%v len=%d", s.name(), keys[i], err, len(got)))
+				elapsed := time.Since(t0).Seconds()
+				sort.Slice(reads, func(i, j int) bool { return reads[i] < reads[j] })
+				mid := len(reads) / 2
+				if mid >= len(reads) {
+					mid = len(reads) - 1
 				}
-				reads = append(reads, d)
+				p50v = append(p50v, reads[mid].Nanoseconds())
+				p99v = append(p99v, reads[len(reads)*99/100].Nanoseconds())
+				opsv = append(opsv, float64(ops)/elapsed)
 			}
-			elapsed := time.Since(t0).Seconds()
-			sort.Slice(reads, func(i, j int) bool { return reads[i] < reads[j] })
+			sp50, sp99, sops := stats.Collect(p50v), stats.Collect(p99v), stats.Collect(opsv)
 			rows = append(rows, row{
 				Store: s.name(), Workload: w.name,
 				BytesPerR:   float64(s.total()) / records,
-				OpsPerSec:   float64(ops) / elapsed,
-				ReadP50:     reads[len(reads)/2].Nanoseconds(),
-				ReadP99:     reads[len(reads)*99/100].Nanoseconds(),
+				OpsPerSec:   sops.Median,
+				ReadP50:     sp50.Median,
+				ReadP99:     sp99.Median,
 				AllocsPerOp: allocs[s.name()],
+				ReadP50Min:  sp50.Min, ReadP50Max: sp50.Max,
+				ReadP99Min: sp99.Min, ReadP99Max: sp99.Max,
+				OpsPerSecMin: sops.Min, OpsPerSecMax: sops.Max,
 			})
 		}
 	}
@@ -368,10 +395,12 @@ func main() {
 		Records    int    `json:"records"`
 		RecordSize int    `json:"record_bytes"`
 		Ops        int    `json:"ops_per_row"`
+		Runs       int    `json:"runs"`
+		Statistic  string `json:"statistic"`
 		Rows       []row  `json:"rows"`
 		Note       string `json:"note"`
-	}{records, recordBytes, ops, rows,
-		"YCSB-style zipfian (theta=0.99), deterministic trace. Pebble uses NoSync. EKBLOOM is an in-memory codec; the pebble+* rows place the same codec inside an embedded LSM value log. allocs_per_op is testing.AllocsPerRun over the decode path: machine-9 uses the reusable DictDecoder.DecodeInto with a reused buffer (0 allocs), while the other in-memory rows allocate a fresh destination per read. Single host, scalar Go."}
+	}{records, recordBytes, ops, runs, "median-of-runs", rows,
+		"YCSB-style zipfian (theta=0.99), deterministic trace. read_p50/p99 and ops_per_s are the median across EKB_RUNS runs (min/max retained). Pebble uses NoSync. EKBLOOM is an in-memory codec; the pebble+* rows place the same codec inside an embedded LSM value log. allocs_per_op is testing.AllocsPerRun over the decode path: machine-9 uses the reusable DictDecoder.DecodeInto with a reused buffer (0 allocs), while the other in-memory rows allocate a fresh destination per read. Single host, scalar Go."}
 	out, _ := json.MarshalIndent(report, "", "  ")
 	if err := os.WriteFile("../evidence/ycsb.json", append(out, '\n'), 0o644); err != nil {
 		check(err)

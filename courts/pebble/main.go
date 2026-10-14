@@ -33,6 +33,7 @@ import (
 
 	"github.com/cockroachdb/pebble"
 	ekbloom "github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go/courts/internal/stats"
 	"github.com/infinityabundance/ekbloom-go/courts/internal/workload"
 )
 
@@ -43,12 +44,9 @@ const (
 	trainFrac   = 4 // 1/trainFrac of the records train the shared dictionary
 )
 
-func pct(sorted []time.Duration, perMille int) float64 {
-	return float64(sorted[len(sorted)*perMille/1000].Nanoseconds())
-}
-
 // report is the machine-readable stdout artifact. Field order fixes the JSON key
-// order.
+// order. get_p50_ns/get_p99_ns are the median across R = EKB_RUNS runs (min/max
+// retained); the size/step fields are deterministic.
 type report struct {
 	Records           int     `json:"records"`
 	RecordBytes       int     `json:"record_bytes"`
@@ -56,12 +54,18 @@ type report struct {
 	BytesPerRecord    float64 `json:"bytes_per_record"`
 	GetP50Ns          float64 `json:"get_p50_ns"`
 	GetP99Ns          float64 `json:"get_p99_ns"`
+	GetP50NsMin       float64 `json:"get_p50_ns_min"`
+	GetP50NsMax       float64 `json:"get_p50_ns_max"`
+	GetP99NsMin       float64 `json:"get_p99_ns_min"`
+	GetP99NsMax       float64 `json:"get_p99_ns_max"`
 	DecodeAllocsPerOp float64 `json:"decode_allocs_per_op"`
 	Breaches          uint64  `json:"breaches"`
 	WorstCaseSteps    uint64  `json:"worst_case_steps"`
 	ExpansionRatio    float64 `json:"expansion_ratio"`
 	PhysicalBytes     uint64  `json:"physical_bytes"`
 	DictBytes         uint64  `json:"dict_bytes"`
+	Runs              int     `json:"runs"`
+	Statistic         string  `json:"statistic"`
 }
 
 func check(err error) {
@@ -142,28 +146,37 @@ func main() {
 	}
 
 	ekbloom.ResetBreaches()
-	durs := make([]time.Duration, gets)
+	runs := stats.Runs()
+	p50v := make([]int64, 0, runs)
+	p99v := make([]int64, 0, runs)
 	mismatches := 0
-	for i := 0; i < gets; i++ {
-		idx := workload.SkewIndex(&s, records)
-		binary.BigEndian.PutUint64(key[:], uint64(idx))
-		t0 := time.Now()
-		core, closer, gerr := db.Get(key[:])
-		if gerr != nil {
-			check(gerr)
+	for run := 0; run < runs; run++ {
+		rs := uint64(0x5EED1234) + uint64(run)
+		durs := make([]time.Duration, gets)
+		for i := 0; i < gets; i++ {
+			idx := workload.SkewIndex(&rs, records)
+			binary.BigEndian.PutUint64(key[:], uint64(idx))
+			t0 := time.Now()
+			core, closer, gerr := db.Get(key[:])
+			if gerr != nil {
+				check(gerr)
+			}
+			n, derr := dec.DecodeInto(decodeDst, core)
+			closer.Close()
+			durs[i] = time.Since(t0)
+			if derr != nil {
+				check(derr)
+			}
+			if string(decodeDst[:n]) != string(src[idx]) {
+				mismatches++
+			}
 		}
-		n, derr := dec.DecodeInto(decodeDst, core)
-		closer.Close()
-		durs[i] = time.Since(t0)
-		if derr != nil {
-			check(derr)
-		}
-		if string(decodeDst[:n]) != string(src[idx]) {
-			mismatches++
-		}
+		sort.Slice(durs, func(i, j int) bool { return durs[i] < durs[j] })
+		p50v = append(p50v, stats.Pct(durs, 500))
+		p99v = append(p99v, stats.Pct(durs, 990))
 	}
 	breaches := ekbloom.Breaches()
-	sort.Slice(durs, func(i, j int) bool { return durs[i] < durs[j] })
+	sp50, sp99 := stats.Collect(p50v), stats.Collect(p99v)
 
 	// --- sealed-body path on one representative value -----------------------
 	v := src[0]
@@ -185,14 +198,20 @@ func main() {
 		RecordBytes:       recordBytes,
 		Gets:              gets,
 		BytesPerRecord:    float64(coreTotal) / records,
-		GetP50Ns:          pct(durs, 500),
-		GetP99Ns:          pct(durs, 990),
+		GetP50Ns:          float64(sp50.Median),
+		GetP99Ns:          float64(sp99.Median),
+		GetP50NsMin:       float64(sp50.Min),
+		GetP50NsMax:       float64(sp50.Max),
+		GetP99NsMin:       float64(sp99.Min),
+		GetP99NsMax:       float64(sp99.Max),
 		DecodeAllocsPerOp: decodeAllocs,
 		Breaches:          breaches,
 		WorstCaseSteps:    steps,
 		ExpansionRatio:    m.ExpansionRatio,
 		PhysicalBytes:     m.PhysicalBytes,
 		DictBytes:         dictBytes,
+		Runs:              runs,
+		Statistic:         "median-of-runs",
 	}
 
 	// Human table -> stderr only.

@@ -16,6 +16,16 @@ identities are unaffected** — `physical_bytes`, `E_V`, `bytes_per_record`,
 `write_amplification`, fixture sha256s and decoded hashes are unchanged; only
 `*_ns`, `ns/op`, `MB/s` and `ops/s` fields moved.
 
+**Median-of-runs.** Every latency/throughput field is now the **median across
+`EKB_RUNS` runs** (default 5; 3 when `CI` is set) rather than a single shot. Each
+affected artifact records a top-level `"runs"` and `"statistic": "median-of-runs"`,
+and most metrics also carry `_min`/`_max` so the run-to-run spread is visible. The
+timing harnesses are run **without `-race`**: the race detector adds a memory access
+to every read and inflates every latency (~5–25× here), so latency is only ever
+measured on the non-race build, and `go test -race ./...` is the correctness gate
+that never overwrites the timing evidence (`writeTimingEvidence`). Set `EKB_RUNS`
+to change the run count (odd values are preferred so the median is an observed run).
+
 | Artifact | What it proves |
 | --- | --- |
 | `environment.txt` | toolchain, determinism and cross-compile results for the local run |

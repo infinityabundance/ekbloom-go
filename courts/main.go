@@ -3,7 +3,10 @@
 // dictionary) against raw, block LZ4, plain Zstandard and Zstandard-with-dictionary
 // on the same training set, reporting bytes/record and the decode p50.
 //
-// Usage: go run .            (writes ../evidence/courts.json)
+// The decode p50/p99.9 and allocs/get are the MEDIAN across R = EKB_RUNS runs
+// (default 5; 3 in CI), with the latency min/max retained.
+//
+// Usage: EKB_RUNS=R go run .   (writes ../evidence/courts.json)
 package main
 
 import (
@@ -16,6 +19,7 @@ import (
 	"time"
 
 	ekbloom "github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go/courts/internal/stats"
 	"github.com/klauspost/compress/zstd"
 	"github.com/pierrec/lz4/v4"
 )
@@ -75,6 +79,10 @@ type row struct {
 	P999ns       float64 `json:"decode_p99_9_ns"`
 	AllocsPerGet float64 `json:"allocs_per_get"`
 	Ratio        float64 `json:"ratio_vs_raw"`
+	P50Min       float64 `json:"decode_p50_ns_min"`
+	P50Max       float64 `json:"decode_p50_ns_max"`
+	P999Min      float64 `json:"decode_p99_9_ns_min"`
+	P999Max      float64 `json:"decode_p99_9_ns_max"`
 }
 
 // mallocs is the cumulative count of heap allocations, used to derive allocs/get
@@ -85,14 +93,23 @@ func mallocs() uint64 {
 	return m.Mallocs
 }
 
-func p50(durs []time.Duration) time.Duration {
-	sort.Slice(durs, func(i, j int) bool { return durs[i] < durs[j] })
-	return durs[len(durs)/2]
-}
-
-func p999(durs []time.Duration) time.Duration {
-	sort.Slice(durs, func(i, j int) bool { return durs[i] < durs[j] })
-	return durs[len(durs)*999/1000]
+// measureRuns runs decode R = EKB_RUNS times over one codec's prepared cores. Each
+// run returns its per-get durations and allocs/get; the results are reduced to the
+// median across runs (with min/max) for p50, p99.9 and allocs/get.
+func measureRuns(decode func() []time.Duration) (p50s, p999s, allocs stats.Stats[float64]) {
+	runs := stats.Runs()
+	p50 := make([]float64, 0, runs)
+	p999 := make([]float64, 0, runs)
+	alloc := make([]float64, 0, runs)
+	for r := 0; r < runs; r++ {
+		m0 := mallocs()
+		durs := decode()
+		alloc = append(alloc, float64(mallocs()-m0)/gets)
+		sort.Slice(durs, func(i, j int) bool { return durs[i] < durs[j] })
+		p50 = append(p50, float64(stats.Pct(durs, 500)))
+		p999 = append(p999, float64(stats.Pct(durs, 999)))
+	}
+	return stats.Collect(p50), stats.Collect(p999), stats.Collect(alloc)
 }
 
 func main() {
@@ -104,7 +121,22 @@ func main() {
 	}
 	train := records[:numTrain]
 
+	// One deterministic 80/20 access trace, shared by every codec and every run so
+	// the codecs are compared on the same reads.
+	trace := make([]int, gets)
+	ts := lcg(0x9E3779B9)
+	for i := range trace {
+		trace[i] = skewIndex(&ts, numRecords)
+	}
+
 	var rows []row
+	add := func(codec string, bytesPerRec float64, p50, p999, allocs stats.Stats[float64]) {
+		rows = append(rows, row{
+			Codec: codec, BytesPerRec: bytesPerRec, BytesFetched: bytesPerRec,
+			P50ns: p50.Median, P999ns: p999.Median, AllocsPerGet: allocs.Median,
+			P50Min: p50.Min, P50Max: p50.Max, P999Min: p999.Min, P999Max: p999.Max,
+		})
+	}
 
 	// raw
 	{
@@ -112,15 +144,17 @@ func main() {
 		for _, r := range records {
 			total += len(r)
 		}
-		durs := make([]time.Duration, gets)
-		m0 := mallocs()
-		for i := 0; i < gets; i++ {
-			idx := skewIndex(&s, numRecords)
-			t0 := time.Now()
-			_ = append([]byte(nil), records[idx]...)
-			durs[i] = time.Since(t0)
+		decode := func() []time.Duration {
+			durs := make([]time.Duration, gets)
+			for i, idx := range trace {
+				t0 := time.Now()
+				_ = append([]byte(nil), records[idx]...)
+				durs[i] = time.Since(t0)
+			}
+			return durs
 		}
-		rows = append(rows, row{"raw", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), float64(mallocs()-m0) / gets, 1.0})
+		p50, p999, alloc := measureRuns(decode)
+		add("raw", float64(total)/numRecords, p50, p999, alloc)
 	}
 
 	// lz4 block
@@ -137,18 +171,20 @@ func main() {
 			}
 			total += len(comps[i])
 		}
-		durs := make([]time.Duration, gets)
 		out := make([]byte, recSize)
-		m0 := mallocs()
-		for i := 0; i < gets; i++ {
-			idx := skewIndex(&s, numRecords)
-			t0 := time.Now()
-			if _, err := lz4.UncompressBlock(comps[idx], out); err != nil {
-				_ = append([]byte(nil), comps[idx]...)
+		decode := func() []time.Duration {
+			durs := make([]time.Duration, gets)
+			for i, idx := range trace {
+				t0 := time.Now()
+				if _, err := lz4.UncompressBlock(comps[idx], out); err != nil {
+					_ = append([]byte(nil), comps[idx]...)
+				}
+				durs[i] = time.Since(t0)
 			}
-			durs[i] = time.Since(t0)
+			return durs
 		}
-		rows = append(rows, row{"lz4", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), float64(mallocs()-m0) / gets, 0})
+		p50, p999, alloc := measureRuns(decode)
+		add("lz4", float64(total)/numRecords, p50, p999, alloc)
 	}
 
 	// zstd (no dictionary)
@@ -161,15 +197,17 @@ func main() {
 			comps[i] = enc.EncodeAll(r, nil)
 			total += len(comps[i])
 		}
-		durs := make([]time.Duration, gets)
-		m0 := mallocs()
-		for i := 0; i < gets; i++ {
-			idx := skewIndex(&s, numRecords)
-			t0 := time.Now()
-			_, _ = dec.DecodeAll(comps[idx], nil)
-			durs[i] = time.Since(t0)
+		decode := func() []time.Duration {
+			durs := make([]time.Duration, gets)
+			for i, idx := range trace {
+				t0 := time.Now()
+				_, _ = dec.DecodeAll(comps[idx], nil)
+				durs[i] = time.Since(t0)
+			}
+			return durs
 		}
-		rows = append(rows, row{"zstd", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), float64(mallocs()-m0) / gets, 0})
+		p50, p999, alloc := measureRuns(decode)
+		add("zstd", float64(total)/numRecords, p50, p999, alloc)
 	}
 
 	// zstd with a dictionary trained on the same set (raw content dict)
@@ -186,15 +224,17 @@ func main() {
 			comps[i] = enc.EncodeAll(r, nil)
 			total += len(comps[i])
 		}
-		durs := make([]time.Duration, gets)
-		m0 := mallocs()
-		for i := 0; i < gets; i++ {
-			idx := skewIndex(&s, numRecords)
-			t0 := time.Now()
-			_, _ = dec.DecodeAll(comps[idx], nil)
-			durs[i] = time.Since(t0)
+		decode := func() []time.Duration {
+			durs := make([]time.Duration, gets)
+			for i, idx := range trace {
+				t0 := time.Now()
+				_, _ = dec.DecodeAll(comps[idx], nil)
+				durs[i] = time.Since(t0)
+			}
+			return durs
 		}
-		rows = append(rows, row{"zstd-dict", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), float64(mallocs()-m0) / gets, 0})
+		p50, p999, alloc := measureRuns(decode)
+		add("zstd-dict", float64(total)/numRecords, p50, p999, alloc)
 	}
 
 	// EKBLOOM machine 9 (shared trained order-0 dictionary)
@@ -215,18 +255,20 @@ func main() {
 			cores[i] = core
 			total += len(core)
 		}
-		durs := make([]time.Duration, gets)
-		m0 := mallocs()
-		for i := 0; i < gets; i++ {
-			idx := skewIndex(&s, numRecords)
-			t0 := time.Now()
-			if _, err := dict.DecodeRecord(cores[idx]); err != nil {
-				fmt.Fprintln(os.Stderr, err)
-				os.Exit(1)
+		decode := func() []time.Duration {
+			durs := make([]time.Duration, gets)
+			for i, idx := range trace {
+				t0 := time.Now()
+				if _, err := dict.DecodeRecord(cores[idx]); err != nil {
+					fmt.Fprintln(os.Stderr, err)
+					os.Exit(1)
+				}
+				durs[i] = time.Since(t0)
 			}
-			durs[i] = time.Since(t0)
+			return durs
 		}
-		rows = append(rows, row{"ekbloom-m9", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), float64(mallocs()-m0) / gets, 0})
+		p50, p999, alloc := measureRuns(decode)
+		add("ekbloom-m9", float64(total)/numRecords, p50, p999, alloc)
 	}
 
 	// ratio vs raw
@@ -243,12 +285,14 @@ func main() {
 	w.Flush()
 
 	report := struct {
-		Records     int   `json:"records"`
-		TrainSet    int   `json:"train_records"`
-		RecordBytes int   `json:"record_bytes"`
-		Gets        int   `json:"gets"`
-		Rows        []row `json:"rows"`
-	}{numRecords, numTrain, recSize, gets, rows}
+		Records     int    `json:"records"`
+		TrainSet    int    `json:"train_records"`
+		RecordBytes int    `json:"record_bytes"`
+		Gets        int    `json:"gets"`
+		Runs        int    `json:"runs"`
+		Statistic   string `json:"statistic"`
+		Rows        []row  `json:"rows"`
+	}{numRecords, numTrain, recSize, gets, stats.Runs(), "median-of-runs", rows}
 	out, _ := json.MarshalIndent(report, "", "  ")
 	if err := os.WriteFile("../evidence/courts.json", append(out, '\n'), 0o644); err != nil {
 		fmt.Fprintln(os.Stderr, "write evidence:", err)

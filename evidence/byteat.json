@@ -1,22 +1,36 @@
 {
   "samples": 200000,
+  "runs": 5,
+  "statistic": "median-of-runs",
   "rows": [
     {
       "fixture": "m1_root_text",
       "machine_id": 1,
       "logical_len": 100,
       "p50_ns": 20,
-      "p99_ns": 31,
-      "p99_9_ns": 31,
+      "p99_ns": 40,
+      "p99_9_ns": 51,
+      "p50_ns_min": 20,
+      "p50_ns_max": 30,
+      "p99_ns_min": 31,
+      "p99_ns_max": 41,
+      "p99_9_ns_min": 41,
+      "p99_9_ns_max": 150,
       "surface": "materialized"
     },
     {
       "fixture": "m1_full_rand",
       "machine_id": 1,
       "logical_len": 4096,
-      "p50_ns": 20,
-      "p99_ns": 31,
-      "p99_9_ns": 50,
+      "p50_ns": 30,
+      "p99_ns": 40,
+      "p99_9_ns": 70,
+      "p50_ns_min": 20,
+      "p50_ns_max": 30,
+      "p99_ns_min": 31,
+      "p99_ns_max": 40,
+      "p99_9_ns_min": 50,
+      "p99_9_ns_max": 90,
       "surface": "history"
     },
     {
@@ -24,8 +38,14 @@
       "machine_id": 1,
       "logical_len": 4096,
       "p50_ns": 20,
-      "p99_ns": 40,
-      "p99_9_ns": 50,
+      "p99_ns": 41,
+      "p99_9_ns": 111,
+      "p50_ns_min": 20,
+      "p50_ns_max": 30,
+      "p99_ns_min": 41,
+      "p99_ns_max": 50,
+      "p99_9_ns_min": 110,
+      "p99_9_ns_max": 120,
       "surface": "path-bloom"
     },
     {
@@ -34,7 +54,13 @@
       "logical_len": 1000,
       "p50_ns": 90,
       "p99_ns": 161,
-      "p99_9_ns": 171,
+      "p99_9_ns": 251,
+      "p50_ns_min": 90,
+      "p50_ns_max": 91,
+      "p99_ns_min": 161,
+      "p99_ns_max": 170,
+      "p99_9_ns_min": 230,
+      "p99_9_ns_max": 261,
       "surface": "checkpoint"
     },
     {
@@ -43,7 +69,13 @@
       "logical_len": 5000,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 40,
+      "p99_9_ns": 41,
+      "p50_ns_min": 20,
+      "p50_ns_max": 20,
+      "p99_ns_min": 31,
+      "p99_ns_max": 40,
+      "p99_9_ns_min": 40,
+      "p99_9_ns_max": 60,
       "surface": "materialized"
     },
     {
@@ -51,8 +83,14 @@
       "machine_id": 3,
       "logical_len": 4096,
       "p50_ns": 20,
-      "p99_ns": 30,
-      "p99_9_ns": 31,
+      "p99_ns": 31,
+      "p99_9_ns": 50,
+      "p50_ns_min": 20,
+      "p50_ns_max": 20,
+      "p99_ns_min": 30,
+      "p99_ns_max": 31,
+      "p99_9_ns_min": 31,
+      "p99_9_ns_max": 50,
       "surface": "direct"
     },
     {
@@ -61,7 +99,13 @@
       "logical_len": 5000,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 31,
+      "p99_9_ns": 60,
+      "p50_ns_min": 20,
+      "p50_ns_max": 20,
+      "p99_ns_min": 31,
+      "p99_ns_max": 41,
+      "p99_9_ns_min": 41,
+      "p99_9_ns_max": 70,
       "surface": "materialized"
     },
     {
@@ -70,7 +114,13 @@
       "logical_len": 5000,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 31,
+      "p99_9_ns": 61,
+      "p50_ns_min": 20,
+      "p50_ns_max": 20,
+      "p99_ns_min": 31,
+      "p99_ns_max": 40,
+      "p99_9_ns_min": 50,
+      "p99_9_ns_max": 70,
       "surface": "direct"
     },
     {
@@ -78,8 +128,14 @@
       "machine_id": 6,
       "logical_len": 8192,
       "p50_ns": 20,
-      "p99_ns": 31,
-      "p99_9_ns": 31,
+      "p99_ns": 40,
+      "p99_9_ns": 80,
+      "p50_ns_min": 20,
+      "p50_ns_max": 30,
+      "p99_ns_min": 40,
+      "p99_ns_max": 41,
+      "p99_9_ns_min": 61,
+      "p99_9_ns_max": 100,
       "surface": "direct"
     },
     {
@@ -88,7 +144,13 @@
       "logical_len": 5000,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 50,
+      "p99_9_ns": 40,
+      "p50_ns_min": 20,
+      "p50_ns_max": 20,
+      "p99_ns_min": 31,
+      "p99_ns_max": 40,
+      "p99_9_ns_min": 40,
+      "p99_9_ns_max": 50,
       "surface": "materialized"
     },
     {
@@ -97,7 +159,13 @@
       "logical_len": 5000,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 31,
+      "p99_9_ns": 50,
+      "p50_ns_min": 20,
+      "p50_ns_max": 20,
+      "p99_ns_min": 31,
+      "p99_ns_max": 31,
+      "p99_9_ns_min": 40,
+      "p99_9_ns_max": 60,
       "surface": "materialized"
     },
     {
@@ -106,7 +174,13 @@
       "logical_len": 38,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 31,
+      "p99_9_ns": 60,
+      "p50_ns_min": 20,
+      "p50_ns_max": 20,
+      "p99_ns_min": 31,
+      "p99_ns_max": 40,
+      "p99_9_ns_min": 50,
+      "p99_9_ns_max": 80,
       "surface": "materialized"
     }
   ]

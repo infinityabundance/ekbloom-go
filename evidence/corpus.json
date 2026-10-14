@@ -1,6 +1,8 @@
 {
   "corpus_cap_bytes": 4194304,
   "byte_at_samples": 4096,
+  "runs": 5,
+  "statistic": "median-of-runs",
   "machines": [
     1,
     2
@@ -15,9 +17,15 @@
       "logical_len": 152089,
       "physical_bytes": 152089,
       "E_V": 1,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 41,
-      "byte_at_p999_ns": 90
+      "byte_at_p50_ns": 20,
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 140,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 20,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 121,
+      "byte_at_p999_ns_min": 31,
+      "byte_at_p999_ns_max": 211
     },
     {
       "corpus": "canterbury",
@@ -30,7 +38,13 @@
       "E_V": 0.5831125196431037,
       "byte_at_p50_ns": 20,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p999_ns": 140,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 20,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 131,
+      "byte_at_p999_ns_min": 40,
+      "byte_at_p999_ns_max": 231
     },
     {
       "corpus": "canterbury",
@@ -43,7 +57,13 @@
       "E_V": 1,
       "byte_at_p50_ns": 20,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 111
+      "byte_at_p999_ns": 31,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 20,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 31,
+      "byte_at_p999_ns_min": 31,
+      "byte_at_p999_ns_max": 31
     },
     {
       "corpus": "canterbury",
@@ -56,7 +76,13 @@
       "E_V": 0.6138968996397159,
       "byte_at_p50_ns": 20,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p999_ns": 31,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 20,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 31,
+      "byte_at_p999_ns_min": 31,
+      "byte_at_p999_ns_max": 40
     },
     {
       "corpus": "canterbury",
@@ -68,8 +94,14 @@
       "physical_bytes": 24603,
       "E_V": 1,
       "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 30,
-      "byte_at_p999_ns": 31
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 31,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 20,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 31,
+      "byte_at_p999_ns_min": 31,
+      "byte_at_p999_ns_max": 31
     },
     {
       "corpus": "canterbury",
@@ -82,7 +114,13 @@
       "E_V": 0.6828435556639434,
       "byte_at_p50_ns": 20,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p999_ns": 31,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 20,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 31,
+      "byte_at_p999_ns_min": 31,
+      "byte_at_p999_ns_max": 31
     },
     {
       "corpus": "canterbury",
@@ -93,9 +131,15 @@
       "logical_len": 11150,
       "physical_bytes": 11150,
       "E_V": 1,
-      "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p50_ns": 30,
+      "byte_at_p99_ns": 40,
+      "byte_at_p999_ns": 60,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 40,
+      "byte_at_p99_ns_max": 41,
+      "byte_at_p999_ns_min": 51,
+      "byte_at_p999_ns_max": 60
     },
     {
       "corpus": "canterbury",
@@ -107,8 +151,14 @@
       "physical_bytes": 7604,
       "E_V": 0.6819730941704036,
       "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 30,
-      "byte_at_p999_ns": 31
+      "byte_at_p99_ns": 31,
+      "byte_at_p999_ns": 31,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 20,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 31,
+      "byte_at_p999_ns_min": 31,
+      "byte_at_p999_ns_max": 31
     },
     {
       "corpus": "canterbury",
@@ -121,7 +171,13 @@
       "E_V": 1,
       "byte_at_p50_ns": 20,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p999_ns": 31,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 20,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 31,
+      "byte_at_p999_ns_min": 31,
+      "byte_at_p999_ns_max": 40
     },
     {
       "corpus": "canterbury",
@@ -134,7 +190,13 @@
       "E_V": 0.7344799785004031,
       "byte_at_p50_ns": 20,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p999_ns": 31,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 20,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 40,
+      "byte_at_p999_ns_min": 31,
+      "byte_at_p999_ns_max": 51
     },
     {
       "corpus": "canterbury",
@@ -145,9 +207,15 @@
       "logical_len": 1029744,
       "physical_bytes": 1029744,
       "E_V": 1,
-      "byte_at_p50_ns": 21,
-      "byte_at_p99_ns": 110,
-      "byte_at_p999_ns": 240
+      "byte_at_p50_ns": 30,
+      "byte_at_p99_ns": 240,
+      "byte_at_p999_ns": 351,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 220,
+      "byte_at_p99_ns_max": 270,
+      "byte_at_p999_ns_min": 301,
+      "byte_at_p999_ns_max": 371
     },
     {
       "corpus": "canterbury",
@@ -159,8 +227,14 @@
       "physical_bytes": 462279,
       "E_V": 0.44892614086607935,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 51,
-      "byte_at_p999_ns": 90
+      "byte_at_p99_ns": 160,
+      "byte_at_p999_ns": 260,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 131,
+      "byte_at_p99_ns_max": 180,
+      "byte_at_p999_ns_min": 231,
+      "byte_at_p999_ns_max": 321
     },
     {
       "corpus": "canterbury",
@@ -171,9 +245,15 @@
       "logical_len": 426754,
       "physical_bytes": 426754,
       "E_V": 1,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 40,
-      "byte_at_p999_ns": 51
+      "byte_at_p50_ns": 20,
+      "byte_at_p99_ns": 130,
+      "byte_at_p999_ns": 221,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 20,
+      "byte_at_p99_ns_min": 120,
+      "byte_at_p99_ns_max": 140,
+      "byte_at_p999_ns_min": 211,
+      "byte_at_p999_ns_max": 251
     },
     {
       "corpus": "canterbury",
@@ -185,8 +265,14 @@
       "physical_bytes": 253142,
       "E_V": 0.5931801459388781,
       "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p99_ns": 141,
+      "byte_at_p999_ns": 210,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 130,
+      "byte_at_p99_ns_max": 181,
+      "byte_at_p999_ns_min": 201,
+      "byte_at_p999_ns_max": 291
     },
     {
       "corpus": "canterbury",
@@ -197,9 +283,15 @@
       "logical_len": 481861,
       "physical_bytes": 481861,
       "E_V": 1,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 51,
-      "byte_at_p999_ns": 61
+      "byte_at_p50_ns": 20,
+      "byte_at_p99_ns": 110,
+      "byte_at_p999_ns": 180,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 21,
+      "byte_at_p99_ns_min": 40,
+      "byte_at_p99_ns_max": 120,
+      "byte_at_p999_ns_min": 170,
+      "byte_at_p999_ns_max": 221
     },
     {
       "corpus": "canterbury",
@@ -211,8 +303,14 @@
       "physical_bytes": 277737,
       "E_V": 0.5763840609636389,
       "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 50,
-      "byte_at_p999_ns": 51
+      "byte_at_p99_ns": 140,
+      "byte_at_p999_ns": 221,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 20,
+      "byte_at_p99_ns_min": 121,
+      "byte_at_p99_ns_max": 141,
+      "byte_at_p999_ns_min": 210,
+      "byte_at_p999_ns_max": 260
     },
     {
       "corpus": "canterbury",
@@ -225,7 +323,13 @@
       "E_V": 1,
       "byte_at_p50_ns": 20,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 100
+      "byte_at_p999_ns": 40,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 40,
+      "byte_at_p999_ns_min": 40,
+      "byte_at_p999_ns_max": 171
     },
     {
       "corpus": "canterbury",
@@ -236,9 +340,15 @@
       "logical_len": 513216,
       "physical_bytes": 82489,
       "E_V": 0.1607295953360768,
-      "byte_at_p50_ns": 20,
+      "byte_at_p50_ns": 21,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p999_ns": 110,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 40,
+      "byte_at_p999_ns_min": 40,
+      "byte_at_p999_ns_max": 140
     },
     {
       "corpus": "canterbury",
@@ -251,7 +361,13 @@
       "E_V": 1,
       "byte_at_p50_ns": 20,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 40
+      "byte_at_p999_ns": 40,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 20,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 51,
+      "byte_at_p999_ns_min": 31,
+      "byte_at_p999_ns_max": 290
     },
     {
       "corpus": "canterbury",
@@ -264,7 +380,13 @@
       "E_V": 0.6817468619246861,
       "byte_at_p50_ns": 20,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p999_ns": 31,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 20,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 31,
+      "byte_at_p999_ns_min": 31,
+      "byte_at_p999_ns_max": 31
     },
     {
       "corpus": "canterbury",
@@ -277,7 +399,13 @@
       "E_V": 1,
       "byte_at_p50_ns": 20,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p999_ns": 31,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 20,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 50,
+      "byte_at_p999_ns_min": 31,
+      "byte_at_p999_ns_max": 60
     },
     {
       "corpus": "canterbury",
@@ -290,7 +418,13 @@
       "E_V": 0.7511237284125858,
       "byte_at_p50_ns": 20,
       "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 31
+      "byte_at_p999_ns": 31,
+      "byte_at_p50_ns_min": 20,
+      "byte_at_p50_ns_max": 20,
+      "byte_at_p99_ns_min": 31,
+      "byte_at_p99_ns_max": 31,
+      "byte_at_p999_ns_min": 31,
+      "byte_at_p999_ns_max": 31
     },
     {
       "corpus": "enwik8",
@@ -302,8 +436,14 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 110,
-      "byte_at_p999_ns": 191
+      "byte_at_p99_ns": 210,
+      "byte_at_p999_ns": 280,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 191,
+      "byte_at_p99_ns_max": 220,
+      "byte_at_p999_ns_min": 271,
+      "byte_at_p999_ns_max": 291
     },
     {
       "corpus": "enwik8",
@@ -315,8 +455,14 @@
       "physical_bytes": 2687412,
       "E_V": 0.6407289505004883,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 110
+      "byte_at_p99_ns": 250,
+      "byte_at_p999_ns": 320,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 240,
+      "byte_at_p99_ns_max": 251,
+      "byte_at_p999_ns_min": 301,
+      "byte_at_p999_ns_max": 381
     },
     {
       "corpus": "enwik9",
@@ -327,9 +473,15 @@
       "logical_len": 4194304,
       "physical_bytes": 4194304,
       "E_V": 1,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 40
+      "byte_at_p50_ns": 110,
+      "byte_at_p99_ns": 261,
+      "byte_at_p999_ns": 321,
+      "byte_at_p50_ns_min": 110,
+      "byte_at_p50_ns_max": 120,
+      "byte_at_p99_ns_min": 251,
+      "byte_at_p99_ns_max": 351,
+      "byte_at_p999_ns_min": 311,
+      "byte_at_p999_ns_max": 621
     },
     {
       "corpus": "enwik9",
@@ -340,9 +492,15 @@
       "logical_len": 4194304,
       "physical_bytes": 2687412,
       "E_V": 0.6407289505004883,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 110
+      "byte_at_p50_ns": 110,
+      "byte_at_p99_ns": 280,
+      "byte_at_p999_ns": 420,
+      "byte_at_p50_ns_min": 31,
+      "byte_at_p50_ns_max": 120,
+      "byte_at_p99_ns_min": 251,
+      "byte_at_p99_ns_max": 431,
+      "byte_at_p999_ns_min": 321,
+      "byte_at_p999_ns_max": 942
     },
     {
       "corpus": "silesia",
@@ -353,9 +511,15 @@
       "logical_len": 4194304,
       "physical_bytes": 4194304,
       "E_V": 1,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 110,
-      "byte_at_p999_ns": 231
+      "byte_at_p50_ns": 120,
+      "byte_at_p99_ns": 340,
+      "byte_at_p999_ns": 511,
+      "byte_at_p50_ns_min": 111,
+      "byte_at_p50_ns_max": 120,
+      "byte_at_p99_ns_min": 270,
+      "byte_at_p99_ns_max": 410,
+      "byte_at_p999_ns_min": 361,
+      "byte_at_p999_ns_max": 1012
     },
     {
       "corpus": "silesia",
@@ -366,9 +530,15 @@
       "logical_len": 4194304,
       "physical_bytes": 2409557,
       "E_V": 0.5744831562042236,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 40,
-      "byte_at_p999_ns": 110
+      "byte_at_p50_ns": 111,
+      "byte_at_p99_ns": 261,
+      "byte_at_p999_ns": 341,
+      "byte_at_p50_ns_min": 110,
+      "byte_at_p50_ns_max": 120,
+      "byte_at_p99_ns_min": 241,
+      "byte_at_p99_ns_max": 290,
+      "byte_at_p999_ns_min": 271,
+      "byte_at_p999_ns_max": 441
     },
     {
       "corpus": "silesia",
@@ -379,9 +549,15 @@
       "logical_len": 4194304,
       "physical_bytes": 4194304,
       "E_V": 1,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 110
+      "byte_at_p50_ns": 121,
+      "byte_at_p99_ns": 321,
+      "byte_at_p999_ns": 481,
+      "byte_at_p50_ns_min": 120,
+      "byte_at_p50_ns_max": 140,
+      "byte_at_p99_ns_min": 281,
+      "byte_at_p99_ns_max": 481,
+      "byte_at_p999_ns_min": 390,
+      "byte_at_p999_ns_max": 1252
     },
     {
       "corpus": "silesia",
@@ -393,8 +569,14 @@
       "physical_bytes": 4039434,
       "E_V": 0.963076114654541,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 110
+      "byte_at_p99_ns": 271,
+      "byte_at_p999_ns": 341,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 31,
+      "byte_at_p99_ns_min": 241,
+      "byte_at_p99_ns_max": 310,
+      "byte_at_p999_ns_min": 291,
+      "byte_at_p999_ns_max": 481
     },
     {
       "corpus": "silesia",
@@ -405,9 +587,15 @@
       "logical_len": 4194304,
       "physical_bytes": 4194304,
       "E_V": 1,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 101,
-      "byte_at_p999_ns": 190
+      "byte_at_p50_ns": 120,
+      "byte_at_p99_ns": 311,
+      "byte_at_p999_ns": 441,
+      "byte_at_p50_ns_min": 111,
+      "byte_at_p50_ns_max": 120,
+      "byte_at_p99_ns_min": 290,
+      "byte_at_p99_ns_max": 371,
+      "byte_at_p999_ns_min": 381,
+      "byte_at_p999_ns_max": 601
     },
     {
       "corpus": "silesia",
@@ -419,8 +607,14 @@
       "physical_bytes": 1885428,
       "E_V": 0.4495210647583008,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 40
+      "byte_at_p99_ns": 270,
+      "byte_at_p999_ns": 380,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 110,
+      "byte_at_p99_ns_min": 260,
+      "byte_at_p99_ns_max": 390,
+      "byte_at_p999_ns_min": 331,
+      "byte_at_p999_ns_max": 672
     },
     {
       "corpus": "silesia",
@@ -431,9 +625,15 @@
       "logical_len": 4194304,
       "physical_bytes": 4194304,
       "E_V": 1,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 40
+      "byte_at_p50_ns": 40,
+      "byte_at_p99_ns": 321,
+      "byte_at_p999_ns": 451,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 110,
+      "byte_at_p99_ns_min": 250,
+      "byte_at_p99_ns_max": 370,
+      "byte_at_p999_ns_min": 300,
+      "byte_at_p999_ns_max": 571
     },
     {
       "corpus": "silesia",
@@ -444,9 +644,15 @@
       "logical_len": 4194304,
       "physical_bytes": 1315728,
       "E_V": 0.3136940002441406,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 101,
-      "byte_at_p999_ns": 181
+      "byte_at_p50_ns": 110,
+      "byte_at_p99_ns": 331,
+      "byte_at_p999_ns": 501,
+      "byte_at_p50_ns_min": 110,
+      "byte_at_p50_ns_max": 111,
+      "byte_at_p99_ns_min": 290,
+      "byte_at_p99_ns_max": 361,
+      "byte_at_p999_ns_min": 441,
+      "byte_at_p999_ns_max": 511
     },
     {
       "corpus": "silesia",
@@ -457,9 +663,15 @@
       "logical_len": 4194304,
       "physical_bytes": 4194304,
       "E_V": 1,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 50,
-      "byte_at_p999_ns": 141
+      "byte_at_p50_ns": 130,
+      "byte_at_p99_ns": 360,
+      "byte_at_p999_ns": 511,
+      "byte_at_p50_ns_min": 120,
+      "byte_at_p50_ns_max": 140,
+      "byte_at_p99_ns_min": 301,
+      "byte_at_p99_ns_max": 421,
+      "byte_at_p999_ns_min": 451,
+      "byte_at_p999_ns_max": 1623
     },
     {
       "corpus": "silesia",
@@ -470,9 +682,15 @@
       "logical_len": 4194304,
       "physical_bytes": 3446656,
       "E_V": 0.821746826171875,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 50,
-      "byte_at_p999_ns": 181
+      "byte_at_p50_ns": 121,
+      "byte_at_p99_ns": 361,
+      "byte_at_p999_ns": 511,
+      "byte_at_p50_ns_min": 120,
+      "byte_at_p50_ns_max": 130,
+      "byte_at_p99_ns_min": 270,
+      "byte_at_p99_ns_max": 391,
+      "byte_at_p999_ns_min": 361,
+      "byte_at_p999_ns_max": 812
     },
     {
       "corpus": "silesia",
@@ -484,8 +702,14 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 51
+      "byte_at_p99_ns": 241,
+      "byte_at_p999_ns": 310,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 40,
+      "byte_at_p99_ns_min": 220,
+      "byte_at_p99_ns_max": 260,
+      "byte_at_p999_ns_min": 271,
+      "byte_at_p999_ns_max": 351
     },
     {
       "corpus": "silesia",
@@ -496,9 +720,15 @@
       "logical_len": 4194304,
       "physical_bytes": 3464060,
       "E_V": 0.8258962631225586,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 100
+      "byte_at_p50_ns": 31,
+      "byte_at_p99_ns": 250,
+      "byte_at_p999_ns": 310,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 31,
+      "byte_at_p99_ns_min": 241,
+      "byte_at_p99_ns_max": 251,
+      "byte_at_p999_ns_min": 290,
+      "byte_at_p999_ns_max": 330
     },
     {
       "corpus": "silesia",
@@ -510,8 +740,14 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 90
+      "byte_at_p99_ns": 150,
+      "byte_at_p999_ns": 260,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 111,
+      "byte_at_p99_ns_max": 160,
+      "byte_at_p999_ns_min": 241,
+      "byte_at_p999_ns_max": 271
     },
     {
       "corpus": "silesia",
@@ -523,8 +759,14 @@
       "physical_bytes": 2533962,
       "E_V": 0.6041436195373535,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 110
+      "byte_at_p99_ns": 190,
+      "byte_at_p999_ns": 261,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 170,
+      "byte_at_p99_ns_max": 220,
+      "byte_at_p999_ns_min": 260,
+      "byte_at_p999_ns_max": 311
     },
     {
       "corpus": "silesia",
@@ -535,9 +777,15 @@
       "logical_len": 4194304,
       "physical_bytes": 4194304,
       "E_V": 1,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 40
+      "byte_at_p50_ns": 110,
+      "byte_at_p99_ns": 251,
+      "byte_at_p999_ns": 311,
+      "byte_at_p50_ns_min": 110,
+      "byte_at_p50_ns_max": 110,
+      "byte_at_p99_ns_min": 241,
+      "byte_at_p99_ns_max": 251,
+      "byte_at_p999_ns_min": 281,
+      "byte_at_p999_ns_max": 341
     },
     {
       "corpus": "silesia",
@@ -549,8 +797,14 @@
       "physical_bytes": 2964521,
       "E_V": 0.7067968845367432,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 100
+      "byte_at_p99_ns": 230,
+      "byte_at_p999_ns": 291,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 221,
+      "byte_at_p99_ns_max": 240,
+      "byte_at_p999_ns_min": 281,
+      "byte_at_p999_ns_max": 300
     },
     {
       "corpus": "silesia",
@@ -562,8 +816,14 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 120
+      "byte_at_p99_ns": 190,
+      "byte_at_p999_ns": 261,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 181,
+      "byte_at_p99_ns_max": 210,
+      "byte_at_p999_ns_min": 261,
+      "byte_at_p999_ns_max": 271
     },
     {
       "corpus": "silesia",
@@ -575,8 +835,14 @@
       "physical_bytes": 3928612,
       "E_V": 0.9366540908813477,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 110
+      "byte_at_p99_ns": 180,
+      "byte_at_p999_ns": 261,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 140,
+      "byte_at_p99_ns_max": 191,
+      "byte_at_p999_ns_min": 251,
+      "byte_at_p999_ns_max": 261
     },
     {
       "corpus": "silesia",
@@ -588,8 +854,14 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 110,
-      "byte_at_p999_ns": 150
+      "byte_at_p99_ns": 180,
+      "byte_at_p999_ns": 261,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 161,
+      "byte_at_p99_ns_max": 181,
+      "byte_at_p999_ns_min": 250,
+      "byte_at_p999_ns_max": 261
     },
     {
       "corpus": "silesia",
@@ -600,9 +872,15 @@
       "logical_len": 4194304,
       "physical_bytes": 2644102,
       "E_V": 0.6304030418395996,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 111,
-      "byte_at_p999_ns": 260
+      "byte_at_p50_ns": 110,
+      "byte_at_p99_ns": 250,
+      "byte_at_p999_ns": 301,
+      "byte_at_p50_ns_min": 110,
+      "byte_at_p50_ns_max": 110,
+      "byte_at_p99_ns_min": 241,
+      "byte_at_p99_ns_max": 251,
+      "byte_at_p999_ns_min": 300,
+      "byte_at_p999_ns_max": 311
     },
     {
       "corpus": "silesia",
@@ -613,9 +891,15 @@
       "logical_len": 4194304,
       "physical_bytes": 4194304,
       "E_V": 1,
-      "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 100
+      "byte_at_p50_ns": 31,
+      "byte_at_p99_ns": 250,
+      "byte_at_p999_ns": 301,
+      "byte_at_p50_ns_min": 31,
+      "byte_at_p50_ns_max": 110,
+      "byte_at_p99_ns_min": 240,
+      "byte_at_p99_ns_max": 251,
+      "byte_at_p999_ns_min": 290,
+      "byte_at_p999_ns_max": 330
     },
     {
       "corpus": "silesia",
@@ -627,8 +911,14 @@
       "physical_bytes": 3380582,
       "E_V": 0.8059935569763184,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 100,
-      "byte_at_p999_ns": 161
+      "byte_at_p99_ns": 240,
+      "byte_at_p999_ns": 291,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 231,
+      "byte_at_p99_ns_max": 251,
+      "byte_at_p999_ns_min": 281,
+      "byte_at_p999_ns_max": 341
     },
     {
       "corpus": "silesia",
@@ -640,8 +930,14 @@
       "physical_bytes": 4194304,
       "E_V": 1,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 31,
-      "byte_at_p999_ns": 111
+      "byte_at_p99_ns": 231,
+      "byte_at_p999_ns": 291,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 231,
+      "byte_at_p99_ns_max": 241,
+      "byte_at_p999_ns_min": 281,
+      "byte_at_p999_ns_max": 320
     },
     {
       "corpus": "silesia",
@@ -653,9 +949,15 @@
       "physical_bytes": 2877437,
       "E_V": 0.6860344409942627,
       "byte_at_p50_ns": 30,
-      "byte_at_p99_ns": 111,
-      "byte_at_p999_ns": 240
+      "byte_at_p99_ns": 220,
+      "byte_at_p999_ns": 291,
+      "byte_at_p50_ns_min": 30,
+      "byte_at_p50_ns_max": 30,
+      "byte_at_p99_ns_min": 210,
+      "byte_at_p99_ns_max": 221,
+      "byte_at_p999_ns_min": 271,
+      "byte_at_p999_ns_max": 301
     }
   ],
-  "note": "E_V = physical_bytes / logical_len (lower is smaller). Go numbers; compare against evidence/corpus-rust.json for the same files."
+  "note": "E_V = physical_bytes / logical_len (lower is smaller). byte_at p50/p99/p99.9 are the median across EKB_RUNS runs (min/max retained). Go numbers; compare against evidence/corpus-rust.json for the same files."
 }

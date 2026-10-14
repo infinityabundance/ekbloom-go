@@ -26,12 +26,13 @@ wrong model. For a self-contained image use the embedded writer
 
 Corpus: 4096 text-like ≈100-byte key/value records (a small, repetitive token
 alphabet). Every row is asserted byte-exact before timing. `bytes/record` includes
-the shared dictionary amortised over the whole corpus.
+the shared dictionary amortised over the whole corpus. Decode p50 is the median
+across `EKB_RUNS` runs (default 5).
 
 | method | total bytes | bytes/record | decode p50 |
 | --- | ---: | ---: | ---: |
-| **`OrANS-DICT` (machine 9)** | **341,947** | **83.5** | 401 ns |
-| machine 2, per record | 2,416,529 | 590.0 | 2695 ns |
+| **`OrANS-DICT` (machine 9)** | **341,947** | **83.5** | 461 ns |
+| machine 2, per record | 2,416,529 | 590.0 | 3567 ns |
 | raw records | 409,600 | 100.0 | — |
 
 The shared dictionary is **7.1× smaller** than per-record machine 2 (83.5 vs 590.0
@@ -44,7 +45,8 @@ Regenerate: `go test -run TestDictionaryBreakEven .`
 
 ## Honest limits
 
-- Decode is **not** free: machine-9 order-0 rANS decode pays ~2.4 µs/record here.
+- Decode is **not** free: machine-9 order-0 rANS decode costs ~0.46 µs/record here
+  with the shared reusable context (~3.6 µs for the per-record machine-2 model).
   Against Zstandard-with-dictionary it is a space-oriented choice, not a speed
   win (see `docs/COURTS.md`).
 - The referenced (non-embedded) form needs the dictionary out-of-band. The

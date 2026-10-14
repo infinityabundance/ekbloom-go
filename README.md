@@ -27,6 +27,10 @@ for the RocksDB and Parquet case studies.
 
 ## Status at a glance
 
+> Latency and throughput figures below are **median-of-runs** statistics: each
+> measurement is repeated `EKB_RUNS` times (default 5, 3 in CI) and the reported
+> value is the median, measured without `-race`. See `evidence/README.md`.
+
 | Area | State | Evidence |
 | --- | --- | --- |
 | `.ekb` container (header, sections, footer, manifest) | ✅ identical | `internal/ekb/compat_test.go`, `scripts/roundtrip.sh` |
@@ -40,13 +44,13 @@ for the RocksDB and Parquet case studies.
 | Allocation-free `ResidentView.Get` (zero allocs/op) | ✅ ≈1.35 ns | `internal/ekb/resident.go`, `internal/ekb/resident_test.go` |
 | Metrics export (physical_bytes, expansion ratio, breaches) | ✅ | `internal/ekb/metrics.go`, `internal/ekb/metrics_test.go` |
 | `worst_case_steps_for` bound | ✅ 1.2M samples, 0 violations | `internal/ekb/bound_test.go`, `evidence/bound.json` |
-| 64 readers, quiet vs 1 writer publish, p99.9 (`-race` clean) | ✅ tails indistinguishable (≈1.5 µs) | `internal/ekb/concurrency_test.go`, `evidence/concurrency.json` |
+| 64 readers, quiet vs 1 writer publish, p99.9 (`-race` clean) | ✅ tails indistinguishable (≈0.3 µs) | `internal/ekb/concurrency_test.go`, `evidence/concurrency.json` |
 | Shared dictionaries (machine 9) | ✅ P5: 83.5 vs 590.0 B/rec, break-even 2 recs | `internal/ekb/dictionary.go`, `internal/ekb/dictbench_test.go`, `docs/DICTIONARY.md` |
-| Zero-allocation dictionary decode (`DictDecoder`) | ✅ 0 allocs/op, 391 ns (was 2,805) | `internal/ekb/dictionary.go`, `evidence/ycsb.json` |
+| Zero-allocation dictionary decode (`DictDecoder`) | ✅ 0 allocs/op, 401 ns (was 2,805) | `internal/ekb/dictionary.go`, `evidence/ycsb.json` |
 | RocksDB value codec (Put/Get + MergeOperator) | ✅ containerized, honest boundary | `integrations/rocksdb/`, `evidence/rocksdb-blobdb.json` |
 | Parquet dictionary-page comparison | ✅ real `RLE_DICTIONARY`, honest boundary | `integrations/parquet/`, `evidence/parquet-dict.json` |
-| Pebble value-log adapter (zero-alloc decode) | ✅ 63.36 B/rec, 0 allocs/op, p50 862 ns | `courts/pebble/`, `evidence/pebble-vlog.json` |
-| Pebble integration depth (scan / ingest / compaction / cache pressure) | ✅ 40k keys verified; compact 6.3 ms, WA 1.15; pressure p50 4.0 µs vs 1.3 µs warm | `courts/pebblebench/`, `evidence/pebble-integration.json` |
+| Pebble value-log adapter (zero-alloc decode) | ✅ 63.36 B/rec, 0 allocs/op, p50 901 ns | `courts/pebble/`, `evidence/pebble-vlog.json` |
+| Pebble integration depth (scan / ingest / compaction / cache pressure) | ✅ 40k keys verified; compact 7.2 ms, WA 1.15; pressure p50 3.9 µs vs 1.3 µs warm | `courts/pebblebench/`, `evidence/pebble-integration.json` |
 | Prometheus exporter + Grafana dashboard | ✅ 5 metrics / 5 panels | `integrations/prometheus/`, `grafana/ekbloom-dashboard.json` |
 | Implementation-neutral conformance suite | ✅ 73 fixtures, Go + Rust verifiers | `conformance/`, `evidence/conformance.json` |
 | Long-run randomized roundtrip (soak) | ✅ 1.0e9 symbols, peak heap ~83 MiB, 0 mismatches | `internal/tools/soak/`, `evidence/soak.json` |
@@ -56,7 +60,7 @@ for the RocksDB and Parquet case studies.
 | Resource policy (1 GiB default cap + breach counter) | ✅ | `internal/ekb/resource.go` |
 | Fault injection (torn append / ENOSPC-EIO) | ✅ newest valid generation picked | `append_test.go` |
 | Fault-injection endurance log (10 fault kinds, newest-valid selection, concurrent readers) | ✅ 2000 rounds, `garbage: 0`, race-clean | `internal/ekb/endurance_test.go`, `scripts/endurance.sh`, `evidence/endurance.json` |
-| Per-machine `byte_at` p50/p99/p99.9 | ✅ 20 / 31 / 31 ns | `internal/ekb/latency_test.go`, `evidence/byteat.json` |
+| Per-machine `byte_at` p50/p99/p99.9 | ✅ 20 / 40 / 51 ns | `internal/ekb/latency_test.go`, `evidence/byteat.json` |
 | Fuzzers (Open, OpenAuthenticated, Stream, machine roundtrip) | ✅ OOM-capped in the sandbox; typed errors only | `internal/ekb/fuzz_test.go`, `scripts/fuzz.sh`, `evidence/fuzz/` |
 | Benchmarks (`go test -bench`, incl. native arm64) | ✅ amd64 + native arm64 (CI) | `internal/ekb/bench_test.go`, `evidence/bench.txt`, `evidence/aarch64-native-bench.txt` |
 | Cross-FS determinism (ext4/xfs/btrfs/tmpfs (CI); ext4/btrfs/tmpfs locally) | ✅ identical fingerprints | `scripts/cross-fs.sh`, `evidence/cross-fs.json` |
