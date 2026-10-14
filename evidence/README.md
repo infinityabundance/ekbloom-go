@@ -26,6 +26,7 @@ because they need hardware or privileges a laptop may not have.
 | `sweep.json` | writer-profile frontier: `E_V` / `byte_at` / 4 KiB / bulk per profile |
 | `wasip1-fingerprint.txt` | WebAssembly (wasip1) fingerprint, byte-identical to amd64/arm64 |
 | `external-reproduce.json` | the suite run from the **published** `ghcr.io/…:test` image (no clone) |
+| `chaos.json` | 400 append/damage/repair rounds (truncate + bit flips): 400/400 recovered exact |
 | `fuzz.json`, `fuzz/` | fuzz campaign logs and the published corpus (`FuzzOpenBytes` 1.13B execs) |
 | `roundtrip.log` | Go-written `.ekb`/`.stream` opened and decoded by the Rust reference (22 files) |
 | `container-test.json`, `container-reproduce.json` | the suite and CLI inside the ~9.7 MB image |

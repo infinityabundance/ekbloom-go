@@ -8,8 +8,8 @@
   "quiet": {
     "samples": 320000,
     "p50_ns": 20,
-    "p99_ns": 31,
-    "p999_ns": 90
+    "p99_ns": 41,
+    "p999_ns": 70
   },
   "publish": {
     "samples": 320000,

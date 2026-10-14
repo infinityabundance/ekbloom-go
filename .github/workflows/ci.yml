@@ -44,6 +44,9 @@ jobs:
       - name: skewed small-record court
         working-directory: courts
         run: go run .
+      - name: 4 KiB point-read court (Pebble)
+        working-directory: courts
+        run: go run ./point
 
   arm64:
     # Cross-architecture runtime determinism under qemu.

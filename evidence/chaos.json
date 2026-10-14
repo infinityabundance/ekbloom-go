@@ -1,0 +1,8 @@
+{
+  "rounds": 400,
+  "truncations": 134,
+  "payload_flips": 133,
+  "header_flips": 133,
+  "recovered_exact": 400,
+  "rejected_typed": 0
+}

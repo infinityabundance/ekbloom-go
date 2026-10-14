@@ -87,7 +87,11 @@ repository's own **ext4** plus **tmpfs** (and a real **btrfs** mount where one i
 mounted); when privileged (root or passwordless sudo) it additionally creates
 loopback **ext4/xfs/btrfs** images. The CI `fsmatrix` job uses the runner's
 passwordless sudo to exercise **all four (ext4, xfs, btrfs, tmpfs)**. A type that
-cannot be reached is reported as "not exercised", never silently skipped.
+cannot be reached is reported as "not exercised", never silently skipped. `zfs`
+and `bcachefs` are not exercised (no module/mount is available on a hosted runner,
+and creating them needs a kernel module); a dedicated device partition is likewise
+unavailable, so xfs is exercised on a loopback image — a real xfs filesystem,
+filesystem-level, without a separate block device.
 - **Cross-architecture (native).** The CI `arm64-native` job runs the suite and
 benchmarks on real arm64 hardware (`ubuntu-24.04-arm`) and requires its
 fingerprint to equal the recorded amd64 fingerprint. `scripts/container-aarch64.sh`

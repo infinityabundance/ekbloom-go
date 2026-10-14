@@ -13,7 +13,7 @@
       "method": "machine2-per-record",
       "total_bytes": 2416529,
       "bytes_per_record": 589.972900390625,
-      "decode_p50_ns": 2414,
+      "decode_p50_ns": 2445,
       "note": "a 516-byte model header in every core"
     },
     {
