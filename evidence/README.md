@@ -34,6 +34,9 @@ because they need hardware or privileges a laptop may not have.
 | `roundtrip.log` | Go-written `.ekb`/`.stream` opened and decoded by the Rust reference (22 files) |
 | `parquet-dict.json` / `parquet-dict.log` | EKBLOOM machine-9 shared dictionary vs a **real Parquet `RLE_DICTIONARY` page** on the same 20,000 × 100 B column (`scripts/parquet.sh`) |
 | `rocksdb-blobdb.json` / `rocksdb-blobdb.log` | EKBLOOM-encoded values inside RocksDB (`Put`/`Get` + a registered `MergeOperator`), containerized (`scripts/rocksdb.sh`) |
+| `pebble-vlog.json` / `pebble-vlog.prom` | machine-9 cores as Pebble values; zero-alloc `DecodeInto` (`scripts/pebble.sh`) |
+| `prometheus-scrape.txt` / `grafana-dashboard.json` | the exporter's five metric families and the Grafana dashboard (`scripts/prometheus.sh`) |
+| `pebble-vlog.json` / `pebble-vlog.log` / `pebble-vlog.prom` | machine-9 as a **Pebble value-log adapter**: 20,000 × 100 B cores via `db.Set`, 50,000 80/20 Gets with a single reusable `DictDecoder.DecodeInto` (0 allocs/op), plus a sealed-body `worst_case_steps`/`E_V` probe (`scripts/pebble.sh`) |
 | `container-test.json`, `container-reproduce.json` | the suite and CLI inside the ~9.7 MB image |
 | `reproduce.json` | JSON summary from `scripts/reproduce.sh` |
 

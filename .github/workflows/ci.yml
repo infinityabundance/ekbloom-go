@@ -167,3 +167,29 @@ jobs:
         with:
           name: parquet-dict
           path: evidence/parquet-dict.json
+
+  pebble:
+    # Pebble value-log case study: machine-9 cores as Pebble values, zero-alloc decode.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pebble value-log case study
+        run: sh scripts/pebble.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pebble-vlog
+          path: evidence/pebble-vlog.json
+
+  prometheus:
+    # Prometheus exporter + Grafana dashboard (one scrape captured).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prometheus exporter scrape + dashboard
+        run: sh scripts/prometheus.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prometheus
+          path: |
+            evidence/prometheus-scrape.txt
+            evidence/grafana-dashboard.json

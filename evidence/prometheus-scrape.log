@@ -1,0 +1,3 @@
+== docker run --memory=2g --memory-swap=2g --cpus=2 ekbloom-go-sandbox:latest ==
+== go -C integrations/prometheus mod tidy && go -C integrations/prometheus run ./cmd/ekbloom-exporter --scrape ==
+ekbloom-exporter: logical=51200 visible=28783 physical=28783 E_V=1.000000 breaches=0

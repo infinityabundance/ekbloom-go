@@ -68,6 +68,34 @@ model. See `docs/DICTIONARY.md` for where the m9 dictionary actually wins — ag
 **per-record machine 2** (63 B vs 590 B/record, break-even 2), not against
 Zstandard-with-dictionary.
 
+## 2b. Pebble — value-log adapter (`courts/pebble/`)
+
+The same machine-9 dictionary as a **Pebble value-log adapter**: each value is
+stored as its header-less core (`Dictionary.EncodeRecord`) in a Pebble DB; a
+`Get` reads the core and decodes it with a decoder built **once**
+(`NewDictDecoder`) into a reused caller buffer — **zero allocations**.
+
+`evidence/pebble-vlog.json` (20,000 records × 100 B, 80/20 skew, 50,000 Gets):
+
+| metric | value |
+| --- | ---: |
+| bytes/record (codec payload) | 63.36 |
+| Get p50 | 872 ns |
+| Get p99 | 1,563 ns |
+| decode allocs/op | **0** |
+| allocation breaches | 0 |
+| `worst_case_steps_for` | 100 |
+| shared dictionary | 540 B |
+
+**Honest boundary.** `bytes_per_record` is the **codec payload only** — it excludes
+Pebble's keys, sequence numbers, checksums, Bloom filters, WAL and LSM overhead,
+so the on-disk footprint is larger. Latency is single-host, warm-cache, `NoSync`.
+One 540 B dictionary serves all 20,000 values; it never falls back.
+
+```sh
+sh scripts/pebble.sh    # -> evidence/pebble-vlog.json (+ .prom exposition)
+```
+
 ## 3. Zero-allocation decode (`DictDecoder`)
 
 The dictionary's order-0 model is fixed, so the prepared rANS context is built
@@ -86,15 +114,34 @@ For a fully materialised `.ekb` image, `Reader.View().Get(i)` is the zero-alloca
 borrowed read (≈1.35 ns, 0 allocs/op). See `docs/COURTS.md` for the space/decode
 trade against zstd/lz4/Pebble.
 
-## 4. Metrics for a service
+## 4. Metrics, Prometheus and Grafana
 
-`Reader.Metrics()` / `MetricsText` / `MetricsJSON` expose `physical_bytes`,
-`expansion_ratio`, `visible_bytes`, `logical_len`, `generation`, and the
-resource-policy breach counter; `WorstCaseStepsFor` is the certified step bound.
-`ResourcePolicySnapshot()` reports `{max_single_allocation (default 1 GiB),
-allocation_breaches}`. See `docs/OPERATIONS.md` for the metrics table and a
-Prometheus-style scrape example, and `docs/PERFORMANCE.md` for the profile
-frontier.
+`integrations/prometheus/` exposes the five families a storage reviewer asks for,
+sourced from the real API (`Reader.Metrics()`, `Breaches()`, `WorstCaseStepsFor`,
+`NewDictDecoder`):
+
+| metric | type | source |
+| --- | --- | --- |
+| `ekbloom_physical_bytes` | gauge | `Reader.Metrics().PhysicalBytes` |
+| `ekbloom_expansion_ratio` | gauge | `Reader.Metrics().ExpansionRatio` |
+| `ekbloom_breach_total` | counter | `ekbloom.Breaches()` |
+| `ekbloom_get_ns` | histogram | observed per `ByteAt` / `ReadAt` / `DecodeInto` |
+| `ekbloom_worst_case_steps_for` | gauge | `Reader.WorstCaseStepsFor(off, len)` |
+
+`grafana/ekbloom-dashboard.json` has five panels bound to those names (physical
+bytes, E_V, `rate(ekbloom_breach_total[5m])`, Get
+`histogram_quantile(0.5|0.99, …)`, `worst_case_steps_for`).
+
+```sh
+sh scripts/prometheus.sh    # one scrape -> evidence/prometheus-scrape.txt
+                            # dashboard    -> evidence/grafana-dashboard.json
+```
+
+Panel values come from `evidence/`: physical `63.38 B/rec`
+(`rocksdb-blobdb.json`), `E_V 0.634`, breach rate `0`, Get p50 `410 ns` /
+p99 `16,471 ns`, `worst_case_steps_for` bounded by `bound.json` (1.2M samples,
+0 violations). `Reader.Metrics()` and `MetricsText` remain available directly for a
+custom exposition (`docs/OPERATIONS.md`).
 
 ## 5. Why "pure Go" matters here
 

@@ -11,6 +11,22 @@ The wire format is **frozen** and follows the Rust reference
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-10-14
+
+### Added
+
+- **Pebble value-log case study** (`courts/pebble/`) — machine-9 cores stored as
+  Pebble values, decoded with a reused `DictDecoder` buffer: 63.36 B/record,
+  Get p50 872 ns / p99 1,563 ns, **0 allocs/op**, 0 breaches. Evidence:
+  `evidence/pebble-vlog.json`.
+- **Prometheus exporter + Grafana dashboard** (`integrations/prometheus/`,
+  `grafana/ekbloom-dashboard.json`) — `ekbloom_physical_bytes`,
+  `ekbloom_expansion_ratio`, `ekbloom_breach_total`, `ekbloom_get_ns`,
+  `ekbloom_worst_case_steps_for`, with five dashboard panels. Evidence:
+  `evidence/prometheus-scrape.txt`.
+- **CI jobs** `pebble` and `prometheus` (OOM-capped via the scripts).
+- `docs/INTEGRATIONS.md` sections for Pebble and Prometheus/Grafana.
+
 ## [0.3.0] - 2026-10-14
 
 ### Added
@@ -100,7 +116,8 @@ reference.
   64 readers p99.9 ≈1 µs under `-race`; 2 GiB bounded stream at ≈9.5 MiB peak.
 - Fuzzing: `FuzzOpenBytes` 1.13B executions, no crashes.
 
-[Unreleased]: https://github.com/infinityabundance/ekbloom-go/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/infinityabundance/ekbloom-go/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/infinityabundance/ekbloom-go/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/infinityabundance/ekbloom-go/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/infinityabundance/ekbloom-go/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/infinityabundance/ekbloom-go/releases/tag/v0.1.0

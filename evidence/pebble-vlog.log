@@ -1,0 +1,18 @@
+== docker run --memory=2g --memory-swap=2g --cpus=2 ekbloom-go-sandbox:latest ==
+== sh -c 'cd courts && go run ./pebble' ==
+pebble value-log court (machine-9 shared dictionary, 80/20 skew)
+records                           20000
+record_bytes                      100
+gets                              50000
+train_records                     5000
+bytes_per_record (codec payload)  63.3575
+get p50                           872 ns
+get p99                           1563 ns
+decode allocs/op                  0.0000
+get+decode allocs/op              0.0000
+roundtrip mismatches              0
+allocation breaches               0
+worst_case_steps (sealed body)    100
+expansion_ratio (sealed body)     1.000000
+physical_bytes (sealed body)      80
+dict_bytes                        540

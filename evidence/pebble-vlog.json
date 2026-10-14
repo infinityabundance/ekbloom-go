@@ -1,0 +1,14 @@
+{
+  "records": 20000,
+  "record_bytes": 100,
+  "gets": 50000,
+  "bytes_per_record": 63.35745,
+  "get_p50_ns": 872,
+  "get_p99_ns": 1563,
+  "decode_allocs_per_op": 0,
+  "breaches": 0,
+  "worst_case_steps": 100,
+  "expansion_ratio": 1,
+  "physical_bytes": 80,
+  "dict_bytes": 540
+}

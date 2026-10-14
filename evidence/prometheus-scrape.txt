@@ -1,0 +1,65 @@
+# HELP ekbloom_breach_total Total whole-object allocations the EKBLOOM resource policy has rejected (ekbloom.Breaches()).
+# TYPE ekbloom_breach_total counter
+ekbloom_breach_total 0
+# HELP ekbloom_expansion_ratio Concealed expansion ratio E_V = physical_bytes / visible_bytes of the opened object.
+# TYPE ekbloom_expansion_ratio gauge
+ekbloom_expansion_ratio 1
+# HELP ekbloom_get_ns EKBLOOM read latency in nanoseconds, observed for every ByteAt/ReadAt/DecodeInto.
+# TYPE ekbloom_get_ns histogram
+ekbloom_get_ns_bucket{op="byte_at",le="100"} 1985
+ekbloom_get_ns_bucket{op="byte_at",le="250"} 1994
+ekbloom_get_ns_bucket{op="byte_at",le="500"} 1995
+ekbloom_get_ns_bucket{op="byte_at",le="1000"} 1996
+ekbloom_get_ns_bucket{op="byte_at",le="2000"} 1997
+ekbloom_get_ns_bucket{op="byte_at",le="5000"} 1997
+ekbloom_get_ns_bucket{op="byte_at",le="10000"} 1999
+ekbloom_get_ns_bucket{op="byte_at",le="25000"} 1999
+ekbloom_get_ns_bucket{op="byte_at",le="50000"} 1999
+ekbloom_get_ns_bucket{op="byte_at",le="100000"} 1999
+ekbloom_get_ns_bucket{op="byte_at",le="250000"} 1999
+ekbloom_get_ns_bucket{op="byte_at",le="500000"} 1999
+ekbloom_get_ns_bucket{op="byte_at",le="1e+06"} 2000
+ekbloom_get_ns_bucket{op="byte_at",le="+Inf"} 2000
+ekbloom_get_ns_sum{op="byte_at"} 727727
+ekbloom_get_ns_count{op="byte_at"} 2000
+ekbloom_get_ns_bucket{op="decode_into",le="100"} 0
+ekbloom_get_ns_bucket{op="decode_into",le="250"} 0
+ekbloom_get_ns_bucket{op="decode_into",le="500"} 0
+ekbloom_get_ns_bucket{op="decode_into",le="1000"} 1966
+ekbloom_get_ns_bucket{op="decode_into",le="2000"} 1992
+ekbloom_get_ns_bucket{op="decode_into",le="5000"} 1997
+ekbloom_get_ns_bucket{op="decode_into",le="10000"} 1998
+ekbloom_get_ns_bucket{op="decode_into",le="25000"} 1998
+ekbloom_get_ns_bucket{op="decode_into",le="50000"} 1999
+ekbloom_get_ns_bucket{op="decode_into",le="100000"} 1999
+ekbloom_get_ns_bucket{op="decode_into",le="250000"} 2000
+ekbloom_get_ns_bucket{op="decode_into",le="500000"} 2000
+ekbloom_get_ns_bucket{op="decode_into",le="1e+06"} 2000
+ekbloom_get_ns_bucket{op="decode_into",le="+Inf"} 2000
+ekbloom_get_ns_sum{op="decode_into"} 1.43815e+06
+ekbloom_get_ns_count{op="decode_into"} 2000
+ekbloom_get_ns_bucket{op="read_at",le="100"} 0
+ekbloom_get_ns_bucket{op="read_at",le="250"} 287
+ekbloom_get_ns_bucket{op="read_at",le="500"} 1710
+ekbloom_get_ns_bucket{op="read_at",le="1000"} 1959
+ekbloom_get_ns_bucket{op="read_at",le="2000"} 1993
+ekbloom_get_ns_bucket{op="read_at",le="5000"} 1994
+ekbloom_get_ns_bucket{op="read_at",le="10000"} 1995
+ekbloom_get_ns_bucket{op="read_at",le="25000"} 1996
+ekbloom_get_ns_bucket{op="read_at",le="50000"} 1998
+ekbloom_get_ns_bucket{op="read_at",le="100000"} 1999
+ekbloom_get_ns_bucket{op="read_at",le="250000"} 2000
+ekbloom_get_ns_bucket{op="read_at",le="500000"} 2000
+ekbloom_get_ns_bucket{op="read_at",le="1e+06"} 2000
+ekbloom_get_ns_bucket{op="read_at",le="+Inf"} 2000
+ekbloom_get_ns_sum{op="read_at"} 1.058975e+06
+ekbloom_get_ns_count{op="read_at"} 2000
+# HELP ekbloom_physical_bytes Manifested physical bytes of the opened EKBLOOM object: core plus every structure.
+# TYPE ekbloom_physical_bytes gauge
+ekbloom_physical_bytes 28783
+# HELP ekbloom_worst_case_steps_for Certified upper bound on machine positioning steps plus output reveals from Reader.WorstCaseStepsFor(0, range).
+# TYPE ekbloom_worst_case_steps_for gauge
+ekbloom_worst_case_steps_for{range="1"} 1
+ekbloom_worst_case_steps_for{range="1024"} 1024
+ekbloom_worst_case_steps_for{range="4096"} 4096
+ekbloom_worst_case_steps_for{range="64"} 64

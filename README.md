@@ -45,6 +45,8 @@ for the RocksDB and Parquet case studies.
 | Zero-allocation dictionary decode (`DictDecoder`) | ✅ 0 allocs/op, 410 ns (was 2805) | `internal/ekb/dictionary.go`, `evidence/ycsb.json` |
 | RocksDB value codec (Put/Get + MergeOperator) | ✅ containerized, honest boundary | `integrations/rocksdb/`, `evidence/rocksdb-blobdb.json` |
 | Parquet dictionary-page comparison | ✅ real `RLE_DICTIONARY`, honest boundary | `integrations/parquet/`, `evidence/parquet-dict.json` |
+| Pebble value-log adapter (zero-alloc decode) | ✅ 63.36 B/rec, 0 allocs/op, p50 872 ns | `courts/pebble/`, `evidence/pebble-vlog.json` |
+| Prometheus exporter + Grafana dashboard | ✅ 5 metrics / 5 panels | `integrations/prometheus/`, `grafana/ekbloom-dashboard.json` |
 | Corruption detection (`Corrupt{Section,Offset}`) | ✅ 100% of covered bits, ≤1 structure (≤4096 B) | `internal/ekb/corruption_test.go` |
 | Streaming (`StreamBuilder`/`StreamReader`, bounded RSS) | ✅ 2 GiB @ 9.5 MiB peak heap | `internal/ekb/stream_test.go`, `internal/ekb/scale_test.go` |
 | Resource policy (1 GiB default cap + breach counter) | ✅ | `internal/ekb/resource.go` |
@@ -108,6 +110,8 @@ sh scripts/verify-external.sh     # pull the published image, run the suite, no 
 sh scripts/sandbox.sh go test ./...   # the whole suite in a 2g-capped container (OOM-safe)
 sh scripts/rocksdb.sh             # RocksDB value-codec case study (capped container)
 sh scripts/parquet.sh             # Parquet dictionary-page case study (capped container)
+sh scripts/pebble.sh              # Pebble value-log case study (capped container)
+sh scripts/prometheus.sh          # Prometheus scrape + Grafana dashboard
 sh scripts/container-aarch64.sh   # amd64 == arm64 runtime determinism (qemu)
 sh scripts/courts.sh              # 100-byte 80/20 court + 4 KiB point-read court (Pebble)
 sh scripts/container-reproduce.sh # everything inside a ~10 MB Docker image
