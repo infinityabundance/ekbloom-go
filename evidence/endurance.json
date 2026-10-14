@@ -1,0 +1,91 @@
+{
+  "rounds": 2000,
+  "chains": 205,
+  "generations_appended": 2820,
+  "recovered_exact": 1796,
+  "rejected_typed": 204,
+  "garbage": 0,
+  "kinds": {
+    "flip_body": {
+      "rounds": 221,
+      "recovered_exact": 221,
+      "rejected_typed": 0,
+      "dropped_newer_generation": 221,
+      "kept_newest_generation": 0
+    },
+    "flip_footer": {
+      "rounds": 204,
+      "recovered_exact": 204,
+      "rejected_typed": 0,
+      "dropped_newer_generation": 204,
+      "kept_newest_generation": 0
+    },
+    "flip_manifest": {
+      "rounds": 173,
+      "recovered_exact": 173,
+      "rejected_typed": 0,
+      "dropped_newer_generation": 173,
+      "kept_newest_generation": 0
+    },
+    "flip_section_header": {
+      "rounds": 220,
+      "recovered_exact": 220,
+      "rejected_typed": 0,
+      "dropped_newer_generation": 220,
+      "kept_newest_generation": 0
+    },
+    "old_benign_flip": {
+      "rounds": 223,
+      "recovered_exact": 223,
+      "rejected_typed": 0,
+      "dropped_newer_generation": 0,
+      "kept_newest_generation": 223
+    },
+    "old_struct_flip": {
+      "rounds": 165,
+      "recovered_exact": 165,
+      "rejected_typed": 0,
+      "dropped_newer_generation": 165,
+      "kept_newest_generation": 0
+    },
+    "trunc_body": {
+      "rounds": 190,
+      "recovered_exact": 190,
+      "rejected_typed": 0,
+      "dropped_newer_generation": 190,
+      "kept_newest_generation": 0
+    },
+    "trunc_footer": {
+      "rounds": 207,
+      "recovered_exact": 207,
+      "rejected_typed": 0,
+      "dropped_newer_generation": 207,
+      "kept_newest_generation": 0
+    },
+    "trunc_manifest": {
+      "rounds": 193,
+      "recovered_exact": 193,
+      "rejected_typed": 0,
+      "dropped_newer_generation": 193,
+      "kept_newest_generation": 0
+    },
+    "truncate_head": {
+      "rounds": 204,
+      "recovered_exact": 0,
+      "rejected_typed": 204,
+      "dropped_newer_generation": 0,
+      "kept_newest_generation": 0
+    }
+  },
+  "peak_heap_bytes": 3581952,
+  "heap_sys_bytes": 8028160,
+  "gc_runs": 24,
+  "duration_seconds": 3.009534761,
+  "concurrent_readers": {
+    "readers": 8,
+    "reads": 457104,
+    "appends": 59,
+    "torn_reads": 0,
+    "errors": 0
+  }
+}

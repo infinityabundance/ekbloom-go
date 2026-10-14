@@ -50,6 +50,26 @@ jobs:
           name: soak
           path: evidence/soak.json
 
+  endurance:
+    # Long-run writer endurance / fault-injection: append a generation, damage it
+    # (truncate mid-write / mid-manifest / torn footer, bit flips in body / header /
+    # manifest / footer, damage to an older generation, header-or-core truncation),
+    # assert Open returns exactly the newest surviving valid generation or a typed
+    # error, repair with TruncateToValid and continue — plus a concurrent-reader
+    # phase. Runs inside the capped sandbox (scripts/sandbox.sh); the harness writes
+    # evidence/endurance.json and evidence/endurance.log.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: fault-injection endurance (append/damage/repair + concurrent readers)
+        run: sh scripts/endurance.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: endurance
+          path: |
+            evidence/endurance.json
+            evidence/endurance.log
+
   court:
     runs-on: ubuntu-latest
     steps:

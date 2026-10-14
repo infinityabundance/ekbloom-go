@@ -55,6 +55,7 @@ for the RocksDB and Parquet case studies.
 | Streaming (`StreamBuilder`/`StreamReader`, bounded RSS) | ✅ 2 GiB @ 9.5 MiB peak heap | `internal/ekb/stream_test.go`, `internal/ekb/scale_test.go` |
 | Resource policy (1 GiB default cap + breach counter) | ✅ | `internal/ekb/resource.go` |
 | Fault injection (torn append / ENOSPC-EIO) | ✅ newest valid generation picked | `append_test.go` |
+| Fault-injection endurance log (10 fault kinds, newest-valid selection, concurrent readers) | ✅ 2000 rounds, `garbage: 0`, race-clean | `internal/ekb/endurance_test.go`, `scripts/endurance.sh`, `evidence/endurance.json` |
 | Per-machine `byte_at` p50/p99/p99.9 | ✅ 20 / 31 / 31 ns | `internal/ekb/latency_test.go`, `evidence/byteat.json` |
 | Fuzzers (Open, Stream, machine roundtrip) | ✅ | `internal/ekb/fuzz_test.go`, `evidence/fuzz/` |
 | Benchmarks (`go test -bench`, incl. native arm64) | ✅ amd64 + native arm64 (CI) | `internal/ekb/bench_test.go`, `evidence/bench.txt`, `evidence/aarch64-native-bench.txt` |
@@ -119,6 +120,7 @@ sh scripts/pebble-integration.sh  # Pebble integration depth: scan/ingest/compac
 sh scripts/prometheus.sh          # Prometheus scrape + Grafana dashboard
 sh scripts/conformance.sh         # the neutral conformance suite (Go + Rust verifiers)
 sh scripts/soak.sh                # long-run randomized roundtrip (bounded memory, 2g cap)
+sh scripts/endurance.sh           # long-run append/damage/repair endurance + concurrent readers
 sh scripts/readerat.sh            # io.ReaderAt + batch + concurrency/cancellation evidence
 sh scripts/container-aarch64.sh   # amd64 == arm64 runtime determinism (qemu)
 sh scripts/courts.sh              # 100-byte 80/20 court + 4 KiB point-read court (Pebble)
@@ -218,7 +220,7 @@ internal/ekb/      the engine (was package ekbloom; one cohesive package):
   append.go writer_path.go writer_bloom.go writer_tiles.go errors.go
   + the tests that are the specification (compat_test.go, legacy_test.go,
     corruption_test.go, bound_test.go, concurrency_test.go, roundtrip_test.go,
-    chaos_test.go, fuzz_test.go, ...)
+    chaos_test.go, endurance_test.go, fuzz_test.go, ...)
 
 cmd/ekbloom        minimal CLI (inspect/byte/read/verify/stream) for the container image
 internal/blake3     dependency-free pure-Go BLAKE3 (unkeyed + keyed, streaming)

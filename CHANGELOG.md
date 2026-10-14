@@ -11,6 +11,25 @@ The wire format is **frozen** and follows the Rust reference
 
 ## [Unreleased]
 
+### Added
+
+- **Writer endurance / fault-injection log** (`internal/ekb/endurance_test.go`,
+  `TestEndurance`; `scripts/endurance.sh` → `evidence/endurance.json` +
+  `evidence/endurance.log`). A long-run harness that appends a generation, damages
+  it with one of ten deterministic fault kinds modelling ENOSPC/EIO mid-write and
+  mid-manifest, torn commits, in-place bit flips in body/header/manifest/footer, an
+  older-generation loss, an older-generation benign (unvalidated `Flags`) flip, and
+  a header/core truncation (power loss before the first durable block), then asserts
+  `Open` returns exactly the newest surviving valid generation — its generation
+  number, accumulated manifest profile stack and object bytes — or a typed error,
+  repairs with `TruncateToValid` and continues, with `garbage: 0`. Includes a
+  concurrent-reader phase (readers reading a live image while a writer appends,
+  tears and repairs it) that is `-race` clean. The round count is configurable
+  (`EKB_ENDURANCE_ROUNDS`, default 2000) and a CI `endurance` job produces the log
+  on every run. `docs/TESTING.md` documents the harness and states plainly that
+  `dm-flakey`/power-fail and real `xfs`/`zfs`/`bcachefs` device tests need
+  privileges the unprivileged sandbox does not have.
+
 ### Fixed
 
 - **Sandbox scheduler sizing (`GOMAXPROCS`).** Go 1.23 does not read the cgroup CPU

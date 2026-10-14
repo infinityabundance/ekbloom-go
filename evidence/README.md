@@ -42,6 +42,7 @@ identities are unaffected** — `physical_bytes`, `E_V`, `bytes_per_record`,
 | `wasip1-fingerprint.txt` / `wasip1-test.log` | WebAssembly (wasip1) fingerprint + full suite, identical to amd64/arm64 |
 | `external-reproduce.json` | the suite run from the **published** `ghcr.io/…:test` image (no clone): pass/fail counts plus provenance — the resolved `reference`, immutable `digest` (`sha256:…`), `tag`, and `pulled_anonymously` (`scripts/verify-external.sh`, re-enforced by `.github/workflows/external-reproduce.yml`) |
 | `chaos.json` | 400 append/damage/repair rounds (truncate + bit flips): 400/400 recovered exact |
+| `endurance.json` / `endurance.log` | long-run fault-injection endurance: 10 fault kinds (truncate / bit flip / older-generation / header-core), newest-valid generation selected or typed rejection, `garbage: 0`, concurrent readers race-clean (`scripts/endurance.sh`) |
 | `fuzz.json`, `fuzz/` | fuzz campaign logs and the published corpus (`FuzzOpenBytes` 1.13B execs) |
 | `roundtrip.log` | Go-written `.ekb`/`.stream` opened and decoded by the Rust reference (22 files) |
 | `parquet-dict.json` / `parquet-dict.log` | EKBLOOM machine-9 shared dictionary vs a **real Parquet `RLE_DICTIONARY` page** on the same 20,000 × 100 B column (`scripts/parquet.sh`) |

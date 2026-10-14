@@ -42,6 +42,71 @@ go vet ./...
   reference-framed `WriteBodyWithDict`/`OpenWithDict` round-trip
   (`evidence/dictionary.json`).
 
+## Fault injection, crash-safety and endurance
+
+The append-only generation path is the crash-safety story: an appended generation
+never rewrites earlier bytes, so a torn or corrupt append must never invalidate the
+newest *valid* generation. Two harnesses prove it inside the sandbox:
+
+- `internal/ekb/append_test.go` — exhaustive single-fault proofs on a two-generation
+  file: every truncation of the appended region recovers the newest valid generation
+  (the previous commit); every single-bit flip is recovered exactly or rejected with
+  a typed `*Error`; and a flip in an appended section payload falls back to the
+  newest valid generation.
+- `internal/ekb/endurance_test.go` (`TestEndurance`) — a long-run fault-injection
+  log. Each round appends a generation to a live chain, damages it with one of a
+  deterministic taxonomy of faults, asserts `Open` returns *exactly* the newest
+  surviving valid generation (its generation number, its accumulated manifest
+  profile stack and the exact object bytes) or rejects with a typed error, then
+  repairs with `TruncateToValid` and continues. The taxonomy (counted per kind in
+  `evidence/endurance.json`) is:
+
+  | fault | models |
+  | --- | --- |
+  | `trunc_body` | ENOSPC/EIO truncating at a random offset inside the newest generation |
+  | `trunc_manifest` | ENOSPC mid-manifest |
+  | `trunc_footer` | a torn commit (truncated footer) |
+  | `flip_body` | in-place EIO in the newest non-manifest payload |
+  | `flip_section_header` | a bit flip in the newest section header (Offset/Length) |
+  | `flip_manifest` | a bit flip in the newest manifest payload |
+  | `flip_footer` | a bit flip in the newest commit footer |
+  | `old_struct_flip` | damage to an OLDER generation's manifest — the chain must fall back to the newest generation *before* it, never a stale one |
+  | `old_benign_flip` | a bit flip in an older generation's reserved, unvalidated section-header `Flags` field — the NEWER valid generation must still be selected |
+  | `truncate_head` | a power loss before the first durable block (header/core truncated) — the whole image is unrecoverable and must be a typed error |
+
+  Every round also asserts the repaired prefix from `TruncateToValid` is byte-for-byte
+  the true clean generation it claims to be. The concurrent-reader phase runs k
+  goroutines reading (`ReadAt`/`ByteAt`, one also walks the commit chain) a live image
+  while a writer appends, tears and repairs it, and requires zero torn reads under
+  `-race`. `garbage` (a stale/wrong generation, a wrong payload, a non-typed error or
+  a panic) must be `0`.
+
+```sh
+sh scripts/endurance.sh                            # short bounded run (default 2000 rounds)
+ENDURANCE_ROUNDS=200000 sh scripts/endurance.sh    # longer run
+```
+
+`evidence/endurance.json` records the per-kind counts, `recovered_exact`,
+`rejected_typed`, `garbage`, the peak heap and the concurrent-reader result;
+`evidence/endurance.log` is the human-readable fault-injection log.
+
+### Boundary: what an unprivileged sandbox cannot test
+
+A true power-fail endurance test — `dm-flakey`/`dm-error` fault layers, `fsstress`
+under a real journaling/reflink filesystem (`xfs`/`zfs`/`bcachefs`), and device-level
+flush/reorder fault injection — needs privileges the sandbox does not have
+(`CAP_SYS_ADMIN`, device-mapper, module loading, real block devices). The sandbox
+runs as an unprivileged, OOM-capped container, so this harness is the strongest
+*unprivileged* equivalent: it injects the same byte-level damage those mechanisms
+produce (mid-write truncation and bit flips, mid-manifest and torn-footer cuts,
+older-generation corruption) directly into the in-memory image and proves the
+recovery / typed-rejection contract. What it does **not** exercise: the kernel's
+block layer, the filesystem's own atomicity/flush ordering, `fsync` loss, and
+device-level reordering or latent sector corruption. Those are covered (partially)
+by the CI `fsmatrix` job, which uses the runner's passwordless sudo to exercise real
+ext4/xfs/btrfs/tmpfs filesystems — filesystem-level, on loopback images, never a
+dedicated device.
+
 ## Fuzzing
 
 Native Go fuzzing targets in `internal/ekb/fuzz_test.go`:
@@ -154,6 +219,7 @@ sh scripts/container-reproduce.sh # everything inside a ~10 MB Docker image
 sh scripts/verify-external.sh     # pull the published image, run the suite, no clone
 sh scripts/wasm.sh                # WebAssembly build + amd64 == arm64 == wasip1
 sh scripts/container-aarch64.sh   # amd64 == arm64 runtime determinism
+sh scripts/endurance.sh           # long-run append/damage/repair endurance + concurrent readers
 sh scripts/wasm.sh                # WebAssembly build + amd64 == arm64 == wasip1
 sh scripts/courts.sh              # skewed small-record court
 ```
