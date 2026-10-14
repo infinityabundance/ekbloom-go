@@ -23,6 +23,9 @@ go vet ./...
   and localized `Corrupt { Section, Offset }`.
 - `metrics_test.go` — the per-object metrics snapshot and the Prometheus/JSON
   resource-policy exports, including the 1 GiB allocation-cap breach counter.
+- `sweep_test.go` — the writer-profile frontier (`Root`/`Full`/`Sparse`/`Path`) on
+  one fixed source: `E_V`, `byte_at`, 4 KiB and bulk, written to
+  `evidence/sweep.json` (see `docs/PERFORMANCE.md`).
 - `roundtrip_test.go` — Go write/read round-trip for every machine and profile;
   64 concurrent readers under `-race`.
 - `stream_test.go` / `scale_test.go` — Rust stream golden identity; the 2 GiB
@@ -62,6 +65,7 @@ bounded-fuzzed with `FUZZTARGETS` rather than driven to 1B; extend with
 ```sh
 go test -bench . -benchmem .
 sh scripts/bench.sh               # writes bench.txt
+sh scripts/profile.sh             # CPU profiles: .prof + SVG call graph + top
 sh scripts/courts.sh              # the skewed small-record court (separate module)
 ```
 
@@ -133,7 +137,10 @@ sh scripts/roundtrip.sh           # Go <-> Rust bidirectional identity
 sh scripts/cross-fs.sh            # cross-filesystem determinism
 sh scripts/corpus.sh              # standard corpora E_V (Go vs Rust, same files)
 sh scripts/container-reproduce.sh # everything inside a ~10 MB Docker image
+sh scripts/verify-external.sh     # pull the published image, run the suite, no clone
+sh scripts/wasm.sh                # WebAssembly build + amd64 == arm64 == wasip1
 sh scripts/container-aarch64.sh   # amd64 == arm64 runtime determinism
+sh scripts/wasm.sh                # WebAssembly build + amd64 == arm64 == wasip1
 sh scripts/courts.sh              # skewed small-record court
 ```
 

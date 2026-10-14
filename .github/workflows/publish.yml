@@ -83,10 +83,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
-          flavor: suffix=-test,onlatest=true
           tags: |
-            type=semver,pattern={{version}}
-            type=raw,value=latest
+            type=raw,value=test
+            type=semver,pattern={{version}}-test
 
       - name: Build and push (GHCR test)
         uses: docker/build-push-action@v6
@@ -130,10 +129,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: infinityabundance/ekbloom-go
-          flavor: suffix=-test,onlatest=true
           tags: |
-            type=semver,pattern={{version}}
-            type=raw,value=latest
+            type=raw,value=test
+            type=semver,pattern={{version}}-test
 
       - name: Build and push (Docker Hub test)
         if: needs.check.outputs.dockerhub == 'true'
