@@ -1,6 +1,7 @@
-ok  	github.com/infinityabundance/ekbloom-go	6.838s
+ok  	github.com/infinityabundance/ekbloom-go	1.072s
 ?   	github.com/infinityabundance/ekbloom-go/cmd/ekbloom	[no test files]
 ok  	github.com/infinityabundance/ekbloom-go/internal/blake3	(cached)
+ok  	github.com/infinityabundance/ekbloom-go/internal/ekb	11.085s
 ?   	github.com/infinityabundance/ekbloom-go/internal/tools/corpusbench	[no test files]
 ?   	github.com/infinityabundance/ekbloom-go/internal/tools/corpuscompare	[no test files]
 ?   	github.com/infinityabundance/ekbloom-go/internal/tools/fingerprint	[no test files]

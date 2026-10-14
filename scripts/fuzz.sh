@@ -18,7 +18,7 @@ FUZZTARGETS=${FUZZTARGETS:-"FuzzOpenBytes FuzzStreamBytes FuzzMachineRoundTrip"}
 
 for target in $FUZZTARGETS; do
     echo "== $target ($FUZZTIME) =="
-    go test -run '^$' -fuzz "^${target}$" -fuzztime "$FUZZTIME" . 2>&1 | tee "evidence/fuzz/${target}.log"
+    go test -run '^$' -fuzz "^${target}$" -fuzztime "$FUZZTIME" ./internal/ekb 2>&1 | tee "evidence/fuzz/${target}.log"
 done
 
 # Publish the accumulated corpus (Go caches interesting inputs under GOCACHE).

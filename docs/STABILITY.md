@@ -1,7 +1,9 @@
 # API and format stability
 
-The module is `github.com/infinityabundance/ekbloom-go` (package `ekbloom`). This
-document is the compatibility promise a storage team can plan against.
+The module is `github.com/infinityabundance/ekbloom-go`. The public API is the
+root package `ekbloom`, a thin facade over the engine in `internal/ekb` (Go
+forbids importing `internal/` from other modules). This document is the
+compatibility promise a storage team can plan against.
 
 ## Two independent guarantees
 

@@ -13,5 +13,5 @@ docker build --platform linux/arm64 --target test -t ekbloom-go:test-arm64 . >/d
 
 echo "== go test -bench on linux/arm64 (qemu) =="
 docker run --rm --platform linux/arm64 --entrypoint sh ekbloom-go:test-arm64 \
-    -c 'go test -run "^$" -bench "BenchmarkMachine|ByteAt|ResidentView|BareSlice|Blake3" -benchmem -benchtime 1x .' \
+    -c 'go test -run "^$" -bench "BenchmarkMachine|ByteAt|ResidentView|BareSlice|Blake3" -benchmem -benchtime 1x ./internal/ekb' \
     | tee evidence/aarch64-bench.txt

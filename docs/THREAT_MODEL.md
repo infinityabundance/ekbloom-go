@@ -17,7 +17,7 @@ protects, what it does not, and what the caller must own.
 
 1. **Corruption** (bit rot, torn write, partial flush). Detected, always, and
    localised to `Corrupt{Section, Offset}` within one structure (≤4096 B).
-   Measured: 100% of covered bits in every structure (`corruption_test.go`).
+   Measured: 100% of covered bits in every structure (`internal/ekb/corruption_test.go`).
 2. **Malicious bytes** (structured fuzz input). Never panics; every failure is a
    typed `*Error`; declared lengths are capped by the resource policy.
 3. **A writer without the key** (forgery). `AUTH` is fail-closed: a missing,
@@ -65,7 +65,7 @@ and the AUTH tag itself; they are cross-checked against the manifest.
 
 - Whole-object allocations driven by a declared length are capped by the resource
   policy (default **1 GiB**); a rejected allocation is `ErrAllocationTooLarge` and
-  increments the breach counter (`metrics.go`). A hostile header cannot force a
+  increments the breach counter (`internal/ekb/metrics.go`). A hostile header cannot force a
   transient gigabyte allocation.
 - Parsing is bounded and non-recursive; `worst_case_steps_for` is a certified
   bound (1.2M samples, 0 violations).

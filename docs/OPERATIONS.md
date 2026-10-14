@@ -13,7 +13,7 @@
 
 `Reader.Report()` returns a full `Report` (logical/visible/physical/concealed
 bytes, expansion ratio, generation, profiles, per-structure components). For a
-service, `metrics.go` provides ready-made exports:
+service, `internal/ekb/metrics.go` provides ready-made exports:
 
 - `ResourcePolicySnapshot()` — `{max_single_allocation, allocation_breaches}`
   (the reference's `resource_breaches` counter).
@@ -111,7 +111,7 @@ committed generation.
 
 ## Expected numbers (this host, scalar, no SIMD)
 
-From `go test -bench` (`bench_test.go`), AMD Ryzen 7 9800X3D, Go 1.27:
+From `go test -bench` (`internal/ekb/bench_test.go`), AMD Ryzen 7 9800X3D, Go 1.27:
 
 | benchmark | result |
 | --- | --- |

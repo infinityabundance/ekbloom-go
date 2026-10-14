@@ -11,6 +11,14 @@ The wire format is **frozen** and follows the Rust reference
 
 ## [Unreleased]
 
+### Changed
+
+- **Layout.** The engine moved to `internal/ekb`; the root package is now the
+  public API only (type aliases + wrappers over the engine). The wire format and
+  the public API are unchanged — root types are aliases (`type Reader = ekb.Reader`),
+  so method sets and interfaces are identical, and `go test ./...`, the Rust
+  round-trip and the cross-arch cross-FS fingerprints all still pass.
+
 ## [0.1.0] - 2026-10-14
 
 First public release: a pure-Go (no cgo, no `unsafe`) implementation of the

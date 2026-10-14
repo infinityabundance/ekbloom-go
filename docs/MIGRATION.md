@@ -7,7 +7,7 @@ it is proven against files the Rust implementation wrote.
 ## Read compatibility (Go reads Rust)
 
 `testdata/fixtures/*.ekb` and `testdata/stream/golden.stream` are written by the
-Rust reference (`fixturegen`). `compat_test.go` and `stream_test.go` assert:
+Rust reference (`fixturegen`). `internal/ekb/compat_test.go` and `internal/ekb/stream_test.go` assert:
 
 | Claim | Test |
 | --- | --- |

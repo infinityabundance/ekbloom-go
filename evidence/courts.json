@@ -9,7 +9,7 @@
       "bytes_per_record": 100,
       "bytes_fetched_per_get": 100,
       "decode_p50_ns": 30,
-      "decode_p99_9_ns": 410,
+      "decode_p99_9_ns": 441,
       "allocs_per_get": 1.00158,
       "ratio_vs_raw": 1
     },
@@ -27,16 +27,16 @@
       "bytes_per_record": 113,
       "bytes_fetched_per_get": 113,
       "decode_p50_ns": 100,
-      "decode_p99_9_ns": 1412,
-      "allocs_per_get": 1.00042,
+      "decode_p99_9_ns": 1603,
+      "allocs_per_get": 1.0002,
       "ratio_vs_raw": 1.13
     },
     {
       "codec": "zstd-dict",
       "bytes_per_record": 47.3815,
       "bytes_fetched_per_get": 47.3815,
-      "decode_p50_ns": 250,
-      "decode_p99_9_ns": 1814,
+      "decode_p50_ns": 241,
+      "decode_p99_9_ns": 1934,
       "allocs_per_get": 1.8665,
       "ratio_vs_raw": 0.47381500000000004
     },
@@ -44,9 +44,9 @@
       "codec": "ekbloom-m9",
       "bytes_per_record": 59.798,
       "bytes_fetched_per_get": 59.798,
-      "decode_p50_ns": 2314,
-      "decode_p99_9_ns": 77444,
-      "allocs_per_get": 3.0006,
+      "decode_p50_ns": 2395,
+      "decode_p99_9_ns": 91651,
+      "allocs_per_get": 3.00124,
       "ratio_vs_raw": 0.5979800000000001
     }
   ]

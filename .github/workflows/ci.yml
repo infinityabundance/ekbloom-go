@@ -18,7 +18,7 @@ jobs:
       - name: test (race)
         run: go test -race ./... 2>&1 | tee evidence/test-race.log
       - name: compat + legacy fixtures
-        run: go test -run 'TestRustFixtures|TestLegacy|TestVersionTags' -v .
+        run: go test -run 'TestRustFixtures|TestLegacy|TestVersionTags' -v ./internal/ekb
       - name: bidirectional Rust round-trip (Go writes, Rust reads)
         run: |
           set -o pipefail
@@ -26,11 +26,11 @@ jobs:
       - name: cross-filesystem determinism
         run: sh scripts/cross-fs.sh
       - name: benchmarks (short)
-        run: go test -run '^$' -bench . -benchmem -benchtime 100ms . | tee evidence/bench-ci.txt
+        run: go test -run '^$' -bench . -benchmem -benchtime 100ms ./internal/ekb | tee evidence/bench-ci.txt
       - name: performance history (append)
         run: sh scripts/bench-history.sh
       - name: 2 GiB bounded-memory stream
-        run: EKB_RUN_SCALE=1 go test -run TestStreamBoundedMemory2GiB -v .
+        run: EKB_RUN_SCALE=1 go test -run TestStreamBoundedMemory2GiB -v ./internal/ekb
       - uses: actions/upload-artifact@v4
         with:
           name: evidence
@@ -86,7 +86,7 @@ jobs:
       - name: native benchmarks
         run: |
           set -o pipefail
-          go test -run '^$' -bench . -benchmem -benchtime 100ms . | tee evidence/aarch64-native-bench.txt
+          go test -run '^$' -bench . -benchmem -benchtime 100ms ./internal/ekb | tee evidence/aarch64-native-bench.txt
       - name: native fingerprint must equal the recorded amd64 fingerprint
         run: |
           set -o pipefail

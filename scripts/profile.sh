@@ -19,7 +19,7 @@ cd "$root"
 out="$root/evidence/profile"
 mkdir -p "$out"
 bin="$out/ekbloom.test"
-go test -c -o "$bin" .
+go test -c -o "$bin" ./internal/ekb
 
 have_flamegraph=0
 command -v flamegraph.pl >/dev/null 2>&1 && have_flamegraph=1

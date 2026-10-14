@@ -16,7 +16,7 @@ lengths, no `unsafe`, no panics. Every malformed input is a typed `*Error`.
 - `Verify` / `VerifyDeep` localize the first divergence to a structure and an
   absolute offset: `Corrupt { Section, Offset }`.
 
-**Measured.** `corruption_test.go` flips up to 1024 single bits in every covered
+**Measured.** `internal/ekb/corruption_test.go` flips up to 1024 single bits in every covered
 structure of every fixture (core and every section payload) and requires **100%
 detection** (`1024/1024` per structure). Detection granularity is the containing
 structure, bounded to ≤4096 bytes for every structure the writer emits (the

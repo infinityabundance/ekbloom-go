@@ -2,15 +2,20 @@
 
 ## Unit, compatibility and concurrency
 
+The engine (and its tests) live in `internal/ekb`; the root package is the public
+API facade. Tests write evidence to the repository's `evidence/` and read
+`testdata/` via helpers that resolve the repo root, so they are independent of the
+working directory.
+
 ```sh
 go test ./...                 # all packages
-go test -race .               # the 64-reader path, race-detector clean
+go test -race ./internal/ekb  # the 64-reader path, race-detector clean
 go vet ./...
 ```
 
-- `compat_test.go` — byte-for-byte identity with Rust fixtures (ByteAt, ReadAt,
+- `internal/ekb/compat_test.go` — byte-for-byte identity with Rust fixtures (ByteAt, ReadAt,
   PhysicalBytes, Machine.Encode).
-- `fastpath_test.go` — accelerated reads (path bloom / history / checkpoints)
+- `internal/ekb/fastpath_test.go` — accelerated reads (path bloom / history / checkpoints)
   match the authoritative decode and avoid materialising the symbol array.
 - `auth_test.go` — verifies a Rust-written AUTH fixture; Go AUTH round-trip;
   wrong/stripped key rejected.
@@ -19,27 +24,27 @@ go vet ./...
   in-place EIO (every single-bit flip in the appended region is recovered exactly
   or rejected with a typed error; a flip in a section payload falls back to the
   newest valid generation).
-- `corruption_test.go` — 100% single-bit-flip detection per covered structure,
+- `internal/ekb/corruption_test.go` — 100% single-bit-flip detection per covered structure,
   and localized `Corrupt { Section, Offset }`.
-- `metrics_test.go` — the per-object metrics snapshot and the Prometheus/JSON
+- `internal/ekb/metrics_test.go` — the per-object metrics snapshot and the Prometheus/JSON
   resource-policy exports, including the 1 GiB allocation-cap breach counter.
-- `sweep_test.go` — the writer-profile frontier (`Root`/`Full`/`Sparse`/`Path`) on
+- `internal/ekb/sweep_test.go` — the writer-profile frontier (`Root`/`Full`/`Sparse`/`Path`) on
   one fixed source: `E_V`, `byte_at`, 4 KiB and bulk, written to
   `evidence/sweep.json` (see `docs/PERFORMANCE.md`).
-- `roundtrip_test.go` — Go write/read round-trip for every machine and profile;
+- `internal/ekb/roundtrip_test.go` — Go write/read round-trip for every machine and profile;
   64 concurrent readers under `-race`.
-- `stream_test.go` / `scale_test.go` — Rust stream golden identity; the 2 GiB
+- `internal/ekb/stream_test.go` / `internal/ekb/scale_test.go` — Rust stream golden identity; the 2 GiB
   bounded-memory build (opt-in via `EKB_RUN_SCALE=1`).
 - `example_test.go` — runnable examples (open, dictionary, shared-dictionary
   write/open, streaming, corruption).
-- `dictbench_test.go` — the machine-9 P5 study: one shared dictionary vs
+- `internal/ekb/dictbench_test.go` — the machine-9 P5 study: one shared dictionary vs
   per-record machine 2 (83.5 vs 590.0 B/record, break-even 2 records) and the
   reference-framed `WriteBodyWithDict`/`OpenWithDict` round-trip
   (`evidence/dictionary.json`).
 
 ## Fuzzing
 
-Native Go fuzzing targets in `fuzz_test.go`:
+Native Go fuzzing targets in `internal/ekb/fuzz_test.go`:
 
 ```sh
 go test -fuzz FuzzOpenBytes       .
@@ -114,7 +119,7 @@ ordering on any wire path).
 
 - `testdata/legacy/` are the reference's **frozen** v0.3/v0.4 fixtures
   (`core_version = 0`), ported from `.reference/ekbloom-rust/tests/fixtures/` with
-  their `expected.json`. `legacy_test.go` ports the reference's `compat_fixtures`
+  their `expected.json`. `internal/ekb/legacy_test.go` ports the reference's `compat_fixtures`
   test: it checks the whole-file BLAKE3, the header fields, `physical_bytes`, the
   sampled `byte_at` values and their BLAKE3, `VerifyDeep`, and byte-for-byte
   immutability; a tampered copy is refused; and `TestVersionTagsRefused` proves a

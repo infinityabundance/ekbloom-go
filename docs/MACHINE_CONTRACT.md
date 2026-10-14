@@ -36,7 +36,7 @@ logical symbol.
 2. **Bounded `CheckCore`.** `CheckCore` must terminate in bounded time and never
    loop on a crafted core (use a step cap and return `ErrNonTermination`).
 3. **`Estimate >= actual`.** If the machine declares a header/length, the static
-   estimate must never under-state a built body (see `estimate.go`).
+   estimate must never under-state a built body (see `internal/ekb/estimate.go`).
 4. **Corruption entry.** A single bit flip in the core must be detected (the
    manifest `core_hash` covers it) and, for a declared structure, localized to a
    `Corrupt { Section, Offset }`.
@@ -53,7 +53,7 @@ logical symbol.
 - Cross-check the machine against the reference semantics (a Rust equivalent, or
   a byte-for-byte fixture written by the reference).
 - Add a fixture to `testdata/fixtures/` (via `.reference/fixturegen`) so
-  `compat_test.go` exercises it, and extend `roundtripgen` so Rust verifies the
+  `internal/ekb/compat_test.go` exercises it, and extend `roundtripgen` so Rust verifies the
   Go-written form.
 - Run `go test -race ./...` and `go test -fuzz FuzzMachineRoundTrip`.
 

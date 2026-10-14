@@ -33,7 +33,7 @@ logged evidence/test-race.log go test -race ./...
 
 echo
 echo "== go test -bench -benchmem =="
-logged evidence/bench.txt go test -run '^$' -bench . -benchmem -benchtime 200ms .
+logged evidence/bench.txt go test -run '^$' -bench . -benchmem -benchtime 200ms ./internal/ekb
 
 echo
 echo "== cross-filesystem determinism =="

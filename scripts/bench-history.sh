@@ -13,7 +13,7 @@ out=evidence/bench-history.jsonl
 tmp=$(mktemp)
 trap 'rm -f "$tmp"' EXIT
 
-go test -run '^$' -bench 'BenchmarkByteAtPathBloom|BenchmarkByteAtHistory|BenchmarkByteAtProbe|BenchmarkResidentViewGet|BenchmarkMachine1Encode|BenchmarkMachine2Decode' -benchmem -benchtime 200ms . > "$tmp" 2>&1
+go test -run '^$' -bench 'BenchmarkByteAtPathBloom|BenchmarkByteAtHistory|BenchmarkByteAtProbe|BenchmarkResidentViewGet|BenchmarkMachine1Encode|BenchmarkMachine2Decode' -benchmem -benchtime 200ms ./internal/ekb > "$tmp" 2>&1
 
 # ns/op of a named benchmark (the output line is "BenchmarkX-N  <iters>  <ns> ns/op ...").
 ns() { awk -v b="$1" '$1 ~ "^"b"-" {print $3; exit}' "$tmp"; }

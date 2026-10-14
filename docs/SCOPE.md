@@ -25,7 +25,7 @@ The absence of the six above does **not** weaken the properties a storage team
 depends on. These **are** implemented and proven:
 
 - **Bounded streaming** — `StreamBuilder`/`StreamReader` hold RSS to the block
-  size: **2 GiB at ≈9.5 MiB peak** (`scale_test.go`).
+  size: **2 GiB at ≈9.5 MiB peak** (`internal/ekb/scale_test.go`).
 - **Crash safety** — `AppendGeneration` + `TruncateToValid`; a torn append
   (ENOSPC/EIO) recovers the newest **valid** generation, never a partial one
   (`append_test.go`, exhaustive truncation + single-bit-flip injection).
@@ -33,12 +33,12 @@ depends on. These **are** implemented and proven:
   (`evidence/bound.json`); corrupt builds are rejected in bounded time.
 - **Corruption contract** — 100% of covered bits detected, localised to
   `Corrupt{Section, Offset}` within ≤4096 B; inert padding never misinterpreted
-  (`corruption_test.go`).
+  (`internal/ekb/corruption_test.go`).
 - **Concurrency** — 64 readers vs 1 publishing writer, p99.9 ≈1 µs, tails
   indistinguishable quiet vs publish, `-race` clean (`evidence/concurrency.json`).
 - **Opt-in AUTH** — keyed integrity/authenticity covering every section
   (`docs/SECURITY.md`).
-- **Legacy** — v0.3/v0.4 fixtures open byte-identically (`legacy_test.go`).
+- **Legacy** — v0.3/v0.4 fixtures open byte-identically (`internal/ekb/legacy_test.go`).
 - **Determinism** — `amd64 == arm64 == wasip1` and ext4/xfs/btrfs/tmpfs
   (`evidence/`).
 

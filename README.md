@@ -21,26 +21,26 @@ byte-compatible with the Rust reference implementation
 
 | Area | State | Evidence |
 | --- | --- | --- |
-| `.ekb` container (header, sections, footer, manifest) | ✅ identical | `compat_test.go`, `scripts/roundtrip.sh` |
-| Machines 1–9 core codecs | ✅ identical (bit-exact encode/decode) | `compat_test.go` |
-| Reader API (`Open`, `ByteAt`, `ReadAt`, `PhysicalBytes`, `Estimate`, `WorstCaseStepsFor`) | ✅ | `reader.go`, `roundtrip_test.go` |
-| Accelerated reads (path bloom / history / checkpoints) | ✅ O(1) path bloom ≈2.3 ns | `fastpath.go`, `fastpath_test.go`, `bench_test.go` |
-| Writer (`WriteBody`/`AppendGeneration`: root/full/sparse/path) | ✅ Rust-readable; path bloom + certificate | `writer.go`, `writer_path.go`, `append.go` |
-| Writer parity (universal/regional blooms, tiles) | ✅ Rust-readable shells; Flat-directory TileSet | `writer_bloom.go`, `writer_tiles.go`, `writer_test.go` |
-| Legacy v0.3/v0.4 fixtures open byte-identically | ✅ frozen Rust fixtures | `testdata/legacy/`, `legacy_test.go` |
-| Opt-in keyed AUTH (write + verify) | ✅ | `auth.go`, `auth_test.go`, Rust `open_authenticated` |
-| Allocation-free `ResidentView.Get` (zero allocs/op) | ✅ ≈1.35 ns | `resident.go`, `resident_test.go` |
-| Metrics export (physical_bytes, expansion ratio, breaches) | ✅ | `metrics.go`, `metrics_test.go` |
-| `worst_case_steps_for` bound | ✅ 1.2M samples, 0 violations | `bound_test.go`, `evidence/bound.json` |
-| 64 readers, quiet vs 1 writer publish, p99.9 (`-race` clean) | ✅ tails indistinguishable (≈1 µs) | `concurrency_test.go`, `evidence/concurrency.json` |
-| Shared dictionaries (machine 9) | ✅ P5: 83.5 vs 590.0 B/rec, break-even 2 recs | `dictionary.go`, `dictbench_test.go`, `docs/DICTIONARY.md` |
-| Corruption detection (`Corrupt{Section,Offset}`) | ✅ 100% of covered bits, ≤1 structure (≤4096 B) | `corruption_test.go` |
-| Streaming (`StreamBuilder`/`StreamReader`, bounded RSS) | ✅ 2 GiB @ 9.5 MiB peak heap | `stream_test.go`, `scale_test.go` |
-| Resource policy (1 GiB default cap + breach counter) | ✅ | `resource.go` |
+| `.ekb` container (header, sections, footer, manifest) | ✅ identical | `internal/ekb/compat_test.go`, `scripts/roundtrip.sh` |
+| Machines 1–9 core codecs | ✅ identical (bit-exact encode/decode) | `internal/ekb/compat_test.go` |
+| Reader API (`Open`, `ByteAt`, `ReadAt`, `PhysicalBytes`, `Estimate`, `WorstCaseStepsFor`) | ✅ | `internal/ekb/reader.go`, `internal/ekb/roundtrip_test.go` |
+| Accelerated reads (path bloom / history / checkpoints) | ✅ O(1) path bloom ≈2.3 ns | `internal/ekb/fastpath.go`, `internal/ekb/fastpath_test.go`, `internal/ekb/bench_test.go` |
+| Writer (`WriteBody`/`AppendGeneration`: root/full/sparse/path) | ✅ Rust-readable; path bloom + certificate | `internal/ekb/writer.go`, `internal/ekb/writer_path.go`, `internal/ekb/append.go` |
+| Writer parity (universal/regional blooms, tiles) | ✅ Rust-readable shells; Flat-directory TileSet | `internal/ekb/writer_bloom.go`, `internal/ekb/writer_tiles.go`, `internal/ekb/writer_test.go` |
+| Legacy v0.3/v0.4 fixtures open byte-identically | ✅ frozen Rust fixtures | `testdata/legacy/`, `internal/ekb/legacy_test.go` |
+| Opt-in keyed AUTH (write + verify) | ✅ | `internal/ekb/auth.go`, `auth_test.go`, Rust `open_authenticated` |
+| Allocation-free `ResidentView.Get` (zero allocs/op) | ✅ ≈1.35 ns | `internal/ekb/resident.go`, `internal/ekb/resident_test.go` |
+| Metrics export (physical_bytes, expansion ratio, breaches) | ✅ | `internal/ekb/metrics.go`, `internal/ekb/metrics_test.go` |
+| `worst_case_steps_for` bound | ✅ 1.2M samples, 0 violations | `internal/ekb/bound_test.go`, `evidence/bound.json` |
+| 64 readers, quiet vs 1 writer publish, p99.9 (`-race` clean) | ✅ tails indistinguishable (≈1 µs) | `internal/ekb/concurrency_test.go`, `evidence/concurrency.json` |
+| Shared dictionaries (machine 9) | ✅ P5: 83.5 vs 590.0 B/rec, break-even 2 recs | `internal/ekb/dictionary.go`, `internal/ekb/dictbench_test.go`, `docs/DICTIONARY.md` |
+| Corruption detection (`Corrupt{Section,Offset}`) | ✅ 100% of covered bits, ≤1 structure (≤4096 B) | `internal/ekb/corruption_test.go` |
+| Streaming (`StreamBuilder`/`StreamReader`, bounded RSS) | ✅ 2 GiB @ 9.5 MiB peak heap | `internal/ekb/stream_test.go`, `internal/ekb/scale_test.go` |
+| Resource policy (1 GiB default cap + breach counter) | ✅ | `internal/ekb/resource.go` |
 | Fault injection (torn append / ENOSPC-EIO) | ✅ newest valid generation picked | `append_test.go` |
-| Per-machine `byte_at` p50/p99/p99.9 | ✅ 20 / 31 / 40 ns | `latency_test.go`, `evidence/byteat.json` |
-| Fuzzers (Open, Stream, machine roundtrip) | ✅ | `fuzz_test.go`, `evidence/fuzz/` |
-| Benchmarks (`go test -bench`, incl. native arm64) | ✅ amd64 + native arm64 (CI) | `bench_test.go`, `evidence/bench.txt`, `evidence/aarch64-native-bench.txt` |
+| Per-machine `byte_at` p50/p99/p99.9 | ✅ 20 / 31 / 40 ns | `internal/ekb/latency_test.go`, `evidence/byteat.json` |
+| Fuzzers (Open, Stream, machine roundtrip) | ✅ | `internal/ekb/fuzz_test.go`, `evidence/fuzz/` |
+| Benchmarks (`go test -bench`, incl. native arm64) | ✅ amd64 + native arm64 (CI) | `internal/ekb/bench_test.go`, `evidence/bench.txt`, `evidence/aarch64-native-bench.txt` |
 | Cross-FS determinism (ext4/xfs/btrfs/tmpfs (CI); ext4/btrfs/tmpfs locally) | ✅ identical fingerprints | `scripts/cross-fs.sh`, `evidence/cross-fs.json` |
 | Cross-arch runtime determinism | ✅ native amd64 == arm64 fingerprints | `evidence/aarch64-determinism.json`, `evidence/aarch64-native-fingerprint.txt` |
 | Standard corpora `E_V` (Canterbury/Silesia/enwik8/enwik9) | ✅ Go == Rust, 50/50 rows | `scripts/corpus.sh`, `evidence/corpus-compare.log` |
@@ -135,28 +135,33 @@ for the compatibility promise.
 
 ## Layout
 
+The **root package is the public API only** — a thin facade of type aliases and
+function wrappers. The engine is `internal/` (Go enforces that it cannot be
+imported by other modules), so `go list -f '{{.GoFiles}}' .` shows a handful of
+files, not forty.
+
 ```
-package `ekbloom` at the repository root:
-  errors.go        typed errors (Kind, sentinels, CorruptDetail)
-  format.go        GenesisHeader, SectionHeader, CommitFooter, ManifestRecord, Scan
-  machine*.go      the nine machines (encode/decode/check, prepared contexts)
-  dictionary.go    machine-9 shared order-0 dictionaries + registry (OpenWithDict)
-  fastpath.go      accelerated reads: path bloom / history / checkpoints
-  resident.go      allocation-free borrowed ResidentView (Get(i), zero allocs/op)
-  estimate.go      profile labels and the upper-bound estimator
-  inspect.go       physical accounting (mirrors the Rust FileBody::inspect)
-  reader.go        Open / ByteAt / ReadAt / PhysicalBytes / Estimate / WorstCaseStepsFor
-  writer.go        WriteBody / WriteBodyWithDict / WriteBodyAuthenticated
-  writer_path.go   exact path-bloom writer (P_D[j] + certificate)
-  append.go        AppendGeneration (additive generations) + TruncateToValid
-  auth.go          OpenAuthenticated / VerifyAuthenticated (keyed AUTH)
-  metrics.go       Metrics / MetricsText / MetricsJSON / ResourcePolicySnapshot
-  verify.go        structural + deep verification with localized Corrupt errors
-  stream.go        bounded-memory stream container builder/reader
-  resource.go      ResourcePolicy (default 1 GiB) + breach counter
+package `ekbloom` (repository root) — public API only:
+  ekbloom.go       package doc + type aliases (Reader, Profile, Error, ...)
+  reader.go        Open / OpenWithDict / OpenAuthenticated / Verify* / Scan / DecodeCore / metrics
+  writer.go        WriteBody* / AppendGeneration* / TruncateToValid / dictionary
+  stream.go        NewStreamBuilder / OpenStream
+  resident.go      ResidentView
+  errors.go        Error, Kind, sentinels, CorruptDetail
+  options.go       Profile/Section/Policy/Machine constants, Estimate...
+
+internal/ekb/      the engine (was package ekbloom; one cohesive package):
+  reader.go writer.go format.go verify.go inspect.go estimate.go machine*.go
+  dictionary.go fastpath.go resident.go stream.go metrics.go resource.go auth.go
+  append.go writer_path.go writer_bloom.go writer_tiles.go errors.go
+  + the tests that are the specification (compat_test.go, legacy_test.go,
+    corruption_test.go, bound_test.go, concurrency_test.go, roundtrip_test.go,
+    chaos_test.go, fuzz_test.go, ...)
+
 cmd/ekbloom        minimal CLI (inspect/byte/read/verify/stream) for the container image
 internal/blake3     dependency-free pure-Go BLAKE3 (unkeyed + keyed, streaming)
 internal/tools      roundtripgen, fingerprint, corpusbench, corpuscompare, testsum
+courts/             separate module: the competitor courts (zstd/lz4/Pebble/zstd-dict)
 tools/fixturegen    committed Rust crate: fixture generator + verifygo (Rust reads Go)
 testdata/           Rust-generated .ekb/.stream/auth fixtures + BLAKE3 vectors
 docs/               CORE-LAYOUT.md, MIGRATION.md, STABILITY.md, SECURITY.md, THREAT_MODEL.md, OPERATIONS.md, MACHINE_CONTRACT.md, DICTIONARY.md, COURTS.md, CORPORA.md, PERFORMANCE.md, SCOPE.md, TESTING.md
@@ -167,6 +172,9 @@ Dockerfile          minimal multi-stage image (runtime ~9.7 MB, non-root)
 compose.yaml        one-command container reproduction (test/bench/inspect/verify)
 .reference/         (git-ignored) the Rust reference + the fixture generator
 ```
+
+The wire format and the public API are unchanged by this split: the root types are
+aliases (`type Reader = ekb.Reader`), so method sets and interfaces are identical.
 
 ## Design notes
 
