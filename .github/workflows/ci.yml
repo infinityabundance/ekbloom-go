@@ -49,6 +49,12 @@ jobs:
       - name: 4 KiB point-read court (Pebble)
         working-directory: courts
         run: go run ./point
+      - name: YCSB value-log court
+        working-directory: courts
+        run: go run ./ycsb
+      - name: performance history (append)
+        working-directory: .
+        run: sh scripts/bench-history.sh
 
   arm64:
     # Cross-architecture runtime determinism under qemu.
