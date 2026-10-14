@@ -39,6 +39,11 @@ executions) passes with no crashes; the seed/interesting corpus lives in
 `evidence/fuzz/`. For the long campaign (the reference ran 1B+ executions per
 target), run each target with a long `-fuzztime` under `scripts/fuzz.sh`.
 
+The primary entry point **`FuzzOpenBytes` has been driven past the 1B-execution
+bar**: 1,131,205,714 executions in 30 minutes with no crashes, logged verbatim at
+`evidence/fuzz/FuzzOpenBytes-1b.log`. `FuzzStreamBytes`/`FuzzMachineRoundTrip`
+are run for the short duration by default; extend them the same way.
+
 ## Benchmarks
 
 ```sh
@@ -89,10 +94,11 @@ FUZZTIME=45s sh scripts/fuzz.sh    # logs + corpus under evidence/fuzz/
 FUZZTIME=30m sh scripts/fuzz.sh    # the long campaign (the reference ran 1B/target)
 ```
 
-`evidence/fuzz.json` records the run (`FuzzOpenBytes` 26.0M execs, `FuzzStreamBytes`
-146k, `FuzzMachineRoundTrip` 170k in 45 s; 118 corpus entries published under
-`evidence/fuzz/corpus/`; no crashes). The corpus is copied out of the Go build
-cache so it is reproducible and reviewable.
+`evidence/fuzz.json` records both runs: the 45 s smoke run (`FuzzOpenBytes` 26.0M
+execs, `FuzzStreamBytes` 146k, `FuzzMachineRoundTrip` 170k; 118 corpus entries
+published under `evidence/fuzz/corpus/`) and the long `FuzzOpenBytes` campaign
+(1.13B execs, `PASS`). The corpus is copied out of the Go build cache so it is
+reproducible and reviewable.
 
 ## Reproduce
 

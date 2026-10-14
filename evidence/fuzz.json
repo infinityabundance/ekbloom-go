@@ -9,5 +9,13 @@
   "ok": true,
   "corpus_entries": 118,
   "corpus_dir": "evidence/fuzz/corpus",
-  "note": "The reference ran 1B execs/target; run `FUZZTIME=30m sh scripts/fuzz.sh` (or longer) for the full campaign. No crashes were found in this run."
+  "campaign": {
+    "target": "FuzzOpenBytes",
+    "fuzztime": "30m",
+    "execs": 1131205714,
+    "result": "PASS",
+    "log": "evidence/fuzz/FuzzOpenBytes-1b.log",
+    "note": "Long campaign reached 1.13B executions on the primary open() entry point with no crashes. FuzzStreamBytes and FuzzMachineRoundTrip were run for the short duration only; shorten/lengthen with FUZZTIME."
+  },
+  "note": "No crashes were found in any run. Run `FUZZTIME=30m sh scripts/fuzz.sh` (or longer) for the full campaign on every target."
 }

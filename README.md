@@ -26,6 +26,7 @@ byte-compatible with the Rust reference implementation
 | Reader API (`Open`, `ByteAt`, `ReadAt`, `PhysicalBytes`, `Estimate`, `WorstCaseStepsFor`) | ✅ | `reader.go`, `roundtrip_test.go` |
 | Accelerated reads (path bloom / history / checkpoints) | ✅ O(1) path bloom ~2.5 ns | `fastpath.go`, `fastpath_test.go`, `bench_test.go` |
 | Writer (`WriteBody`/`AppendGeneration`: root/full/sparse/path) | ✅ Rust-readable; path bloom + certificate | `writer.go`, `writer_path.go`, `append.go` |
+| Writer parity (universal/regional blooms, tiles) | ✅ Rust-readable shells; Flat-directory TileSet | `writer_bloom.go`, `writer_tiles.go`, `writer_test.go` |
 | Legacy v0.3/v0.4 fixtures open byte-identically | ✅ frozen Rust fixtures | `testdata/legacy/`, `legacy_test.go` |
 | Opt-in keyed AUTH (write + verify) | ✅ | `auth.go`, `auth_test.go`, Rust `open_authenticated` |
 | Allocation-free `ResidentView.Get` (zero allocs/op) | ✅ ≈3 ns | `resident.go`, `resident_test.go` |
@@ -37,12 +38,13 @@ byte-compatible with the Rust reference implementation
 | Streaming (`StreamBuilder`/`StreamReader`, bounded RSS) | ✅ 2 GiB @ 9.46 MiB peak heap | `stream_test.go`, `scale_test.go` |
 | Resource policy (1 GiB default cap + breach counter) | ✅ | `resource.go` |
 | Fault injection (torn append / ENOSPC-EIO) | ✅ newest valid generation picked | `append_test.go` |
+| Per-machine `byte_at` p50/p99/p99.9 | ✅ 20 / 31 / 40 ns | `latency_test.go`, `evidence/byteat.json` |
 | Fuzzers (Open, Stream, machine roundtrip) | ✅ | `fuzz_test.go`, `evidence/fuzz/` |
-| Benchmarks (`go test -bench`) | ✅ | `bench_test.go` |
+| Benchmarks (`go test -bench`, incl. arm64) | ✅ amd64 + arm64/qemu | `bench_test.go`, `evidence/bench.txt`, `evidence/aarch64-bench.txt` |
 | Cross-FS determinism (disk vs tmpfs) | ✅ identical fingerprints | `scripts/cross-fs.sh` |
 | Cross-arch runtime determinism | ✅ amd64 == arm64 fingerprints | `evidence/aarch64-determinism.json` |
 | Skewed small-record court vs zstd/lz4/zstd-dict | ✅ space win, decode cost (honest) | `courts/`, `docs/COURTS.md`, `evidence/courts.json` |
-| Fuzz campaign | ✅ 26M+ execs, corpus published | `evidence/fuzz.json`, `evidence/fuzz/` |
+| Fuzz campaign | ✅ **1.13B execs** (Open), corpus published | `evidence/fuzz.json`, `evidence/fuzz/FuzzOpenBytes-1b.log` |
 | CI + captured logs | ✅ | `.github/workflows/ci.yml`, `scripts/ci.sh`, `evidence/` |
 
 ## Quick start
