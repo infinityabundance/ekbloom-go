@@ -32,6 +32,21 @@ cross-core cache traffic on the shared published pointer and the per-read clock
 read, not by the codec; the quiet and publish distributions are statistically
 indistinguishable, which is the property the RCU publication exists to provide.
 
+## Publishing the container
+
+The minimal runtime image (~9.7 MB, non-root, `scratch`-free Alpine) is the whole
+deployment artifact; the codec has no runtime dependencies and no configuration.
+
+```sh
+sh scripts/container-image.sh                 # build locally
+TAG=v0.1.0 sh scripts/container-publish.sh    # multi-arch build + push to Docker Hub
+```
+
+`scripts/container-publish.sh` fails fast with a clear message when no registry
+login is present, so it is safe to run in any environment. The `publish` CI
+workflow pushes to GHCR unconditionally and to Docker Hub when
+`DOCKERHUB_USERNAME`/`DOCKERHUB_TOKEN` are configured.
+
 ## Recovery runbook
 
 ```sh

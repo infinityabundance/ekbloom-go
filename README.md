@@ -43,7 +43,7 @@ byte-compatible with the Rust reference implementation
 | Benchmarks (`go test -bench`, incl. arm64) | ✅ amd64 + arm64/qemu | `bench_test.go`, `evidence/bench.txt`, `evidence/aarch64-bench.txt` |
 | Cross-FS determinism (disk vs tmpfs) | ✅ identical fingerprints | `scripts/cross-fs.sh` |
 | Cross-arch runtime determinism | ✅ amd64 == arm64 fingerprints | `evidence/aarch64-determinism.json` |
-| Skewed small-record court vs zstd/lz4/zstd-dict | ✅ space win, decode cost (honest) | `courts/`, `docs/COURTS.md`, `evidence/courts.json` |
+| Skewed small-record court vs zstd/lz4/zstd-dict | ✅ space win, decode cost, allocs/get (honest) | `courts/`, `docs/COURTS.md`, `evidence/courts.json` |
 | Fuzz campaign | ✅ **1.13B execs** (Open), corpus published | `evidence/fuzz.json`, `evidence/fuzz/FuzzOpenBytes-1b.log` |
 | CI + captured logs | ✅ | `.github/workflows/ci.yml`, `scripts/ci.sh`, `evidence/` |
 
@@ -90,7 +90,13 @@ Container (minimal, non-root, ~9.7 MB runtime image):
 sh scripts/container-image.sh      # docker build --target runtime
 sh scripts/container-test.sh       # docker build --target test (vet + full suite)
 sh scripts/container-reproduce.sh  # run the suite + CLI in-container, emit JSON
+sh scripts/container-publish.sh    # multi-arch build+push (needs `docker login`)
 ```
+
+The `publish` workflow (`.github/workflows/publish.yml`) builds `linux/amd64` and
+`linux/arm64` and pushes to GHCR, and to Docker Hub
+(`infinityabundance/ekbloom-go`) when `DOCKERHUB_USERNAME`/`DOCKERHUB_TOKEN`
+secrets are set. Tag a release to publish: `git tag v0.1.0 && git push origin v0.1.0`.
 
 ## Layout
 

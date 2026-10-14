@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"runtime"
 	"sort"
 	"text/tabwriter"
 	"time"
@@ -72,7 +73,16 @@ type row struct {
 	BytesFetched float64 `json:"bytes_fetched_per_get"`
 	P50ns        float64 `json:"decode_p50_ns"`
 	P999ns       float64 `json:"decode_p99_9_ns"`
+	AllocsPerGet float64 `json:"allocs_per_get"`
 	Ratio        float64 `json:"ratio_vs_raw"`
+}
+
+// mallocs is the cumulative count of heap allocations, used to derive allocs/get
+// for each codec's decode loop.
+func mallocs() uint64 {
+	var m runtime.MemStats
+	runtime.ReadMemStats(&m)
+	return m.Mallocs
 }
 
 func p50(durs []time.Duration) time.Duration {
@@ -103,13 +113,14 @@ func main() {
 			total += len(r)
 		}
 		durs := make([]time.Duration, gets)
+		m0 := mallocs()
 		for i := 0; i < gets; i++ {
 			idx := skewIndex(&s, numRecords)
 			t0 := time.Now()
 			_ = append([]byte(nil), records[idx]...)
 			durs[i] = time.Since(t0)
 		}
-		rows = append(rows, row{"raw", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), 1.0})
+		rows = append(rows, row{"raw", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), float64(mallocs()-m0) / gets, 1.0})
 	}
 
 	// lz4 block
@@ -128,6 +139,7 @@ func main() {
 		}
 		durs := make([]time.Duration, gets)
 		out := make([]byte, recSize)
+		m0 := mallocs()
 		for i := 0; i < gets; i++ {
 			idx := skewIndex(&s, numRecords)
 			t0 := time.Now()
@@ -136,7 +148,7 @@ func main() {
 			}
 			durs[i] = time.Since(t0)
 		}
-		rows = append(rows, row{"lz4", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), 0})
+		rows = append(rows, row{"lz4", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), float64(mallocs()-m0) / gets, 0})
 	}
 
 	// zstd (no dictionary)
@@ -150,13 +162,14 @@ func main() {
 			total += len(comps[i])
 		}
 		durs := make([]time.Duration, gets)
+		m0 := mallocs()
 		for i := 0; i < gets; i++ {
 			idx := skewIndex(&s, numRecords)
 			t0 := time.Now()
 			_, _ = dec.DecodeAll(comps[idx], nil)
 			durs[i] = time.Since(t0)
 		}
-		rows = append(rows, row{"zstd", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), 0})
+		rows = append(rows, row{"zstd", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), float64(mallocs()-m0) / gets, 0})
 	}
 
 	// zstd with a dictionary trained on the same set (raw content dict)
@@ -174,13 +187,14 @@ func main() {
 			total += len(comps[i])
 		}
 		durs := make([]time.Duration, gets)
+		m0 := mallocs()
 		for i := 0; i < gets; i++ {
 			idx := skewIndex(&s, numRecords)
 			t0 := time.Now()
 			_, _ = dec.DecodeAll(comps[idx], nil)
 			durs[i] = time.Since(t0)
 		}
-		rows = append(rows, row{"zstd-dict", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), 0})
+		rows = append(rows, row{"zstd-dict", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), float64(mallocs()-m0) / gets, 0})
 	}
 
 	// EKBLOOM machine 9 (shared trained order-0 dictionary)
@@ -202,6 +216,7 @@ func main() {
 			total += len(core)
 		}
 		durs := make([]time.Duration, gets)
+		m0 := mallocs()
 		for i := 0; i < gets; i++ {
 			idx := skewIndex(&s, numRecords)
 			t0 := time.Now()
@@ -211,7 +226,7 @@ func main() {
 			}
 			durs[i] = time.Since(t0)
 		}
-		rows = append(rows, row{"ekbloom-m9", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), 0})
+		rows = append(rows, row{"ekbloom-m9", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), float64(mallocs()-m0) / gets, 0})
 	}
 
 	// ratio vs raw
@@ -221,9 +236,9 @@ func main() {
 	}
 
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-	fmt.Fprintf(w, "codec\tB/rec\tB/fetch\tvs raw\tp50\tp99.9\n")
+	fmt.Fprintf(w, "codec\tB/rec\tB/fetch\tvs raw\tp50\tp99.9\tallocs/get\n")
 	for _, r := range rows {
-		fmt.Fprintf(w, "%s\t%.1f\t%.1f\t%.3f\t%.0f ns\t%.0f ns\n", r.Codec, r.BytesPerRec, r.BytesFetched, r.Ratio, r.P50ns, r.P999ns)
+		fmt.Fprintf(w, "%s\t%.1f\t%.1f\t%.3f\t%.0f ns\t%.0f ns\t%.2f\n", r.Codec, r.BytesPerRec, r.BytesFetched, r.Ratio, r.P50ns, r.P999ns, r.AllocsPerGet)
 	}
 	w.Flush()
 
