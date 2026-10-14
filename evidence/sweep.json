@@ -9,8 +9,8 @@
       "E_V": 1,
       "byte_at_p50_ns": 20,
       "byte_at_p99_ns": 141,
-      "read4k_p50_ns": 661,
-      "seq_mb_per_s": 13692.37800498818
+      "read4k_p50_ns": 481,
+      "seq_mb_per_s": 12706.469711474378
     },
     {
       "profile": "m2_root",
@@ -18,9 +18,9 @@
       "physical_bytes": 208084,
       "E_V": 0.19844436645507812,
       "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 171,
-      "read4k_p50_ns": 361,
-      "seq_mb_per_s": 17897.45340342732
+      "byte_at_p99_ns": 181,
+      "read4k_p50_ns": 621,
+      "seq_mb_per_s": 11660.431910682115
     },
     {
       "profile": "m1_full",
@@ -29,8 +29,8 @@
       "E_V": 5.000003814697266,
       "byte_at_p50_ns": 30,
       "byte_at_p99_ns": 40,
-      "read4k_p50_ns": 3016,
-      "seq_mb_per_s": 1669.555470283748
+      "read4k_p50_ns": 2935,
+      "seq_mb_per_s": 1629.0583684185995
     },
     {
       "profile": "m1_sparse64",
@@ -38,9 +38,9 @@
       "physical_bytes": 1081346,
       "E_V": 1.0312519073486328,
       "byte_at_p50_ns": 100,
-      "byte_at_p99_ns": 191,
-      "read4k_p50_ns": 9327,
-      "seq_mb_per_s": 448.8300232467256
+      "byte_at_p99_ns": 220,
+      "read4k_p50_ns": 9147,
+      "seq_mb_per_s": 469.6153777252289
     },
     {
       "profile": "m1_path4",
@@ -48,19 +48,19 @@
       "physical_bytes": 3145963,
       "E_V": 3.0002241134643555,
       "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 30,
-      "read4k_p50_ns": 551,
-      "seq_mb_per_s": 15375.91647603965
+      "byte_at_p99_ns": 31,
+      "read4k_p50_ns": 622,
+      "seq_mb_per_s": 19534.194005104415
     },
     {
       "profile": "m2_full",
       "machine_id": 2,
       "physical_bytes": 4402392,
       "E_V": 4.198448181152344,
-      "byte_at_p50_ns": 20,
-      "byte_at_p99_ns": 31,
-      "read4k_p50_ns": 541,
-      "seq_mb_per_s": 18750.353164172164
+      "byte_at_p50_ns": 30,
+      "byte_at_p99_ns": 60,
+      "read4k_p50_ns": 591,
+      "seq_mb_per_s": 20506.033049770216
     }
   ],
   "note": "E_V = physical_bytes / N on a 4-symbol 60/25/10/5 skewed source. Single host, scalar Go; a decision aid, not a portable benchmark."

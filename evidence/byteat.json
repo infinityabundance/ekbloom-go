@@ -34,7 +34,7 @@
       "logical_len": 1000,
       "p50_ns": 90,
       "p99_ns": 160,
-      "p99_9_ns": 170,
+      "p99_9_ns": 190,
       "surface": "checkpoint"
     },
     {
@@ -43,7 +43,7 @@
       "logical_len": 5000,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 40,
+      "p99_9_ns": 31,
       "surface": "materialized"
     },
     {
@@ -61,7 +61,7 @@
       "logical_len": 5000,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 40,
+      "p99_9_ns": 41,
       "surface": "materialized"
     },
     {
@@ -70,7 +70,7 @@
       "logical_len": 5000,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 50,
+      "p99_9_ns": 31,
       "surface": "direct"
     },
     {
@@ -79,7 +79,7 @@
       "logical_len": 8192,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 40,
+      "p99_9_ns": 31,
       "surface": "direct"
     },
     {
@@ -88,7 +88,7 @@
       "logical_len": 5000,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 50,
+      "p99_9_ns": 31,
       "surface": "materialized"
     },
     {
@@ -97,7 +97,7 @@
       "logical_len": 5000,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 40,
+      "p99_9_ns": 50,
       "surface": "materialized"
     },
     {
