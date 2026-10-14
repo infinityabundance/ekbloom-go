@@ -29,6 +29,10 @@ logical symbol.
 
 1. **Byte-exact round-trip.** For every input `src`, `Encode(src)` then decode
    yields `src`. Covered by `FuzzMachineRoundTrip`.
+1a. **`S(v)` is a bijection.** If the machine mixes symbols through the fixed
+   permutation `S(v) = v ^ (v<<1) ^ (v<<3)`, it relies on `S` being a bijection on
+   `0..255`; `TestSboxIsBijection` proves this exhaustively. A new mixing function
+   must carry the same proof.
 2. **Bounded `CheckCore`.** `CheckCore` must terminate in bounded time and never
    loop on a crafted core (use a step cap and return `ErrNonTermination`).
 3. **`Estimate >= actual`.** If the machine declares a header/length, the static

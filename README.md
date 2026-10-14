@@ -43,6 +43,7 @@ byte-compatible with the Rust reference implementation
 | Benchmarks (`go test -bench`, incl. arm64) | ✅ amd64 + arm64/qemu | `bench_test.go`, `evidence/bench.txt`, `evidence/aarch64-bench.txt` |
 | Cross-FS determinism (disk vs tmpfs) | ✅ identical fingerprints | `scripts/cross-fs.sh` |
 | Cross-arch runtime determinism | ✅ amd64 == arm64 fingerprints | `evidence/aarch64-determinism.json` |
+| Standard corpora `E_V` (Canterbury/Silesia/enwik8) | ✅ Go == Rust, 48/48 rows | `scripts/corpus.sh`, `evidence/corpus-compare.log` |
 | Skewed small-record court vs zstd/lz4/zstd-dict | ✅ space win, decode cost, allocs/get (honest) | `courts/`, `docs/COURTS.md`, `evidence/courts.json` |
 | Fuzz campaign | ✅ **1.13B execs** (Open), corpus published | `evidence/fuzz.json`, `evidence/fuzz/FuzzOpenBytes-1b.log` |
 | CI + captured logs | ✅ | `.github/workflows/ci.yml`, `scripts/ci.sh`, `evidence/` |
@@ -84,6 +85,7 @@ go test -race ./...               # the 64-reader path, race-detector clean
 EKB_RUN_SCALE=1 go test -run 2GiB .   # the 2 GiB bounded-memory stream build (~9.5 MiB peak)
 sh scripts/roundtrip.sh           # Go -> .ekb/.stream -> Rust decode, byte-for-byte
 sh scripts/cross-fs.sh            # cross-filesystem determinism (disk vs tmpfs)
+sh scripts/corpus.sh              # standard corpora E_V: Go vs Rust on the same files
 sh scripts/container-aarch64.sh   # amd64 == arm64 runtime determinism (qemu)
 sh scripts/courts.sh              # 100-byte, 80/20 court vs zstd/lz4/zstd-dict
 sh scripts/container-reproduce.sh # everything inside a ~10 MB Docker image
@@ -130,8 +132,8 @@ internal/blake3     dependency-free pure-Go BLAKE3 (unkeyed + keyed, streaming)
 internal/tools      roundtripgen, fingerprint, testsum (reproducibility helpers)
 tools/fixturegen    committed Rust crate: fixture generator + verifygo (Rust reads Go)
 testdata/           Rust-generated .ekb/.stream/auth fixtures + BLAKE3 vectors
-docs/               CORE-LAYOUT.md, MIGRATION.md, SECURITY.md, OPERATIONS.md, MACHINE_CONTRACT.md, DICTIONARY.md, COURTS.md, TESTING.md
-scripts/            roundtrip.sh, setup-reference.sh, cross-fs.sh, bench.sh, fuzz.sh, reproduce.sh, container-*.sh
+docs/               CORE-LAYOUT.md, MIGRATION.md, SECURITY.md, OPERATIONS.md, MACHINE_CONTRACT.md, DICTIONARY.md, COURTS.md, CORPORA.md, TESTING.md
+scripts/            roundtrip.sh, setup-reference.sh, cross-fs.sh, corpus.sh, bench.sh, fuzz.sh, reproduce.sh, container-*.sh
 Dockerfile          minimal multi-stage image (runtime ~9.7 MB, non-root)
 .reference/         (git-ignored) the Rust reference + the fixture generator
 ```

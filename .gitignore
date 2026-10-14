@@ -12,3 +12,6 @@ coverage.txt
 
 # Editor / OS
 .DS_Store
+
+# Downloaded standard corpora (fetched by scripts/corpus.sh, never committed)
+corpus/

@@ -1,0 +1,52 @@
+file                     m  N        physical (go)  physical (rust)  E_V     match
+canterbury/alice29.txt   1  152089   152089         152089           1.0000  ok
+canterbury/alice29.txt   2  152089   88685          88685            0.5831  ok
+canterbury/asyoulik.txt  1  125179   125179         125179           1.0000  ok
+canterbury/asyoulik.txt  2  125179   76847          76847            0.6139  ok
+canterbury/cp.html       1  24603    24603          24603            1.0000  ok
+canterbury/cp.html       2  24603    16800          16800            0.6828  ok
+canterbury/fields.c      1  11150    11150          11150            1.0000  ok
+canterbury/fields.c      2  11150    7604           7604             0.6820  ok
+canterbury/grammar.lsp   1  3721     3721           3721             1.0000  ok
+canterbury/grammar.lsp   2  3721     2733           2733             0.7345  ok
+canterbury/kennedy.xls   1  1029744  1029744        1029744          1.0000  ok
+canterbury/kennedy.xls   2  1029744  462279         462279           0.4489  ok
+canterbury/lcet10.txt    1  426754   426754         426754           1.0000  ok
+canterbury/lcet10.txt    2  426754   253142         253142           0.5932  ok
+canterbury/plrabn12.txt  1  481861   481861         481861           1.0000  ok
+canterbury/plrabn12.txt  2  481861   277737         277737           0.5764  ok
+canterbury/ptt5          1  513216   513216         513216           1.0000  ok
+canterbury/ptt5          2  513216   82489          82489            0.1607  ok
+canterbury/sum           1  38240    38240          38240            1.0000  ok
+canterbury/sum           2  38240    26070          26070            0.6817  ok
+canterbury/xargs.1       1  4227     4227           4227             1.0000  ok
+canterbury/xargs.1       2  4227     3175           3175             0.7511  ok
+enwik8/enwik8            1  4194304  4194304        4194304          1.0000  ok
+enwik8/enwik8            2  4194304  2687412        2687412          0.6407  ok
+silesia/dickens          1  4194304  4194304        4194304          1.0000  ok
+silesia/dickens          2  4194304  2409557        2409557          0.5745  ok
+silesia/mozilla          1  4194304  4194304        4194304          1.0000  ok
+silesia/mozilla          2  4194304  4039434        4039434          0.9631  ok
+silesia/mr               1  4194304  4194304        4194304          1.0000  ok
+silesia/mr               2  4194304  1885428        1885428          0.4495  ok
+silesia/nci              1  4194304  4194304        4194304          1.0000  ok
+silesia/nci              2  4194304  1315728        1315728          0.3137  ok
+silesia/ooffice          1  4194304  4194304        4194304          1.0000  ok
+silesia/ooffice          2  4194304  3446656        3446656          0.8217  ok
+silesia/osdb             1  4194304  4194304        4194304          1.0000  ok
+silesia/osdb             2  4194304  3464060        3464060          0.8259  ok
+silesia/reymont          1  4194304  4194304        4194304          1.0000  ok
+silesia/reymont          2  4194304  2533962        2533962          0.6041  ok
+silesia/samba            1  4194304  4194304        4194304          1.0000  ok
+silesia/samba            2  4194304  2964521        2964521          0.7068  ok
+silesia/sao              1  4194304  4194304        4194304          1.0000  ok
+silesia/sao              2  4194304  3928612        3928612          0.9367  ok
+silesia/webster          1  4194304  4194304        4194304          1.0000  ok
+silesia/webster          2  4194304  2644102        2644102          0.6304  ok
+silesia/x-ray            1  4194304  4194304        4194304          1.0000  ok
+silesia/x-ray            2  4194304  3380582        3380582          0.8060  ok
+silesia/xml              1  4194304  4194304        4194304          1.0000  ok
+silesia/xml              2  4194304  2877437        2877437          0.6860  ok
+
+48/48 rows identical (physical_bytes, logical_len, E_V)
+PASS: Go and Rust agree on every corpus row

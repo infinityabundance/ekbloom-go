@@ -123,7 +123,9 @@ machine 1/3              no header: core is N bytes
 
 ### 2.1 Machine 1 — `OrANS-NL2` (V = N)
 
-No header; `core` is `N` bytes. `S(v) = v ^ (v<<1) ^ (v<<3)` (8-bit). Step at
+No header; `core` is `N` bytes. `S(v) = v ^ (v<<1) ^ (v<<3)` (8-bit), an
+invertible GF(2) map on `0..255` (`TestSboxIsBijection` proves the bijection).
+Step at
 cursor `p` with `h = x>>8`, `l = x&0xff`: `s = S[h] ^ l ^ core[p]`,
 `x' = (l<<8)|s`, `p' = p+1`. Genesis `(0,0)`. Encode is the inverse.
 

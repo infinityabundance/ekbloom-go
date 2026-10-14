@@ -15,8 +15,8 @@
       "machine_id": 1,
       "logical_len": 4096,
       "p50_ns": 20,
-      "p99_ns": 31,
-      "p99_9_ns": 60,
+      "p99_ns": 30,
+      "p99_9_ns": 31,
       "surface": "history"
     },
     {
@@ -24,8 +24,8 @@
       "machine_id": 1,
       "logical_len": 4096,
       "p50_ns": 20,
-      "p99_ns": 31,
-      "p99_9_ns": 50,
+      "p99_ns": 30,
+      "p99_9_ns": 40,
       "surface": "path-bloom"
     },
     {
@@ -33,8 +33,8 @@
       "machine_id": 1,
       "logical_len": 1000,
       "p50_ns": 90,
-      "p99_ns": 160,
-      "p99_9_ns": 171,
+      "p99_ns": 161,
+      "p99_9_ns": 221,
       "surface": "checkpoint"
     },
     {
@@ -79,7 +79,7 @@
       "logical_len": 8192,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 40,
+      "p99_9_ns": 50,
       "surface": "direct"
     },
     {
@@ -97,7 +97,7 @@
       "logical_len": 5000,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 31,
+      "p99_9_ns": 40,
       "surface": "materialized"
     },
     {
@@ -106,7 +106,7 @@
       "logical_len": 38,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 40,
+      "p99_9_ns": 50,
       "surface": "materialized"
     }
   ]

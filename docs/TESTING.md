@@ -113,6 +113,7 @@ sh scripts/reproduce.sh           # clean build + full tests + JSON summary
 sh scripts/setup-reference.sh     # clone the pinned Rust reference into .reference/
 sh scripts/roundtrip.sh           # Go <-> Rust bidirectional identity
 sh scripts/cross-fs.sh            # cross-filesystem determinism
+sh scripts/corpus.sh              # standard corpora E_V (Go vs Rust, same files)
 sh scripts/container-reproduce.sh # everything inside a ~10 MB Docker image
 sh scripts/container-aarch64.sh   # amd64 == arm64 runtime determinism
 sh scripts/courts.sh              # skewed small-record court
@@ -122,3 +123,10 @@ sh scripts/courts.sh              # skewed small-record court
 bootstraps itself by calling `scripts/setup-reference.sh`, which clones the Rust
 reference at a pinned commit and stages the committed `tools/fixturegen` crate.
 Everything else is Go-only.
+
+`scripts/corpus.sh` downloads the standard corpora (Canterbury, Silesia, enwik8)
+into the git-ignored `corpus/` and measures `E_V = physical_bytes / N` and
+single-byte read latency for machines 1–2 on identical files. When the Rust
+toolchain is present it also runs the Rust reference on the **same** files and
+requires `physical_bytes` to be identical (`evidence/corpus.json`,
+`evidence/corpus-rust.json`, `evidence/corpus-compare.log`).

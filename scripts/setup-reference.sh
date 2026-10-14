@@ -27,8 +27,10 @@ if [ ! -f .reference/ekbloom-rust/Cargo.toml ]; then
 fi
 
 echo "== staging tools/fixturegen -> .reference/fixturegen =="
-rm -rf .reference/fixturegen
-mkdir -p .reference/fixturegen
-cp -r tools/fixturegen/. .reference/fixturegen/
+# Copy sources in place (never wipe target/) so repeated runs rebuild incrementally.
+mkdir -p .reference/fixturegen/src/bin
+cp tools/fixturegen/Cargo.toml tools/fixturegen/Cargo.lock .reference/fixturegen/
+cp tools/fixturegen/src/main.rs .reference/fixturegen/src/
+cp tools/fixturegen/src/bin/*.rs .reference/fixturegen/src/bin/
 
 echo "reference ready: .reference/ekbloom-rust @ $REF_COMMIT"
