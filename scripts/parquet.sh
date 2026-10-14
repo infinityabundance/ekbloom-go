@@ -31,11 +31,13 @@ fi
 
 # --- run (hard-capped); stdout is the JSON artifact, stderr is the log --------
 echo "== docker run --memory=$mem --memory-swap=$mem --cpus=$cpus $image ==" >"$log"
-echo "== go -C integrations/parquet mod tidy && go -C integrations/parquet run . ==" >>"$log"
+echo "== go -C integrations/parquet mod tidy && go -C integrations/parquet run . (median-of-runs, EKB_RUNS) ==" >>"$log"
 if ! docker run --rm \
       --memory="$mem" --memory-swap="$mem" \
       --cpus="$cpus" \
       -e GOMAXPROCS="$cpus" \
+      -e EKB_RUNS \
+      -e CI \
       --pids-limit=512 \
       --ulimit nofile=4096:4096 \
       --ulimit nproc=1024:1024 \

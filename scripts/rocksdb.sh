@@ -38,6 +38,8 @@ if ! docker run --rm \
       --memory="$mem" --memory-swap="$mem" \
       --cpus="$cpus" \
       -e GOMAXPROCS="$cpus" \
+      -e EKB_RUNS \
+      -e CI \
       --pids-limit=512 \
       --ulimit nofile=4096:4096 \
       "$image" >"$out" 2>>"$log"; then

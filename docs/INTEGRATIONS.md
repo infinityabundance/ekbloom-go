@@ -26,13 +26,14 @@ C ABI (`ekbloom_train` / `ekbloom_compress` / `ekbloom_decompress`); a C++ progr
 compress, `Get` = decompress) and registers a custom `rocksdb::MergeOperator`
 through the Object Registry (decode both operands, concatenate, re-encode).
 
-`evidence/rocksdb-blobdb.json` (20,000 records × 100 B, 80/20 skew, 50,000 ops):
+`evidence/rocksdb-blobdb.json` (20,000 records × 100 B, 80/20 skew, 50,000 ops;
+Get p50/p99 are the **median across `EKB_RUNS` runs**, default 5):
 
 | metric | value |
 | --- | ---: |
 | bytes/record | 63.38 |
-| Get p50 | 4,218 ns |
-| Get p99 | 16,471 ns |
+| Get p50 | 4,598 ns |
+| Get p99 | 12,874 ns |
 | E_V (physical / N) | 0.634 |
 | allocation breaches | 0 |
 
@@ -60,8 +61,9 @@ dictionary page against the machine-9 shared dictionary.
 | Zstandard + trained dictionary | 34.32 |
 | raw | 100.00 |
 
-Read cost: EKBLOOM `DecodeRecord` p50 ≈ 2.8 µs, **0 allocs/op** on the reusable
-`DictDecoder` path (below); Parquet per-value ≈ 95 ns (after loading the column).
+Read cost (median p50 across `EKB_RUNS` runs): EKBLOOM `DecodeRecord` ≈ 2.4 µs;
+Parquet per-value ≈ 92 ns (after loading the column). On the reusable `DictDecoder`
+path below the m9 read drops to **401 ns with 0 allocs/op**.
 
 **Honest boundary.** The column is deliberately Parquet-favourable: a dictionary
 page *dedupes identical values*, so with only 512 distinct values it collapses
@@ -175,7 +177,7 @@ sh scripts/prometheus.sh    # one scrape -> evidence/prometheus-scrape.txt
 
 Panel values come from `evidence/`: physical `63.38 B/rec`
 (`rocksdb-blobdb.json`), `E_V 0.634`, breach rate `0`, Get p50 `401 ns` /
-p99 `16,471 ns`, `worst_case_steps_for` bounded by `bound.json` (1.2M samples,
+p99 `12,874 ns`, `worst_case_steps_for` bounded by `bound.json` (1.2M samples,
 0 violations). `Reader.Metrics()` and `MetricsText` remain available directly for a
 custom exposition (`docs/OPERATIONS.md`).
 

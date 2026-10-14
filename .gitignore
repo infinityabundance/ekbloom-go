@@ -10,6 +10,9 @@ target/
 *.out
 coverage.txt
 
+# bench-history.sh's in-container aggregation scratch (removed on exit)
+/evidence/.bench-history.agg
+
 # Editor / OS
 .DS_Store
 

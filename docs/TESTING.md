@@ -151,8 +151,8 @@ execution) are structurally far heavier per execution and are bounded-fuzzed wit
 
 ```sh
 go test -bench . -benchmem .
-sh scripts/bench.sh               # writes bench.txt
-sh scripts/bench-history.sh       # append a regression record to bench-history.jsonl
+sh scripts/bench.sh               # writes bench.txt (median-of-runs, sandboxed)
+sh scripts/bench-history.sh       # append a median-of-runs record to bench-history.jsonl
 sh scripts/profile.sh             # CPU profiles: .prof + SVG call graph + top
 sh scripts/courts.sh              # 100-byte 80/20 court + 4 KiB point read + YCSB (separate module)
 ```

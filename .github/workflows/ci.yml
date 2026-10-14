@@ -25,8 +25,11 @@ jobs:
           sh scripts/roundtrip.sh 2>&1 | tee evidence/roundtrip.log
       - name: cross-filesystem determinism
         run: sh scripts/cross-fs.sh
-      - name: benchmarks (short)
-        run: go test -run '^$' -bench . -benchmem -benchtime 100ms ./internal/ekb | tee evidence/bench-ci.txt
+      - name: benchmarks (short, median-of-runs)
+        run: |
+          set -o pipefail
+          runs=$(go run ./internal/tools/benchagg -print-runs)
+          go test -run '^$' -bench . -benchmem -benchtime 100ms -count="$runs" ./internal/ekb | go run ./internal/tools/benchagg | tee evidence/bench-ci.txt
       - name: performance history (append)
         run: sh scripts/bench-history.sh
       - name: 2 GiB bounded-memory stream
@@ -135,10 +138,11 @@ jobs:
           go-version: "1.23"
       - name: suite (native arm64)
         run: go test ./...
-      - name: native benchmarks
+      - name: native benchmarks (median-of-runs)
         run: |
           set -o pipefail
-          go test -run '^$' -bench . -benchmem -benchtime 100ms ./internal/ekb | tee evidence/aarch64-native-bench.txt
+          runs=$(go run ./internal/tools/benchagg -print-runs)
+          go test -run '^$' -bench . -benchmem -benchtime 100ms -count="$runs" ./internal/ekb | go run ./internal/tools/benchagg | tee evidence/aarch64-native-bench.txt
       - name: native fingerprint must equal the recorded amd64 fingerprint
         run: |
           set -o pipefail

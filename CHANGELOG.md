@@ -63,6 +63,23 @@ The wire format is **frozen** and follows the Rust reference
   `-race` suite stays a pure correctness gate and no longer overwrites the timing
   artifacts (see `writeTimingEvidence`).
 
+- **Median-of-runs extended to the remaining measurement surfaces.** The C++
+  RocksDB driver (`integrations/rocksdb/rocksdb_blob.cc`) now replays its
+  50,000-op 80/20 get/merge workload `EKB_RUNS` times (default 5; 3 in CI, off the
+  same env knob) and reports the median Get p50/p99 with min/max; the Parquet
+  integration (`integrations/parquet`) does the same for its decode p50 and
+  allocs/op; and the micro-benchmarks (`scripts/bench.sh` → `evidence/bench.txt`)
+  now run `go test -bench . -benchmem -benchtime 200ms -count=EKB_RUNS` and are
+  reduced to per-benchmark medians (`ns/op`, `MB/s`, `B/op`, `allocs/op`, with
+  min/max) by a new stdlib-only aggregator, `internal/tools/benchagg` (also used by
+  `scripts/bench-history.sh`, which records `runs`/`statistic` and the median
+  `ns/op` with min/max in `evidence/bench-history.jsonl`). `scripts/bench.sh` and
+  `scripts/bench-history.sh`
+  now run inside `scripts/sandbox.sh` (no `go` on the host). Deterministic fields
+  (`records`, `bytes_per_record`, `ekbloom_physical_bytes`,
+  `ekbloom_expansion_ratio`, `breaches`, and the Parquet/m9 byte sizes) are
+  unchanged.
+
 ### Fixed
 
 - **Sandbox scheduler sizing (`GOMAXPROCS`).** Go 1.23 does not read the cgroup CPU

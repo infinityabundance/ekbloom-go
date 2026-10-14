@@ -6,7 +6,7 @@
 #1 DONE 0.0s
 
 #2 resolve image config for docker-image://docker.io/docker/dockerfile:1
-#2 DONE 0.7s
+#2 DONE 0.5s
 
 #3 docker-image://docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
 #3 CACHED
@@ -15,27 +15,115 @@
 #4 DONE 0.0s
 
 #5 [internal] load metadata for docker.io/library/golang:1.23-bookworm
-#5 DONE 0.6s
+#5 DONE 0.9s
 
 #6 [internal] load .dockerignore
 #6 transferring context: 544B done
 #6 DONE 0.0s
 
-#7 [bridge 1/6] FROM docker.io/library/golang:1.23-bookworm@sha256:167053a2bb901972bf2c1611f8f52c44d5fe7e762e5cab213708d82c421614db
+#7 [runtime 1/6] FROM docker.io/library/ubuntu:24.04
 #7 DONE 0.0s
 
-#8 [runtime 1/6] FROM docker.io/library/ubuntu:24.04
+#8 [internal] load build context
+#8 transferring context: 20.34MB 0.0s done
 #8 DONE 0.0s
 
-#9 [internal] load build context
-#9 transferring context: 124.29kB 0.1s done
-#9 DONE 0.1s
+#9 [bridge 1/6] FROM docker.io/library/golang:1.23-bookworm@sha256:167053a2bb901972bf2c1611f8f52c44d5fe7e762e5cab213708d82c421614db
+#9 CACHED
 
 #10 [bridge 2/6] RUN apt-get update  && apt-get install -y --no-install-recommends build-essential ca-certificates  && rm -rf /var/lib/apt/lists/*
-#10 CACHED
+#10 0.191 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+#10 0.279 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+#10 0.322 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+#10 0.377 Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8790 kB]
+#10 0.686 Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+#10 0.735 Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [353 kB]
+#10 1.178 Fetched 9392 kB in 1s (8583 kB/s)
+#10 1.178 Reading package lists...
+#10 1.428 Reading package lists...
+#10 1.697 Building dependency tree...
+#10 1.788 Reading state information...
+#10 1.856 The following additional packages will be installed:
+#10 1.857   bzip2 dpkg dpkg-dev libdpkg-perl liblzma5 patch xz-utils
+#10 1.857 Suggested packages:
+#10 1.857   bzip2-doc debsig-verify debian-keyring bzr ed diffutils-doc
+#10 1.857 Recommended packages:
+#10 1.857   fakeroot libalgorithm-merge-perl libfile-fcntllock-perl
+#10 1.857   liblocale-gettext-perl
+#10 1.878 The following NEW packages will be installed:
+#10 1.879   build-essential bzip2 dpkg-dev libdpkg-perl patch xz-utils
+#10 1.879 The following packages will be upgraded:
+#10 1.880   ca-certificates dpkg liblzma5
+#10 1.981 3 upgraded, 6 newly installed, 0 to remove and 63 not upgraded.
+#10 1.981 Need to get 4550 kB of archives.
+#10 1.981 After this operation, 5461 kB of additional disk space will be used.
+#10 1.981 Get:1 http://deb.debian.org/debian bookworm/main amd64 dpkg amd64 1.21.23 [1568 kB]
+#10 2.206 Get:2 http://deb.debian.org/debian-security bookworm-security/main amd64 liblzma5 amd64 5.4.1-1+deb12u2 [206 kB]
+#10 2.213 Get:3 http://deb.debian.org/debian bookworm/main amd64 bzip2 amd64 1.0.8-5+b1 [49.8 kB]
+#10 2.217 Get:4 http://deb.debian.org/debian-security bookworm-security/main amd64 ca-certificates all 20250419~deb12u1 [162 kB]
+#10 2.259 Get:5 http://deb.debian.org/debian-security bookworm-security/main amd64 xz-utils amd64 5.4.1-1+deb12u2 [471 kB]
+#10 2.302 Get:6 http://deb.debian.org/debian bookworm/main amd64 libdpkg-perl all 1.21.23 [604 kB]
+#10 2.349 Get:7 http://deb.debian.org/debian bookworm/main amd64 patch amd64 2.7.6-7 [128 kB]
+#10 2.388 Get:8 http://deb.debian.org/debian bookworm/main amd64 dpkg-dev all 1.21.23 [1354 kB]
+#10 2.457 Get:9 http://deb.debian.org/debian bookworm/main amd64 build-essential amd64 12.9 [7704 B]
+#10 2.507 debconf: delaying package configuration, since apt-utils is not installed
+#10 2.515 Fetched 4550 kB in 1s (7915 kB/s)
+#10 2.519 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 15611 files and directories currently installed.)
+#10 2.523 Preparing to unpack .../dpkg_1.21.23_amd64.deb ...
+#10 2.523 Unpacking dpkg (1.21.23) over (1.21.22) ...
+#10 2.584 Setting up dpkg (1.21.23) ...
+#10 2.637 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 15611 files and directories currently installed.)
+#10 2.640 Preparing to unpack .../liblzma5_5.4.1-1+deb12u2_amd64.deb ...
+#10 2.640 Unpacking liblzma5:amd64 (5.4.1-1+deb12u2) over (5.4.1-1) ...
+#10 2.650 Setting up liblzma5:amd64 (5.4.1-1+deb12u2) ...
+#10 2.654 Selecting previously unselected package bzip2.
+#10 2.654 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 15611 files and directories currently installed.)
+#10 2.657 Preparing to unpack .../0-bzip2_1.0.8-5+b1_amd64.deb ...
+#10 2.657 Unpacking bzip2 (1.0.8-5+b1) ...
+#10 2.663 Preparing to unpack .../1-ca-certificates_20250419~deb12u1_all.deb ...
+#10 2.663 Unpacking ca-certificates (20250419~deb12u1) over (20230311+deb12u1) ...
+#10 2.675 Selecting previously unselected package xz-utils.
+#10 2.675 Preparing to unpack .../2-xz-utils_5.4.1-1+deb12u2_amd64.deb ...
+#10 2.675 Unpacking xz-utils (5.4.1-1+deb12u2) ...
+#10 2.698 Selecting previously unselected package libdpkg-perl.
+#10 2.699 Preparing to unpack .../3-libdpkg-perl_1.21.23_all.deb ...
+#10 2.699 Unpacking libdpkg-perl (1.21.23) ...
+#10 2.721 Selecting previously unselected package patch.
+#10 2.723 Preparing to unpack .../4-patch_2.7.6-7_amd64.deb ...
+#10 2.723 Unpacking patch (2.7.6-7) ...
+#10 2.731 Selecting previously unselected package dpkg-dev.
+#10 2.732 Preparing to unpack .../5-dpkg-dev_1.21.23_all.deb ...
+#10 2.732 Unpacking dpkg-dev (1.21.23) ...
+#10 2.783 Selecting previously unselected package build-essential.
+#10 2.784 Preparing to unpack .../6-build-essential_12.9_amd64.deb ...
+#10 2.784 Unpacking build-essential (12.9) ...
+#10 2.790 Setting up bzip2 (1.0.8-5+b1) ...
+#10 2.790 Setting up ca-certificates (20250419~deb12u1) ...
+#10 2.820 debconf: unable to initialize frontend: Dialog
+#10 2.820 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#10 2.820 debconf: falling back to frontend: Readline
+#10 2.822 debconf: unable to initialize frontend: Readline
+#10 2.822 debconf: (This frontend requires a controlling tty.)
+#10 2.822 debconf: falling back to frontend: Teletype
+#10 3.199 Updating certificates in /etc/ssl/certs...
+#10 3.403 rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+#10 3.405 21 added, 13 removed; done.
+#10 3.410 Setting up xz-utils (5.4.1-1+deb12u2) ...
+#10 3.411 update-alternatives: using /usr/bin/xz to provide /usr/bin/lzma (lzma) in auto mode
+#10 3.411 Setting up patch (2.7.6-7) ...
+#10 3.411 Setting up libdpkg-perl (1.21.23) ...
+#10 3.412 Setting up dpkg-dev (1.21.23) ...
+#10 3.412 Setting up build-essential (12.9) ...
+#10 3.412 Processing triggers for libc-bin (2.36-9+deb12u10) ...
+#10 3.418 Processing triggers for ca-certificates (20250419~deb12u1) ...
+#10 3.419 Updating certificates in /etc/ssl/certs...
+#10 3.552 0 added, 0 removed; done.
+#10 3.552 Running hooks in /etc/ca-certificates/update.d...
+#10 3.552 done.
+#10 DONE 3.6s
 
 #11 [bridge 3/6] WORKDIR /src
-#11 CACHED
+#11 DONE 0.0s
 
 #12 [bridge 4/6] COPY . .
 #12 DONE 0.0s
@@ -44,16 +132,16 @@
 #13 DONE 0.0s
 
 #14 [bridge 6/6] RUN go build -buildmode=c-shared -o /out/libekbloom.so .
-#14 DONE 2.2s
+#14 DONE 2.0s
 
 #15 [runtime 2/6] RUN apt-get update  && apt-get install -y --no-install-recommends       librocksdb-dev build-essential ca-certificates  && rm -rf /var/lib/apt/lists/*
 #15 CACHED
 
 #16 [runtime 3/6] COPY --from=bridge /out/libekbloom.so /usr/local/lib/libekbloom.so
-#16 DONE 0.0s
+#16 CACHED
 
 #17 [runtime 4/6] COPY --from=bridge /out/libekbloom.h /usr/local/include/libekbloom.h
-#17 DONE 0.0s
+#17 CACHED
 
 #18 [runtime 5/6] COPY integrations/rocksdb/rocksdb_blob.cc /src/rocksdb_blob.cc
 #18 DONE 0.0s
@@ -63,10 +151,10 @@
 
 #20 exporting to image
 #20 exporting layers
-#20 exporting layers 0.4s done
-#20 writing image sha256:34c3a60eed4fe6867e09c92b15948b052a5ff52ce81a369f36c164615db1a5cb done
+#20 exporting layers 0.3s done
+#20 writing image sha256:351f8508996a2cdd9d1d97ee6f2ed57ca8f93d07e03a261f4656df544468f40a done
 #20 naming to docker.io/library/ekbloom-go-rocksdb-blobdb:local done
-#20 DONE 0.4s
+#20 DONE 0.3s
 == docker run --memory=2g --memory-swap=2g --cpus=2 ekbloom-go-rocksdb-blobdb:local ==
 trained dictionary: 540 bytes, id=20beacb1d6f356b7044b13b4ac2ab25f
-records=20000 dict_bytes=540 physical_bytes=1267683 get_n=40099 merge_ops=9901 breaches=0
+records=20000 dict_bytes=540 physical_bytes=1267683 runs=5 get_n=40099 merge_ops=9901 breaches=0

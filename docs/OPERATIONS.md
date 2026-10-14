@@ -154,13 +154,15 @@ From `go test -bench` (`internal/ekb/bench_test.go`), AMD Ryzen 7 9800X3D, Go 1.
 | BLAKE3, 1 MiB (pure Go) | ≈316 MB/s |
 | `ByteAt` via exact path bloom | ≈7 ns/op |
 | `ByteAt` via full history | ≈4.0 ns/op |
-| `ByteAt` via nearest checkpoint (K=64) | ≈68 ns/op |
+| `ByteAt` via nearest checkpoint (K=64) | ≈70 ns/op |
 | `ByteAt` materialised fallback | ≈5.5 ns/op |
 | `ResidentView.Get` (borrowed, zero allocs) | ≈1.35 ns/op |
 | `ReadAt` 4 KiB via path bloom | ≈321 ns (≈12.8 GB/s) |
 | stream build, 2 GiB, 64 KiB blocks | ≈16 s at **9.46 MiB peak heap** (≈125 MiB/s) |
 
-Captured verbatim in `evidence/bench.txt` (`go test -bench . -benchmem -benchtime 200ms`).
+Captured in `evidence/bench.txt` as per-benchmark **medians across `EKB_RUNS`
+runs** (`go test -bench . -benchmem -benchtime 200ms -count=EKB_RUNS`, aggregated by
+`internal/tools/benchagg`).
 
 **Native arm64** (`ubuntu-24.04-arm`, 4 vCPU; `evidence/aarch64-native-bench.txt`):
 

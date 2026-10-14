@@ -29,6 +29,7 @@ import (
 	"time"
 
 	ekbloom "github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go/internal/tools/stat"
 	"github.com/klauspost/compress/zstd"
 	"github.com/parquet-go/parquet-go"
 	"github.com/parquet-go/parquet-go/format"
@@ -129,15 +130,20 @@ func encName(e format.Encoding) string {
 type report struct {
 	Records                 int     `json:"records"`
 	RecordBytes             int     `json:"record_bytes"`
+	Runs                    int     `json:"runs"`
+	Statistic               string  `json:"statistic"`
 	ParquetBytesPerRecord   float64 `json:"parquet_bytes_per_record"`
 	ParquetBytesTotal       int64   `json:"parquet_bytes_total"`
 	EkbloomM9BytesPerRecord float64 `json:"ekbloom_m9_bytes_per_record"`
 	ZstdDictBytesPerRecord  float64 `json:"zstd_dict_bytes_per_record"`
 	RawBytesPerRecord       float64 `json:"raw_bytes_per_record"`
 	EkbloomReadP50Ns        float64 `json:"ekbloom_read_p50_ns"`
+	EkbloomReadP50NsMin     float64 `json:"ekbloom_read_p50_ns_min"`
+	EkbloomReadP50NsMax     float64 `json:"ekbloom_read_p50_ns_max"`
 	ParquetReadP50Ns        float64 `json:"parquet_read_p50_ns"`
+	ParquetReadP50NsMin     float64 `json:"parquet_read_p50_ns_min"`
+	ParquetReadP50NsMax     float64 `json:"parquet_read_p50_ns_max"`
 	ParquetReadNsPerValue   float64 `json:"parquet_read_ns_per_value"`
-	EkbloomReadAllocations  uint64  `json:"ekbloom_read_allocations"`
 
 	Samples                int      `json:"samples"`
 	TrainRecords           int      `json:"train_records"`
@@ -149,9 +155,14 @@ type report struct {
 	ParquetDictPageBytes   int64    `json:"parquet_dict_page_bytes"`
 	ParquetColumnEncodings []string `json:"parquet_column_encodings"`
 	ParquetCompression     string   `json:"parquet_compression"`
+	EkbloomReadAllocations uint64   `json:"ekbloom_read_allocations"`
 	ParquetReadAllocations uint64   `json:"parquet_read_allocations"`
 	EkbloomAllocsPerOp     float64  `json:"ekbloom_read_allocations_per_op"`
+	EkbloomAllocsPerOpMin  float64  `json:"ekbloom_read_allocations_per_op_min"`
+	EkbloomAllocsPerOpMax  float64  `json:"ekbloom_read_allocations_per_op_max"`
 	ParquetAllocsPerOp     float64  `json:"parquet_read_allocations_per_op"`
+	ParquetAllocsPerOpMin  float64  `json:"parquet_read_allocations_per_op_min"`
+	ParquetAllocsPerOpMax  float64  `json:"parquet_read_allocations_per_op_max"`
 	Note                   string   `json:"note"`
 }
 
@@ -280,7 +291,12 @@ func main() {
 	// --- raw ------------------------------------------------------------------
 	rawPerRec := float64(recSize)
 
-	// --- read cost: EKBLOOM DecodeRecord per value (p50) ----------------------
+	// --- read cost, median-of-runs -------------------------------------------
+	// Each codec's read path is measured R = EKB_RUNS times (default 5; 3 in CI);
+	// the reported p50 and allocs/op are the MEDIAN across runs, with min/max
+	// retained. The decode constants (samples per run, sizes) are unchanged.
+	runs := stat.Runs()
+
 	// verify correctness once before timing
 	for i := 0; i < numRecords; i += 1024 {
 		got, err := dict.DecodeRecord(cores[i])
@@ -289,46 +305,58 @@ func main() {
 			fatal(fmt.Errorf("ekbloom round-trip mismatch at %d", i))
 		}
 	}
-	ekDurs := make([]time.Duration, samples)
-	ekM0 := mallocs()
-	for i := 0; i < samples; i++ {
-		idx := i % numRecords
-		t0 := time.Now()
-		out, err := dict.DecodeRecord(cores[idx])
-		fatal(err)
-		if len(out) != recSize {
-			fatal(fmt.Errorf("ekbloom decode length %d != %d", len(out), recSize))
+	ekP50s := make([]int64, 0, runs)
+	ekAllocs := make([]int64, 0, runs)
+	for run := 0; run < runs; run++ {
+		ekDurs := make([]time.Duration, samples)
+		m0 := mallocs()
+		for i := 0; i < samples; i++ {
+			idx := i % numRecords
+			t0 := time.Now()
+			out, err := dict.DecodeRecord(cores[idx])
+			fatal(err)
+			if len(out) != recSize {
+				fatal(fmt.Errorf("ekbloom decode length %d != %d", len(out), recSize))
+			}
+			ekDurs[i] = time.Since(t0)
 		}
-		ekDurs[i] = time.Since(t0)
+		ekAllocs = append(ekAllocs, int64(mallocs()-m0))
+		ekP50s = append(ekP50s, p50(ekDurs).Nanoseconds())
 	}
-	ekAllocs := mallocs() - ekM0
-	ekP50 := p50(ekDurs)
+	ekP50 := stat.Collect(ekP50s)
+	ekAlloc := stat.Collect(ekAllocs)
 
-	// --- read cost: Parquet whole column read back into values (p50) ----------
+	// --- read cost: Parquet whole column read back into values ----------------
 	_, err = parquet.ReadFile[rec](path) // warm up page cache / decoder
 	fatal(err)
-	pqDurs := make([]time.Duration, samples)
-	pqM0 := mallocs()
-	for i := 0; i < samples; i++ {
-		t0 := time.Now()
-		got, err := parquet.ReadFile[rec](path)
-		if err != nil {
-			fatal(err)
+	pqP50s := make([]int64, 0, runs)
+	pqAllocs := make([]int64, 0, runs)
+	for run := 0; run < runs; run++ {
+		pqDurs := make([]time.Duration, samples)
+		m0 := mallocs()
+		for i := 0; i < samples; i++ {
+			t0 := time.Now()
+			got, err := parquet.ReadFile[rec](path)
+			if err != nil {
+				fatal(err)
+			}
+			if len(got) != numRecords {
+				fatal(fmt.Errorf("parquet read %d rows != %d", len(got), numRecords))
+			}
+			pqDurs[i] = time.Since(t0)
 		}
-		if len(got) != numRecords {
-			fatal(fmt.Errorf("parquet read %d rows != %d", len(got), numRecords))
-		}
-		pqDurs[i] = time.Since(t0)
+		pqAllocs = append(pqAllocs, int64(mallocs()-m0))
+		pqP50s = append(pqP50s, p50(pqDurs).Nanoseconds())
 	}
-	pqAllocs := mallocs() - pqM0
-	pqP50 := p50(pqDurs)
+	pqP50 := stat.Collect(pqP50s)
+	pqAlloc := stat.Collect(pqAllocs)
 
 	// --- diagnostics to stderr so stdout stays pure JSON ----------------------
-	fmt.Fprintf(os.Stderr, "records=%d record_bytes=%d distinct=%d samples=%d\n",
-		numRecords, recSize, len(pool), samples)
+	fmt.Fprintf(os.Stderr, "records=%d record_bytes=%d distinct=%d samples=%d runs=%d\n",
+		numRecords, recSize, len(pool), samples, runs)
 	fmt.Fprintf(os.Stderr, "%-22s %10s %10s\n", "codec", "B/record", "read p50")
-	fmt.Fprintf(os.Stderr, "%-22s %10.2f %8d ns\n", "parquet(rle_dict)", float64(parquetTotal)/float64(numRecords), pqP50.Nanoseconds())
-	fmt.Fprintf(os.Stderr, "%-22s %10.2f %8d ns\n", "ekbloom-m9", m9PerRec, ekP50.Nanoseconds())
+	fmt.Fprintf(os.Stderr, "%-22s %10.2f %8d ns\n", "parquet(rle_dict)", float64(parquetTotal)/float64(numRecords), pqP50.Median)
+	fmt.Fprintf(os.Stderr, "%-22s %10.2f %8d ns\n", "ekbloom-m9", m9PerRec, ekP50.Median)
 	fmt.Fprintf(os.Stderr, "%-22s %10.2f %10s\n", "zstd-dict", zPerRec, "-")
 	fmt.Fprintf(os.Stderr, "%-22s %10.2f %10s\n", "raw", rawPerRec, "-")
 	fmt.Fprintf(os.Stderr, "parquet column encodings=%v dict_page_bytes=%d codec=%s\n",
@@ -337,15 +365,20 @@ func main() {
 	rep := report{
 		Records:                 numRecords,
 		RecordBytes:             recSize,
+		Runs:                    runs,
+		Statistic:               "median-of-runs",
 		ParquetBytesPerRecord:   float64(parquetTotal) / float64(numRecords),
 		ParquetBytesTotal:       parquetTotal,
 		EkbloomM9BytesPerRecord: m9PerRec,
 		ZstdDictBytesPerRecord:  zPerRec,
 		RawBytesPerRecord:       rawPerRec,
-		EkbloomReadP50Ns:        float64(ekP50.Nanoseconds()),
-		ParquetReadP50Ns:        float64(pqP50.Nanoseconds()),
-		ParquetReadNsPerValue:   float64(pqP50.Nanoseconds()) / float64(numRecords),
-		EkbloomReadAllocations:  ekAllocs,
+		EkbloomReadP50Ns:        float64(ekP50.Median),
+		EkbloomReadP50NsMin:     float64(ekP50.Min),
+		EkbloomReadP50NsMax:     float64(ekP50.Max),
+		ParquetReadP50Ns:        float64(pqP50.Median),
+		ParquetReadP50NsMin:     float64(pqP50.Min),
+		ParquetReadP50NsMax:     float64(pqP50.Max),
+		ParquetReadNsPerValue:   float64(pqP50.Median) / float64(numRecords),
 
 		Samples:                samples,
 		TrainRecords:           trainN,
@@ -357,15 +390,22 @@ func main() {
 		ParquetDictPageBytes:   dictPageBytes,
 		ParquetColumnEncodings: encodings,
 		ParquetCompression:     col.MetaData.Codec.String(),
-		ParquetReadAllocations: pqAllocs,
-		EkbloomAllocsPerOp:     float64(ekAllocs) / float64(samples),
-		ParquetAllocsPerOp:     float64(pqAllocs) / float64(samples),
+		EkbloomReadAllocations: uint64(ekAlloc.Median),
+		ParquetReadAllocations: uint64(pqAlloc.Median),
+		EkbloomAllocsPerOp:     float64(ekAlloc.Median) / float64(samples),
+		EkbloomAllocsPerOpMin:  float64(ekAlloc.Min) / float64(samples),
+		EkbloomAllocsPerOpMax:  float64(ekAlloc.Max) / float64(samples),
+		ParquetAllocsPerOp:     float64(pqAlloc.Median) / float64(samples),
+		ParquetAllocsPerOpMin:  float64(pqAlloc.Min) / float64(samples),
+		ParquetAllocsPerOpMax:  float64(pqAlloc.Max) / float64(samples),
 		Note: "Parquet = a per-column-chunk RLE_DICTIONARY page (dedupes identical " +
 			"values, ZSTD-framed). EKBLOOM m9 = one 540 B shared order-0 dictionary per " +
 			"file + a header-less core per value (amortised). zstd-dict = zstd.BuildDict " +
-			"trained on the same records, dictionary bytes amortised. Read cost is p50: " +
-			"EKBLOOM DecodeRecord per value vs. reading the full Parquet column into " +
-			"[]string (which includes opening the file).",
+			"trained on the same records, dictionary bytes amortised. Read p50 and " +
+			"allocs/op are the median across R = EKB_RUNS runs (default 5; 3 in CI) with " +
+			"min/max retained: EKBLOOM DecodeRecord per value vs. reading the full Parquet " +
+			"column into []string (which includes opening the file). Sizes (parquet bytes, " +
+			"m9 payload, dictionary bytes) are deterministic.",
 	}
 
 	out, err := json.MarshalIndent(rep, "", "  ")

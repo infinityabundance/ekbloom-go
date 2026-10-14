@@ -19,8 +19,11 @@ identities are unaffected** — `physical_bytes`, `E_V`, `bytes_per_record`,
 **Median-of-runs.** Every latency/throughput field is now the **median across
 `EKB_RUNS` runs** (default 5; 3 when `CI` is set) rather than a single shot. Each
 affected artifact records a top-level `"runs"` and `"statistic": "median-of-runs"`,
-and most metrics also carry `_min`/`_max` so the run-to-run spread is visible. The
-timing harnesses are run **without `-race`**: the race detector adds a memory access
+and most metrics also carry `_min`/`_max` so the run-to-run spread is visible. This
+covers the C++ RocksDB driver (`rocksdb-blobdb.json`), the Parquet integration
+(`parquet-dict.json`), the micro-benchmarks (`bench.txt`, aggregated by
+`internal/tools/benchagg`), and `bench-history.jsonl`, alongside the Go harnesses.
+The timing harnesses are run **without `-race`**: the race detector adds a memory access
 to every read and inflates every latency (~5–25× here), so latency is only ever
 measured on the non-race build, and `go test -race ./...` is the correctness gate
 that never overwrites the timing evidence (`writeTimingEvidence`). Set `EKB_RUNS`
@@ -30,7 +33,7 @@ to change the run count (odd values are preferred so the median is an observed r
 | --- | --- |
 | `environment.txt` | toolchain, determinism and cross-compile results for the local run |
 | `test-race.log`, `vet.log` | `go test -race ./...` and `go vet ./...` (local CI) |
-| `bench.txt` | amd64 `go test -bench . -benchmem -benchtime 200ms` |
+| `bench.txt` | amd64 `go test -bench . -benchmem -benchtime 200ms -count=EKB_RUNS`, aggregated to per-benchmark medians (`ns/op`, `MB/s`, `B/op`, `allocs/op`) with min/max (`internal/tools/benchagg`) |
 | `aarch64-bench.txt` | arm64 benchmarks under qemu (slow, indicative only) |
 | `aarch64-native-bench.txt` **(CI)** | **native** arm64 benchmarks (`ubuntu-24.04-arm`, 4 vCPU) |
 | `aarch64-determinism.json` | amd64 == arm64 fingerprint under qemu (`container-aarch64.sh`) |
@@ -48,15 +51,15 @@ to change the run count (odd values are preferred so the median is an observed r
 | `sweep.json` | writer-profile frontier: `E_V` / `byte_at` / 4 KiB / bulk per profile |
 | `courts-point.json` | 4 KiB point read vs raw/LZ4/zstd/Pebble/EKBLOOM |
 | `ycsb.json` | YCSB value-log court (zipfian) vs zstd-dict / Pebble / m2 |
-| `bench-history.jsonl` | append-only performance regression history (commit + ns/op) |
+| `bench-history.jsonl` | append-only performance regression history (commit + median `ns/op` with min/max across `EKB_RUNS` runs) |
 | `wasip1-fingerprint.txt` / `wasip1-test.log` | WebAssembly (wasip1) fingerprint + full suite, identical to amd64/arm64 |
 | `external-reproduce.json` | the suite run from the **published** `ghcr.io/…:test` image (no clone): pass/fail counts plus provenance — the resolved `reference`, immutable `digest` (`sha256:…`), `tag`, and `pulled_anonymously` (`scripts/verify-external.sh`, re-enforced by `.github/workflows/external-reproduce.yml`) |
 | `chaos.json` | 400 append/damage/repair rounds (truncate + bit flips): 400/400 recovered exact |
 | `endurance.json` / `endurance.log` | long-run fault-injection endurance: 10 fault kinds (truncate / bit flip / older-generation / header-core), newest-valid generation selected or typed rejection, `garbage: 0`, concurrent readers race-clean (`scripts/endurance.sh`) |
 | `fuzz.json`, `fuzz/` | fuzz campaign (OOM-capped sandbox, `scripts/fuzz.sh`): `FuzzOpenBytes` 1.13B historical execs + sandboxed `FuzzOpenAuthenticatedBytes` 132.4M/30m (typed-error-only invariant), with per-target logs and the published corpus |
 | `roundtrip.log` | Go-written `.ekb`/`.stream` opened and decoded by the Rust reference (22 files) |
-| `parquet-dict.json` / `parquet-dict.log` | EKBLOOM machine-9 shared dictionary vs a **real Parquet `RLE_DICTIONARY` page** on the same 20,000 × 100 B column (`scripts/parquet.sh`) |
-| `rocksdb-blobdb.json` / `rocksdb-blobdb.log` | EKBLOOM-encoded values inside RocksDB (`Put`/`Get` + a registered `MergeOperator`), containerized (`scripts/rocksdb.sh`) |
+| `parquet-dict.json` / `parquet-dict.log` | EKBLOOM machine-9 shared dictionary vs a **real Parquet `RLE_DICTIONARY` page** on the same 20,000 × 100 B column (median read p50 + allocs/op across `EKB_RUNS` runs; `scripts/parquet.sh`) |
+| `rocksdb-blobdb.json` / `rocksdb-blobdb.log` | EKBLOOM-encoded values inside RocksDB (`Put`/`Get` + a registered `MergeOperator`), containerized, median Get p50/p99 across `EKB_RUNS` runs (`scripts/rocksdb.sh`) |
 | `pebble-vlog.json` / `pebble-vlog.prom` | machine-9 cores as Pebble values; zero-alloc `DecodeInto` (`scripts/pebble.sh`) |
 | `prometheus-scrape.txt` / `grafana-dashboard.json` | the exporter's five metric families and the Grafana dashboard (`scripts/prometheus.sh`) |
 | `conformance.json` / `conformance.log` | the implementation-neutral conformance suite: 73 immutable fixtures verified independently by Go and Rust, plus the ruling `divergences` summary (`scripts/conformance.sh`) |

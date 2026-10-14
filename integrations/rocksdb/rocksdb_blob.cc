@@ -94,6 +94,28 @@ int64_t NowNs() {
       .count();
 }
 
+// Runs reports the number of measurement runs R, from the same environment knob
+// the Go harnesses use (internal/tools/stat.Runs): EKB_RUNS if set to a positive
+// integer, else 3 when CI is set (CI must stay time-bounded), else 5.
+int Runs() {
+  int def = 5;
+  if (std::getenv("CI") != nullptr) def = 3;
+  if (const char* v = std::getenv("EKB_RUNS")) {
+    char* end = nullptr;
+    const long n = std::strtol(v, &end, 10);
+    if (end != v && n > 0) return static_cast<int>(n);
+  }
+  return def;
+}
+
+// Median sorts a copy of v and returns its middle element (no interpolation), so
+// the reported value is always one observed run.
+template <typename T>
+T Median(std::vector<T> v) {
+  std::sort(v.begin(), v.end());
+  return v[v.size() / 2];
+}
+
 // The cgo-generated C ABI declares the input pointers non-const (C has no
 // const-qualified function signatures here); the bridge only reads them.
 unsigned char* Mut(const char* p) {
@@ -307,41 +329,59 @@ int main() {
     }
   }
 
-  // 5. Timed workload: 50,000 ops, 80/20 read:merge, reads skewed 80/20.
-  std::vector<int64_t> gets;
-  gets.reserve(kOps);
-  uint64_t rng = 0x123456789ABCDEFULL;
-  int read_mismatch = 0;
-  for (int i = 0; i < kOps; ++i) {
-    uint64_t r = NextRand(&rng);
-    bool is_read = (r % 100) < 80;
-    uint64_t r2 = NextRand(&rng);
-    if (is_read) {
-      int ki = SkewedKey(r2, kRecords);
-      const int64_t t0 = NowNs();
-      std::string v, raw;
-      db->Get(ro, KeyOf(ki), &v);
-      bool ok = DecodeValue(v, &raw);
-      const int64_t t1 = NowNs();
-      gets.push_back(t1 - t0);
-      if (!ok || raw != records[ki]) ++read_mismatch;
-    } else {
-      int mk = static_cast<int>(r2 % kMergeKeys);
-      std::string op = "op" + std::to_string(r2 % kHotKeys) + ":";
-      std::string enc_op;
-      if (!EncodeValue(op, &enc_op)) return 1;
-      db->Merge(wo, "m:op:" + std::to_string(mk), enc_op);
+  // 5. Timed workload: repeat the 50,000-op 80/20 read:merge workload R times
+  //    (R = EKB_RUNS, default 5; 3 in CI) and report the MEDIAN get p50/p99 across
+  //    runs (median-of-runs), with the observed min/max retained. Each run replays
+  //    the identical deterministic trace (the RNG is reset per run) purely to
+  //    expose run-to-run spread; the timed reads are all on the record keyspace,
+  //    so the append-only merge keyspace does not affect the measured get latency.
+  const int runs = Runs();
+  std::vector<int64_t> p50s, p99s;
+  p50s.reserve(static_cast<size_t>(runs));
+  p99s.reserve(static_cast<size_t>(runs));
+  size_t ng = 0;
+  for (int run = 0; run < runs; ++run) {
+    std::vector<int64_t> gets;
+    gets.reserve(kOps);
+    uint64_t rng = 0x123456789ABCDEFULL;
+    int read_mismatch = 0;
+    for (int i = 0; i < kOps; ++i) {
+      uint64_t r = NextRand(&rng);
+      bool is_read = (r % 100) < 80;
+      uint64_t r2 = NextRand(&rng);
+      if (is_read) {
+        int ki = SkewedKey(r2, kRecords);
+        const int64_t t0 = NowNs();
+        std::string v, raw;
+        db->Get(ro, KeyOf(ki), &v);
+        bool ok = DecodeValue(v, &raw);
+        const int64_t t1 = NowNs();
+        gets.push_back(t1 - t0);
+        if (!ok || raw != records[ki]) ++read_mismatch;
+      } else {
+        int mk = static_cast<int>(r2 % kMergeKeys);
+        std::string op = "op" + std::to_string(r2 % kHotKeys) + ":";
+        std::string enc_op;
+        if (!EncodeValue(op, &enc_op)) return 1;
+        db->Merge(wo, "m:op:" + std::to_string(mk), enc_op);
+      }
     }
-  }
-  if (read_mismatch != 0) {
-    std::fprintf(stderr, "read mismatches: %d\n", read_mismatch);
-    return 1;
+    if (read_mismatch != 0) {
+      std::fprintf(stderr, "read mismatches: %d\n", read_mismatch);
+      return 1;
+    }
+    std::sort(gets.begin(), gets.end());
+    ng = gets.size();
+    p50s.push_back(ng ? gets[ng * 50 / 100] : 0);
+    p99s.push_back(ng ? gets[std::min(ng - 1, ng * 99 / 100)] : 0);
   }
 
-  std::sort(gets.begin(), gets.end());
-  const size_t ng = gets.size();
-  const int64_t p50 = ng ? gets[ng * 50 / 100] : 0;
-  const int64_t p99 = ng ? gets[std::min(ng - 1, ng * 99 / 100)] : 0;
+  const int64_t p50 = Median(p50s);
+  const int64_t p99 = Median(p99s);
+  const int64_t p50_min = *std::min_element(p50s.begin(), p50s.end());
+  const int64_t p50_max = *std::max_element(p50s.begin(), p50s.end());
+  const int64_t p99_min = *std::min_element(p99s.begin(), p99s.end());
+  const int64_t p99_max = *std::max_element(p99s.begin(), p99s.end());
   const long breaches = ekbloom_breaches();
 
   db->Close();
@@ -354,17 +394,23 @@ int main() {
       static_cast<double>(physical) / (static_cast<double>(kRecords) * kRecordBytes);
 
   std::fprintf(stderr,
-               "records=%d dict_bytes=%d physical_bytes=%llu get_n=%zu "
+               "records=%d dict_bytes=%d physical_bytes=%llu runs=%d get_n=%zu "
                "merge_ops=%d breaches=%ld\n",
-               kRecords, dict_bytes, static_cast<unsigned long long>(physical), ng,
-               kOps - static_cast<int>(ng), breaches);
+               kRecords, dict_bytes, static_cast<unsigned long long>(physical), runs,
+               ng, kOps - static_cast<int>(ng), breaches);
 
   std::printf(
-      "{\"records\":%d,\"record_bytes\":%d,\"ops\":%d,\"bytes_per_record\":%.6f,"
-      "\"get_p50_ns\":%lld,\"get_p99_ns\":%lld,\"ekbloom_physical_bytes\":%llu,"
+      "{\"records\":%d,\"record_bytes\":%d,\"ops\":%d,\"runs\":%d,"
+      "\"statistic\":\"median-of-runs\",\"bytes_per_record\":%.6f,"
+      "\"get_p50_ns\":%lld,\"get_p99_ns\":%lld,"
+      "\"get_p50_ns_min\":%lld,\"get_p50_ns_max\":%lld,"
+      "\"get_p99_ns_min\":%lld,\"get_p99_ns_max\":%lld,"
+      "\"ekbloom_physical_bytes\":%llu,"
       "\"ekbloom_expansion_ratio\":%.6f,\"breaches\":%ld}\n",
-      kRecords, kRecordBytes, kOps, bytes_per_record,
+      kRecords, kRecordBytes, kOps, runs, bytes_per_record,
       static_cast<long long>(p50), static_cast<long long>(p99),
+      static_cast<long long>(p50_min), static_cast<long long>(p50_max),
+      static_cast<long long>(p99_min), static_cast<long long>(p99_max),
       static_cast<unsigned long long>(physical), expansion, breaches);
   return 0;
 }

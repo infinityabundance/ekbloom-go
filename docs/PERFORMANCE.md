@@ -22,7 +22,7 @@ One fixed 1 MiB compressible source (4-symbol 60/25/10/5 alphabet), all profiles
 | `m2_full` | 2 | 4,402,392 | 4.198 | 20 ns | 230 ns | 13,680 MB/s |
 
 `ByteAt` here includes a `time.Now` per sample (~30 ns floor); the true single-op
-cost is in `evidence/bench.txt` (path bloom ≈7 ns, history ≈4.0 ns,
+cost is in `evidence/bench.txt` (median path bloom ≈7.1 ns, history ≈4.1 ns,
 materialised ≈5.5 ns).
 
 ## Choosing a machine
@@ -71,11 +71,12 @@ Rule of thumb: **`Root` unless random reads dominate; then `Path` (general) or
 ## Regression history
 
 Performance is tracked over time, not asserted once. `scripts/bench-history.sh`
-appends one JSON line — commit, Go version, arch, and the `ns/op` of the hot
-benchmarks — to `evidence/bench-history.jsonl`, and CI appends a record on every
-run (uploaded as an artifact). Diff the last line against a previous one to see a
-regression; the first three entries also show the run-to-run noise floor
-(path-bloom `ByteAt` 2.21–2.32 ns).
+appends one JSON line — commit, Go version, arch, `runs`, `statistic`, and the
+**median `ns/op` across `EKB_RUNS` runs** (with min/max) of the hot benchmarks — to
+`evidence/bench-history.jsonl`, and CI appends a record on every run (uploaded as
+an artifact). Diff the last line against a previous one to see a regression; because
+each value is already a run-to-run median, the remaining line-to-line spread is the
+reproducibility of the median, not of a single run.
 
 ```sh
 sh scripts/bench-history.sh     # appends and prints the full history
