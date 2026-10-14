@@ -6,7 +6,7 @@
 #1 DONE 0.0s
 
 #2 resolve image config for docker-image://docker.io/docker/dockerfile:1
-#2 DONE 0.8s
+#2 DONE 0.7s
 
 #3 docker-image://docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
 #3 CACHED
@@ -15,10 +15,10 @@
 #4 DONE 0.0s
 
 #5 [internal] load metadata for docker.io/library/golang:1.23-bookworm
-#5 DONE 0.4s
+#5 DONE 0.6s
 
 #6 [internal] load .dockerignore
-#6 transferring context: 285B done
+#6 transferring context: 544B done
 #6 DONE 0.0s
 
 #7 [bridge 1/6] FROM docker.io/library/golang:1.23-bookworm@sha256:167053a2bb901972bf2c1611f8f52c44d5fe7e762e5cab213708d82c421614db
@@ -28,8 +28,8 @@
 #8 DONE 0.0s
 
 #9 [internal] load build context
-#9 transferring context: 44.30kB done
-#9 DONE 0.0s
+#9 transferring context: 124.29kB 0.1s done
+#9 DONE 0.1s
 
 #10 [bridge 2/6] RUN apt-get update  && apt-get install -y --no-install-recommends build-essential ca-certificates  && rm -rf /var/lib/apt/lists/*
 #10 CACHED
@@ -38,34 +38,35 @@
 #11 CACHED
 
 #12 [bridge 4/6] COPY . .
-#12 DONE 0.3s
+#12 DONE 0.0s
 
 #13 [bridge 5/6] WORKDIR /src/integrations/rocksdb/bridge
 #13 DONE 0.0s
 
 #14 [bridge 6/6] RUN go build -buildmode=c-shared -o /out/libekbloom.so .
-#14 DONE 1.8s
+#14 DONE 2.2s
 
-#15 [runtime 5/6] COPY integrations/rocksdb/rocksdb_blob.cc /src/rocksdb_blob.cc
+#15 [runtime 2/6] RUN apt-get update  && apt-get install -y --no-install-recommends       librocksdb-dev build-essential ca-certificates  && rm -rf /var/lib/apt/lists/*
 #15 CACHED
 
-#16 [runtime 2/6] RUN apt-get update  && apt-get install -y --no-install-recommends       librocksdb-dev build-essential ca-certificates  && rm -rf /var/lib/apt/lists/*
-#16 CACHED
+#16 [runtime 3/6] COPY --from=bridge /out/libekbloom.so /usr/local/lib/libekbloom.so
+#16 DONE 0.0s
 
-#17 [runtime 3/6] COPY --from=bridge /out/libekbloom.so /usr/local/lib/libekbloom.so
-#17 CACHED
+#17 [runtime 4/6] COPY --from=bridge /out/libekbloom.h /usr/local/include/libekbloom.h
+#17 DONE 0.0s
 
-#18 [runtime 4/6] COPY --from=bridge /out/libekbloom.h /usr/local/include/libekbloom.h
-#18 CACHED
+#18 [runtime 5/6] COPY integrations/rocksdb/rocksdb_blob.cc /src/rocksdb_blob.cc
+#18 DONE 0.0s
 
 #19 [runtime 6/6] RUN g++ -O2 -std=c++17 /src/rocksdb_blob.cc -o /usr/local/bin/rocksdb_blob       -I/usr/local/include -L/usr/local/lib -lekbloom -lrocksdb -lpthread -ldl
-#19 CACHED
+#19 DONE 1.2s
 
 #20 exporting to image
-#20 exporting layers done
-#20 writing image sha256:8f59554cec19e5ba7ac1246f20c70f6483f197f574dfe8c2475318eac4cb0785 done
+#20 exporting layers
+#20 exporting layers 0.4s done
+#20 writing image sha256:34c3a60eed4fe6867e09c92b15948b052a5ff52ce81a369f36c164615db1a5cb done
 #20 naming to docker.io/library/ekbloom-go-rocksdb-blobdb:local done
-#20 DONE 0.0s
+#20 DONE 0.4s
 == docker run --memory=2g --memory-swap=2g --cpus=2 ekbloom-go-rocksdb-blobdb:local ==
 trained dictionary: 540 bytes, id=20beacb1d6f356b7044b13b4ac2ab25f
 records=20000 dict_bytes=540 physical_bytes=1267683 get_n=40099 merge_ops=9901 breaches=0

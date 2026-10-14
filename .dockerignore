@@ -1,9 +1,14 @@
 # Keep the build context minimal: exclude the Rust reference checkout, VCS,
 # build artifacts and generated evidence. `testdata/` is needed by the tests.
+# `corpus/` is downloaded on the host by scripts/corpus.sh for the corpus court
+# and is never copied into any image; excluding it keeps the context from
+# shipping ~1.3 GB (which made `docker build` for the RocksDB integration fail on
+# disk space).
 .reference/
 .git/
 .gitignore
 **/target/
+corpus/
 evidence/bench.txt
 *.tmp
 Dockerfile
