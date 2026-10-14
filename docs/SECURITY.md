@@ -52,6 +52,28 @@ freshness.
   never stored in the file and never printed. Rotation is a re-write: produce a
   new authenticated image under the new key. There is no key material in this
   repository.
+
+### Key rotation runbook
+
+There is no in-place rekey (the MAC covers the whole prefix, so a new tag is a new
+write). Rotate by re-encoding with the new key:
+
+```go
+// 1. Read the current generation(s) with the old key (proves authenticity first).
+old, _ := ekbloom.OpenAuthenticated(data, oldKey)
+src, _ := old.ReadAt(0, old.LogicalLen())
+
+// 2. Re-write under the new key. Each generation carries its own AUTH tag, so a
+//    whole-file rotation is one authenticated write; for an append-only history,
+//    append an authenticated generation instead and truncate stale ones.
+rotated, _ := ekbloom.WriteBodyAuthenticated(old.MachineID(), src, profile, newKey)
+```
+
+Operational rules: keep both keys only for the duration of the re-write; publish
+no file under a key you intend to retire; because AUTH has no anti-rollback (see
+below), a reader must pin the *expected* generation/object id out of band if
+freshness matters. Compromise response is identical to rotation but assumes the
+old key is hostile — re-write from a trusted plaintext copy, not from the file.
 - **Coverage gap (honest).** The commit footer and the AUTH tag itself lie outside
   the literal MAC range `[0, auth_header_offset)`; they are validated structurally
   and by the footer↔manifest cross-check, not MAC-covered.

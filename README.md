@@ -46,6 +46,8 @@ byte-compatible with the Rust reference implementation
 | Standard corpora `E_V` (Canterbury/Silesia/enwik8/enwik9) | ✅ Go == Rust, 50/50 rows | `scripts/corpus.sh`, `evidence/corpus-compare.log` |
 | Skewed small-record court vs zstd/lz4/zstd-dict | ✅ space win, decode cost, allocs/get (honest) | `courts/`, `docs/COURTS.md`, `evidence/courts.json` |
 | Fuzz campaign | ✅ **1.13B execs** (Open), corpus published | `evidence/fuzz.json`, `evidence/fuzz/FuzzOpenBytes-1b.log` |
+| WebAssembly (`wasip1` == amd64 == arm64) | ✅ fingerprint identical | `scripts/wasm.sh`, `evidence/wasip1-fingerprint.txt` |
+| Release + published container (GHCR/Docker Hub) | ✅ `v0.1.0` ghcr.io/…/ekbloom-go | `CHANGELOG.md`, `.github/workflows/publish.yml` |
 | CI + captured logs | ✅ | `.github/workflows/ci.yml`, `scripts/ci.sh`, `evidence/` |
 
 ## Quick start
@@ -87,6 +89,8 @@ sh scripts/roundtrip.sh           # Go -> .ekb/.stream -> Rust decode, byte-for-
 sh scripts/cross-fs.sh            # cross-filesystem determinism (ext4/btrfs/tmpfs)
 sh scripts/corpus.sh              # standard corpora E_V: Go vs Rust on the same files
 sh scripts/profile.sh             # CPU profiles (SVG + top) for m1/m2/m9 encode + path bloom
+sh scripts/wasm.sh                # WebAssembly build + amd64 == arm64 == wasip1
+sh scripts/verify-external.sh     # pull the published image, run the suite, no clone
 sh scripts/container-aarch64.sh   # amd64 == arm64 runtime determinism (qemu)
 sh scripts/courts.sh              # 100-byte, 80/20 court vs zstd/lz4/zstd-dict
 sh scripts/container-reproduce.sh # everything inside a ~10 MB Docker image
@@ -105,10 +109,22 @@ sh scripts/container-publish.sh    # multi-arch build+push (needs `docker login`
 Or with Docker Compose (`compose.yaml`): `docker compose run --rm test` (full
 suite), `bench`, `inspect`, `verify`.
 
+### Releases and third-party reproduction
+
 The `publish` workflow (`.github/workflows/publish.yml`) builds `linux/amd64` and
-`linux/arm64` and pushes to GHCR, and to Docker Hub
-(`infinityabundance/ekbloom-go`) when `DOCKERHUB_USERNAME`/`DOCKERHUB_TOKEN`
-secrets are set. Tag a release to publish: `git tag v0.1.0 && git push origin v0.1.0`.
+`linux/arm64` and pushes a **runtime** image and a **test** image. Tag a release to
+publish: `git tag v0.1.0 && git push origin v0.1.0`.
+
+```sh
+docker run --rm ghcr.io/infinityabundance/ekbloom-go:latest version
+docker run --rm ghcr.io/infinityabundance/ekbloom-go:test            # full suite, no clone
+sh scripts/verify-external.sh                                       # emits evidence/external-reproduce.json
+```
+
+The test image on GHCR is pushed unconditionally; Docker Hub
+(`infinityabundance/ekbloom-go`) is used when `DOCKERHUB_USERNAME`/`DOCKERHUB_TOKEN`
+secrets are set. See `CHANGELOG.md` for the release history and `docs/STABILITY.md`
+for the compatibility promise.
 
 ## Layout
 
@@ -136,8 +152,10 @@ internal/blake3     dependency-free pure-Go BLAKE3 (unkeyed + keyed, streaming)
 internal/tools      roundtripgen, fingerprint, corpusbench, corpuscompare, testsum
 tools/fixturegen    committed Rust crate: fixture generator + verifygo (Rust reads Go)
 testdata/           Rust-generated .ekb/.stream/auth fixtures + BLAKE3 vectors
-docs/               CORE-LAYOUT.md, MIGRATION.md, SECURITY.md, OPERATIONS.md, MACHINE_CONTRACT.md, DICTIONARY.md, COURTS.md, CORPORA.md, TESTING.md
-scripts/            roundtrip.sh, setup-reference.sh, cross-fs.sh, corpus.sh, bench.sh, fuzz.sh, reproduce.sh, container-*.sh
+docs/               CORE-LAYOUT.md, MIGRATION.md, STABILITY.md, SECURITY.md, THREAT_MODEL.md, OPERATIONS.md, MACHINE_CONTRACT.md, DICTIONARY.md, COURTS.md, CORPORA.md, PERFORMANCE.md, SCOPE.md, TESTING.md
+scripts/            roundtrip.sh, setup-reference.sh, cross-fs.sh, corpus.sh, profile.sh, wasm.sh, verify-external.sh, bench.sh, fuzz.sh, reproduce.sh, container-*.sh
+examples/wasm/      WebAssembly build + run notes (wasip1 + js/wasm)
+CHANGELOG.md        release history (Keep a Changelog + SemVer)
 Dockerfile          minimal multi-stage image (runtime ~9.7 MB, non-root)
 compose.yaml        one-command container reproduction (test/bench/inspect/verify)
 .reference/         (git-ignored) the Rust reference + the fixture generator
@@ -157,8 +175,13 @@ to add a machine.
 
 ## Not ported (honest scope)
 
-The following reference subsystems are **out of scope** for this port and are
-listed so their absence is explicit, not implied: SIMD kernels, `io_uring`,
-`mmap` surfaces, the FUSE projection, OrFS, and the joint planner/optimizer. The
-codec court (`docs/COURTS.md`) is a space win at a decode cost, matching the
-reference's honest position; it is not a speed win over Zstandard-with-dictionary.
+SIMD kernels, `io_uring`, `mmap` surfaces, the FUSE projection, OrFS, and the joint
+planner/optimizer are **out of scope**. The full table — what each one is, what the
+Go port does instead, and the performance the reference reports for it — is in
+[`docs/SCOPE.md`](docs/SCOPE.md). In short: the port trades those systems-level
+advantages for determinism (`amd64 == arm64 == wasip1`, ext4/xfs/btrfs/tmpfs) and
+portability, and reads/writes the same frozen bytes in both directions. What *is*
+ported and matters more — bounded streaming, crash-safe append, the certified
+worst-case bound, the corruption contract, AUTH, legacy reads — is listed there
+too. The codec court (`docs/COURTS.md`) is a space win at a decode cost, not a
+speed win over Zstandard-with-dictionary.

@@ -1,0 +1,67 @@
+{
+  "logical_bytes": 1048576,
+  "source": "sweepSkewed(1 MiB) — 4-symbol 60/25/10/5",
+  "rows": [
+    {
+      "profile": "m1_root",
+      "machine_id": 1,
+      "physical_bytes": 1048576,
+      "E_V": 1,
+      "byte_at_p50_ns": 120,
+      "byte_at_p99_ns": 261,
+      "read4k_p50_ns": 791,
+      "seq_mb_per_s": 17584.11591092031
+    },
+    {
+      "profile": "m2_root",
+      "machine_id": 2,
+      "physical_bytes": 208084,
+      "E_V": 0.19844436645507812,
+      "byte_at_p50_ns": 110,
+      "byte_at_p99_ns": 241,
+      "read4k_p50_ns": 751,
+      "seq_mb_per_s": 13419.883280434115
+    },
+    {
+      "profile": "m1_full",
+      "machine_id": 1,
+      "physical_bytes": 5242884,
+      "E_V": 5.000003814697266,
+      "byte_at_p50_ns": 30,
+      "byte_at_p99_ns": 120,
+      "read4k_p50_ns": 2936,
+      "seq_mb_per_s": 1573.5807660389307
+    },
+    {
+      "profile": "m1_sparse64",
+      "machine_id": 1,
+      "physical_bytes": 1081346,
+      "E_V": 1.0312519073486328,
+      "byte_at_p50_ns": 101,
+      "byte_at_p99_ns": 190,
+      "read4k_p50_ns": 9548,
+      "seq_mb_per_s": 453.5649742587551
+    },
+    {
+      "profile": "m1_path4",
+      "machine_id": 1,
+      "physical_bytes": 3145963,
+      "E_V": 3.0002241134643555,
+      "byte_at_p50_ns": 110,
+      "byte_at_p99_ns": 260,
+      "read4k_p50_ns": 801,
+      "seq_mb_per_s": 9623.229903728788
+    },
+    {
+      "profile": "m2_full",
+      "machine_id": 2,
+      "physical_bytes": 4402392,
+      "E_V": 4.198448181152344,
+      "byte_at_p50_ns": 110,
+      "byte_at_p99_ns": 260,
+      "read4k_p50_ns": 741,
+      "seq_mb_per_s": 19331.796980144172
+    }
+  ],
+  "note": "E_V = physical_bytes / N on a 4-symbol 60/25/10/5 skewed source. Single host, scalar Go; a decision aid, not a portable benchmark."
+}

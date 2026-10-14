@@ -111,3 +111,23 @@ jobs:
         with:
           name: cross-fs
           path: evidence/cross-fs.json
+
+  wasm:
+    # WebAssembly: build wasip1 + js/wasm, then prove the WASI fingerprint equals
+    # the recorded amd64/arm64 one (amd64 == arm64 == wasip1).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+      - name: install wasmtime
+        run: curl -sSfL https://wasmtime.dev/install.sh | bash
+      - name: wasm build + WASI fingerprint
+        run: |
+          export PATH="$HOME/.wasmtime/bin:$PATH"
+          sh scripts/wasm.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wasip1
+          path: evidence/wasip1-fingerprint.txt
