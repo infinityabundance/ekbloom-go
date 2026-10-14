@@ -111,24 +111,41 @@ dedicated device.
 
 Native Go fuzzing targets in `internal/ekb/fuzz_test.go`:
 
+- `FuzzOpenBytes` — `Open` over arbitrary bytes.
+- `FuzzOpenAuthenticatedBytes` — `OpenAuthenticated` over arbitrary bytes under a
+  **fixed** 32-byte key, plus a second input-derived (wrong) key, so both the
+  authenticated-valid and the AUTH-mismatch paths run. Invariant: it never panics
+  and only ever returns a typed `*Error` (never garbage bytes).
+- `FuzzStreamBytes` — builds *and* reads a whole stream per execution.
+- `FuzzMachineRoundTrip` — nine machines' encode/decode invertibility per execution.
+
+Every fuzz run goes through the OOM-capped sandbox — **no `go` runs on the host**:
+
 ```sh
-go test -fuzz FuzzOpenBytes       .
-go test -fuzz FuzzStreamBytes     .
-go test -fuzz FuzzMachineRoundTrip .
+FUZZTIME=30s sh scripts/fuzz.sh                                           # all targets, 30s each
+FUZZTIME=60s FUZZTIME_FuzzOpenAuthenticatedBytes=30m sh scripts/fuzz.sh    # the long campaign
+FUZZTARGETS=FuzzStreamBytes FUZZTIME=20m sh scripts/fuzz.sh                # one target
 ```
 
-A short campaign (a few seconds per target, tens of thousands to millions of
-executions) passes with no crashes; the seed/interesting corpus lives in
-`evidence/fuzz/`. For the long campaign (the reference ran 1B+ executions per
-target), run each target with a long `-fuzztime` under `scripts/fuzz.sh`.
+`scripts/fuzz.sh` runs each `go test -fuzz` inside `scripts/sandbox.sh`
+(`--memory=2g --memory-swap=2g --cpus=2 --pids-limit=512`, `GOMAXPROCS=2`), so a
+runaway fuzzer is OOM-killed inside the container and can never take down the
+host. The per-target budget defaults to `FUZZTIME`; `FUZZTIME_<target>` overrides
+it for a single target. The accumulated corpus is published from the **sandbox's**
+`GOCACHE` volume (the `ekbloom-gocache` named volume), never a host cache, to
+`evidence/fuzz/corpus/`, and `evidence/fuzz.json` records per-target execs and
+PASS/FAIL.
 
 The primary entry point **`FuzzOpenBytes` has been driven past the 1B-execution
 bar**: 1,131,205,714 executions in 30 minutes with no crashes, logged verbatim at
-`evidence/fuzz/FuzzOpenBytes-1b.log`. `FuzzStreamBytes` (which builds *and* reads a
-whole stream per execution, ~3k execs/s) and `FuzzMachineRoundTrip` (nine
-machines per execution) are structurally ~300× heavier per execution, so they are
-bounded-fuzzed with `FUZZTARGETS` rather than driven to 1B; extend with
-`FUZZTARGETS=FuzzStreamBytes FUZZTIME=30m sh scripts/fuzz.sh`.
+`evidence/fuzz/FuzzOpenBytes-1b.log` (that historical run predates the
+sandbox-mandatory change, so it used the host's workers). The mandatory sandbox
+caps a target to 2 CPUs, so a 30-minute sandboxed run of one target reaches ~1e8
+executions, not 1e9: in the sandboxed campaign `FuzzOpenAuthenticatedBytes`
+reached ~132M executions in 30 minutes. `FuzzStreamBytes` (which builds *and*
+reads a whole stream per execution) and `FuzzMachineRoundTrip` (nine machines per
+execution) are structurally far heavier per execution and are bounded-fuzzed with
+`FUZZTIME`/`FUZZTARGETS` rather than driven to 1B.
 
 ## Benchmarks
 
@@ -196,15 +213,18 @@ ordering on any wire path).
 ## Fuzzing (campaign)
 
 ```sh
-FUZZTIME=45s sh scripts/fuzz.sh    # logs + corpus under evidence/fuzz/
-FUZZTIME=30m sh scripts/fuzz.sh    # the long campaign (the reference ran 1B/target)
+FUZZTIME=30s sh scripts/fuzz.sh    # logs + corpus under evidence/fuzz/
+FUZZTIME=60s FUZZTIME_FuzzOpenAuthenticatedBytes=30m sh scripts/fuzz.sh    # the long campaign
 ```
 
-`evidence/fuzz.json` records both runs: the 45 s smoke run (`FuzzOpenBytes` 26.0M
-execs, `FuzzStreamBytes` 146k, `FuzzMachineRoundTrip` 170k; 118 corpus entries
-published under `evidence/fuzz/corpus/`) and the long `FuzzOpenBytes` campaign
-(1.13B execs, `PASS`). The corpus is copied out of the Go build cache so it is
-reproducible and reviewable.
+`evidence/fuzz.json` records the sandboxed campaign: per-target execs and `ok`,
+the corpus entry count, and the long-campaign block. In the campaign
+`FuzzOpenBytes` reached 15.8M executions (3m), `FuzzOpenAuthenticatedBytes`
+132.4M (30m), `FuzzStreamBytes` 27.5k and `FuzzMachineRoundTrip` 255.4k (both
+heavy per execution) — all `PASS`, no crashes; 135 corpus entries were published
+under `evidence/fuzz/corpus/`, copied out of the sandbox `GOCACHE` volume so it is
+reproducible and reviewable. `FuzzOpenBytes`'s historical 1.13B executions remain
+recorded in the `campaign` block (`evidence/fuzz/FuzzOpenBytes-1b.log`).
 
 ## Reproduce
 

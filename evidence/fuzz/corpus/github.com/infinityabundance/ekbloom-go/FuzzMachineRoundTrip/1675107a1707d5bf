@@ -1,2 +1,0 @@
-go test fuzz v1
-[]byte("1270089AB\xa8CXY0Zabc\xa8xyz !\"#$%&'()*0+,")

@@ -57,7 +57,7 @@ for the RocksDB and Parquet case studies.
 | Fault injection (torn append / ENOSPC-EIO) | ✅ newest valid generation picked | `append_test.go` |
 | Fault-injection endurance log (10 fault kinds, newest-valid selection, concurrent readers) | ✅ 2000 rounds, `garbage: 0`, race-clean | `internal/ekb/endurance_test.go`, `scripts/endurance.sh`, `evidence/endurance.json` |
 | Per-machine `byte_at` p50/p99/p99.9 | ✅ 20 / 31 / 31 ns | `internal/ekb/latency_test.go`, `evidence/byteat.json` |
-| Fuzzers (Open, Stream, machine roundtrip) | ✅ | `internal/ekb/fuzz_test.go`, `evidence/fuzz/` |
+| Fuzzers (Open, OpenAuthenticated, Stream, machine roundtrip) | ✅ OOM-capped in the sandbox; typed errors only | `internal/ekb/fuzz_test.go`, `scripts/fuzz.sh`, `evidence/fuzz/` |
 | Benchmarks (`go test -bench`, incl. native arm64) | ✅ amd64 + native arm64 (CI) | `internal/ekb/bench_test.go`, `evidence/bench.txt`, `evidence/aarch64-native-bench.txt` |
 | Cross-FS determinism (ext4/xfs/btrfs/tmpfs (CI); ext4/btrfs/tmpfs locally) | ✅ identical fingerprints | `scripts/cross-fs.sh`, `evidence/cross-fs.json` |
 | Cross-arch runtime determinism | ✅ native amd64 == arm64 fingerprints | `evidence/aarch64-determinism.json`, `evidence/aarch64-native-fingerprint.txt` |
@@ -66,7 +66,7 @@ for the RocksDB and Parquet case studies.
 | 4 KiB point-read court vs Pebble/LZ4/Zstd | ✅ honest in-memory vs on-disk | `courts/point/`, `evidence/courts-point.json` |
 | YCSB value-log court vs zstd-dict / Pebble | ✅ m9 wins vs m2, loses vs zstd-dict | `courts/ycsb/`, `evidence/ycsb.json` |
 | Performance regression history | ✅ `bench-history.jsonl`, appended by CI | `scripts/bench-history.sh`, `evidence/bench-history.jsonl` |
-| Fuzz campaign | ✅ **1.13B execs** (Open), corpus published | `evidence/fuzz.json`, `evidence/fuzz/FuzzOpenBytes-1b.log` |
+| Fuzz campaign | ✅ **1.13B execs** (Open, historical); sandboxed OpenAuth 132.4M/30m | `evidence/fuzz.json`, `evidence/fuzz/FuzzOpenBytes-1b.log` |
 | WebAssembly (`wasip1` == amd64 == arm64) | ✅ suite runs under wasip1 | `scripts/wasm.sh`, `evidence/wasip1-test.log` |
 | Release + published container (GHCR/Docker Hub) | ✅ `v0.5.0`; `:test` refreshed on main | `CHANGELOG.md`, `.github/workflows/publish.yml` |
 | CI + captured logs | ✅ | `.github/workflows/ci.yml`, `scripts/ci.sh`, `evidence/` |

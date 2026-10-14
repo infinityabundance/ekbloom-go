@@ -1,9 +1,10 @@
 {
-  "fuzztime": "2m",
-  "targets": [ { "name": "FuzzOpenBytes", "execs": 67537674 }, { "name": "FuzzStreamBytes", "execs": 839342 }, { "name": "FuzzMachineRoundTrip", "execs": 1223373 } ],
-  "total_execs": 69600389,
+  "fuzztime": "3m",
+  "sandbox": "scripts/sandbox.sh (--memory=2g --memory-swap=2g --cpus=2 --pids-limit=512, GOMAXPROCS=2)",
+  "targets": [ { "name": "FuzzOpenBytes", "execs": 15835469, "ok": true }, { "name": "FuzzOpenAuthenticatedBytes", "execs": 132376877, "ok": true }, { "name": "FuzzStreamBytes", "execs": 27512, "ok": true }, { "name": "FuzzMachineRoundTrip", "execs": 255402, "ok": true } ],
+  "total_execs": 148495260,
   "ok": true,
-  "corpus_entries": 178,
+  "corpus_entries": 135,
   "corpus_dir": "evidence/fuzz/corpus",
   "campaign": {
     "target": "FuzzOpenBytes",
@@ -11,7 +12,7 @@
     "execs": 1131205714,
     "result": "PASS",
     "log": "evidence/fuzz/FuzzOpenBytes-1b.log",
-    "note": "The primary open() entry point has been driven past 1B executions. FuzzStreamBytes builds and reads a whole stream per execution (~3k execs/s), so it is bounded-fuzzed rather than driven to 1B."
+    "note": "FuzzOpenBytes was driven past 1B executions (1,131,205,714 in 30m, PASS) before fuzz runs were made sandbox-mandatory, so that historical run used the host's 16 workers; its verbatim log is retained. The mandatory sandbox caps a target to 2 CPUs (GOMAXPROCS=2), so a 30m sandboxed run of one target reaches ~1e8 execs, not 1e9. FuzzOpenAuthenticatedBytes runs Open twice plus a BLAKE3 keyed MAC per execution and FuzzStreamBytes builds and reads a whole stream per execution (~3k execs/s), so both are bounded-fuzzed rather than driven to 1B."
   },
-  "note": "No crashes were found. Run FUZZTIME=30m (or longer) for the full campaign on every target."
+  "note": "Every run above executed inside scripts/sandbox.sh (no go ran on the host). No crashes were found. Long campaign: FUZZTIME=60s FUZZTIME_FuzzOpenAuthenticatedBytes=30m sh scripts/fuzz.sh."
 }

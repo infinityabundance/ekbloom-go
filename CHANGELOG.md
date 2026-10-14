@@ -30,6 +30,22 @@ The wire format is **frozen** and follows the Rust reference
   `dm-flakey`/power-fail and real `xfs`/`zfs`/`bcachefs` device tests need
   privileges the unprivileged sandbox does not have.
 
+- **`OpenAuthenticated` fuzz target + sandboxed fuzzing.** `internal/ekb/fuzz_test.go`
+  gains `FuzzOpenAuthenticatedBytes`, which fuzzes `OpenAuthenticated` over
+  arbitrary bytes under a fixed 32-byte key *and* a second input-derived (wrong)
+  key, covering both the authenticated-valid and AUTH-mismatch paths; its
+  invariant is that it never panics and only ever returns a typed `*Error`
+  (seeds: a real `WriteBodyAuthenticated` image, the Rust AUTH golden fixture, and
+  mutated/truncated variants). `scripts/fuzz.sh` now runs **every**
+  `go test -fuzz` inside the OOM-capped sandbox (`scripts/sandbox.sh`) and
+  publishes the corpus from the sandbox's `GOCACHE` volume instead of a host
+  cache, recording per-target execs and PASS/FAIL. CI gains a `fuzz` job
+  (~60 s/target, OOM-capped via the script). `docs/TESTING.md` and
+  `evidence/README.md` document the honest split: `FuzzOpenBytes` retains its
+  historical 1.13B-execution run, while the 2-CPU sandbox drives
+  `FuzzOpenAuthenticatedBytes` to ~132M executions in 30 minutes and
+  bounded-fuzzes the heavier `FuzzStreamBytes`/`FuzzMachineRoundTrip`.
+
 ### Fixed
 
 - **Sandbox scheduler sizing (`GOMAXPROCS`).** Go 1.23 does not read the cgroup CPU

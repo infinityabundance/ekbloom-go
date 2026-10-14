@@ -36,6 +36,24 @@ jobs:
           name: evidence
           path: evidence/
 
+  fuzz:
+    # Native Go fuzzing, OOM-capped: every target runs inside scripts/sandbox.sh
+    # (--memory=2g --memory-swap=2g --cpus=2 --pids-limit=512, GOMAXPROCS=2), so a
+    # runaway fuzzer is killed in the container and cannot take down the runner —
+    # no `go` runs on the host. Short budget per target on every push; the corpus
+    # and per-target logs are published to evidence/fuzz/.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: fuzz (60s per target, sandboxed)
+        run: FUZZTIME=60s sh scripts/fuzz.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fuzz
+          path: |
+            evidence/fuzz.json
+            evidence/fuzz/
+
   soak:
     # Long-running randomized round-trip soak: proves the implementation keeps
     # processing billions of logical symbols with bounded memory inside the

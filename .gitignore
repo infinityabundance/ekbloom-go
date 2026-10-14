@@ -13,5 +13,6 @@ coverage.txt
 # Editor / OS
 .DS_Store
 
-# Downloaded standard corpora (fetched by scripts/corpus.sh, never committed)
-corpus/
+# Downloaded standard corpora (fetched by scripts/corpus.sh, never committed).
+# Anchored to the repository root so evidence/fuzz/corpus/ is not caught by it.
+/corpus/

@@ -2,6 +2,7 @@ package ekb
 
 import (
 	"bytes"
+	"errors"
 	"testing"
 )
 
@@ -35,6 +36,91 @@ func FuzzOpenBytes(f *testing.F) {
 		}
 		if all, err := r.ReadAt(0, n); err == nil && len(all) != int(n) {
 			t.Fatalf("ReadAt returned %d bytes, want %d", len(all), n)
+		}
+	})
+}
+
+// FuzzOpenAuthenticatedBytes asserts that OpenAuthenticated over arbitrary bytes
+// with a fixed 32-byte key never panics and only ever returns a typed *Error: a
+// successfully authenticated reader serves every byte, and every failure
+// (bad magic, corruption, a missing/stripped AUTH section, or a key that does
+// not match the stored tag) is a typed *Error, never garbage or a panic. The
+// same bytes are also driven through a second, input-derived (wrong) key so the
+// AUTH-mismatch rejection path is covered as well as the authenticated-valid
+// one.
+func FuzzOpenAuthenticatedBytes(f *testing.F) {
+	key := testKey()
+
+	for _, seed := range [][]byte{
+		{},
+		[]byte("EKBLOOM\x00"),
+		[]byte("not an ekbloom file at all"),
+		append([]byte("EKBLOOM\x00"), make([]byte, 200)...),
+	} {
+		f.Add(seed)
+	}
+	if data, err := readTestdata("auth/golden_auth.ekb"); err == nil {
+		f.Add(data)
+	}
+
+	// A genuine authenticated image under the fixed key, plus mutated variants
+	// that exercise the integrity/AUTH-failure paths rather than the valid one.
+	flip := func(b []byte, i int) []byte {
+		c := append([]byte(nil), b...)
+		c[i] ^= 0x01
+		return c
+	}
+	if auth, err := WriteBodyAuthenticated(1, []byte("authenticated fuzz seed payload"), rootProfile(), key); err == nil {
+		f.Add(auth)
+		f.Add(flip(auth, 0))
+		f.Add(flip(auth, len(auth)/2))
+		f.Add(flip(auth, len(auth)-1))
+		f.Add(append([]byte(nil), auth[:len(auth)/2]...))
+	}
+
+	f.Fuzz(func(t *testing.T, data []byte) {
+		// check opens under k and, if it authenticates, walks every logical byte,
+		// requiring a typed error from any failure (never a panic or a raw error).
+		check := func(k [32]byte, which string) {
+			r, err := OpenAuthenticated(data, k)
+			if err != nil {
+				var typed *Error
+				if !errors.As(err, &typed) {
+					t.Fatalf("%s: non-typed error %T: %v", which, err, err)
+				}
+				return
+			}
+			if !r.Authenticated() {
+				t.Fatalf("%s: OpenAuthenticated returned an unauthenticated reader", which)
+			}
+			n := r.LogicalLen()
+			if n > 1<<20 {
+				return
+			}
+			for i := uint64(0); i < n; i++ {
+				if _, err := r.ByteAt(i); err != nil {
+					var typed *Error
+					if !errors.As(err, &typed) {
+						t.Fatalf("%s: ByteAt non-typed error %T: %v", which, err, err)
+					}
+					return
+				}
+			}
+		}
+
+		// Fixed-key path: only a genuine image authenticates.
+		check(key, "fixed-key")
+
+		// Wrong-key path: a second key derived from the input. A genuine image (or
+		// one mutated anywhere the tag covers) must be rejected as a typed error.
+		var wrong [32]byte
+		if len(data) >= 32 {
+			copy(wrong[:], data[:32])
+		} else {
+			copy(wrong[:], data)
+		}
+		if wrong != key {
+			check(wrong, "wrong-key")
 		}
 	})
 }
