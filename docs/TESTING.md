@@ -65,8 +65,9 @@ bounded-fuzzed with `FUZZTARGETS` rather than driven to 1B; extend with
 ```sh
 go test -bench . -benchmem .
 sh scripts/bench.sh               # writes bench.txt
+sh scripts/bench-history.sh       # append a regression record to bench-history.jsonl
 sh scripts/profile.sh             # CPU profiles: .prof + SVG call graph + top
-sh scripts/courts.sh              # the skewed small-record court (separate module)
+sh scripts/courts.sh              # 100-byte 80/20 court + 4 KiB point read + YCSB (separate module)
 ```
 
 ## Cross-filesystem / cross-architecture determinism
@@ -96,6 +97,10 @@ filesystem-level, without a separate block device.
 benchmarks on real arm64 hardware (`ubuntu-24.04-arm`) and requires its
 fingerprint to equal the recorded amd64 fingerprint. `scripts/container-aarch64.sh`
 additionally checks amd64 == arm64 under qemu.
+- **WebAssembly.** The CI `wasm` job builds `wasip1` and `js/wasm`, runs the
+**entire test suite under wasip1** (`evidence/wasip1-test.log`), and requires the
+WASI fingerprint to equal amd64/arm64 — `amd64 == arm64 == wasip1`
+(`evidence/wasip1-fingerprint.txt`).
 - **Cross-architecture.** `scripts/container-aarch64.sh` runs the full suite on
 `linux/arm64` under qemu and compares fingerprints; `evidence/aarch64-determinism.json`
 records `identical: true` with **equal** amd64/arm64 fingerprint SHA-256s over the

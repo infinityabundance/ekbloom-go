@@ -89,6 +89,32 @@ func TestGoRoundTrip(t *testing.T) {
 	}
 }
 
+// TestDecodeCore proves the public core encode/decode pair round-trips for every
+// machine and rejects an unknown machine id with a typed error.
+func TestDecodeCore(t *testing.T) {
+	src := sampleSource(0, 2048)
+	for id := uint32(1); id <= 9; id++ {
+		m, ok := MachineByID(id)
+		if !ok {
+			t.Fatalf("machine %d not registered", id)
+		}
+		core, err := m.Encode(src)
+		if err != nil {
+			t.Fatalf("m%d encode: %v", id, err)
+		}
+		got, err := DecodeCore(id, core, uint64(len(src)))
+		if err != nil {
+			t.Fatalf("m%d decode: %v", id, err)
+		}
+		if !bytes.Equal(got, src) {
+			t.Fatalf("m%d round-trip mismatch", id)
+		}
+	}
+	if _, err := DecodeCore(99, nil, 0); err == nil {
+		t.Fatal("unknown machine accepted")
+	}
+}
+
 // TestConcurrentReaders runs 64 readers against one shared Reader under -race.
 func TestConcurrentReaders(t *testing.T) {
 	data, err := os.ReadFile(filepath.Join("testdata", "fixtures", "m1_root_allbytes.ekb"))

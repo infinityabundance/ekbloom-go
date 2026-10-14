@@ -133,6 +133,18 @@ type delegated struct{ m Machine }
 func (d delegated) reveal(core []byte, s *Snapshot) (byte, error) { return d.m.Reveal(core, s) }
 func (d delegated) peek(core []byte, s *Snapshot) (byte, error)   { return d.m.Peek(core, s) }
 
+// DecodeCore decodes a machine core to its logical bytes, using the machine
+// registered for machineID. It is the inverse of Machine.Encode and is the entry
+// point for storing a core yourself (e.g. a value-log adapter) and decoding it
+// later. Malformed input is a typed error; it never panics.
+func DecodeCore(machineID uint32, core []byte, logicalLen uint64) ([]byte, error) {
+	m, ok := machineByID(machineID)
+	if !ok {
+		return nil, &Error{Kind: KindUnknownMachine, MachineID: machineID}
+	}
+	return decodeAll(m, core, logicalLen)
+}
+
 // decodeAll decodes every logical symbol of core into a fresh slice, using a
 // prepared context so the model is parsed once.
 func decodeAll(m Machine, core []byte, logicalLen uint64) ([]byte, error) {

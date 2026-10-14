@@ -30,11 +30,11 @@ GOOS=js GOARCH=wasm go build -o "$work/ekbloom.wasm" ./cmd/ekbloom
 
 runtime=""
 if command -v wasmtime >/dev/null 2>&1; then
-    runtime=wasmtime
+    runtime=$(command -v wasmtime)
 elif [ -x "$HOME/.wasmtime/bin/wasmtime" ]; then
     runtime="$HOME/.wasmtime/bin/wasmtime"
 elif command -v wasmer >/dev/null 2>&1; then
-    runtime=wasmer
+    runtime=$(command -v wasmer)
 fi
 
 if [ -z "$runtime" ]; then
@@ -43,9 +43,20 @@ if [ -z "$runtime" ]; then
     exit 0
 fi
 
+# Go runs wasip1 test binaries through the GOROOT helper script, which execs the
+# runtime by name, so put both the helper and the runtime on PATH.
+RUNTIME_NAME=$(basename "$runtime")
+RUNTIME_DIR=$(dirname "$runtime")
+export GOWASIRUNTIME="$RUNTIME_NAME"
+export PATH="$(go env GOROOT)/lib/wasm:$RUNTIME_DIR:$PATH"
+
+echo
+echo "== WASI test suite (GOOS=wasip1) =="
+GOOS=wasip1 GOARCH=wasm go test ./... 2>&1 | tee evidence/wasip1-test.log
+
 echo
 echo "== WASI fingerprint ($runtime) =="
-case "$(basename "$runtime")" in
+case "$RUNTIME_NAME" in
     wasmtime) "$runtime" run --dir=/ "$work/fingerprint.wasm" "$root/testdata" > evidence/wasip1-fingerprint.txt ;;
     wasmer)   "$runtime" run --dir "$root" "$work/fingerprint.wasm" "$root/testdata" > evidence/wasip1-fingerprint.txt ;;
     *)        echo "note: unknown runtime $runtime"; exit 0 ;;

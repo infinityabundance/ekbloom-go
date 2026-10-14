@@ -1,0 +1,176 @@
+{
+  "records": 20000,
+  "record_bytes": 100,
+  "ops_per_row": 50000,
+  "rows": [
+    {
+      "store": "raw",
+      "workload": "C-read-only",
+      "bytes_per_record": 100,
+      "ops_per_s": 16021040.111557705,
+      "read_p50_ns": 20,
+      "read_p99_ns": 111
+    },
+    {
+      "store": "machine2-per-record",
+      "workload": "C-read-only",
+      "bytes_per_record": 589.9911,
+      "ops_per_s": 170361.5607595341,
+      "read_p50_ns": 5570,
+      "read_p99_ns": 8395
+    },
+    {
+      "store": "zstd-dict",
+      "workload": "C-read-only",
+      "bytes_per_record": 45.6626,
+      "ops_per_s": 2507468.8721560477,
+      "read_p50_ns": 321,
+      "read_p99_ns": 711
+    },
+    {
+      "store": "ekbloom-m9",
+      "workload": "C-read-only",
+      "bytes_per_record": 63.35745,
+      "ops_per_s": 334109.1347442094,
+      "read_p50_ns": 2805,
+      "read_p99_ns": 4588
+    },
+    {
+      "store": "pebble+raw",
+      "workload": "C-read-only",
+      "bytes_per_record": 100,
+      "ops_per_s": 2033505.7488630975,
+      "read_p50_ns": 441,
+      "read_p99_ns": 851
+    },
+    {
+      "store": "pebble+zstd-dict",
+      "workload": "C-read-only",
+      "bytes_per_record": 45.6626,
+      "ops_per_s": 1116420.4345577226,
+      "read_p50_ns": 822,
+      "read_p99_ns": 1432
+    },
+    {
+      "store": "pebble+ekbloom-m9",
+      "workload": "C-read-only",
+      "bytes_per_record": 63.35745,
+      "ops_per_s": 278497.4880055727,
+      "read_p50_ns": 3377,
+      "read_p99_ns": 6422
+    },
+    {
+      "store": "raw",
+      "workload": "B-95/5",
+      "bytes_per_record": 100,
+      "ops_per_s": 14993474.83974974,
+      "read_p50_ns": 20,
+      "read_p99_ns": 120
+    },
+    {
+      "store": "machine2-per-record",
+      "workload": "B-95/5",
+      "bytes_per_record": 589.9903,
+      "ops_per_s": 170012.74068678197,
+      "read_p50_ns": 5721,
+      "read_p99_ns": 8657
+    },
+    {
+      "store": "zstd-dict",
+      "workload": "B-95/5",
+      "bytes_per_record": 45.72495,
+      "ops_per_s": 456147.5109526491,
+      "read_p50_ns": 430,
+      "read_p99_ns": 1021
+    },
+    {
+      "store": "ekbloom-m9",
+      "workload": "B-95/5",
+      "bytes_per_record": 63.3559,
+      "ops_per_s": 333708.9717249923,
+      "read_p50_ns": 2925,
+      "read_p99_ns": 4910
+    },
+    {
+      "store": "pebble+raw",
+      "workload": "B-95/5",
+      "bytes_per_record": 100,
+      "ops_per_s": 1975860.3607320357,
+      "read_p50_ns": 361,
+      "read_p99_ns": 961
+    },
+    {
+      "store": "pebble+zstd-dict",
+      "workload": "B-95/5",
+      "bytes_per_record": 45.72495,
+      "ops_per_s": 371667.9291854553,
+      "read_p50_ns": 972,
+      "read_p99_ns": 2164
+    },
+    {
+      "store": "pebble+ekbloom-m9",
+      "workload": "B-95/5",
+      "bytes_per_record": 63.3559,
+      "ops_per_s": 279694.07531927625,
+      "read_p50_ns": 3487,
+      "read_p99_ns": 6442
+    },
+    {
+      "store": "raw",
+      "workload": "A-50/50",
+      "bytes_per_record": 100,
+      "ops_per_s": 8377235.632873345,
+      "read_p50_ns": 20,
+      "read_p99_ns": 121
+    },
+    {
+      "store": "machine2-per-record",
+      "workload": "A-50/50",
+      "bytes_per_record": 589.9963,
+      "ops_per_s": 199166.21136938807,
+      "read_p50_ns": 5590,
+      "read_p99_ns": 9658
+    },
+    {
+      "store": "zstd-dict",
+      "workload": "A-50/50",
+      "bytes_per_record": 45.9616,
+      "ops_per_s": 65975.1400552601,
+      "read_p50_ns": 681,
+      "read_p99_ns": 1483
+    },
+    {
+      "store": "ekbloom-m9",
+      "workload": "A-50/50",
+      "bytes_per_record": 63.354,
+      "ops_per_s": 512337.2080542483,
+      "read_p50_ns": 2966,
+      "read_p99_ns": 6101
+    },
+    {
+      "store": "pebble+raw",
+      "workload": "A-50/50",
+      "bytes_per_record": 100,
+      "ops_per_s": 1034209.4348982432,
+      "read_p50_ns": 420,
+      "read_p99_ns": 4238
+    },
+    {
+      "store": "pebble+zstd-dict",
+      "workload": "A-50/50",
+      "bytes_per_record": 45.9616,
+      "ops_per_s": 59383.41701666234,
+      "read_p50_ns": 1423,
+      "read_p99_ns": 4659
+    },
+    {
+      "store": "pebble+ekbloom-m9",
+      "workload": "A-50/50",
+      "bytes_per_record": 63.354,
+      "ops_per_s": 346030.5889933372,
+      "read_p50_ns": 3437,
+      "read_p99_ns": 8656
+    }
+  ],
+  "note": "YCSB-style zipfian (theta=0.99), deterministic trace. Pebble uses NoSync. EKBLOOM is an in-memory codec; the pebble+* rows place the same codec inside an embedded LSM value log. Single host, scalar Go."
+}

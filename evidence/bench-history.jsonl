@@ -1,0 +1,3 @@
+{"ts":"2026-10-14T11:33:42Z","commit":"23a79ed","go":"go1.27.1-X:nodwarf5","arch":"amd64","byteat_pathbloom_ns":2.251,"byteat_history_ns":3.872,"byteat_probe_ns":6.606,"resident_get_ns":1.338,"m1_encode_ns":656117,"m2_decode_ns":8360341}
+{"ts":"2026-10-14T11:33:51Z","commit":"23a79ed","go":"go1.27.1-X:nodwarf5","arch":"amd64","byteat_pathbloom_ns":2.323,"byteat_history_ns":4.006,"byteat_probe_ns":6.510,"resident_get_ns":1.376,"m1_encode_ns":674768,"m2_decode_ns":8408605}
+{"ts":"2026-10-14T11:33:53Z","commit":"23a79ed","go":"go1.27.1-X:nodwarf5","arch":"amd64","byteat_pathbloom_ns":2.206,"byteat_history_ns":3.958,"byteat_probe_ns":6.565,"resident_get_ns":1.359,"m1_encode_ns":671120,"m2_decode_ns":8437513}

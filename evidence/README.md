@@ -24,7 +24,10 @@ because they need hardware or privileges a laptop may not have.
 | `concurrency.json` | 64 readers quiet vs 1 writer publish, p50/p99/p99.9 |
 | `profile/` | CPU profiles (`*.prof`), SVG call graphs, and top functions for m1/m2/m9 + path bloom |
 | `sweep.json` | writer-profile frontier: `E_V` / `byte_at` / 4 KiB / bulk per profile |
-| `wasip1-fingerprint.txt` | WebAssembly (wasip1) fingerprint, byte-identical to amd64/arm64 |
+| `courts-point.json` | 4 KiB point read vs raw/LZ4/zstd/Pebble/EKBLOOM |
+| `ycsb.json` | YCSB value-log court (zipfian) vs zstd-dict / Pebble / m2 |
+| `bench-history.jsonl` | append-only performance regression history (commit + ns/op) |
+| `wasip1-fingerprint.txt` / `wasip1-test.log` | WebAssembly (wasip1) fingerprint + full suite, identical to amd64/arm64 |
 | `external-reproduce.json` | the suite run from the **published** `ghcr.io/…:test` image (no clone) |
 | `chaos.json` | 400 append/damage/repair rounds (truncate + bit flips): 400/400 recovered exact |
 | `fuzz.json`, `fuzz/` | fuzz campaign logs and the published corpus (`FuzzOpenBytes` 1.13B execs) |

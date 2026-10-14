@@ -12,3 +12,7 @@ go run .
 echo
 echo "== 4 KiB point-read court (Pebble) =="
 go run ./point
+echo
+echo "== YCSB value-log court (zipfian, vs zstd-dict) =="
+go run ./ycsb
+sh "$root/scripts/bench-history.sh" >/dev/null 2>&1 || true

@@ -9,6 +9,7 @@ name: publish
 on:
   push:
     tags: ["v*"]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -54,6 +55,7 @@ jobs:
 
       - name: Metadata (GHCR runtime)
         id: meta-ghcr
+        if: startsWith(github.ref, 'refs/tags/v')
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
@@ -64,6 +66,7 @@ jobs:
             type=raw,value=latest
 
       - name: Build and push (GHCR runtime)
+        if: startsWith(github.ref, 'refs/tags/v')
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -78,6 +81,9 @@ jobs:
       # The `test` image carries the full source + Go toolchain so a third party
       # can reproduce the suite without cloning:
       #   docker run --rm ghcr.io/infinityabundance/ekbloom-go:test
+      # It is published on every push to main (as :test) and on every release
+      # (as :test and :<version>-test), so evidence/ is always externally
+      # reproducible from the latest main.
       - name: Metadata (GHCR test)
         id: meta-ghcr-test
         uses: docker/metadata-action@v5
@@ -99,7 +105,7 @@ jobs:
 
       - name: Metadata (Docker Hub runtime)
         id: meta-hub
-        if: needs.check.outputs.dockerhub == 'true'
+        if: needs.check.outputs.dockerhub == 'true' && startsWith(github.ref, 'refs/tags/v')
         uses: docker/metadata-action@v5
         with:
           images: infinityabundance/ekbloom-go
@@ -111,7 +117,7 @@ jobs:
 
       # Reuses the build cache from the GHCR push; only the tags/labels differ.
       - name: Build and push (Docker Hub runtime)
-        if: needs.check.outputs.dockerhub == 'true'
+        if: needs.check.outputs.dockerhub == 'true' && startsWith(github.ref, 'refs/tags/v')
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -125,7 +131,7 @@ jobs:
 
       - name: Metadata (Docker Hub test)
         id: meta-hub-test
-        if: needs.check.outputs.dockerhub == 'true'
+        if: needs.check.outputs.dockerhub == 'true' && startsWith(github.ref, 'refs/tags/v')
         uses: docker/metadata-action@v5
         with:
           images: infinityabundance/ekbloom-go
@@ -134,7 +140,7 @@ jobs:
             type=semver,pattern={{version}}-test
 
       - name: Build and push (Docker Hub test)
-        if: needs.check.outputs.dockerhub == 'true'
+        if: needs.check.outputs.dockerhub == 'true' && startsWith(github.ref, 'refs/tags/v')
         uses: docker/build-push-action@v6
         with:
           context: .

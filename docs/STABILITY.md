@@ -56,6 +56,12 @@ func TrainDictionary(records [][]byte) (Dictionary, error)
 func RegisterDictionary(d Dictionary)
 func (d Dictionary) Bytes() []byte
 func DictionaryFromBytes(b []byte) (Dictionary, error)
+func (d Dictionary) EncodeRecord(record []byte) ([]byte, error)
+func (d Dictionary) DecodeRecord(core []byte) ([]byte, error)
+
+// Core encode/decode (for storing cores yourself, e.g. a value-log adapter)
+func MachineByID(id uint32) (Machine, bool)
+func DecodeCore(machineID uint32, core []byte, logicalLen uint64) ([]byte, error)
 
 // Errors
 func CorruptDetail(err error) (section string, offset uint64, ok bool)

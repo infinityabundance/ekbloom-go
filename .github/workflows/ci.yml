@@ -27,6 +27,8 @@ jobs:
         run: sh scripts/cross-fs.sh
       - name: benchmarks (short)
         run: go test -run '^$' -bench . -benchmem -benchtime 100ms . | tee evidence/bench-ci.txt
+      - name: performance history (append)
+        run: sh scripts/bench-history.sh
       - name: 2 GiB bounded-memory stream
         run: EKB_RUN_SCALE=1 go test -run TestStreamBoundedMemory2GiB -v .
       - uses: actions/upload-artifact@v4

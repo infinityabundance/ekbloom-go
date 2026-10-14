@@ -1,0 +1,8 @@
+ok  	github.com/infinityabundance/ekbloom-go	3.216s
+?   	github.com/infinityabundance/ekbloom-go/cmd/ekbloom	[no test files]
+ok  	github.com/infinityabundance/ekbloom-go/internal/blake3	0.032s
+?   	github.com/infinityabundance/ekbloom-go/internal/tools/corpusbench	[no test files]
+?   	github.com/infinityabundance/ekbloom-go/internal/tools/corpuscompare	[no test files]
+?   	github.com/infinityabundance/ekbloom-go/internal/tools/fingerprint	[no test files]
+?   	github.com/infinityabundance/ekbloom-go/internal/tools/roundtripgen	[no test files]
+?   	github.com/infinityabundance/ekbloom-go/internal/tools/testsum	[no test files]

@@ -74,3 +74,35 @@ Read it honestly:
 - **Numbers are in-memory vs on-disk.** EKBLOOM pays no I/O here; a real service
   would add `pread`, which is where the reference's `io_uring`/`mmap` wins live
   (see `docs/SCOPE.md`).
+
+## YCSB value-log court
+
+`courts/ycsb` replays YCSB-style traces (zipfian `theta=0.99`, 20,000 records ×
+100 B, 50,000 ops) over the same payloads held in the different representations —
+including the same codec placed **inside** a Pebble embedded store (a value-log
+adapter: values are codec-encoded and decoded on `Get`).
+
+Workload C (read-only):
+
+| store | B/rec | ops/s | read p50 | read p99 |
+| --- | ---: | ---: | ---: | ---: |
+| raw | 100.0 | 16,021,040 | 20 ns | 111 ns |
+| machine2-per-record | 590.0 | 170,362 | 5,570 ns | 8,395 ns |
+| zstd-dict | 45.7 | 2,507,469 | 321 ns | 711 ns |
+| **ekbloom-m9** | **63.4** | 334,109 | 2,805 ns | 4,588 ns |
+| pebble+raw | 100.0 | 2,033,506 | 441 ns | 851 ns |
+| pebble+zstd-dict | 45.7 | 1,116,420 | 822 ns | 1,432 ns |
+| pebble+ekbloom-m9 | 63.4 | 278,497 | 3,377 ns | 6,422 ns |
+
+Read it honestly:
+
+- **Where the dictionary matters — versus the per-record model.** Machine 9 is
+  **9.3× smaller** than per-record machine 2 (63.4 vs 590 B/record) and **≈2×
+  faster** to read (2,805 vs 5,570 ns). That is the “83.5 vs 590, break-even 2”
+  story, and it is a space *and* speed win over the naive per-record model.
+- **Where it does not — versus Zstandard-with-dictionary.** zstd-dict is both
+  smaller (45.7 vs 63.4 B/record) and ≈9× faster (321 vs 2,805 ns). Machine 9 is
+  **not** a speed win over zstd-dict; this trace shows exactly that, which is what
+  the space-at-a-decode-cost position means for a small-record workload.
+- Workloads A/B (updates) widen the gap: machine 9 must re-encode on update.
+- Raw is the latency floor; the codecs trade decode work for bytes.

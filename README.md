@@ -46,9 +46,11 @@ byte-compatible with the Rust reference implementation
 | Standard corpora `E_V` (Canterbury/Silesia/enwik8/enwik9) | ✅ Go == Rust, 50/50 rows | `scripts/corpus.sh`, `evidence/corpus-compare.log` |
 | Skewed small-record court vs zstd/lz4/zstd-dict | ✅ space win, decode cost, allocs/get (honest) | `courts/`, `docs/COURTS.md`, `evidence/courts.json` |
 | 4 KiB point-read court vs Pebble/LZ4/Zstd | ✅ honest in-memory vs on-disk | `courts/point/`, `evidence/courts-point.json` |
+| YCSB value-log court vs zstd-dict / Pebble | ✅ m9 wins vs m2, loses vs zstd-dict | `courts/ycsb/`, `evidence/ycsb.json` |
+| Performance regression history | ✅ `bench-history.jsonl`, appended by CI | `scripts/bench-history.sh`, `evidence/bench-history.jsonl` |
 | Fuzz campaign | ✅ **1.13B execs** (Open), corpus published | `evidence/fuzz.json`, `evidence/fuzz/FuzzOpenBytes-1b.log` |
-| WebAssembly (`wasip1` == amd64 == arm64) | ✅ fingerprint identical | `scripts/wasm.sh`, `evidence/wasip1-fingerprint.txt` |
-| Release + published container (GHCR/Docker Hub) | ✅ `v0.1.0` ghcr.io/…/ekbloom-go | `CHANGELOG.md`, `.github/workflows/publish.yml` |
+| WebAssembly (`wasip1` == amd64 == arm64) | ✅ suite runs under wasip1 | `scripts/wasm.sh`, `evidence/wasip1-test.log` |
+| Release + published container (GHCR/Docker Hub) | ✅ `v0.1.0`; `:test` refreshed on main | `CHANGELOG.md`, `.github/workflows/publish.yml` |
 | CI + captured logs | ✅ | `.github/workflows/ci.yml`, `scripts/ci.sh`, `evidence/` |
 
 ## Quick start

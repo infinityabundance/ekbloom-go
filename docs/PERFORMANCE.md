@@ -66,6 +66,20 @@ Rule of thumb: **`Root` unless random reads dominate; then `Path` (general) or
   handles are faster there, as tabulated in `docs/SCOPE.md`. The port trades those
   for determinism and portability.
 
+## Regression history
+
+Performance is tracked over time, not asserted once. `scripts/bench-history.sh`
+appends one JSON line — commit, Go version, arch, and the `ns/op` of the hot
+benchmarks — to `evidence/bench-history.jsonl`, and CI appends a record on every
+run (uploaded as an artifact). Diff the last line against a previous one to see a
+regression; the first three entries also show the run-to-run noise floor
+(path-bloom `ByteAt` 2.21–2.32 ns).
+
+```sh
+sh scripts/bench-history.sh     # appends and prints the full history
+tail -n 5 evidence/bench-history.jsonl
+```
+
 ## Native arm64 (`evidence/aarch64-native-bench.txt`, 4 vCPU)
 
 | benchmark | amd64 | native arm64 |
