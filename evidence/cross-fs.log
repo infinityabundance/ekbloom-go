@@ -1,14 +1,18 @@
-== deriving fingerprint on disk FS ==
-== deriving fingerprint on tmpfs (/dev/shm/ekbloom-go-xfs) ==
+== ext4 (/mnt/1tb_kingston/EKBLOOM-GO): 50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720 ==
+== tmpfs (/dev/shm): 50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720 ==
+== btrfs (/mnt/256gb_btrfs): 50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720 ==
+note: no writable xfs mount found; not exercised
 
-PASS: fingerprints identical across disk and tmpfs
-
-fingerprint sample:
-golden_auth.ekb machine=1 n=300 physical=1504 sha=4a65d7fcc51cc9972a643f0ed1d18bbc972ad4bfc8fb348f9fbf8d8c61970f9e
-m1_full_rand.ekb machine=1 n=4096 physical=20484 sha=65694d08a58cfff11d1cad7c00f469cdbb6d421886cf0de24222ab009e0e8f37
-m1_path4_rand.ekb machine=1 n=4096 physical=12523 sha=8dfbe5563b7ab05f6e6eb8f4ce05cac5353db075bbed6e53a2673bd986b3a54b
-m1_root_allbytes.ekb machine=1 n=256 physical=256 sha=40aff2e9d2d8922e47afd4648e6967497158785fbd1da870e7110266bf944880
-m1_root_empty.ekb machine=1 n=0 physical=0 sha=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+PASS: fingerprint identical across 3 filesystem(s): ext4 tmpfs btrfs 
+{
+  "filesystems": [
+    {"fstype": "ext4", "path": "/mnt/1tb_kingston/EKBLOOM-GO", "fingerprint_sha256": "50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720"},
+    {"fstype": "tmpfs", "path": "/dev/shm", "fingerprint_sha256": "50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720"},
+    {"fstype": "btrfs", "path": "/mnt/256gb_btrfs", "fingerprint_sha256": "50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720"}
+  ],
+  "identical": true,
+  "count": 3
+}
 
 == cross-arch: building arm64 fingerprint ==
 built arm64 fingerprint binary (run under qemu to compare output)

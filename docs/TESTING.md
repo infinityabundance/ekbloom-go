@@ -60,16 +60,19 @@ sh scripts/courts.sh              # the skewed small-record court (separate modu
 ## Cross-filesystem / cross-architecture determinism
 
 ```sh
-sh scripts/cross-fs.sh            # disk vs tmpfs fingerprints (evidence/cross-fs.log)
+sh scripts/cross-fs.sh            # ext4/btrfs/tmpfs fingerprints (evidence/cross-fs.json)
 sh scripts/container-aarch64.sh   # full suite + fingerprints on linux/arm64 under qemu
 ```
 
 Determinism is proven at runtime, not merely asserted:
 
-- **Cross-filesystem.** `scripts/cross-fs.sh` copies the fixtures to a tmpfs and
-to the repository's on-disk filesystem and confirms the fingerprint (machine id,
-`physical_bytes`, and a SHA-256 over the fully decoded bytes) is identical
-(`evidence/cross-fs.log`).
+- **Cross-filesystem.** `scripts/cross-fs.sh` copies the fixtures to every
+writable filesystem type mounted on the host and confirms the fingerprint (machine
+id, `physical_bytes`, and a SHA-256 over the fully decoded bytes) is identical
+(`evidence/cross-fs.json`, `evidence/cross-fs.log`). On this host that is **ext4,
+btrfs and tmpfs**; a type that is not mounted (or not writable) is reported as
+"not exercised" — on this host `xfs` needs root to create a loopback mount, so it
+is not exercised here rather than claimed.
 - **Cross-architecture.** `scripts/container-aarch64.sh` runs the full suite on
 `linux/arm64` under qemu and compares fingerprints; `evidence/aarch64-determinism.json`
 records `identical: true` with **equal** amd64/arm64 fingerprint SHA-256s over the

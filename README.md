@@ -41,7 +41,7 @@ byte-compatible with the Rust reference implementation
 | Per-machine `byte_at` p50/p99/p99.9 | ✅ 20 / 31 / 40 ns | `latency_test.go`, `evidence/byteat.json` |
 | Fuzzers (Open, Stream, machine roundtrip) | ✅ | `fuzz_test.go`, `evidence/fuzz/` |
 | Benchmarks (`go test -bench`, incl. arm64) | ✅ amd64 + arm64/qemu | `bench_test.go`, `evidence/bench.txt`, `evidence/aarch64-bench.txt` |
-| Cross-FS determinism (disk vs tmpfs) | ✅ identical fingerprints | `scripts/cross-fs.sh` |
+| Cross-FS determinism (ext4/btrfs/tmpfs; xfs not exercised) | ✅ identical fingerprints | `scripts/cross-fs.sh`, `evidence/cross-fs.json` |
 | Cross-arch runtime determinism | ✅ amd64 == arm64 fingerprints | `evidence/aarch64-determinism.json` |
 | Standard corpora `E_V` (Canterbury/Silesia/enwik8) | ✅ Go == Rust, 48/48 rows | `scripts/corpus.sh`, `evidence/corpus-compare.log` |
 | Skewed small-record court vs zstd/lz4/zstd-dict | ✅ space win, decode cost, allocs/get (honest) | `courts/`, `docs/COURTS.md`, `evidence/courts.json` |
@@ -84,7 +84,7 @@ go test -fuzz FuzzOpenBytes .     # fuzzing (see docs/TESTING.md for the long ca
 go test -race ./...               # the 64-reader path, race-detector clean
 EKB_RUN_SCALE=1 go test -run 2GiB .   # the 2 GiB bounded-memory stream build (~9.5 MiB peak)
 sh scripts/roundtrip.sh           # Go -> .ekb/.stream -> Rust decode, byte-for-byte
-sh scripts/cross-fs.sh            # cross-filesystem determinism (disk vs tmpfs)
+sh scripts/cross-fs.sh            # cross-filesystem determinism (ext4/btrfs/tmpfs)
 sh scripts/corpus.sh              # standard corpora E_V: Go vs Rust on the same files
 sh scripts/container-aarch64.sh   # amd64 == arm64 runtime determinism (qemu)
 sh scripts/courts.sh              # 100-byte, 80/20 court vs zstd/lz4/zstd-dict
