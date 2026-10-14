@@ -1,0 +1,10 @@
+# Keep the build context minimal: exclude the Rust reference checkout, VCS,
+# build artifacts and generated evidence. `testdata/` is needed by the tests.
+.reference/
+.git/
+.gitignore
+**/target/
+evidence/bench.txt
+*.tmp
+Dockerfile
+compose.yaml

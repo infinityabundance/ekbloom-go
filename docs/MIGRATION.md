@@ -17,6 +17,7 @@ Rust reference (`fixturegen`). `compat_test.go` and `stream_test.go` assert:
 | `ReadAt(0, N)` equals the source | `TestRustFixturesAreByteIdentical` |
 | `PhysicalBytes()` equals Rust `inspect_file(...).physical_bytes` | `TestRustFixturesAreByteIdentical` |
 | Stream geometry, source hash, and reads match | `TestRustStreamGolden` |
+| Keyed AUTH: Go verifies a Rust tag, Rust verifies a Go tag | `TestRustAuthenticatedFixture`, `scripts/roundtrip.sh` |
 
 ## Write compatibility (Rust reads Go)
 

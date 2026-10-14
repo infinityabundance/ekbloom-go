@@ -32,6 +32,9 @@ func init() {
 // blake3Hash is the unkeyed BLAKE3 hash used throughout the format.
 func blake3Hash(b []byte) [32]byte { return blake3.Sum(b) }
 
+// blake3KeyedHash is the keyed BLAKE3 hash used by the AUTH section.
+func blake3KeyedHash(key [32]byte, b []byte) [32]byte { return blake3.SumKeyed(key, b) }
+
 // Snapshot is the complete resumable operational state Omega = (x, p[, lanes]).
 type Snapshot struct {
 	State   uint32

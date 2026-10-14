@@ -23,10 +23,13 @@ type Reader struct {
 	profiles      []string
 	generation    uint64
 	estimate      uint64
+	authenticated bool
 
 	hasHistory       bool
 	cursorPositional bool
 	checkpointIvls   []uint32
+
+	fast *fastpath
 
 	hotOnce sync.Once
 	hot     []byte
@@ -115,6 +118,7 @@ func Open(data []byte) (*Reader, error) {
 		}
 	}
 	r.estimate = EstimatePhysicalBytesForCore(header.CoreLen, r.logical, primary)
+	r.fast = parseFastPaths(header, outcome.Commits, data, manifest.CoreHash)
 	return r, nil
 }
 
@@ -181,12 +185,26 @@ func (r *Reader) Report() Report {
 
 // ByteAt returns the logical symbol at position off. It never panics on a
 // malformed request; an out-of-range offset is a typed OutOfBounds error.
+//
+// Reads are served, in order, by the exact path bloom, the machine-1 history, the
+// nearest checkpoint restart, the directly-addressable machines (3/5/6), and
+// finally the lazily materialised symbol array — mirroring the reference's
+// fastest-correct-path selection.
 func (r *Reader) ByteAt(off uint64) (byte, error) {
 	if off >= r.logical {
 		return 0, outOfBounds(off, 1, r.logical)
 	}
 	if r.directlyAddressable() {
 		return r.symbolAtDirect(off)
+	}
+	if out, ok := r.readPathBloom(off, off+1); ok {
+		return out[0], nil
+	}
+	if b, ok := r.byteAtHistory(off); ok {
+		return b, nil
+	}
+	if out, ok := r.readCheckpoint(off, off+1); ok {
+		return out[0], nil
 	}
 	hot, err := r.symbols()
 	if err != nil {
@@ -207,8 +225,8 @@ func (r *Reader) ReadAt(off, length uint64) ([]byte, error) {
 	if length == 0 {
 		return []byte{}, nil
 	}
-	out := make([]byte, length)
 	if r.directlyAddressable() {
+		out := make([]byte, length)
 		for i := uint64(0); i < length; i++ {
 			b, err := r.symbolAtDirect(off + i)
 			if err != nil {
@@ -218,10 +236,20 @@ func (r *Reader) ReadAt(off, length uint64) ([]byte, error) {
 		}
 		return out, nil
 	}
+	if out, ok := r.readPathBloom(off, end); ok {
+		return out, nil
+	}
+	if out, ok := r.readHistory(off, end); ok {
+		return out, nil
+	}
+	if out, ok := r.readCheckpoint(off, end); ok {
+		return out, nil
+	}
 	hot, err := r.symbols()
 	if err != nil {
 		return nil, err
 	}
+	out := make([]byte, length)
 	copy(out, hot[off:end])
 	return out, nil
 }

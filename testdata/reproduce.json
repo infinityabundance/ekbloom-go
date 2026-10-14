@@ -1,7 +1,7 @@
 {
-  "packages": 4,
-  "passed": 338,
+  "packages": 6,
+  "passed": 346,
   "failed": 0,
-  "skipped": 2,
+  "skipped": 5,
   "ok": true
 }

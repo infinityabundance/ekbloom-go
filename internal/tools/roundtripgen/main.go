@@ -174,4 +174,28 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Printf("wrote %-22s stream blocks=%d logical=%d\n", "go_stream", manifest.BlockCount, manifest.LogicalLen)
+
+	// A Go-written authenticated body (verified by the Rust open_authenticated).
+	var authKey [32]byte
+	for i := range authKey {
+		authKey[i] = byte(i)
+	}
+	authSrc := make([]byte, 300)
+	for i := range authSrc {
+		authSrc[i] = byte('a' + i%9)
+	}
+	authBody, err := ekbloom.WriteBodyAuthenticated(1, authSrc, ekbloom.Profile{Kind: ekbloom.ProfileFull}, authKey)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "go_auth.ekb"), authBody, 0o644); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "go_auth.src"), authSrc, 0o644); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	fmt.Printf("wrote %-22s authenticated %d bytes\n", "go_auth", len(authBody))
 }

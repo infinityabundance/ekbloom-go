@@ -120,6 +120,57 @@ func readInto(r *Reader, off uint64, buf []byte) error {
 	return nil
 }
 
+// ByteAt served by the exact path bloom (no materialisation).
+func BenchmarkByteAtPathBloom(b *testing.B) {
+	r := benchReader(b, "m1_path4_rand")
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		if _, err := r.ByteAt(uint64(i) % r.LogicalLen()); err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+// ByteAt served by the full machine-1 history (O(1) state, no materialisation).
+func BenchmarkByteAtHistory(b *testing.B) {
+	r := benchReader(b, "m1_full_rand")
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		if _, err := r.ByteAt(uint64(i) % r.LogicalLen()); err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+// ByteAt served by the nearest checkpoint restart (bounded replay).
+func BenchmarkByteAtCheckpoint(b *testing.B) {
+	r := benchReader(b, "m1_sparse64_text")
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		if _, err := r.ByteAt(uint64(i) % r.LogicalLen()); err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+// ReadAt served by the path bloom (whole range copied from the hot surface).
+func BenchmarkReadAt4KiBPathBloom(b *testing.B) {
+	r := benchReader(b, "m1_path4_rand")
+	buf := make([]byte, 4096)
+	b.SetBytes(4096)
+	span := r.LogicalLen() - 4096
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		var off uint64
+		if span > 0 {
+			off = uint64(i*64) % span
+		}
+		if err := readInto(r, off, buf); err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
 func BenchmarkStreamBuildBounded(b *testing.B) {
 	src := benchPattern(8 << 20) // 8 MiB
 	b.SetBytes(int64(len(src)))

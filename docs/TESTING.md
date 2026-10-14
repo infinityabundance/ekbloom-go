@@ -10,11 +10,18 @@ go vet ./...
 
 - `compat_test.go` — byte-for-byte identity with Rust fixtures (ByteAt, ReadAt,
   PhysicalBytes, Machine.Encode).
+- `fastpath_test.go` — accelerated reads (path bloom / history / checkpoints)
+  match the authoritative decode and avoid materialising the symbol array.
+- `auth_test.go` — verifies a Rust-written AUTH fixture; Go AUTH round-trip;
+  wrong/stripped key rejected.
+- `append_test.go` — additive generations, and torn-write fault injection (every
+  truncation of an appended image recovers the newest valid generation).
 - `corruption_test.go` — 100% single-bit-flip detection per covered structure,
   and localized `Corrupt { Section, Offset }`.
 - `roundtrip_test.go` — Go write/read round-trip for every machine and profile;
   64 concurrent readers under `-race`.
-- `stream_test.go` — Rust stream golden identity + Go stream round-trip.
+- `stream_test.go` / `scale_test.go` — Rust stream golden identity; the 2 GiB
+  bounded-memory build (opt-in via `EKB_RUN_SCALE=1`).
 - `example_test.go` — runnable examples (open, dictionary, streaming, corruption).
 
 ## Fuzzing
@@ -41,23 +48,24 @@ sh scripts/bench.sh               # writes bench.json
 
 ## Cross-filesystem / cross-architecture determinism
 
-The format is defined little-endian and depends only on BLAKE3 and CRC-32, both
-of which are pure functions with no host dependence. To confirm on your hosts:
-
 ```sh
-# identical physical_bytes and identical decode across filesystems/architectures
-GOARCH=amd64 go test -run TestGoRoundTrip .
-GOARCH=arm64 go test -run TestGoRoundTrip .   # (with an arm64 runner or qemu)
+sh scripts/cross-fs.sh    # fingerprints identical on disk vs tmpfs; arm64 cross-build
 ```
 
-Determinism is a design property (no floating point, no locale, no map iteration
-ordering on any wire path); add a CI matrix job per architecture to enforce it.
+The format depends only on BLAKE3, CRC-32 and integer arithmetic, all pure
+functions with no host dependence. `scripts/cross-fs.sh` copies the fixtures to a
+tmpfs and to the repository's on-disk filesystem and confirms the fingerprint
+(machine id, `physical_bytes`, and a SHA-256 over the fully decoded bytes) is
+identical; it also cross-builds the fingerprint tool for arm64 (run it under qemu
+on an arm64 host to compare outputs).
 
 ## Reproduce
 
 ```sh
 sh scripts/reproduce.sh           # clean build + full tests + JSON summary
 sh scripts/roundtrip.sh           # Go <-> Rust bidirectional identity
+sh scripts/cross-fs.sh            # cross-filesystem determinism
+sh scripts/container-reproduce.sh # everything inside a ~10 MB Docker image
 ```
 
 `scripts/roundtrip.sh` requires the Rust toolchain (and network on first run) to

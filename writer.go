@@ -2,6 +2,8 @@ package ekbloom
 
 import (
 	"hash/crc32"
+
+	"github.com/infinityabundance/ekbloom-go/internal/blake3"
 )
 
 // WriteBody serializes a body for (machineID, source) under profile into a valid
@@ -12,6 +14,18 @@ import (
 // Sparse{K} (machine-1 packed restart points). Other profiles return a typed
 // InvalidArgument error rather than emitting a partial structure.
 func WriteBody(machineID uint32, source []byte, profile Profile) ([]byte, error) {
+	return writeBody(machineID, source, profile, nil)
+}
+
+// WriteBodyAuthenticated is WriteBody with an opt-in keyed AUTH section covering
+// the header, core, padding and every section up to and including the manifest:
+// `mac = blake3::keyed_hash(key, blake3(file[0..auth_header_offset]))`. Read it
+// back with OpenAuthenticated.
+func WriteBodyAuthenticated(machineID uint32, source []byte, profile Profile, key [32]byte) ([]byte, error) {
+	return writeBody(machineID, source, profile, &key)
+}
+
+func writeBody(machineID uint32, source []byte, profile Profile, key *[32]byte) ([]byte, error) {
 	machine, ok := machineByID(machineID)
 	if !ok {
 		return nil, &Error{Kind: KindUnknownMachine, MachineID: machineID}
@@ -82,7 +96,7 @@ func WriteBody(machineID uint32, source []byte, profile Profile) ([]byte, error)
 	out = append(out, core...)
 	out = appendZeros(out, base-coreEnd)
 
-	commit, err := buildCommit(base, 1, 0, sections)
+	commit, err := buildCommit(base, out, 1, 0, sections, key)
 	if err != nil {
 		return nil, err
 	}
@@ -95,7 +109,11 @@ type pendingSection struct {
 	payload []byte
 }
 
-func buildCommit(base, generation, prevGeneration uint64, sections []pendingSection) ([]byte, error) {
+// buildCommit serializes `sections` as an aligned commit block beginning at
+// absolute offset `base`, closing with a CommitFooter. `prefix` is the exact
+// image bytes `[0, base)` (header ++ core ++ padding), used to compute the AUTH
+// MAC over `[0, auth_header_offset)` when key is non-nil.
+func buildCommit(base uint64, prefix []byte, generation, prevGeneration uint64, sections []pendingSection, key *[32]byte) ([]byte, error) {
 	out := make([]byte, 0, 256)
 	off := base
 	var manifestOffset, manifestLen uint64
@@ -131,6 +149,27 @@ func buildCommit(base, generation, prevGeneration uint64, sections []pendingSect
 	}
 	out = appendZeros(out, align8(off)-off)
 	off = align8(off)
+	if key != nil {
+		// The covered range is every byte before the AUTH header: prefix ++ out.
+		hasher := blake3.NewHasher()
+		hasher.Write(prefix)
+		hasher.Write(out)
+		covered := hasher.Sum()
+		mac := blake3KeyedHash(*key, covered[:])
+		h := SectionHeader{
+			Kind:       SectionAuth,
+			Flags:      0,
+			Offset:     off + sectionHeaderLen,
+			Length:     32,
+			Generation: generation,
+			Checksum:   crc32.ChecksumIEEE(mac[:]),
+		}
+		hb := h.Encode()
+		out = append(out, hb[:]...)
+		out = append(out, mac[:]...)
+		off = h.Offset + 32
+		out = appendZeros(out, align8(off)-off)
+	}
 	if !haveManifest {
 		return nil, badSection("commit must include a manifest section")
 	}

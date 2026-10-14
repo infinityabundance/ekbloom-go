@@ -24,14 +24,18 @@ byte-compatible with the Rust reference implementation
 | `.ekb` container (header, sections, footer, manifest) | ✅ identical | `compat_test.go`, `scripts/roundtrip.sh` |
 | Machines 1–9 core codecs | ✅ identical (bit-exact encode/decode) | `compat_test.go` |
 | Reader API (`Open`, `ByteAt`, `ReadAt`, `PhysicalBytes`, `Estimate`, `WorstCaseStepsFor`) | ✅ | `reader.go`, `roundtrip_test.go` |
-| Writer (`WriteBody`: root/full/sparse) | ✅ Rust-readable | `writer.go`, `scripts/roundtrip.sh` |
+| Accelerated reads (path bloom / history / checkpoints) | ✅ O(1) path bloom ~2.5 ns | `fastpath.go`, `fastpath_test.go`, `bench_test.go` |
+| Writer (`WriteBody`: root/full/sparse) + `AppendGeneration` | ✅ Rust-readable; torn-write safe | `writer.go`, `append.go`, `append_test.go` |
+| Opt-in keyed AUTH (write + verify) | ✅ | `auth.go`, `auth_test.go`, Rust `open_authenticated` |
 | Shared dictionaries (machine 9) | ✅ | `dictionary.go`, `compat_test.go` |
 | Corruption detection (`Corrupt{Section,Offset}`) | ✅ 100% of covered bits, ≤1 structure (≤4096 B) | `corruption_test.go` |
-| Streaming (`StreamBuilder`/`StreamReader`, bounded RSS) | ✅ identical | `stream_test.go`, `scripts/roundtrip.sh` |
+| Streaming (`StreamBuilder`/`StreamReader`, bounded RSS) | ✅ 2 GiB @ 9.46 MiB peak heap | `stream_test.go`, `scale_test.go` |
 | Resource policy (1 GiB default cap + breach counter) | ✅ | `resource.go` |
+| Fault injection (torn append / ENOSPC-EIO) | ✅ newest valid generation picked | `append_test.go` |
 | Fuzzers (Open, Stream, machine roundtrip) | ✅ | `fuzz_test.go`, `evidence/fuzz/` |
 | Benchmarks (`go test -bench`) | ✅ | `bench_test.go` |
-| Cross-arch / cross-FS determinism | ⏭ see `docs/TESTING.md` | — |
+| Cross-FS determinism (disk vs tmpfs) | ✅ identical fingerprints | `scripts/cross-fs.sh` |
+| Cross-arch (arm64/riscv64/ppc64le/s390x) | ✅ builds; run under qemu to compare | `scripts/cross-fs.sh` |
 
 ## Quick start
 
@@ -45,38 +49,61 @@ head, _ := r.ReadAt(0, 4096)     // a range
 fmt.Println(r.PhysicalBytes())   // manifested bytes (== Rust inspect_file)
 fmt.Println(r.Estimate())        // static upper bound
 steps, _ := r.WorstCaseStepsFor(0, 4096)
+
+// Authenticated open (opt-in keyed AUTH):
+r, _ = ekbloom.OpenAuthenticated(data, key)
+
+// Append a new additive generation:
+app, gen, _ := ekbloom.AppendGeneration(data, 1, src, ekbloom.Profile{Kind: ekbloom.ProfileFull})
 ```
 
 The pipeline (all run inside this repository):
 
 ```sh
-go test ./...                     # unit, compat, corruption, concurrency (-race), stream
+go test ./...                     # unit, compat, corruption, concurrency (-race), stream, auth, append
 go test -bench . -benchmem ./     # micro-benchmarks
 go test -fuzz FuzzOpenBytes .     # fuzzing (see docs/TESTING.md for the long campaign)
-sh scripts/roundtrip.sh           # Go -> .ekb -> Rust decode, byte-for-byte
+go test -race ./...               # the 64-reader path, race-detector clean
+EKB_RUN_SCALE=1 go test -run 2GiB .   # the 2 GiB bounded-memory stream build (~9.5 MiB peak)
+sh scripts/roundtrip.sh           # Go -> .ekb/.stream -> Rust decode, byte-for-byte
+sh scripts/cross-fs.sh            # cross-filesystem determinism (disk vs tmpfs)
+sh scripts/container-reproduce.sh # everything inside a ~10 MB Docker image
 sh scripts/reproduce.sh           # clean build + tests, emits JSON
+```
+
+Container (minimal, non-root, ~9.7 MB runtime image):
+
+```sh
+sh scripts/container-image.sh      # docker build --target runtime
+sh scripts/container-test.sh       # docker build --target test (vet + full suite)
+sh scripts/container-reproduce.sh  # run the suite + CLI in-container, emit JSON
 ```
 
 ## Layout
 
 ```
-ekbloom.go-free package `ekbloom` at the repository root:
+package `ekbloom` at the repository root:
   errors.go        typed errors (Kind, sentinels, CorruptDetail)
   format.go        GenesisHeader, SectionHeader, CommitFooter, ManifestRecord, Scan
   machine*.go      the nine machines (encode/decode/check, prepared contexts)
   dictionary.go    machine-9 shared order-0 dictionaries + registry
+  fastpath.go      accelerated reads: path bloom / history / checkpoints
   estimate.go      profile labels and the upper-bound estimator
   inspect.go       physical accounting (mirrors the Rust FileBody::inspect)
   reader.go        Open / ByteAt / ReadAt / PhysicalBytes / Estimate / WorstCaseStepsFor
-  writer.go        WriteBody (Rust-readable .ekb images)
+  writer.go        WriteBody / WriteBodyAuthenticated (Rust-readable .ekb images)
+  append.go        AppendGeneration (additive generations) + TruncateToValid
+  auth.go          OpenAuthenticated / VerifyAuthenticated (keyed AUTH)
   verify.go        structural + deep verification with localized Corrupt errors
   stream.go        bounded-memory stream container builder/reader
   resource.go      ResourcePolicy (default 1 GiB) + breach counter
+cmd/ekbloom        minimal CLI (inspect/byte/read/verify/stream) for the container image
 internal/blake3     dependency-free pure-Go BLAKE3 (unkeyed + keyed, streaming)
-internal/tools      roundtripgen (writes Go-side files for Rust to verify)
-testdata/           Rust-generated .ekb / .stream fixtures + BLAKE3 vectors
+internal/tools      roundtripgen, fingerprint, testsum (reproducibility helpers)
+testdata/           Rust-generated .ekb/.stream/auth fixtures + BLAKE3 vectors
 docs/               CORE-LAYOUT.md, MIGRATION.md, SECURITY.md, OPERATIONS.md, MACHINE_CONTRACT.md, TESTING.md
-scripts/            roundtrip.sh, reproduce.sh, bench.sh, fuzz.sh
+scripts/            roundtrip.sh, cross-fs.sh, bench.sh, fuzz.sh, reproduce.sh, container-*.sh
+Dockerfile          minimal multi-stage image (runtime ~9.7 MB, non-root)
 .reference/         (git-ignored) the Rust reference + the fixture generator
 ```
 
@@ -86,7 +113,8 @@ EKBLOOM is a *concealed-expansion codec*: it spends manifested physical space to
 maximise access speed while preserving exact correctness. The Go port preserves
 the parts that make the format interoperable — the frozen wire layout, the nine
 machine semantics, the exact physical accounting, and the corruption contract —
-and mirrors the reference's correctness-first read path (authoritative machine
-decode; the manifested structures are additive accelerations). See
+and mirrors the reference's fastest-correct-path read selection: an exact path
+bloom (O(1) `ByteAt`), a full machine-1 history, the nearest checkpoint restart,
+the directly-addressable machines, and finally authoritative machine decode. See
 `docs/CORE-LAYOUT.md` for the byte layout and `docs/MACHINE_CONTRACT.md` for how
 to add a machine.

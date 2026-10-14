@@ -37,14 +37,18 @@ From `go test -bench` (`bench_test.go`), AMD Ryzen 7 9800X3D, Go 1.27:
 | machine 1 encode, 1 MiB | ≈1.6 GB/s |
 | machine 2 encode, 1 MiB | ≈216 MB/s |
 | machine 2 decode, 1 MiB | ≈133 MB/s |
-| BLAKE3, 1 MiB (pure Go) | ≈324 MB/s |
-| `ByteAt` (materialised hot array) | ≈7.5 ns/op |
-| `ReadAt` 4 KiB | ≈2.8 µs (≈1.5 GB/s) |
-| stream build, 8 MiB, 64 KiB blocks | ≈65 ms |
+| BLAKE3, 1 MiB (pure Go) | ≈320 MB/s |
+| `ByteAt` via exact path bloom | ≈2.5 ns/op |
+| `ByteAt` via full history | ≈3.6 ns/op |
+| `ByteAt` via nearest checkpoint (K=64) | ≈67 ns/op |
+| `ByteAt` materialised fallback | ≈5.7 ns/op |
+| `ReadAt` 4 KiB via path bloom | ≈320 ns (≈12.8 GB/s) |
+| stream build, 2 GiB, 64 KiB blocks | ≈16 s at **9.46 MiB peak heap** (≈125 MiB/s) |
 
-These are correctness-first scalar numbers. The Rust reference wins on throughput
-with SIMD kernels; the Go port prioritizes a dependency-free, panic-free,
-byte-exact implementation. SIMD kernels are a possible future addition (see
+These are correctness-first scalar numbers. The Rust reference wins on raw encode
+throughput with SIMD kernels; the Go port prioritizes a dependency-free,
+panic-free, byte-exact implementation with the same fastest-correct-path read
+selection. SIMD kernels are a possible future addition (see
 `docs/MACHINE_CONTRACT.md` for the extension bar).
 
 ## Choosing a representation
@@ -61,8 +65,14 @@ with each candidate and compare `len(core)`:
 
 ## Operational limits (honest)
 
-- Reads are answered by authoritative machine decode (correctness-first). The
-  manifested accelerations (path bloom, checkpoints, history) are parsed and
-  accounted but not yet used to accelerate the read path in this port; the
+- Reads are served by the fastest correct path available: an exact path bloom
+  (O(1)), a full machine-1 history (O(1) state), the nearest checkpoint restart
+  (bounded replay), the directly-addressable machines 3/5/6 (O(1)), and finally
+  authoritative machine decode. When none of these structures is present, the
   in-memory reader materialises one symbol array on first random access.
+- The universal/regional bloom families are parsed and accounted but are not used
+  as read accelerators: on arbitrary bytes no certified state-keyed table exists,
+  exactly as the reference documents; the exact path bloom is the speed ceiling.
+- SIMD, `io_uring`, `mmap`, FUSE, OrFS, and the joint planner/optimizer from the
+  reference are out of scope for this port.
 - Benchmarks are single-host, single-run, in-memory.

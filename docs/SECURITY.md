@@ -31,6 +31,13 @@ opt-in `AUTH` section (32 bytes) is
 core, padding and every section up to and including the manifest. It is written
 after the manifest and immediately before the footer.
 
+This port implements both halves: `WriteBodyAuthenticated` / `AppendGenerationAuthenticated`
+write the tag, and `OpenAuthenticated` / `VerifyAuthenticated` require and verify
+it (fail-closed — a missing, stripped or mismatching tag is a typed error, never a
+fallback to an unkeyed read). Cross-checked against the Rust reference: Go verifies
+a Rust-written AUTH fixture, and Rust's `open_authenticated` verifies a Go-written
+one (`scripts/roundtrip.sh`).
+
 - **Key lifecycle.** The key `K` is a 32-byte secret owned by the caller; it is
   never stored in the file and never printed. Rotation is a re-write: produce a
   new authenticated image under the new key. There is no key material in this
