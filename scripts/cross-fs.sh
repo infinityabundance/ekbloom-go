@@ -1,13 +1,20 @@
 #!/bin/sh
 # Cross-filesystem determinism check.
 #
-# Copies the fixtures to every writable filesystem type available on the host
-# (ext4, btrfs, xfs, tmpfs, ...) and confirms the fingerprint — machine id,
-# physical bytes, and a SHA-256 over the fully decoded logical bytes — is
-# identical everywhere. Writes evidence/cross-fs.log and evidence/cross-fs.json.
+# Copies the fixtures to every filesystem type it can reach and confirms the
+# fingerprint — machine id, physical bytes, and a SHA-256 over the fully decoded
+# logical bytes — is identical everywhere. Writes evidence/cross-fs.log and
+# evidence/cross-fs.json.
 #
-# Filesystem types that are not mounted (or not writable) on the host are
-# reported as "not exercised", never silently skipped.
+# Filesystems are taken from, in order:
+#   1. the repository's own filesystem;
+#   2. a real tmpfs (/dev/shm);
+#   3. any writable mount of btrfs/xfs;
+#   4. loopback images (ext4/xfs/btrfs) when privileged (root or passwordless
+#      sudo) and the mkfs tool is installed — this is how CI reaches xfs.
+#
+# A type that cannot be reached is reported as "not exercised", never silently
+# skipped.
 # Run from the repository root: sh scripts/cross-fs.sh
 set -eu
 
@@ -16,7 +23,22 @@ cd "$root"
 mkdir -p evidence
 
 results=$(mktemp)
-trap 'rm -f "$results"' EXIT
+work=$(mktemp -d)
+
+as_root() {
+    if [ "$(id -u)" = 0 ]; then "$@"; else sudo -n "$@"; fi
+}
+can_root() {
+    [ "$(id -u)" = 0 ] || sudo -n true 2>/dev/null
+}
+cleanup() {
+    for m in "$work"/*/mnt; do
+        [ -d "$m" ] && as_root umount "$m" 2>/dev/null || true
+    done
+    rm -rf "$work"
+    rm -f "$results"
+}
+trap cleanup EXIT
 
 # fstype_of <path>: the filesystem type of the longest matching mount point.
 fstype_of() {
@@ -25,6 +47,8 @@ fstype_of() {
         if (index(p, mp)==1 && length(mp) > best) { best=length(mp); t=$3 }
     } END { print t }' /proc/mounts
 }
+
+exercised() { cut -f1 "$results" | grep -qx "$1"; }
 
 run_fs() {
     type=$1
@@ -43,19 +67,56 @@ run_fs() {
     rm -rf "$workdir"
 }
 
-# The repository's own filesystem.
+loopback() {
+    type=$1
+    case $type in
+        ext4) tool=mkfs.ext4 ;;
+        xfs) tool=mkfs.xfs ;;
+        btrfs) tool=mkfs.btrfs ;;
+    esac
+    if ! command -v "$tool" >/dev/null 2>&1; then
+        echo "note: $tool not installed; $type not exercised"
+        return
+    fi
+    d="$work/$type"
+    mkdir -p "$d/mnt"
+    img="$d/fs.img"
+    if ! truncate -s 256M "$img" 2>/dev/null; then
+        dd if=/dev/zero of="$img" bs=1M count=256 2>/dev/null || { echo "note: no image for $type"; return; }
+    fi
+    case $type in
+        ext4) as_root "$tool" -q -F "$img" >/dev/null 2>&1 || { echo "note: mkfs $type failed"; return; } ;;
+        *) as_root "$tool" -q -f "$img" >/dev/null 2>&1 || { echo "note: mkfs $type failed"; return; } ;;
+    esac
+    if as_root mount -o loop "$img" "$d/mnt" 2>/dev/null; then
+        run_fs "$type" "$d/mnt"
+        as_root umount "$d/mnt" 2>/dev/null || as_root umount -l "$d/mnt" 2>/dev/null || true
+    else
+        echo "note: loopback mount $type unavailable; not exercised"
+    fi
+}
+
+# 1. the repository's own filesystem
 run_fs "$(fstype_of "$root")" "$root"
-# A real tmpfs if present.
+# 2. a real tmpfs
 [ -w /dev/shm ] && run_fs tmpfs /dev/shm
-# Any writable mount of the block-backed filesystems.
+# 3. real block-backed mounts
 for type in btrfs xfs; do
+    exercised "$type" && continue
     mp=$(awk -v t="$type" '$3==t {print $2; exit}' /proc/mounts)
     if [ -n "${mp:-}" ] && [ -w "$mp" ]; then
         run_fs "$type" "$mp"
-    else
-        echo "note: no writable $type mount found; not exercised"
     fi
 done
+# 4. loopback images when privileged
+if can_root; then
+    for type in ext4 xfs btrfs; do
+        exercised "$type" && continue
+        loopback "$type"
+    done
+else
+    echo "note: no root/sudo; loopback ext4/xfs/btrfs not exercised"
+fi
 
 # ---- verdict ---------------------------------------------------------------
 sums=$(cut -f3 "$results" | sort -u | wc -l | tr -d ' ')

@@ -1,7 +1,7 @@
 == ext4 (/mnt/1tb_kingston/EKBLOOM-GO): 50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720 ==
 == tmpfs (/dev/shm): 50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720 ==
 == btrfs (/mnt/256gb_btrfs): 50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720 ==
-note: no writable xfs mount found; not exercised
+note: no root/sudo; loopback ext4/xfs/btrfs not exercised
 
 PASS: fingerprint identical across 3 filesystem(s): ext4 tmpfs btrfs 
 {
