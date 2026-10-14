@@ -87,6 +87,20 @@ From `go test -bench` (`bench_test.go`), AMD Ryzen 7 9800X3D, Go 1.27:
 
 Captured verbatim in `evidence/bench.txt` (`go test -bench . -benchmem -benchtime 200ms`).
 
+**Native arm64** (`ubuntu-24.04-arm`, 4 vCPU; `evidence/aarch64-native-bench.txt`):
+
+| benchmark | amd64 (9800X3D) | native arm64 |
+| --- | ---: | ---: |
+| machine 1 encode, 1 MiB | ≈1.60 GB/s | ≈0.96 GB/s |
+| BLAKE3, 1 MiB | ≈324 MB/s | ≈170 MB/s |
+| `ByteAt` via exact path bloom | ≈2.3 ns/op | ≈13.3 ns/op |
+| `ByteAt` via full history | ≈3.8 ns/op | ≈7.4 ns/op |
+| `ResidentView.Get` | ≈1.35 ns/op | ≈1.77 ns/op |
+| `ReadAt` 4 KiB via path bloom | ≈350 ns | ≈881 ns |
+
+The arm64 fingerprint is byte-identical to amd64
+(`evidence/aarch64-native-fingerprint.txt`).
+
 These are correctness-first scalar numbers. The Rust reference wins on raw encode
 throughput with SIMD kernels; the Go port prioritizes a dependency-free,
 panic-free, byte-exact implementation with the same fastest-correct-path read

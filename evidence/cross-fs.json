@@ -1,9 +1,10 @@
 {
   "filesystems": [
-    {"fstype": "ext4", "path": "/mnt/1tb_kingston/EKBLOOM-GO", "fingerprint_sha256": "50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720"},
+    {"fstype": "ext4", "path": "/home/runner/work/ekbloom-go/ekbloom-go", "fingerprint_sha256": "50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720"},
     {"fstype": "tmpfs", "path": "/dev/shm", "fingerprint_sha256": "50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720"},
-    {"fstype": "btrfs", "path": "/mnt/256gb_btrfs", "fingerprint_sha256": "50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720"}
+    {"fstype": "xfs", "path": "/tmp/tmp.EUvi9NEvlT/xfs/mnt", "fingerprint_sha256": "50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720"},
+    {"fstype": "btrfs", "path": "/tmp/tmp.EUvi9NEvlT/btrfs/mnt", "fingerprint_sha256": "50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720"}
   ],
   "identical": true,
-  "count": 3
+  "count": 4
 }

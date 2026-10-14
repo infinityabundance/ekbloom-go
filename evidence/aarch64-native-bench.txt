@@ -1,0 +1,45 @@
+goos: linux
+goarch: arm64
+pkg: github.com/infinityabundance/ekbloom-go
+BenchmarkMachine1Encode-4        	      94	   1119628 ns/op	 936.54 MB/s	 1048633 B/op	       1 allocs/op
+BenchmarkMachine2Encode-4        	      18	   6554772 ns/op	 159.97 MB/s	 1263672 B/op	       5 allocs/op
+BenchmarkMachine2Decode-4        	       9	  11667443 ns/op	  89.87 MB/s	 1081520 B/op	       6 allocs/op
+BenchmarkBlake3_1MiB-4           	      19	   6181385 ns/op	 169.63 MB/s	       0 B/op	       0 allocs/op
+BenchmarkByteAtProbe-4           	12563156	         9.523 ns/op	       0 B/op	       0 allocs/op
+BenchmarkReadAt4KiB-4            	  129643	       874.9 ns/op	4681.67 MB/s	    4096 B/op	       1 allocs/op
+BenchmarkByteAtPathBloom-4       	 8955087	        13.33 ns/op	       1 B/op	       1 allocs/op
+BenchmarkByteAtHistory-4         	16129755	         7.418 ns/op	       0 B/op	       0 allocs/op
+BenchmarkByteAtCheckpoint-4      	 1000000	       110.7 ns/op	       1 B/op	       1 allocs/op
+BenchmarkReadAt4KiBPathBloom-4   	  139489	       880.8 ns/op	4650.54 MB/s	    4096 B/op	       1 allocs/op
+BenchmarkResidentViewGet-4       	67614661	         1.770 ns/op	       0 B/op	       0 allocs/op
+BenchmarkBareSliceLoad-4         	192215067	         0.6249 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMachineEncode/m1-4      	      94	   1094181 ns/op	 958.32 MB/s	 1048580 B/op	       1 allocs/op
+BenchmarkMachineEncode/m2-4      	      18	   6563678 ns/op	 159.75 MB/s	 1263677 B/op	       5 allocs/op
+BenchmarkMachineEncode/m3-4      	     979	    107822 ns/op	9725.11 MB/s	 1048578 B/op	       1 allocs/op
+BenchmarkMachineEncode/m4-4      	      15	   7088479 ns/op	 147.93 MB/s	 1263678 B/op	       5 allocs/op
+BenchmarkMachineEncode/m5-4      	      69	   1661486 ns/op	 631.11 MB/s	  270336 B/op	       1 allocs/op
+BenchmarkMachineEncode/m6-4      	      21	   5374138 ns/op	 195.12 MB/s	 1892737 B/op	     280 allocs/op
+BenchmarkMachineEncode/m7-4      	      19	   5896023 ns/op	 177.84 MB/s	 2312248 B/op	       5 allocs/op
+BenchmarkMachineEncode/m8-4      	      15	   7213118 ns/op	 145.37 MB/s	 1062008 B/op	      89 allocs/op
+BenchmarkMachineEncode/m9-4      	      18	   6548627 ns/op	 160.12 MB/s	 1477816 B/op	       8 allocs/op
+BenchmarkMachineDecode/m1-4      	      20	   5585345 ns/op	 187.74 MB/s	 1048720 B/op	       3 allocs/op
+BenchmarkMachineDecode/m2-4      	       9	  11695216 ns/op	  89.66 MB/s	 1081530 B/op	       6 allocs/op
+BenchmarkMachineDecode/m3-4      	      26	   4349963 ns/op	 241.05 MB/s	 1048727 B/op	       3 allocs/op
+BenchmarkMachineDecode/m4-4      	       6	  17937002 ns/op	  58.46 MB/s	 1098072 B/op	      11 allocs/op
+BenchmarkMachineDecode/m5-4      	      18	   6557261 ns/op	 159.91 MB/s	 1049669 B/op	       5 allocs/op
+BenchmarkMachineDecode/m6-4      	       4	  25170759 ns/op	  41.66 MB/s	 1404936 B/op	     827 allocs/op
+BenchmarkMachineDecode/m7-4      	      10	  10691303 ns/op	  98.08 MB/s	 1081568 B/op	       8 allocs/op
+BenchmarkMachineDecode/m8-4      	       7	  16963574 ns/op	  61.81 MB/s	 1098456 B/op	      11 allocs/op
+BenchmarkMachineDecode/m9-4      	       9	  12282687 ns/op	  85.37 MB/s	 1099800 B/op	      14 allocs/op
+BenchmarkMachineSequential/m1-4  	     940	    118029 ns/op	8884.05 MB/s	 1048579 B/op	       1 allocs/op
+BenchmarkMachineSequential/m2-4  	     894	    149006 ns/op	7037.14 MB/s	 1048582 B/op	       1 allocs/op
+BenchmarkMachineSequential/m3-4  	     681	    191437 ns/op	5477.39 MB/s	 1048581 B/op	       1 allocs/op
+BenchmarkMachineSequential/m4-4  	     600	    168857 ns/op	6209.84 MB/s	 1048579 B/op	       1 allocs/op
+BenchmarkMachineSequential/m5-4  	      14	   8443143 ns/op	 124.19 MB/s	 1048589 B/op	       1 allocs/op
+BenchmarkMachineSequential/m6-4  	       6	  16968733 ns/op	  61.79 MB/s	 1048592 B/op	       1 allocs/op
+BenchmarkMachineSequential/m7-4  	     817	    139075 ns/op	7539.67 MB/s	 1048583 B/op	       1 allocs/op
+BenchmarkMachineSequential/m8-4  	     772	    147149 ns/op	7125.95 MB/s	 1048578 B/op	       1 allocs/op
+BenchmarkMachineSequential/m9-4  	     708	    170324 ns/op	6156.38 MB/s	 1048579 B/op	       1 allocs/op
+BenchmarkStreamBuildBounded-4    	       1	 122563079 ns/op	  68.44 MB/s	31108392 B/op	    4507 allocs/op
+PASS
+ok  	github.com/infinityabundance/ekbloom-go	5.594s

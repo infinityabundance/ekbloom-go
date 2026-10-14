@@ -40,9 +40,9 @@ byte-compatible with the Rust reference implementation
 | Fault injection (torn append / ENOSPC-EIO) | ✅ newest valid generation picked | `append_test.go` |
 | Per-machine `byte_at` p50/p99/p99.9 | ✅ 20 / 31 / 40 ns | `latency_test.go`, `evidence/byteat.json` |
 | Fuzzers (Open, Stream, machine roundtrip) | ✅ | `fuzz_test.go`, `evidence/fuzz/` |
-| Benchmarks (`go test -bench`, incl. arm64) | ✅ amd64 + arm64/qemu | `bench_test.go`, `evidence/bench.txt`, `evidence/aarch64-bench.txt` |
-| Cross-FS determinism (ext4/btrfs/tmpfs; xfs not exercised) | ✅ identical fingerprints | `scripts/cross-fs.sh`, `evidence/cross-fs.json` |
-| Cross-arch runtime determinism | ✅ amd64 == arm64 fingerprints | `evidence/aarch64-determinism.json` |
+| Benchmarks (`go test -bench`, incl. native arm64) | ✅ amd64 + native arm64 (CI) | `bench_test.go`, `evidence/bench.txt`, `evidence/aarch64-native-bench.txt` |
+| Cross-FS determinism (ext4/xfs/btrfs/tmpfs (CI); ext4/btrfs/tmpfs locally) | ✅ identical fingerprints | `scripts/cross-fs.sh`, `evidence/cross-fs.json` |
+| Cross-arch runtime determinism | ✅ native amd64 == arm64 fingerprints | `evidence/aarch64-determinism.json`, `evidence/aarch64-native-fingerprint.txt` |
 | Standard corpora `E_V` (Canterbury/Silesia/enwik8/enwik9) | ✅ Go == Rust, 50/50 rows | `scripts/corpus.sh`, `evidence/corpus-compare.log` |
 | Skewed small-record court vs zstd/lz4/zstd-dict | ✅ space win, decode cost, allocs/get (honest) | `courts/`, `docs/COURTS.md`, `evidence/courts.json` |
 | Fuzz campaign | ✅ **1.13B execs** (Open), corpus published | `evidence/fuzz.json`, `evidence/fuzz/FuzzOpenBytes-1b.log` |
