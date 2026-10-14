@@ -35,7 +35,8 @@ byte-compatible with the Rust reference implementation
 | Fuzzers (Open, Stream, machine roundtrip) | ✅ | `fuzz_test.go`, `evidence/fuzz/` |
 | Benchmarks (`go test -bench`) | ✅ | `bench_test.go` |
 | Cross-FS determinism (disk vs tmpfs) | ✅ identical fingerprints | `scripts/cross-fs.sh` |
-| Cross-arch (arm64/riscv64/ppc64le/s390x) | ✅ builds; run under qemu to compare | `scripts/cross-fs.sh` |
+| Cross-arch runtime determinism | ✅ amd64 == arm64 fingerprints (qemu) | `scripts/container-aarch64.sh` |
+| Skewed small-record court vs zstd/lz4/zstd-dict | ✅ space win, decode cost (honest) | `courts/`, `docs/COURTS.md`, `evidence/courts.json` |
 
 ## Quick start
 
@@ -67,6 +68,8 @@ go test -race ./...               # the 64-reader path, race-detector clean
 EKB_RUN_SCALE=1 go test -run 2GiB .   # the 2 GiB bounded-memory stream build (~9.5 MiB peak)
 sh scripts/roundtrip.sh           # Go -> .ekb/.stream -> Rust decode, byte-for-byte
 sh scripts/cross-fs.sh            # cross-filesystem determinism (disk vs tmpfs)
+sh scripts/container-aarch64.sh   # amd64 == arm64 runtime determinism (qemu)
+sh scripts/courts.sh              # 100-byte, 80/20 court vs zstd/lz4/zstd-dict
 sh scripts/container-reproduce.sh # everything inside a ~10 MB Docker image
 sh scripts/reproduce.sh           # clean build + tests, emits JSON
 ```
@@ -118,3 +121,11 @@ bloom (O(1) `ByteAt`), a full machine-1 history, the nearest checkpoint restart,
 the directly-addressable machines, and finally authoritative machine decode. See
 `docs/CORE-LAYOUT.md` for the byte layout and `docs/MACHINE_CONTRACT.md` for how
 to add a machine.
+
+## Not ported (honest scope)
+
+The following reference subsystems are **out of scope** for this port and are
+listed so their absence is explicit, not implied: SIMD kernels, `io_uring`,
+`mmap` surfaces, the FUSE projection, OrFS, and the joint planner/optimizer. The
+codec court (`docs/COURTS.md`) is a space win at a decode cost, matching the
+reference's honest position; it is not a speed win over Zstandard-with-dictionary.

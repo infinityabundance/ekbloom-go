@@ -43,13 +43,15 @@ target), run each target with a long `-fuzztime` under `scripts/fuzz.sh`.
 
 ```sh
 go test -bench . -benchmem .
-sh scripts/bench.sh               # writes bench.json
+sh scripts/bench.sh               # writes bench.txt
+sh scripts/courts.sh              # the skewed small-record court (separate module)
 ```
 
 ## Cross-filesystem / cross-architecture determinism
 
 ```sh
 sh scripts/cross-fs.sh    # fingerprints identical on disk vs tmpfs; arm64 cross-build
+sh scripts/container-aarch64.sh  # full suite + fingerprints on linux/arm64 under qemu
 ```
 
 The format depends only on BLAKE3, CRC-32 and integer arithmetic, all pure
