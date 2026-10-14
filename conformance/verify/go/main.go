@@ -13,6 +13,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"os"
@@ -21,12 +22,20 @@ import (
 func main() {
 	root := flag.String("root", "../..", "path to the conformance/ directory")
 	quiet := flag.Bool("quiet", false, "only print the final result line")
+	jsonPath := flag.String("json", "", "write per-fixture observations as JSON to this path")
 	flag.Parse()
 
 	rep, err := Verify(*root, os.Stdout)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "conformance: %v\n", err)
 		os.Exit(1)
+	}
+
+	if *jsonPath != "" {
+		if err := writeJSON(*jsonPath, rep); err != nil {
+			fmt.Fprintf(os.Stderr, "conformance: write %s: %v\n", *jsonPath, err)
+			os.Exit(1)
+		}
 	}
 
 	for _, f := range rep.Failures {
@@ -45,4 +54,28 @@ func main() {
 	if !rep.OK() {
 		os.Exit(1)
 	}
+}
+
+// jsonReport is the on-disk shape of the per-fixture observations. It is
+// deliberately small and stable: an independent comparator (which imports
+// neither implementation) reads it to detect cross-implementation differences.
+type jsonReport struct {
+	Implementation string          `json:"implementation"`
+	Fixtures       []FixtureResult `json:"fixtures"`
+	Failures       []string        `json:"failures"`
+}
+
+func writeJSON(path string, rep Report) error {
+	doc := jsonReport{Implementation: "go", Fixtures: rep.Results, Failures: rep.Failures}
+	if doc.Fixtures == nil {
+		doc.Fixtures = []FixtureResult{}
+	}
+	if doc.Failures == nil {
+		doc.Failures = []string{}
+	}
+	b, err := json.MarshalIndent(doc, "", "  ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(path, append(b, '\n'), 0o644)
 }

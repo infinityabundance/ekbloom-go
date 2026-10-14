@@ -1,1 +1,1 @@
-{"go":"pass","rust":"pass","fixtures":73}
+{"go":"pass","rust":"pass","fixtures":73,"divergences":{"ruled":21,"observed":21,"unruled":0,"resolved":0,"ruled_without_rule":0,"source":"manifest.json+SPEC.md"}}

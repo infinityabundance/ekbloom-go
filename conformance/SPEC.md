@@ -301,17 +301,26 @@ The taxonomy intentionally has two "corruption" kinds. A *plain* reader (Go
 (`ErrChecksumMismatch`, `ErrBadSection`, `ErrTruncated`, …) or, if the only
 commit is torn, may report `ErrRecoveryFailed`. A *deep* verifier localizes the
 first divergence to `ErrCorrupt { section, offset }`. An implementation MAY
-choose either wording for the torn-first-commit case as long as the kind is in
-the fixture's accept set (§9). Two specific accepted differences are recorded in
-`manifest.json.divergences`.
+choose either wording for a corruption the plain reader cannot localize, as long
+as the kind is in the fixture's accept set (§9).
+
+The **policy** — not a fixed count — is that every accepted cross-implementation
+difference is *ruled*: it is recorded as an entry in `manifest.json.divergences`
+whose kinds both lie in the fixture's accept set and whose `rule` cites the SPEC
+section that permits it. An independent comparator that imports neither
+implementation (§9.4, §10) fails the suite whenever the two verifiers disagree
+on a fixture that is not ruled. The number and membership of the ruled set is
+whatever the corpus and the two implementations currently require.
 
 ### 7.4 Cross-field disagreement
 
 When the manifest and the genesis header disagree on `object_id`, `machine_id`,
 or `logical_len`, the rejection is a structural one. The Go reader surfaces
 `ErrBadSection`; the Rust reader surfaces its localized `Corrupt`. Both kinds
-MUST be accepted (fixtures `neg_object_id_mismatch`, `neg_machine_mismatch`,
-`neg_unknown_machine`, `neg_logical_mismatch`).
+MUST be accepted, and the difference MUST be recorded as a ruled divergence
+whose `rule` cites this section (`SPEC §7.4 (cross-field disagreement)`). The
+specific fixtures are whatever the corpus contains and are not enumerated here;
+the comparator (§9.4) fails the suite for any such difference that is not ruled.
 
 ---
 
@@ -386,6 +395,7 @@ accept set and does not open it.
   "format_version": "ekb-format-0.3-conformance-1",
   "authority": "conformance/SPEC.md",
   "immutable": true,
+  "divergence_policy": "The observed cross-implementation divergence set MUST be a subset of the ruled set; each rule MUST cite a SPEC section that exists in SPEC.md; an accept set with more than one kind MUST be listed; a new difference requires a §10 change-control entry.",
   "fixtures": [
     {
       "name": "rust_m3_root_rand",
@@ -409,9 +419,39 @@ accept set and does not open it.
       "expectation_source": { "...": "derived | asserted" }
     }
   ],
-  "divergences": []
+  "divergences": [
+    {
+      "fixture": "neg_logical_mismatch",
+      "go": "ErrBadSection",
+      "rust": "ErrCorrupt",
+      "note": "header/manifest logical length disagree",
+      "rule": "SPEC §7.4 (cross-field disagreement)"
+    }
+  ]
 }
 ```
+
+`divergences` is the **ruled set**. Every entry records the exact kind each
+implementation surfaces for `fixture`, a human `note`, and a `rule` string that
+cites the enabling SPEC section with a `§` marker (e.g. `SPEC §7.2
+(torn-first-commit)`, `SPEC §7.4 (cross-field disagreement)`, `SPEC §7.3
+(structural rejection vs localization)`). `divergence_policy` states the rule the
+suite enforces:
+
+* the observed cross-implementation difference set MUST be a subset of
+  `divergences`;
+* each ruled entry's `go`/`rust` kinds MUST lie in the fixture's accept set
+  (`expected.error_kind` plus `expected.error_kind_accept`), and a fixture whose
+  accept set has more than one kind MUST appear in `divergences`;
+* each `rule` MUST cite a SPEC section that exists in `SPEC.md`;
+* a new accepted difference requires a §10 change-control entry.
+
+The enforcement is `conformance/tools/divergence`, an independent Go module that
+imports **neither** implementation: it reads `manifest.json`, `SPEC.md` and the
+per-fixture JSON each verifier emits (`-json` for Go, `--json` for Rust), and
+exits non-zero on an unruled divergence, a ruled entry without a rule, a rule
+citing a non-existent section, or a manifest inconsistency. When the Rust side is
+not staged it reports `rust: "skipped"` and does not fail for that reason alone.
 
 ---
 
@@ -422,7 +462,13 @@ accept set and does not open it.
 2. A change to any fixture requires a **`format_version` bump** in
    `manifest.json` and a note here recording why the golden set moved.
 3. A new accepted cross-implementation difference MUST be added to
-   `manifest.json.divergences` and MAY widen a fixture's accept set; it MUST NOT
-   silently relax the canonical `error_kind`.
+   `manifest.json.divergences` **with a `rule`** citing the SPEC section that
+   permits it, and MAY widen a fixture's accept set; it MUST NOT silently relax
+   the canonical `error_kind`. This is enforced: `conformance/tools/divergence`
+   (imported by `scripts/conformance.sh`) fails when the observed difference set
+   is not a subset of the ruled set, when a ruled entry cites a section that does
+   not exist in this file, or when a multi-kind accept set is not ruled.
 4. The suite is green only when `evidence/conformance.json` reports
-   `"go":"pass"` (and, when the Rust reference is staged, `"rust":"pass"`).
+   `"go":"pass"` (and, when the Rust reference is staged, `"rust":"pass"`) **and**
+   `divergences.unruled` is `0` with `divergences.ruled_without_rule` `0` (or
+   `"rust":"skipped"`, in which case the observed set is not evaluated).

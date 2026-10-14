@@ -112,15 +112,17 @@ type divergence struct {
 	Go      string `json:"go"`
 	Rust    string `json:"rust"`
 	Note    string `json:"note"`
+	Rule    string `json:"rule"`
 }
 
 type manifest struct {
-	FormatVersion string       `json:"format_version"`
-	Authority     string       `json:"authority"`
-	Immutable     bool         `json:"immutable"`
-	Note          string       `json:"note"`
-	Fixtures      []fixture    `json:"fixtures"`
-	Divergences   []divergence `json:"divergences"`
+	FormatVersion    string       `json:"format_version"`
+	Authority        string       `json:"authority"`
+	Immutable        bool         `json:"immutable"`
+	Note             string       `json:"note"`
+	DivergencePolicy string       `json:"divergence_policy"`
+	Fixtures         []fixture    `json:"fixtures"`
+	Divergences      []divergence `json:"divergences"`
 }
 
 // ---- rust fixtures.json ----
@@ -290,8 +292,9 @@ func main() {
 		Immutable:     true,
 		Note: "Golden set for the EKBLOOM .ekb byte format. Immutable: regenerating any file requires a format-version bump and a note in conformance/SPEC.md. " +
 			"format_version keys the fixture corpus, not the wire format (which is 0.3). See conformance/README.md.",
-		Fixtures:    fixtures,
-		Divergences: divergences(),
+		DivergencePolicy: divergencePolicy,
+		Fixtures:         fixtures,
+		Divergences:      divergences(),
 	}
 	raw, err := json.MarshalIndent(m, "", "  ")
 	must(err)
@@ -635,9 +638,24 @@ func buildNegatives(conf string) []fixture {
 	return out
 }
 
+// divergencePolicy is the manifest-level statement of the rule the independent
+// comparator enforces (see conformance/tools/divergence and SPEC.md §10).
+const divergencePolicy = "The observed cross-implementation divergence set MUST be a subset of the ruled set in `divergences`; " +
+	"each rule MUST cite a SPEC section that exists in SPEC.md; an accept set with more than one kind is a ruled divergence " +
+	"and MUST be listed; a new accepted difference requires a SPEC section 10 change-control entry. " +
+	"Enforced by conformance/tools/divergence (which imports neither implementation)."
+
+// SPEC citations for the ruled divergence families.
+const (
+	ruleCrossField = "SPEC §7.4 (cross-field disagreement)"
+	ruleTorn       = "SPEC §7.2 (torn-first-commit)"
+	ruleLocalize   = "SPEC §7.3 (structural rejection vs localization)"
+)
+
 // divergences documents the cross-implementation differences the suite accepts
-// (each fixture's accept set already permits both kinds). Filled in from runs of
-// both verifiers during authoring.
+// (each fixture's accept set already permits both kinds), each citing the SPEC
+// section that permits it. Filled in from runs of both verifiers during
+// authoring; enforced by conformance/tools/divergence.
 func divergences() []divergence {
 	same := map[string]string{
 		"neg_machine_mismatch":   "header/manifest machine id disagree",
@@ -646,26 +664,26 @@ func divergences() []divergence {
 		"neg_logical_mismatch":   "header/manifest logical length disagree",
 	}
 	out := []divergence{
-		{"neg_machine_mismatch", "ErrBadSection", "ErrCorrupt", same["neg_machine_mismatch"]},
-		{"neg_unknown_machine", "ErrBadSection", "ErrCorrupt", same["neg_unknown_machine"]},
-		{"neg_object_id_mismatch", "ErrBadSection", "ErrCorrupt", same["neg_object_id_mismatch"]},
-		{"neg_logical_mismatch", "ErrBadSection", "ErrCorrupt", same["neg_logical_mismatch"]},
-		{"neg_trunc_commit", "ErrRecoveryFailed", "ErrTruncated", "torn first commit: Go wraps the torn error as RecoveryFailed, Rust surfaces the raw Truncated"},
+		{"neg_machine_mismatch", "ErrBadSection", "ErrCorrupt", same["neg_machine_mismatch"], ruleCrossField},
+		{"neg_unknown_machine", "ErrBadSection", "ErrCorrupt", same["neg_unknown_machine"], ruleCrossField},
+		{"neg_object_id_mismatch", "ErrBadSection", "ErrCorrupt", same["neg_object_id_mismatch"], ruleCrossField},
+		{"neg_logical_mismatch", "ErrBadSection", "ErrCorrupt", same["neg_logical_mismatch"], ruleCrossField},
+		{"neg_trunc_commit", "ErrRecoveryFailed", "ErrTruncated", "torn first commit: Go wraps the torn error as RecoveryFailed, Rust surfaces the raw Truncated", ruleTorn},
 	}
 	torn := []string{"neg_manifest_bitflip", "neg_history_bitflip", "neg_checkpoint_bitflip",
 		"neg_bloom_path_bitflip", "neg_bloom_global_bitflip", "neg_bloom_region_bitflip",
 		"neg_certificate_bitflip", "neg_tiles_bitflip", "neg_footer_checksum"}
 	for _, n := range torn {
-		out = append(out, divergence{n, "ErrRecoveryFailed", "ErrChecksumMismatch", "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"})
+		out = append(out, divergence{n, "ErrRecoveryFailed", "ErrChecksumMismatch", "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw", ruleTorn})
 	}
 	for _, n := range []string{"neg_core_bitflip", "neg_core_bitflip_m6", "neg_core_bitflip_m9"} {
-		out = append(out, divergence{n, "ErrChecksumMismatch", "ErrCorrupt", "core hash mismatch: Go surfaces ChecksumMismatch(section=core), Rust surfaces CorruptGeneration"})
+		out = append(out, divergence{n, "ErrChecksumMismatch", "ErrCorrupt", "core hash mismatch: Go surfaces ChecksumMismatch(section=core), Rust surfaces CorruptGeneration", ruleLocalize})
 	}
 	out = append(out,
-		divergence{"neg_footer_marker", "ErrRecoveryFailed", "ErrBadSection", "torn first commit: Go wraps the footer marker error, Rust surfaces it raw"},
-		divergence{"neg_section_kind", "ErrRecoveryFailed", "ErrBadSection", "torn first commit: Go wraps the unknown-section-kind error, Rust surfaces it raw"},
-		divergence{"neg_auth_bitflip", "ErrRecoveryFailed", "ErrBadSection", "torn first commit after the AUTH section fails its CRC"},
-		divergence{"neg_manifest_version", "ErrRecoveryFailed", "ErrUnsupportedManifestVersion", "torn first commit: Go wraps the manifest-version error, Rust surfaces it raw"},
+		divergence{"neg_footer_marker", "ErrRecoveryFailed", "ErrBadSection", "torn first commit: Go wraps the footer marker error, Rust surfaces it raw", ruleTorn},
+		divergence{"neg_section_kind", "ErrRecoveryFailed", "ErrBadSection", "torn first commit: Go wraps the unknown-section-kind error, Rust surfaces it raw", ruleTorn},
+		divergence{"neg_auth_bitflip", "ErrRecoveryFailed", "ErrBadSection", "torn first commit after the AUTH section fails its CRC", ruleTorn},
+		divergence{"neg_manifest_version", "ErrRecoveryFailed", "ErrUnsupportedManifestVersion", "torn first commit: Go wraps the manifest-version error, Rust surfaces it raw", ruleTorn},
 	)
 	return out
 }

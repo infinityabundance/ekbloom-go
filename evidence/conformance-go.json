@@ -1,0 +1,517 @@
+{
+  "implementation": "go",
+  "fixtures": [
+    {
+      "name": "go_auth",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m1_full_rand",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m1_path4_text",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m1_regional_text",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m1_root_allbytes",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m1_root_empty",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m1_root_text",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m1_sparse64_text",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m1_univ4_text",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m2_full_skew",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m2_root_skew",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m3_root_rand",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m4_root_skew",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m5_root_skew",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m6_root_mixed",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m7_root_skew",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m8_root_skew",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m9_full_small",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m9_ref",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_m9_root_small",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "go_tiles",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "neg_auth_bitflip",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrRecoveryFailed",
+      "ok": true
+    },
+    {
+      "name": "neg_bad_magic",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrBadMagic",
+      "ok": true
+    },
+    {
+      "name": "neg_bad_magic_all",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrBadMagic",
+      "ok": true
+    },
+    {
+      "name": "neg_bloom_global_bitflip",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrRecoveryFailed",
+      "ok": true
+    },
+    {
+      "name": "neg_bloom_path_bitflip",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrRecoveryFailed",
+      "ok": true
+    },
+    {
+      "name": "neg_bloom_region_bitflip",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrRecoveryFailed",
+      "ok": true
+    },
+    {
+      "name": "neg_certificate_bitflip",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrRecoveryFailed",
+      "ok": true
+    },
+    {
+      "name": "neg_checkpoint_bitflip",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrRecoveryFailed",
+      "ok": true
+    },
+    {
+      "name": "neg_core_bitflip",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrChecksumMismatch",
+      "ok": true
+    },
+    {
+      "name": "neg_core_bitflip_m6",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrChecksumMismatch",
+      "ok": true
+    },
+    {
+      "name": "neg_core_bitflip_m9",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrChecksumMismatch",
+      "ok": true
+    },
+    {
+      "name": "neg_core_only",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrRecoveryFailed",
+      "ok": true
+    },
+    {
+      "name": "neg_core_version",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrUnsupportedCoreVersion",
+      "ok": true
+    },
+    {
+      "name": "neg_empty",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrTruncated",
+      "ok": true
+    },
+    {
+      "name": "neg_feature_flags",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrBadSection",
+      "ok": true
+    },
+    {
+      "name": "neg_footer_checksum",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrRecoveryFailed",
+      "ok": true
+    },
+    {
+      "name": "neg_footer_marker",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrRecoveryFailed",
+      "ok": true
+    },
+    {
+      "name": "neg_format_major",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrUnsupportedVersion",
+      "ok": true
+    },
+    {
+      "name": "neg_format_minor_future",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrUnsupportedVersion",
+      "ok": true
+    },
+    {
+      "name": "neg_header_len",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrBadSection",
+      "ok": true
+    },
+    {
+      "name": "neg_header_short",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrTruncated",
+      "ok": true
+    },
+    {
+      "name": "neg_history_bitflip",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrRecoveryFailed",
+      "ok": true
+    },
+    {
+      "name": "neg_logical_mismatch",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrBadSection",
+      "ok": true
+    },
+    {
+      "name": "neg_machine_mismatch",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrBadSection",
+      "ok": true
+    },
+    {
+      "name": "neg_manifest_bitflip",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrRecoveryFailed",
+      "ok": true
+    },
+    {
+      "name": "neg_manifest_version",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrRecoveryFailed",
+      "ok": true
+    },
+    {
+      "name": "neg_object_id_mismatch",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrBadSection",
+      "ok": true
+    },
+    {
+      "name": "neg_section_kind",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrRecoveryFailed",
+      "ok": true
+    },
+    {
+      "name": "neg_tiles_bitflip",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrRecoveryFailed",
+      "ok": true
+    },
+    {
+      "name": "neg_trunc_commit",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrRecoveryFailed",
+      "ok": true
+    },
+    {
+      "name": "neg_trunc_core",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrTruncated",
+      "ok": true
+    },
+    {
+      "name": "neg_unknown_machine",
+      "polarity": "negative",
+      "opened": false,
+      "error_kind": "ErrBadSection",
+      "ok": true
+    },
+    {
+      "name": "rust_m1_full_rand",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m1_path4_rand",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m1_root_allbytes",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m1_root_empty",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m1_root_text",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m1_sparse64_text",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m2_root_skew",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m2_sparse256_skew",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m3_root_rand",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m4_root_skew",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m5_root_const",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m5_root_skew",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m6_root_const",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m6_root_mixed",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m7_root_skew",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m8_root_skew",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m9_embed_kv",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m9_full_small",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m9_ref_kv",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    },
+    {
+      "name": "rust_m9_root_small",
+      "polarity": "positive",
+      "opened": true,
+      "error_kind": null,
+      "ok": true
+    }
+  ],
+  "failures": []
+}

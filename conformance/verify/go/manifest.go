@@ -61,23 +61,26 @@ type Fixture struct {
 }
 
 // Divergence documents a known, accepted cross-implementation difference in the
-// typed error surfaced for a malformed input. It is informational: both kinds
-// are in the fixture's accept set.
+// typed error surfaced for a malformed input. Both kinds are in the fixture's
+// accept set, and Rule cites the SPEC section that permits the difference; the
+// independent comparator (conformance/tools/divergence) enforces both facts.
 type Divergence struct {
 	Fixture string `json:"fixture"`
 	Go      string `json:"go"`
 	Rust    string `json:"rust"`
 	Note    string `json:"note"`
+	Rule    string `json:"rule"`
 }
 
 // Manifest is the versioned, immutable golden index.
 type Manifest struct {
-	FormatVersion string       `json:"format_version"`
-	Authority     string       `json:"authority"`
-	Immutable     bool         `json:"immutable"`
-	Note          string       `json:"note"`
-	Fixtures      []Fixture    `json:"fixtures"`
-	Divergences   []Divergence `json:"divergences"`
+	FormatVersion    string       `json:"format_version"`
+	Authority        string       `json:"authority"`
+	Immutable        bool         `json:"immutable"`
+	Note             string       `json:"note"`
+	DivergencePolicy string       `json:"divergence_policy"`
+	Fixtures         []Fixture    `json:"fixtures"`
+	Divergences      []Divergence `json:"divergences"`
 }
 
 // LoadManifest reads and structurally validates manifest.json under root
@@ -121,6 +124,18 @@ func LoadManifest(root string) (*Manifest, error) {
 		}
 		if f.Polarity == "positive" && f.Expected.ErrorKind != nil {
 			return nil, fmt.Errorf("manifest: positive fixture %q must not carry error_kind", f.Name)
+		}
+	}
+	if m.DivergencePolicy == "" {
+		return nil, fmt.Errorf("manifest: divergence_policy is required")
+	}
+	for i := range m.Divergences {
+		d := &m.Divergences[i]
+		if !seen[d.Fixture] {
+			return nil, fmt.Errorf("manifest: divergence[%d] references unknown fixture %q", i, d.Fixture)
+		}
+		if d.Rule == "" {
+			return nil, fmt.Errorf("manifest: divergence %q is missing a rule", d.Fixture)
 		}
 	}
 	return &m, nil

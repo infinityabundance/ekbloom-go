@@ -1,0 +1,160 @@
+{
+  "ruled": 21,
+  "observed": 21,
+  "unruled": 0,
+  "resolved": 0,
+  "ruled_without_rule": 0,
+  "missing_fixture": 0,
+  "rust": "ok",
+  "source": "manifest.json+SPEC.md",
+  "divergences": [
+    {
+      "fixture": "neg_auth_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrBadSection",
+      "rule": "SPEC §7.2 (torn-first-commit)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_bloom_global_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "rule": "SPEC §7.2 (torn-first-commit)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_bloom_path_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "rule": "SPEC §7.2 (torn-first-commit)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_bloom_region_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "rule": "SPEC §7.2 (torn-first-commit)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_certificate_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "rule": "SPEC §7.2 (torn-first-commit)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_checkpoint_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "rule": "SPEC §7.2 (torn-first-commit)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_core_bitflip",
+      "go": "ErrChecksumMismatch",
+      "rust": "ErrCorrupt",
+      "rule": "SPEC §7.3 (structural rejection vs localization)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_core_bitflip_m6",
+      "go": "ErrChecksumMismatch",
+      "rust": "ErrCorrupt",
+      "rule": "SPEC §7.3 (structural rejection vs localization)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_core_bitflip_m9",
+      "go": "ErrChecksumMismatch",
+      "rust": "ErrCorrupt",
+      "rule": "SPEC §7.3 (structural rejection vs localization)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_footer_checksum",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "rule": "SPEC §7.2 (torn-first-commit)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_footer_marker",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrBadSection",
+      "rule": "SPEC §7.2 (torn-first-commit)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_history_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "rule": "SPEC §7.2 (torn-first-commit)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_logical_mismatch",
+      "go": "ErrBadSection",
+      "rust": "ErrCorrupt",
+      "rule": "SPEC §7.4 (cross-field disagreement)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_machine_mismatch",
+      "go": "ErrBadSection",
+      "rust": "ErrCorrupt",
+      "rule": "SPEC §7.4 (cross-field disagreement)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_manifest_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "rule": "SPEC §7.2 (torn-first-commit)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_manifest_version",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrUnsupportedManifestVersion",
+      "rule": "SPEC §7.2 (torn-first-commit)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_object_id_mismatch",
+      "go": "ErrBadSection",
+      "rust": "ErrCorrupt",
+      "rule": "SPEC §7.4 (cross-field disagreement)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_section_kind",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrBadSection",
+      "rule": "SPEC §7.2 (torn-first-commit)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_tiles_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "rule": "SPEC §7.2 (torn-first-commit)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_trunc_commit",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrTruncated",
+      "rule": "SPEC §7.2 (torn-first-commit)",
+      "status": "ruled"
+    },
+    {
+      "fixture": "neg_unknown_machine",
+      "go": "ErrBadSection",
+      "rust": "ErrCorrupt",
+      "rule": "SPEC §7.4 (cross-field disagreement)",
+      "status": "ruled"
+    }
+  ],
+  "failures": null
+}

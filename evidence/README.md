@@ -37,7 +37,9 @@ because they need hardware or privileges a laptop may not have.
 | `rocksdb-blobdb.json` / `rocksdb-blobdb.log` | EKBLOOM-encoded values inside RocksDB (`Put`/`Get` + a registered `MergeOperator`), containerized (`scripts/rocksdb.sh`) |
 | `pebble-vlog.json` / `pebble-vlog.prom` | machine-9 cores as Pebble values; zero-alloc `DecodeInto` (`scripts/pebble.sh`) |
 | `prometheus-scrape.txt` / `grafana-dashboard.json` | the exporter's five metric families and the Grafana dashboard (`scripts/prometheus.sh`) |
-| `conformance.json` / `conformance.log` | the implementation-neutral conformance suite: 73 immutable fixtures verified independently by Go and Rust (`scripts/conformance.sh`) |
+| `conformance.json` / `conformance.log` | the implementation-neutral conformance suite: 73 immutable fixtures verified independently by Go and Rust, plus the ruling `divergences` summary (`scripts/conformance.sh`) |
+| `conformance-go.json` / `conformance-rust.json` | per-fixture observations published by each verifier (`-json` / `--json`) for the independent comparator |
+| `divergence.json` | the independent comparator's machine-readable ruling: ruled/observed/unruled/resolved counts, each with its cited SPEC `rule` (`conformance/tools/divergence`) |
 | `soak.json` / `soak.log` | long-run randomized roundtrip: cumulative symbols, peak heap, GC pause, 0 mismatches (`scripts/soak.sh`) |
 | `readerat.json` | `io.ReaderAt` section-copy, batch equality, 64-reader race, cancellation latency (`scripts/readerat.sh`) |
 | `pebble-vlog.json` / `pebble-vlog.log` / `pebble-vlog.prom` | machine-9 as a **Pebble value-log adapter**: 20,000 × 100 B cores via `db.Set`, 50,000 80/20 Gets with a single reusable `DictDecoder.DecodeInto` (0 allocs/op), plus a sealed-body `worst_case_steps`/`E_V` probe (`scripts/pebble.sh`) |

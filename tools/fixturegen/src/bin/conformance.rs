@@ -15,13 +15,13 @@
 //! not comparable to the Go `Reader::WorstCaseStepsFor` bound. The count of
 //! skipped checks is reported.
 //!
-//! Usage: `cargo run --release --bin conformance -- <conformance-dir>`
+//! Usage: `cargo run --release --bin conformance -- <conformance-dir> [--json <path>]`
 
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use ekbloom::reader::open_bytes;
 use ekbloom::{open_bytes_authenticated, read, Dictionary, EkbloomError, ReadRequest};
@@ -72,20 +72,84 @@ struct Expected {
 // ------------------------------------------------------------------ main
 
 fn main() -> ExitCode {
-    let root = match std::env::args().nth(1) {
-        Some(p) => PathBuf::from(p),
+    let mut root: Option<PathBuf> = None;
+    let mut json: Option<PathBuf> = None;
+    let mut args = std::env::args().skip(1);
+    while let Some(a) = args.next() {
+        match a.as_str() {
+            "--json" => match args.next() {
+                Some(p) => json = Some(PathBuf::from(p)),
+                None => {
+                    eprintln!("usage: conformance <conformance-dir> [--json <path>]");
+                    return ExitCode::from(2);
+                }
+            },
+            "-h" | "--help" => {
+                println!("usage: conformance <conformance-dir> [--json <path>]");
+                return ExitCode::SUCCESS;
+            }
+            other if root.is_none() => root = Some(PathBuf::from(other)),
+            other => {
+                eprintln!("unexpected argument: {other}");
+                return ExitCode::from(2);
+            }
+        }
+    }
+    let root = match root {
+        Some(p) => p,
         None => {
-            eprintln!("usage: conformance <conformance-dir>");
+            eprintln!("usage: conformance <conformance-dir> [--json <path>]");
             return ExitCode::from(2);
         }
     };
-    match run(&root) {
+    match run(&root, json.as_deref()) {
         Ok(()) => ExitCode::SUCCESS,
         Err(code) => code,
     }
 }
 
-fn run(root: &Path) -> Result<(), ExitCode> {
+/// Per-fixture observation, published (optionally) so an independent comparator
+/// can detect cross-implementation differences without importing either side.
+#[derive(Serialize)]
+struct FixtureResult {
+    name: String,
+    polarity: String,
+    opened: bool,
+    error_kind: Option<String>,
+    ok: bool,
+}
+
+#[derive(Serialize)]
+struct ObservationDocument<'a> {
+    implementation: &'a str,
+    fixtures: &'a [FixtureResult],
+    failures: &'a [String],
+}
+
+fn record_failure(failures: &mut Vec<String>, res: &mut FixtureResult, name: &str, msg: String) {
+    eprintln!("FAIL {name}: {msg}");
+    failures.push(format!("{name}: {msg}"));
+    res.ok = false;
+}
+
+fn write_json(path: &Path, results: &[FixtureResult], failures: &[String]) -> std::io::Result<()> {
+    if let Some(parent) = path.parent() {
+        if !parent.as_os_str().is_empty() {
+            fs::create_dir_all(parent)?;
+        }
+    }
+    let doc = ObservationDocument {
+        implementation: "rust",
+        fixtures: results,
+        failures,
+    };
+    let mut out = serde_json::to_vec_pretty(&doc)
+        .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?;
+    out.push(b'\n');
+    fs::write(path, out)
+}
+
+fn run(root: &Path, json_path: Option<&Path>) -> Result<(), ExitCode> {
     let manifest_path = root.join("manifest.json");
     let raw = fs::read(&manifest_path).map_err(|e| {
         eprintln!("read {}: {e}", manifest_path.display());
@@ -98,40 +162,65 @@ fn run(root: &Path) -> Result<(), ExitCode> {
 
     let mut checks = 0usize;
     let mut skipped = 0usize;
-    let mut failures = 0usize;
-    let mut fail = |name: &str, msg: String| {
-        eprintln!("FAIL {name}: {msg}");
-        failures += 1;
-    };
+    let mut failures: Vec<String> = Vec::new();
+    let mut results: Vec<FixtureResult> = Vec::with_capacity(m.fixtures.len());
 
     for f in &m.fixtures {
+        let mut res = FixtureResult {
+            name: f.name.clone(),
+            polarity: f.polarity.clone(),
+            opened: false,
+            error_kind: None,
+            ok: true,
+        };
+
         let path = root.join(&f.file);
         let data = match fs::read(&path) {
             Ok(d) => d,
             Err(e) => {
-                fail(&f.name, format!("read {}: {e}", f.file));
+                record_failure(
+                    &mut failures,
+                    &mut res,
+                    &f.name,
+                    format!("read {}: {e}", f.file),
+                );
+                results.push(res);
                 continue;
             }
         };
         checks += 1;
         let got_sha = sha256_hex(&data);
         if got_sha != f.sha256 {
-            fail(
+            record_failure(
+                &mut failures,
+                &mut res,
                 &f.name,
                 format!("sha256 {got_sha} != manifest {}", f.sha256),
             );
+            results.push(res);
             continue;
         }
 
         if f.polarity == "negative" {
             match open_fixture(root, f, &data) {
-                Ok(_) => fail(&f.name, "expected rejection but open succeeded".into()),
+                Ok(_) => {
+                    res.opened = true;
+                    record_failure(
+                        &mut failures,
+                        &mut res,
+                        &f.name,
+                        "expected rejection but open succeeded".into(),
+                    );
+                }
                 Err(e) => {
                     let got = kind_name(&e);
                     let want = f.expected.error_kind.clone().unwrap_or_default();
                     let accept = f.expected.error_kind_accept.clone().unwrap_or_default();
+                    res.error_kind = Some(got.clone());
                     if got != want && !accept.iter().any(|k| *k == got) {
-                        fail(
+                        record_failure(
+                            &mut failures,
+                            &mut res,
                             &f.name,
                             format!("rejected with {got}, want {want} (accept {accept:?})"),
                         );
@@ -139,27 +228,40 @@ fn run(root: &Path) -> Result<(), ExitCode> {
                     checks += 1;
                 }
             }
+            results.push(res);
             continue;
         }
 
         // positive
         let body = match open_fixture(root, f, &data) {
-            Ok(b) => b,
+            Ok(b) => {
+                res.opened = true;
+                b
+            }
             Err(e) => {
-                fail(&f.name, format!("open: {e}"));
+                res.error_kind = Some(kind_name(&e));
+                record_failure(&mut failures, &mut res, &f.name, format!("open: {e}"));
+                results.push(res);
                 continue;
             }
         };
         if let Some(want) = f.expected.machine_id {
             checks += 1;
             if body.machine_id != want {
-                fail(&f.name, format!("machine_id {} != {want}", body.machine_id));
+                record_failure(
+                    &mut failures,
+                    &mut res,
+                    &f.name,
+                    format!("machine_id {} != {want}", body.machine_id),
+                );
             }
         }
         if let Some(want) = f.expected.logical_len {
             checks += 1;
             if body.logical_len != want {
-                fail(
+                record_failure(
+                    &mut failures,
+                    &mut res,
                     &f.name,
                     format!("logical_len {} != {want}", body.logical_len),
                 );
@@ -169,7 +271,12 @@ fn run(root: &Path) -> Result<(), ExitCode> {
             checks += 1;
             let got = body.physical_bytes();
             if got != want {
-                fail(&f.name, format!("physical_bytes {got} != {want}"));
+                record_failure(
+                    &mut failures,
+                    &mut res,
+                    &f.name,
+                    format!("physical_bytes {got} != {want}"),
+                );
             }
         }
         if let Some(want) = &f.expected.blake3_of_decoded {
@@ -185,10 +292,17 @@ fn run(root: &Path) -> Result<(), ExitCode> {
                 Ok(bytes) => {
                     let got = blake3::hash(&bytes).to_hex().to_string();
                     if got != *want {
-                        fail(&f.name, format!("decoded blake3 {got} != {want}"));
+                        record_failure(
+                            &mut failures,
+                            &mut res,
+                            &f.name,
+                            format!("decoded blake3 {got} != {want}"),
+                        );
                     }
                 }
-                Err(e) => fail(&f.name, format!("read: {e}")),
+                Err(e) => {
+                    record_failure(&mut failures, &mut res, &f.name, format!("read: {e}"));
+                }
             }
         }
         if f.expected.worst_case_steps.is_some() {
@@ -196,28 +310,35 @@ fn run(root: &Path) -> Result<(), ExitCode> {
             // the same quantity as Go's Reader::WorstCaseStepsFor. Skip, but count.
             skipped += 1;
         }
+        results.push(res);
     }
 
-    drop(fail);
+    if let Some(path) = json_path {
+        if let Err(e) = write_json(path, &results, &failures) {
+            eprintln!("write {}: {e}", path.display());
+            return Err(ExitCode::FAILURE);
+        }
+    }
+
     println!(
         "conformance(rust): {} — fixtures={} checks={} failures={} skipped={}",
-        if failures == 0 { "pass" } else { "fail" },
+        if failures.is_empty() { "pass" } else { "fail" },
         m.fixtures.len(),
         checks,
-        failures,
+        failures.len(),
         skipped
     );
     println!(
         "RESULT rust={} fixtures={} checks={} failures={} skipped={}",
-        if failures == 0 { "pass" } else { "fail" },
+        if failures.is_empty() { "pass" } else { "fail" },
         m.fixtures.len(),
         checks,
-        failures,
+        failures.len(),
         skipped
     );
     let _ = m.format_version;
     let _ = m.authority;
-    if failures == 0 {
+    if failures.is_empty() {
         Ok(())
     } else {
         Err(ExitCode::FAILURE)

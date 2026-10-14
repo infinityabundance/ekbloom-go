@@ -19,10 +19,27 @@ type Report struct {
 	Fixtures int
 	Checks   int
 	Failures []string
+	// Results holds one observation per fixture. It is the raw material the
+	// independent divergence comparator consumes (-json); it never changes the
+	// pass/fail verdict, which is still driven by Failures alone.
+	Results []FixtureResult
 }
 
 // OK reports whether every fixture matched its expectation.
 func (r Report) OK() bool { return len(r.Failures) == 0 }
+
+// FixtureResult is the per-fixture observation a verifier publishes so an
+// independent comparator can detect cross-implementation differences without
+// importing either implementation. Opened reports whether the implementation
+// accepted the fixture through its public API; ErrorKind is the observed SPEC
+// error kind when it rejected one (nil when it opened).
+type FixtureResult struct {
+	Name      string  `json:"name"`
+	Polarity  string  `json:"polarity"`
+	Opened    bool    `json:"opened"`
+	ErrorKind *string `json:"error_kind"`
+	OK        bool    `json:"ok"`
+}
 
 // Verify reads manifest.json and every referenced fixture under root, and checks
 // the Go implementation against the manifest. It uses only the public ekbloom
@@ -41,9 +58,16 @@ func Verify(root string, out io.Writer) (Report, error) {
 
 	for i := range m.Fixtures {
 		f := &m.Fixtures[i]
+		res := FixtureResult{Name: f.Name, Polarity: f.Polarity, OK: true}
+		// ffail attributes a failure to this fixture before recording it.
+		ffail := func(format string, args ...any) {
+			res.OK = false
+			fail(format, args...)
+		}
 		data, err := os.ReadFile(filepath.Join(root, f.File))
 		if err != nil {
-			fail("%s: read: %v", f.Name, err)
+			ffail("%s: read: %v", f.Name, err)
+			rep.Results = append(rep.Results, res)
 			continue
 		}
 		// 1. The fixture file's recorded sha256 must match (immutability).
@@ -51,26 +75,31 @@ func Verify(root string, out io.Writer) (Report, error) {
 		gotSHA := hex.EncodeToString(sum[:])
 		rep.Checks++
 		if gotSHA != f.SHA256 {
-			fail("%s: sha256 %s != manifest %s", f.Name, gotSHA, f.SHA256)
+			ffail("%s: sha256 %s != manifest %s", f.Name, gotSHA, f.SHA256)
+			rep.Results = append(rep.Results, res)
 			continue
 		}
 
 		if f.Polarity == "positive" {
-			if err := verifyPositive(root, f, data, &rep, fail); err != nil {
-				fail("%s: %v", f.Name, err)
+			if err := verifyPositive(root, f, data, &rep, &res, ffail); err != nil {
+				ffail("%s: %v", f.Name, err)
 			}
 		} else {
-			verifyNegative(root, f, data, &rep, fail)
+			verifyNegative(root, f, data, &rep, &res, ffail)
 		}
+		rep.Results = append(rep.Results, res)
 	}
 	return rep, nil
 }
 
-func verifyPositive(root string, f *Fixture, data []byte, rep *Report, fail func(string, ...any)) error {
+func verifyPositive(root string, f *Fixture, data []byte, rep *Report, res *FixtureResult, fail func(string, ...any)) error {
 	r, err := openFixture(root, f, data)
 	if err != nil {
+		k := kindName(err)
+		res.ErrorKind = &k
 		return fmt.Errorf("open: %v", err)
 	}
+	res.Opened = true
 	if f.Expected.MachineID != nil {
 		rep.Checks++
 		if got := r.MachineID(); got != *f.Expected.MachineID {
@@ -115,14 +144,16 @@ func verifyPositive(root string, f *Fixture, data []byte, rep *Report, fail func
 	return nil
 }
 
-func verifyNegative(root string, f *Fixture, data []byte, rep *Report, fail func(string, ...any)) {
+func verifyNegative(root string, f *Fixture, data []byte, rep *Report, res *FixtureResult, fail func(string, ...any)) {
 	rep.Checks++
 	_, err := openFixture(root, f, data)
 	if err == nil {
+		res.Opened = true
 		fail("%s: expected rejection (%s) but Open succeeded", f.Name, *f.Expected.ErrorKind)
 		return
 	}
 	got := kindName(err)
+	res.ErrorKind = &got
 	accept := map[string]bool{}
 	if f.Expected.ErrorKind != nil {
 		accept[*f.Expected.ErrorKind] = true

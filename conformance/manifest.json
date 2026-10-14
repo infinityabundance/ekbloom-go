@@ -3,6 +3,7 @@
   "authority": "conformance/SPEC.md",
   "immutable": true,
   "note": "Golden set for the EKBLOOM .ekb byte format. Immutable: regenerating any file requires a format-version bump and a note in conformance/SPEC.md. format_version keys the fixture corpus, not the wire format (which is 0.3). See conformance/README.md.",
+  "divergence_policy": "The observed cross-implementation divergence set MUST be a subset of the ruled set in `divergences`; each rule MUST cite a SPEC section that exists in SPEC.md; an accept set with more than one kind is a ruled divergence and MUST be listed; a new accepted difference requires a SPEC section 10 change-control entry. Enforced by conformance/tools/divergence (which imports neither implementation).",
   "fixtures": [
     {
       "name": "go_auth",
@@ -2132,127 +2133,148 @@
       "fixture": "neg_machine_mismatch",
       "go": "ErrBadSection",
       "rust": "ErrCorrupt",
-      "note": "header/manifest machine id disagree"
+      "note": "header/manifest machine id disagree",
+      "rule": "SPEC §7.4 (cross-field disagreement)"
     },
     {
       "fixture": "neg_unknown_machine",
       "go": "ErrBadSection",
       "rust": "ErrCorrupt",
-      "note": "unknown header machine id reaches the manifest cross-check first"
+      "note": "unknown header machine id reaches the manifest cross-check first",
+      "rule": "SPEC §7.4 (cross-field disagreement)"
     },
     {
       "fixture": "neg_object_id_mismatch",
       "go": "ErrBadSection",
       "rust": "ErrCorrupt",
-      "note": "header/manifest object_id disagree"
+      "note": "header/manifest object_id disagree",
+      "rule": "SPEC §7.4 (cross-field disagreement)"
     },
     {
       "fixture": "neg_logical_mismatch",
       "go": "ErrBadSection",
       "rust": "ErrCorrupt",
-      "note": "header/manifest logical length disagree"
+      "note": "header/manifest logical length disagree",
+      "rule": "SPEC §7.4 (cross-field disagreement)"
     },
     {
       "fixture": "neg_trunc_commit",
       "go": "ErrRecoveryFailed",
       "rust": "ErrTruncated",
-      "note": "torn first commit: Go wraps the torn error as RecoveryFailed, Rust surfaces the raw Truncated"
+      "note": "torn first commit: Go wraps the torn error as RecoveryFailed, Rust surfaces the raw Truncated",
+      "rule": "SPEC §7.2 (torn-first-commit)"
     },
     {
       "fixture": "neg_manifest_bitflip",
       "go": "ErrRecoveryFailed",
       "rust": "ErrChecksumMismatch",
-      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw",
+      "rule": "SPEC §7.2 (torn-first-commit)"
     },
     {
       "fixture": "neg_history_bitflip",
       "go": "ErrRecoveryFailed",
       "rust": "ErrChecksumMismatch",
-      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw",
+      "rule": "SPEC §7.2 (torn-first-commit)"
     },
     {
       "fixture": "neg_checkpoint_bitflip",
       "go": "ErrRecoveryFailed",
       "rust": "ErrChecksumMismatch",
-      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw",
+      "rule": "SPEC §7.2 (torn-first-commit)"
     },
     {
       "fixture": "neg_bloom_path_bitflip",
       "go": "ErrRecoveryFailed",
       "rust": "ErrChecksumMismatch",
-      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw",
+      "rule": "SPEC §7.2 (torn-first-commit)"
     },
     {
       "fixture": "neg_bloom_global_bitflip",
       "go": "ErrRecoveryFailed",
       "rust": "ErrChecksumMismatch",
-      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw",
+      "rule": "SPEC §7.2 (torn-first-commit)"
     },
     {
       "fixture": "neg_bloom_region_bitflip",
       "go": "ErrRecoveryFailed",
       "rust": "ErrChecksumMismatch",
-      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw",
+      "rule": "SPEC §7.2 (torn-first-commit)"
     },
     {
       "fixture": "neg_certificate_bitflip",
       "go": "ErrRecoveryFailed",
       "rust": "ErrChecksumMismatch",
-      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw",
+      "rule": "SPEC §7.2 (torn-first-commit)"
     },
     {
       "fixture": "neg_tiles_bitflip",
       "go": "ErrRecoveryFailed",
       "rust": "ErrChecksumMismatch",
-      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw",
+      "rule": "SPEC §7.2 (torn-first-commit)"
     },
     {
       "fixture": "neg_footer_checksum",
       "go": "ErrRecoveryFailed",
       "rust": "ErrChecksumMismatch",
-      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw",
+      "rule": "SPEC §7.2 (torn-first-commit)"
     },
     {
       "fixture": "neg_core_bitflip",
       "go": "ErrChecksumMismatch",
       "rust": "ErrCorrupt",
-      "note": "core hash mismatch: Go surfaces ChecksumMismatch(section=core), Rust surfaces CorruptGeneration"
+      "note": "core hash mismatch: Go surfaces ChecksumMismatch(section=core), Rust surfaces CorruptGeneration",
+      "rule": "SPEC §7.3 (structural rejection vs localization)"
     },
     {
       "fixture": "neg_core_bitflip_m6",
       "go": "ErrChecksumMismatch",
       "rust": "ErrCorrupt",
-      "note": "core hash mismatch: Go surfaces ChecksumMismatch(section=core), Rust surfaces CorruptGeneration"
+      "note": "core hash mismatch: Go surfaces ChecksumMismatch(section=core), Rust surfaces CorruptGeneration",
+      "rule": "SPEC §7.3 (structural rejection vs localization)"
     },
     {
       "fixture": "neg_core_bitflip_m9",
       "go": "ErrChecksumMismatch",
       "rust": "ErrCorrupt",
-      "note": "core hash mismatch: Go surfaces ChecksumMismatch(section=core), Rust surfaces CorruptGeneration"
+      "note": "core hash mismatch: Go surfaces ChecksumMismatch(section=core), Rust surfaces CorruptGeneration",
+      "rule": "SPEC §7.3 (structural rejection vs localization)"
     },
     {
       "fixture": "neg_footer_marker",
       "go": "ErrRecoveryFailed",
       "rust": "ErrBadSection",
-      "note": "torn first commit: Go wraps the footer marker error, Rust surfaces it raw"
+      "note": "torn first commit: Go wraps the footer marker error, Rust surfaces it raw",
+      "rule": "SPEC §7.2 (torn-first-commit)"
     },
     {
       "fixture": "neg_section_kind",
       "go": "ErrRecoveryFailed",
       "rust": "ErrBadSection",
-      "note": "torn first commit: Go wraps the unknown-section-kind error, Rust surfaces it raw"
+      "note": "torn first commit: Go wraps the unknown-section-kind error, Rust surfaces it raw",
+      "rule": "SPEC §7.2 (torn-first-commit)"
     },
     {
       "fixture": "neg_auth_bitflip",
       "go": "ErrRecoveryFailed",
       "rust": "ErrBadSection",
-      "note": "torn first commit after the AUTH section fails its CRC"
+      "note": "torn first commit after the AUTH section fails its CRC",
+      "rule": "SPEC §7.2 (torn-first-commit)"
     },
     {
       "fixture": "neg_manifest_version",
       "go": "ErrRecoveryFailed",
       "rust": "ErrUnsupportedManifestVersion",
-      "note": "torn first commit: Go wraps the manifest-version error, Rust surfaces it raw"
+      "note": "torn first commit: Go wraps the manifest-version error, Rust surfaces it raw",
+      "rule": "SPEC §7.2 (torn-first-commit)"
     }
   ]
 }

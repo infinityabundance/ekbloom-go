@@ -5,7 +5,7 @@ A standalone, **implementation-neutral** conformance authority for the EKBLOOM
 implementations can agree on the same bug if they share fixture-generation
 assumptions. Here, **neither implementation owns the truth.**
 
-The model, in four rules:
+The model, in five rules:
 
 1. **The spec is the authority.** `SPEC.md` states the byte layout, the nine
    cores, the versioning tags, the error taxonomy, the physical-accounting
@@ -28,6 +28,11 @@ The model, in four rules:
    recorded from a reference run because it is not text-derivable (e.g.
    `physical_bytes`, and the canonical kind for torn-commit cases). The label
    lives per field in `expectation_source`.
+5. **Divergences are ruled, not merely recorded.** The suite fails when the two
+   verifiers disagree on a fixture that is not in `manifest.json.divergences`,
+   when a ruled entry lacks a `rule`, or when a rule cites a section that does
+   not exist in `SPEC.md`. The comparator (`tools/divergence`) that enforces this
+   imports neither implementation.
 
 ## Layout
 
@@ -43,6 +48,7 @@ conformance/
   verify/go/                  separate Go module: the Go verifier (+ its tests)
     blake3/                   vendored pure-Go BLAKE3 (pinned by testdata/blake3_vectors.json)
     cmd/manifestgen/          authoring tool that wrote manifest.json (never run by the suite)
+  tools/divergence/           separate Go module: the independent comparator (imports neither impl)
 ```
 
 ## Running
@@ -53,25 +59,41 @@ sh scripts/conformance.sh
 
 It runs the Go verifier inside the OOM-capped sandbox
 (`scripts/sandbox.sh`), runs the Rust verifier in a capped container if the
-reference is staged under `.reference/`, and writes:
+reference is staged under `.reference/`, runs the **independent comparator**
+(`tools/divergence`) in the sandbox, and writes:
 
 ```json
 // evidence/conformance.json
-{"go":"pass","rust":"pass","fixtures":73}
+{"go":"pass","rust":"pass","fixtures":73,
+ "divergences":{"ruled":21,"observed":21,"unruled":0,"resolved":0,"ruled_without_rule":0,"source":"manifest.json+SPEC.md"}}
 ```
 
-`rust` is `"skipped"` when `.reference/ekbloom-rust` is absent (a fresh clone).
-The human-readable transcript is `evidence/conformance.log`. Nothing heavy runs
-on the host: `go` and `cargo` both run in capped Docker containers.
+Each verifier also publishes per-fixture observations to
+`evidence/conformance-go.json` and `evidence/conformance-rust.json`, and the
+comparator writes its machine-readable summary to `evidence/divergence.json`.
+
+`rust` is `"skipped"` when `.reference/ekbloom-rust` is absent (a fresh clone);
+in that case the comparator reports `rust: "skipped"` too and does not fail for
+that reason alone. The human-readable transcript is `evidence/conformance.log`.
+Nothing heavy runs on the host: `go` and `cargo` both run in capped Docker
+containers.
+
+The run **fails** (`exit 1`) if the Go verifier fails, if the Rust verifier
+fails, or if the comparator finds an unruled divergence / a ruled entry without a
+SPEC-citing rule / a manifest inconsistency.
 
 Individually:
 
 ```sh
 # Go (from conformance/verify/go)
-go run . -root ../..
+go run . -root ../.. [-json out.json]
 
 # Rust (needs .reference staged: sh scripts/setup-reference.sh)
-cd .reference/fixturegen && cargo run --release --bin conformance -- <repo>/conformance
+cd .reference/fixturegen && cargo run --release --bin conformance -- <repo>/conformance [--json out.json]
+
+# Independent comparator (from conformance/tools/divergence; imports neither impl)
+go run . -manifest ../../manifest.json -spec ../../SPEC.md \
+    -go <go.json> [-rust <rust.json>] [-json summary.json]
 ```
 
 ## What each verifier checks
@@ -125,19 +147,28 @@ implementation) and **32 negative**.
 
 Both implementations reject every negative fixture, but for some malformations
 they surface a *different typed error*, with the same rejection. `manifest.json`
-records all 21 in `divergences`; each fixture's `error_kind_accept` set permits
-both. The two families:
+records each such difference in `divergences`; each fixture's `error_kind_accept`
+set permits both. Because membership is a *ruled set* rather than a fixed list,
+the corpus may contain any number of these: the current families are
 
 * **Torn first commit.** Go's `Open` wraps the torn error as `ErrRecoveryFailed`;
   Rust's `open_bytes` surfaces the raw underlying kind (`ErrChecksumMismatch`,
   `ErrBadSection`, `ErrTruncated`, `ErrUnsupportedManifestVersion`). `SPEC.md`
-  §7.2 fixes the torn-tail rule and §7.3 permits either wording.
-* **Header/manifest cross-field disagreement and core hash.** Go returns
-  `ErrBadSection` (mismatch) and `ErrChecksumMismatch` (core); Rust returns its
-  localized `Corrupt`/`CorruptGeneration` for both.
+  §7.2 fixes the torn-tail rule and §7.3 permits either wording. Ruled as
+  `SPEC §7.2 (torn-first-commit)`.
+* **Header/manifest cross-field disagreement.** Go returns `ErrBadSection`;
+  Rust returns its localized `Corrupt`. Ruled as `SPEC §7.4 (cross-field
+  disagreement)`.
+* **Core hash and other localizable corruptions.** Go returns
+  `ErrChecksumMismatch`; Rust returns its localized `Corrupt`/`CorruptGeneration`.
+  Ruled as `SPEC §7.3 (structural rejection vs localization)`.
 
 The canonical `error_kind` is never relaxed: it is always a member of the
 taxonomy, and the accept set only widens *which* taxonomy kind is conforming.
+Every ruled entry carries a `rule` citing the enabling SPEC section, and the
+independent comparator (`tools/divergence`) fails the suite if the two verifiers
+disagree on a fixture that is not ruled — so a new difference cannot be absorbed
+silently by widening an accept set.
 
 ## Compromises and limits
 

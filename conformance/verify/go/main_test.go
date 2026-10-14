@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"ekbloomconformance/blake3"
@@ -103,6 +104,67 @@ func TestManifestWellFormed(t *testing.T) {
 	for _, d := range m.Divergences {
 		if !names[d.Fixture] {
 			t.Errorf("divergence references unknown fixture %q", d.Fixture)
+		}
+	}
+}
+
+// TestDivergencesAreRuled proves the manifest's divergence policy is enforced at
+// the manifest level: every ruled entry cites a SPEC section, each recorded kind
+// is a conforming rejection for its fixture, and every fixture whose accept set
+// has more than one kind is listed as a ruled divergence.
+func TestDivergencesAreRuled(t *testing.T) {
+	m, err := LoadManifest(conformanceRoot)
+	if err != nil {
+		t.Fatalf("LoadManifest: %v", err)
+	}
+	if m.DivergencePolicy == "" {
+		t.Error("manifest must carry a divergence_policy")
+	}
+
+	byName := map[string]Fixture{}
+	for _, f := range m.Fixtures {
+		byName[f.Name] = f
+	}
+	ruled := map[string]bool{}
+	for _, d := range m.Divergences {
+		fx, ok := byName[d.Fixture]
+		if !ok {
+			t.Errorf("divergence references unknown fixture %q", d.Fixture)
+			continue
+		}
+		ruled[d.Fixture] = true
+		if d.Rule == "" {
+			t.Errorf("divergence %q must cite a SPEC rule", d.Fixture)
+		} else if !strings.Contains(d.Rule, "\u00a7") {
+			t.Errorf("divergence %q rule %q does not cite a SPEC section", d.Fixture, d.Rule)
+		}
+		accept := map[string]bool{}
+		if fx.Expected.ErrorKind != nil {
+			accept[*fx.Expected.ErrorKind] = true
+		}
+		for _, k := range fx.Expected.ErrorKindAccept {
+			accept[k] = true
+		}
+		if !accept[d.Go] {
+			t.Errorf("divergence %q go kind %q is not in the fixture's accept set", d.Fixture, d.Go)
+		}
+		if !accept[d.Rust] {
+			t.Errorf("divergence %q rust kind %q is not in the fixture's accept set", d.Fixture, d.Rust)
+		}
+	}
+
+	// A fixture whose accept set has more than one kind is a ruled divergence and
+	// MUST be listed, so a silent new difference cannot hide in an accept set.
+	for _, f := range m.Fixtures {
+		kinds := map[string]bool{}
+		if f.Expected.ErrorKind != nil {
+			kinds[*f.Expected.ErrorKind] = true
+		}
+		for _, k := range f.Expected.ErrorKindAccept {
+			kinds[k] = true
+		}
+		if len(kinds) > 1 && !ruled[f.Name] {
+			t.Errorf("fixture %q has a multi-kind accept set but is not listed in divergences", f.Name)
 		}
 	}
 }
