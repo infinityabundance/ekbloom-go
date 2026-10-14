@@ -49,6 +49,48 @@ login is present, so it is safe to run in any environment. The `publish` CI
 workflow pushes to GHCR unconditionally and to Docker Hub when
 `DOCKERHUB_USERNAME`/`DOCKERHUB_TOKEN` are configured.
 
+## Capacity planning
+
+For a file of logical length `N`:
+
+| quantity | accessor | meaning |
+| --- | --- | --- |
+| `N` | `LogicalLen()` | the source length (logical symbols) |
+| `V` | `VisibleBytes()` | the visible core length |
+| `P` | `PhysicalBytes()` | total manifested bytes (core + every structure), equal to Rust `inspect_file` |
+| concealed | `P - V` | manifested-but-not-visible bytes |
+| expansion ratio | `Report().ExpansionRatio` | `P / V` (the reference `expansion_ratio`) |
+| footprint `E_V` | — | `P / N`; what the standard-corpus study reports (`docs/CORPORA.md`) |
+
+**Budgeting a write.** `EstimatePhysicalBytesForCore(coreLen, N, profile)` is the
+static upper bound for a profile; use it to reject a profile up front and
+`Estimate()` on an open `Reader` for the committed profile. For machine-1 bodies it
+is an exact/upper bound; for cursor-divergent machines it is documented as loose
+(`docs/MIGRATION.md`). Profiling a workload is `docs/PERFORMANCE.md`.
+
+**Limits and counters.** Any whole-object allocation driven by a declared length is
+capped by `ResourcePolicy` (default 1 GiB); a rejection is `ErrAllocationTooLarge`
+and increments the breach counter — watch it as a hostile-input signal:
+
+```go
+snap := ekbloom.ResourcePolicySnapshot() // {max_single_allocation, allocation_breaches}
+ekbloom.SetMaxSingleAllocation(256 << 20)  // tighten the cap for a strict service
+```
+
+**Scrape example** (`MetricsText` is Prometheus-style, one `name value` per line):
+
+```
+# on each read, with the open *Reader r
+curl -s localhost:9100/metrics | grep ekbloom_
+ekbloom_resource_max_single_allocation 1073741824
+ekbloom_resource_allocation_breaches 0
+ekbloom_physical_bytes 4194304
+ekbloom_visible_bytes 4194304
+ekbloom_expansion_ratio 1
+ekbloom_logical_len 4194304
+ekbloom_generation 1
+```
+
 ## Recovery runbook
 
 ```sh
