@@ -30,7 +30,7 @@ byte-compatible with the Rust reference implementation
 | Legacy v0.3/v0.4 fixtures open byte-identically | ✅ frozen Rust fixtures | `testdata/legacy/`, `legacy_test.go` |
 | Opt-in keyed AUTH (write + verify) | ✅ | `auth.go`, `auth_test.go`, Rust `open_authenticated` |
 | Allocation-free `ResidentView.Get` (zero allocs/op) | ✅ ≈1.35 ns | `resident.go`, `resident_test.go` |
-| Metrics export (physical_bytes, E_V, breaches) | ✅ | `metrics.go` |
+| Metrics export (physical_bytes, expansion ratio, breaches) | ✅ | `metrics.go`, `metrics_test.go` |
 | `worst_case_steps_for` bound | ✅ 1.2M samples, 0 violations | `bound_test.go`, `evidence/bound.json` |
 | 64 readers, quiet vs 1 writer publish, p99.9 (`-race` clean) | ✅ tails indistinguishable (≈1 µs) | `concurrency_test.go`, `evidence/concurrency.json` |
 | Shared dictionaries (machine 9) | ✅ P5: 83.5 vs 590.0 B/rec, break-even 2 recs | `dictionary.go`, `dictbench_test.go`, `docs/DICTIONARY.md` |
@@ -116,13 +116,13 @@ package `ekbloom` at the repository root:
   errors.go        typed errors (Kind, sentinels, CorruptDetail)
   format.go        GenesisHeader, SectionHeader, CommitFooter, ManifestRecord, Scan
   machine*.go      the nine machines (encode/decode/check, prepared contexts)
-  dictionary.go    machine-9 shared order-0 dictionaries + registry
+  dictionary.go    machine-9 shared order-0 dictionaries + registry (OpenWithDict)
   fastpath.go      accelerated reads: path bloom / history / checkpoints
   resident.go      allocation-free borrowed ResidentView (Get(i), zero allocs/op)
   estimate.go      profile labels and the upper-bound estimator
   inspect.go       physical accounting (mirrors the Rust FileBody::inspect)
   reader.go        Open / ByteAt / ReadAt / PhysicalBytes / Estimate / WorstCaseStepsFor
-  writer.go        WriteBody / WriteBodyAuthenticated (Rust-readable .ekb images)
+  writer.go        WriteBody / WriteBodyWithDict / WriteBodyAuthenticated
   writer_path.go   exact path-bloom writer (P_D[j] + certificate)
   append.go        AppendGeneration (additive generations) + TruncateToValid
   auth.go          OpenAuthenticated / VerifyAuthenticated (keyed AUTH)
@@ -132,7 +132,7 @@ package `ekbloom` at the repository root:
   resource.go      ResourcePolicy (default 1 GiB) + breach counter
 cmd/ekbloom        minimal CLI (inspect/byte/read/verify/stream) for the container image
 internal/blake3     dependency-free pure-Go BLAKE3 (unkeyed + keyed, streaming)
-internal/tools      roundtripgen, fingerprint, testsum (reproducibility helpers)
+internal/tools      roundtripgen, fingerprint, corpusbench, corpuscompare, testsum
 tools/fixturegen    committed Rust crate: fixture generator + verifygo (Rust reads Go)
 testdata/           Rust-generated .ekb/.stream/auth fixtures + BLAKE3 vectors
 docs/               CORE-LAYOUT.md, MIGRATION.md, SECURITY.md, OPERATIONS.md, MACHINE_CONTRACT.md, DICTIONARY.md, COURTS.md, CORPORA.md, TESTING.md
