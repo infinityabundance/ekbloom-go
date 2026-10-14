@@ -22,7 +22,7 @@ service, `metrics.go` provides ready-made exports:
 - `Reader.WorstCaseMetric(off, length)` — the certified step bound.
 - `MetricsText(r)` / `MetricsJSON(r)` — Prometheus-style / JSON rendering.
 
-Measured latency (this host): `ByteAt` via path bloom ≈2.2 ns (≈3 ns via the
+Measured latency (this host): `ByteAt` via path bloom ≈2.3 ns (≈1.35 ns via the
 borrowed `ResidentView.Get`, zero allocs/op) single-threaded. Under 64 concurrent
 readers the end-to-end `ByteAt` (including the timing harness) is reported in two
 phases in `evidence/concurrency.json`: **quiet** (readers only) p50 ≈200 ns /
@@ -71,16 +71,19 @@ From `go test -bench` (`bench_test.go`), AMD Ryzen 7 9800X3D, Go 1.27:
 
 | benchmark | result |
 | --- | --- |
-| machine 1 encode, 1 MiB | ≈1.6 GB/s |
+| machine 1 encode, 1 MiB | ≈1.60 GB/s |
 | machine 2 encode, 1 MiB | ≈216 MB/s |
 | machine 2 decode, 1 MiB | ≈133 MB/s |
-| BLAKE3, 1 MiB (pure Go) | ≈320 MB/s |
-| `ByteAt` via exact path bloom | ≈2.5 ns/op |
-| `ByteAt` via full history | ≈3.6 ns/op |
+| BLAKE3, 1 MiB (pure Go) | ≈324 MB/s |
+| `ByteAt` via exact path bloom | ≈2.3 ns/op |
+| `ByteAt` via full history | ≈3.8 ns/op |
 | `ByteAt` via nearest checkpoint (K=64) | ≈67 ns/op |
-| `ByteAt` materialised fallback | ≈5.7 ns/op |
-| `ReadAt` 4 KiB via path bloom | ≈320 ns (≈12.8 GB/s) |
+| `ByteAt` materialised fallback | ≈5.3 ns/op |
+| `ResidentView.Get` (borrowed, zero allocs) | ≈1.35 ns/op |
+| `ReadAt` 4 KiB via path bloom | ≈350 ns (≈11.7 GB/s) |
 | stream build, 2 GiB, 64 KiB blocks | ≈16 s at **9.46 MiB peak heap** (≈125 MiB/s) |
+
+Captured verbatim in `evidence/bench.txt` (`go test -bench . -benchmem -benchtime 200ms`).
 
 These are correctness-first scalar numbers. The Rust reference wins on raw encode
 throughput with SIMD kernels; the Go port prioritizes a dependency-free,

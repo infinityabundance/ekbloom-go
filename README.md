@@ -24,18 +24,18 @@ byte-compatible with the Rust reference implementation
 | `.ekb` container (header, sections, footer, manifest) | ✅ identical | `compat_test.go`, `scripts/roundtrip.sh` |
 | Machines 1–9 core codecs | ✅ identical (bit-exact encode/decode) | `compat_test.go` |
 | Reader API (`Open`, `ByteAt`, `ReadAt`, `PhysicalBytes`, `Estimate`, `WorstCaseStepsFor`) | ✅ | `reader.go`, `roundtrip_test.go` |
-| Accelerated reads (path bloom / history / checkpoints) | ✅ O(1) path bloom ~2.5 ns | `fastpath.go`, `fastpath_test.go`, `bench_test.go` |
+| Accelerated reads (path bloom / history / checkpoints) | ✅ O(1) path bloom ≈2.3 ns | `fastpath.go`, `fastpath_test.go`, `bench_test.go` |
 | Writer (`WriteBody`/`AppendGeneration`: root/full/sparse/path) | ✅ Rust-readable; path bloom + certificate | `writer.go`, `writer_path.go`, `append.go` |
 | Writer parity (universal/regional blooms, tiles) | ✅ Rust-readable shells; Flat-directory TileSet | `writer_bloom.go`, `writer_tiles.go`, `writer_test.go` |
 | Legacy v0.3/v0.4 fixtures open byte-identically | ✅ frozen Rust fixtures | `testdata/legacy/`, `legacy_test.go` |
 | Opt-in keyed AUTH (write + verify) | ✅ | `auth.go`, `auth_test.go`, Rust `open_authenticated` |
-| Allocation-free `ResidentView.Get` (zero allocs/op) | ✅ ≈3 ns | `resident.go`, `resident_test.go` |
+| Allocation-free `ResidentView.Get` (zero allocs/op) | ✅ ≈1.35 ns | `resident.go`, `resident_test.go` |
 | Metrics export (physical_bytes, E_V, breaches) | ✅ | `metrics.go` |
 | `worst_case_steps_for` bound | ✅ 1.2M samples, 0 violations | `bound_test.go`, `evidence/bound.json` |
 | 64 readers, quiet vs 1 writer publish, p99.9 (`-race` clean) | ✅ tails indistinguishable (≈1 µs) | `concurrency_test.go`, `evidence/concurrency.json` |
 | Shared dictionaries (machine 9) | ✅ | `dictionary.go`, `compat_test.go` |
 | Corruption detection (`Corrupt{Section,Offset}`) | ✅ 100% of covered bits, ≤1 structure (≤4096 B) | `corruption_test.go` |
-| Streaming (`StreamBuilder`/`StreamReader`, bounded RSS) | ✅ 2 GiB @ 9.46 MiB peak heap | `stream_test.go`, `scale_test.go` |
+| Streaming (`StreamBuilder`/`StreamReader`, bounded RSS) | ✅ 2 GiB @ 9.5 MiB peak heap | `stream_test.go`, `scale_test.go` |
 | Resource policy (1 GiB default cap + breach counter) | ✅ | `resource.go` |
 | Fault injection (torn append / ENOSPC-EIO) | ✅ newest valid generation picked | `append_test.go` |
 | Per-machine `byte_at` p50/p99/p99.9 | ✅ 20 / 31 / 40 ns | `latency_test.go`, `evidence/byteat.json` |

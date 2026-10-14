@@ -17,7 +17,7 @@ go test -race ./... 2>&1 | tee evidence/test-race.log
 
 echo
 echo "== go test -bench -benchmem =="
-go test -run '^$' -bench . -benchmem -benchtime 1x . 2>&1 | tee evidence/bench.txt
+go test -run '^$' -bench . -benchmem -benchtime 200ms . 2>&1 | tee evidence/bench.txt
 
 echo
 echo "== cross-filesystem determinism =="

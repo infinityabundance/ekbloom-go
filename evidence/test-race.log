@@ -1,4 +1,4 @@
-ok  	github.com/infinityabundance/ekbloom-go	5.442s
+ok  	github.com/infinityabundance/ekbloom-go	6.049s
 ?   	github.com/infinityabundance/ekbloom-go/cmd/ekbloom	[no test files]
 ok  	github.com/infinityabundance/ekbloom-go/internal/blake3	(cached)
 ?   	github.com/infinityabundance/ekbloom-go/internal/tools/fingerprint	[no test files]
