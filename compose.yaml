@@ -1,0 +1,38 @@
+# Minimal, non-root container reproduction of the pure-Go EKBLOOM codec.
+#
+#   docker compose run --rm test      # vet + the full test suite
+#   docker compose run --rm bench     # micro-benchmarks (all machines)
+#   docker compose run --rm inspect   # inspect a Rust-written fixture via the CLI
+#   docker compose run --rm verify    # deep-verify a fixture
+#
+# The runtime image is ~9.7 MB and needs no configuration; the module has no
+# external dependencies, so the build needs no network.
+
+services:
+  test:
+    build:
+      context: .
+      target: test
+    entrypoint: ["go", "test", "./..."]
+
+  bench:
+    build:
+      context: .
+      target: test
+    entrypoint: ["go", "test", "-run", "^$", "-bench", ".", "-benchmem", "-benchtime", "100ms", "."]
+
+  inspect:
+    build:
+      context: .
+      target: runtime
+    volumes:
+      - ./testdata:/data:ro
+    command: ["inspect", "/data/fixtures/m2_root_skew.ekb"]
+
+  verify:
+    build:
+      context: .
+      target: runtime
+    volumes:
+      - ./testdata:/data:ro
+    command: ["verify", "/data/fixtures/m2_root_skew.ekb"]

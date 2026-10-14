@@ -101,6 +101,9 @@ sh scripts/container-reproduce.sh  # run the suite + CLI in-container, emit JSON
 sh scripts/container-publish.sh    # multi-arch build+push (needs `docker login`)
 ```
 
+Or with Docker Compose (`compose.yaml`): `docker compose run --rm test` (full
+suite), `bench`, `inspect`, `verify`.
+
 The `publish` workflow (`.github/workflows/publish.yml`) builds `linux/amd64` and
 `linux/arm64` and pushes to GHCR, and to Docker Hub
 (`infinityabundance/ekbloom-go`) when `DOCKERHUB_USERNAME`/`DOCKERHUB_TOKEN`
@@ -135,6 +138,7 @@ testdata/           Rust-generated .ekb/.stream/auth fixtures + BLAKE3 vectors
 docs/               CORE-LAYOUT.md, MIGRATION.md, SECURITY.md, OPERATIONS.md, MACHINE_CONTRACT.md, DICTIONARY.md, COURTS.md, CORPORA.md, TESTING.md
 scripts/            roundtrip.sh, setup-reference.sh, cross-fs.sh, corpus.sh, bench.sh, fuzz.sh, reproduce.sh, container-*.sh
 Dockerfile          minimal multi-stage image (runtime ~9.7 MB, non-root)
+compose.yaml        one-command container reproduction (test/bench/inspect/verify)
 .reference/         (git-ignored) the Rust reference + the fixture generator
 ```
 
