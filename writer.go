@@ -68,8 +68,28 @@ func writeBody(machineID uint32, source []byte, profile Profile, key *[32]byte) 
 		sections = append(sections, pendingSection{SectionCertificate, cert})
 		components = append(components, ComponentReport{Name: "bloom", Kind: "bloom", Bytes: uint64(len(shell)) - shellHeaderLenBytes})
 		components = append(components, ComponentReport{Name: "certificate", Kind: "certificate", Bytes: uint64(len(cert))})
+	case ProfileBloom:
+		shell, cert, err := buildUniversalShell(machine, core, uint64(len(source)), profile.Depth, 1, coreHash)
+		if err != nil {
+			return nil, err
+		}
+		sections = append(sections, pendingSection{SectionBloomGlobal, shell})
+		sections = append(sections, pendingSection{SectionCertificate, cert})
+		components = append(components, ComponentReport{Name: "bloom", Kind: "bloom", Bytes: uint64(len(shell)) - shellHeaderLenBytes})
+		components = append(components, ComponentReport{Name: "certificate", Kind: "certificate", Bytes: uint64(len(cert))})
+	case ProfileRegional:
+		shells, certs, err := buildRegionalShells(machine, core, uint64(len(source)), profile.Depth, profile.RegionBytes, 1, coreHash)
+		if err != nil {
+			return nil, err
+		}
+		for i := range shells {
+			sections = append(sections, pendingSection{SectionBloomRegion, shells[i]})
+			sections = append(sections, pendingSection{SectionCertificate, certs[i]})
+			components = append(components, ComponentReport{Name: "bloom", Kind: "bloom", Bytes: uint64(len(shells[i])) - shellHeaderLenBytes})
+			components = append(components, ComponentReport{Name: "certificate", Kind: "certificate", Bytes: uint64(len(certs[i]))})
+		}
 	default:
-		return nil, &Error{Kind: KindInvalidArgument, Reason: "writer supports root, full, sparse and path profiles"}
+		return nil, &Error{Kind: KindInvalidArgument, Reason: "writer supports root, full, sparse, path, bloom and regional profiles"}
 	}
 
 	manifest := ManifestRecord{

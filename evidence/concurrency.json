@@ -1,8 +1,8 @@
 {
   "readers": 64,
   "samples": 320000,
-  "generations_published": 1,
-  "p50_ns": 241,
-  "p99_ns": 761,
-  "p999_ns": 2064
+  "generations_published": 2,
+  "p50_ns": 201,
+  "p99_ns": 592,
+  "p999_ns": 1653
 }

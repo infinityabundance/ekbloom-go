@@ -114,6 +114,8 @@ func main() {
 		{"go_m9_root_small", 9, profRoot, []byte("user=alice|region=us-east-1|role=admin")},
 		{"go_m9_full_small", 9, profFull, []byte("user=alice|region=us-east-1|role=admin")},
 		{"go_m1_path4_text", 1, ekbloom.Profile{Kind: ekbloom.ProfilePath, Depth: 4}, text(4000)},
+		{"go_m1_univ4_text", 1, ekbloom.Profile{Kind: ekbloom.ProfileBloom, Depth: 4}, text(400)},
+		{"go_m1_regional_text", 1, ekbloom.Profile{Kind: ekbloom.ProfileRegional, Depth: 4, RegionBytes: 256}, text(400)},
 	}
 
 	fail := 0
@@ -199,4 +201,24 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Printf("wrote %-22s authenticated %d bytes\n", "go_auth", len(authBody))
+
+	// A Go-written tiles body (Flat directory), verified by the Rust reader.
+	tileSrc := make([]byte, 4096)
+	for i := range tileSrc {
+		tileSrc[i] = byte('a' + i%6)
+	}
+	tileBody, err := ekbloom.WriteBodyTiles(1, tileSrc, 12, []uint64{0})
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "go_tiles.ekb"), tileBody, 0o644); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "go_tiles.src"), tileSrc, 0o644); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	fmt.Printf("wrote %-22s tiles %d bytes\n", "go_tiles", len(tileBody))
 }

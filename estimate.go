@@ -86,6 +86,18 @@ func parseProfileLabel(s string) (Profile, bool) {
 			return pathProfile(uint16(v)), true
 		}
 	}
+	if strings.HasPrefix(s, "regional(D=") {
+		// regional(D=<depth>,R=<region_bytes>)
+		inner := s[len("regional(") : len(s)-1]
+		parts := strings.Split(inner, ",")
+		if len(parts) == 2 {
+			d, err1 := strconv.ParseUint(strings.TrimPrefix(parts[0], "D="), 10, 16)
+			r, err2 := strconv.ParseUint(strings.TrimPrefix(parts[1], "R="), 10, 32)
+			if err1 == nil && err2 == nil {
+				return Profile{Kind: ProfileRegional, Depth: uint16(d), RegionBytes: uint32(r)}, true
+			}
+		}
+	}
 	return Profile{}, false
 }
 

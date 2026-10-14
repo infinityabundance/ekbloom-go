@@ -1,0 +1,43 @@
+goos: linux
+goarch: arm64
+pkg: github.com/infinityabundance/ekbloom-go
+cpu: ARMv8 Processor rev 0 (v8l)
+BenchmarkMachine1Encode-16       	       1	   3086349 ns/op	 339.75 MB/s	 1048576 B/op	       1 allocs/op
+BenchmarkMachine2Encode-16       	       1	  11080408 ns/op	  94.63 MB/s	 1263672 B/op	       5 allocs/op
+BenchmarkMachine2Decode-16       	       1	  45460856 ns/op	  23.07 MB/s	 1081520 B/op	       6 allocs/op
+BenchmarkBlake3_1MiB-16          	       1	  29988624 ns/op	  34.97 MB/s	       0 B/op	       0 allocs/op
+BenchmarkByteAtProbe-16          	       1	     41838 ns/op	       0 B/op	       0 allocs/op
+BenchmarkByteAtPathBloom-16      	       1	     65833 ns/op	      16 B/op	       1 allocs/op
+BenchmarkByteAtHistory-16        	       1	     47448 ns/op	       0 B/op	       0 allocs/op
+BenchmarkByteAtCheckpoint-16     	       1	    103122 ns/op	      16 B/op	       1 allocs/op
+BenchmarkResidentViewGet-16      	       1	     24786 ns/op	       0 B/op	       0 allocs/op
+BenchmarkBareSliceLoad-16        	       1	     17432 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMachineEncode/m1-16     	       1	   2404978 ns/op	 436.00 MB/s	 1048576 B/op	       1 allocs/op
+BenchmarkMachineEncode/m2-16     	       1	  10030088 ns/op	 104.54 MB/s	 1263672 B/op	       5 allocs/op
+BenchmarkMachineEncode/m3-16     	       1	    141725 ns/op	7398.67 MB/s	 1048576 B/op	       1 allocs/op
+BenchmarkMachineEncode/m4-16     	       1	  12822218 ns/op	  81.78 MB/s	 1263672 B/op	       5 allocs/op
+BenchmarkMachineEncode/m5-16     	       1	   6246016 ns/op	 167.88 MB/s	  270336 B/op	       1 allocs/op
+BenchmarkMachineEncode/m6-16     	       1	  24015085 ns/op	  43.66 MB/s	 1892736 B/op	     280 allocs/op
+BenchmarkMachineEncode/m7-16     	       1	  16465237 ns/op	  63.68 MB/s	 2312248 B/op	       5 allocs/op
+BenchmarkMachineEncode/m8-16     	       1	  13752184 ns/op	  76.25 MB/s	 1062008 B/op	      89 allocs/op
+BenchmarkMachineEncode/m9-16     	       1	  12469469 ns/op	  84.09 MB/s	 1477816 B/op	       8 allocs/op
+BenchmarkMachineDecode/m1-16     	       1	  51427081 ns/op	  20.39 MB/s	 1048720 B/op	       3 allocs/op
+BenchmarkMachineDecode/m2-16     	       1	  45364416 ns/op	  23.11 MB/s	 1081520 B/op	       6 allocs/op
+BenchmarkMachineDecode/m3-16     	       1	  39032861 ns/op	  26.86 MB/s	 1048720 B/op	       3 allocs/op
+BenchmarkMachineDecode/m4-16     	       1	  81946014 ns/op	  12.80 MB/s	 1098072 B/op	      11 allocs/op
+BenchmarkMachineDecode/m5-16     	       1	  41382736 ns/op	  25.34 MB/s	 1049664 B/op	       5 allocs/op
+BenchmarkMachineDecode/m6-16     	       1	 137549798 ns/op	   7.62 MB/s	 1404936 B/op	     827 allocs/op
+BenchmarkMachineDecode/m7-16     	       1	  46893500 ns/op	  22.36 MB/s	 1081568 B/op	       8 allocs/op
+BenchmarkMachineDecode/m8-16     	       1	  82124075 ns/op	  12.77 MB/s	 1098456 B/op	      11 allocs/op
+BenchmarkMachineDecode/m9-16     	       1	  62543997 ns/op	  16.77 MB/s	 1099800 B/op	      14 allocs/op
+BenchmarkMachineSequential/m1-16 	       1	  52058870 ns/op	  20.14 MB/s	 2097296 B/op	       4 allocs/op
+BenchmarkMachineSequential/m2-16 	       1	  45894425 ns/op	  22.85 MB/s	 2130096 B/op	       7 allocs/op
+BenchmarkMachineSequential/m3-16 	       1	    213869 ns/op	4902.89 MB/s	 1048576 B/op	       1 allocs/op
+BenchmarkMachineSequential/m4-16 	       1	  83302143 ns/op	  12.59 MB/s	 2146648 B/op	      12 allocs/op
+BenchmarkMachineSequential/m5-16 	       1	  61158350 ns/op	  17.15 MB/s	 1048896 B/op	       2 allocs/op
+BenchmarkMachineSequential/m6-16 	       1	 125392610 ns/op	   8.36 MB/s	 1167320 B/op	     276 allocs/op
+BenchmarkMachineSequential/m7-16 	       1	  42998842 ns/op	  24.39 MB/s	 2130144 B/op	       9 allocs/op
+BenchmarkMachineSequential/m8-16 	       1	  80377135 ns/op	  13.05 MB/s	 2147032 B/op	      12 allocs/op
+BenchmarkMachineSequential/m9-16 	       1	  61900476 ns/op	  16.94 MB/s	 2148376 B/op	      15 allocs/op
+PASS
+ok  	github.com/infinityabundance/ekbloom-go	2.054s
