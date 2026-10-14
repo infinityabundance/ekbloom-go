@@ -1,4 +1,4 @@
 soak: start target_symbols=1000000000 seconds=120 seed=1
-soak: progress symbols=408714720 iterations=855 elapsed=10s peak_heap=76MiB
-soak: progress symbols=800937573 iterations=1781 elapsed=20s peak_heap=77MiB
-soak: done symbols=1003224722 iterations=2293 seconds=25.2 peak_heap=77MiB gc_runs=1323
+soak: progress symbols=403433374 iterations=846 elapsed=10s peak_heap=83MiB
+soak: progress symbols=792517788 iterations=1757 elapsed=20s peak_heap=83MiB
+soak: done symbols=1003224722 iterations=2293 seconds=25.9 peak_heap=83MiB gc_runs=1386

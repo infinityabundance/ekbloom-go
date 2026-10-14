@@ -1,14 +1,21 @@
 File: ekbloom.test
 Type: cpu
-Time: Oct 14, 2026 at 4:19pm (UTC)
-Duration: 501.42ms, Total samples = 370ms (73.79%)
-Showing nodes accounting for 370ms, 100% of 370ms total
+Time: Oct 14, 2026 at 5:20pm (UTC)
+Duration: 500.99ms, Total samples = 350ms (69.86%)
+Showing nodes accounting for 350ms, 100% of 350ms total
       flat  flat%   sum%        cum   cum%
-     270ms 72.97% 72.97%      360ms 97.30%  github.com/infinityabundance/ekbloom-go/internal/ekb.rans0.Encode
-      90ms 24.32% 97.30%       90ms 24.32%  github.com/infinityabundance/ekbloom-go/internal/ekb.modelFromSource
-      10ms  2.70%   100%       10ms  2.70%  github.com/infinityabundance/ekbloom-go/internal/ekb.benchPattern (inline)
-         0     0%   100%       10ms  2.70%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode
-         0     0%   100%      360ms 97.30%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
-         0     0%   100%      360ms 97.30%  testing.(*B).launch
-         0     0%   100%       10ms  2.70%  testing.(*B).run1.func1
-         0     0%   100%      370ms   100%  testing.(*B).runN
+     270ms 77.14% 77.14%      350ms   100%  github.com/infinityabundance/ekbloom-go/internal/ekb.rans0.Encode
+      70ms 20.00% 97.14%       70ms 20.00%  github.com/infinityabundance/ekbloom-go/internal/ekb.modelFromSource
+      10ms  2.86%   100%       10ms  2.86%  runtime.(*mspan).init
+         0     0%   100%      350ms   100%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
+         0     0%   100%       10ms  2.86%  runtime.(*mcache).allocLarge
+         0     0%   100%       10ms  2.86%  runtime.(*mheap).alloc
+         0     0%   100%       10ms  2.86%  runtime.(*mheap).alloc.func1
+         0     0%   100%       10ms  2.86%  runtime.(*mheap).allocSpan
+         0     0%   100%       10ms  2.86%  runtime.(*mheap).initSpan
+         0     0%   100%       10ms  2.86%  runtime.makeslice
+         0     0%   100%       10ms  2.86%  runtime.mallocgc
+         0     0%   100%       10ms  2.86%  runtime.systemstack
+         0     0%   100%      340ms 97.14%  testing.(*B).launch
+         0     0%   100%       10ms  2.86%  testing.(*B).run1.func1
+         0     0%   100%      350ms   100%  testing.(*B).runN

@@ -1,22 +1,25 @@
 File: ekbloom.test
 Type: cpu
-Time: Oct 14, 2026 at 4:19pm (UTC)
-Duration: 601.14ms, Total samples = 460ms (76.52%)
-Showing nodes accounting for 460ms, 100% of 460ms total
+Time: Oct 14, 2026 at 5:20pm (UTC)
+Duration: 601.69ms, Total samples = 450ms (74.79%)
+Showing nodes accounting for 450ms, 100% of 450ms total
       flat  flat%   sum%        cum   cum%
-     440ms 95.65% 95.65%      440ms 95.65%  github.com/infinityabundance/ekbloom-go/internal/ekb.nl2.Encode
-      10ms  2.17% 97.83%       10ms  2.17%  github.com/infinityabundance/ekbloom-go/internal/ekb.benchPattern (inline)
-      10ms  2.17%   100%       10ms  2.17%  runtime.futex
-         0     0%   100%       10ms  2.17%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode
-         0     0%   100%      440ms 95.65%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
-         0     0%   100%       10ms  2.17%  runtime.findRunnable
-         0     0%   100%       10ms  2.17%  runtime.futexwakeup
-         0     0%   100%       10ms  2.17%  runtime.gopreempt_m
-         0     0%   100%       10ms  2.17%  runtime.goschedImpl
-         0     0%   100%       10ms  2.17%  runtime.mcall
-         0     0%   100%       10ms  2.17%  runtime.notewakeup
-         0     0%   100%       10ms  2.17%  runtime.runSafePointFn
-         0     0%   100%       10ms  2.17%  runtime.schedule
-         0     0%   100%      440ms 95.65%  testing.(*B).launch
-         0     0%   100%       10ms  2.17%  testing.(*B).run1.func1
-         0     0%   100%      450ms 97.83%  testing.(*B).runN
+     420ms 93.33% 93.33%      430ms 95.56%  github.com/infinityabundance/ekbloom-go/internal/ekb.nl2.Encode
+      10ms  2.22% 95.56%       10ms  2.22%  runtime.memclrNoHeapPointers
+      10ms  2.22% 97.78%       10ms  2.22%  runtime.scanblock
+      10ms  2.22%   100%       10ms  2.22%  runtime.typePointers.next
+         0     0%   100%      430ms 95.56%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
+         0     0%   100%       20ms  4.44%  runtime.gcBgMarkWorker
+         0     0%   100%       20ms  4.44%  runtime.gcBgMarkWorker.func2
+         0     0%   100%       20ms  4.44%  runtime.gcDrain
+         0     0%   100%       10ms  2.22%  runtime.gcDrainMarkWorkerFractional (inline)
+         0     0%   100%       10ms  2.22%  runtime.gcDrainMarkWorkerIdle (inline)
+         0     0%   100%       10ms  2.22%  runtime.makeslice
+         0     0%   100%       10ms  2.22%  runtime.mallocgc
+         0     0%   100%       10ms  2.22%  runtime.markroot
+         0     0%   100%       10ms  2.22%  runtime.markrootBlock
+         0     0%   100%       10ms  2.22%  runtime.memclrNoHeapPointersChunked
+         0     0%   100%       10ms  2.22%  runtime.scanobject
+         0     0%   100%       20ms  4.44%  runtime.systemstack
+         0     0%   100%      430ms 95.56%  testing.(*B).launch
+         0     0%   100%      430ms 95.56%  testing.(*B).runN

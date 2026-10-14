@@ -1,1 +1,1 @@
-{"target_symbols":1000000000,"symbols":1003224722,"iterations":2293,"seconds":25.166086489,"peak_heap_bytes":81067256,"heap_sys_bytes":133627904,"gc_runs":1323,"gc_pause_total_ns":31185766,"mismatches":0}
+{"target_symbols":1000000000,"symbols":1003224722,"iterations":2293,"seconds":25.851075384,"peak_heap_bytes":87290856,"heap_sys_bytes":159088640,"gc_runs":1386,"gc_pause_total_ns":31805738,"mismatches":0}

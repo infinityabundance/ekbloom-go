@@ -58,8 +58,8 @@ dictionary page against the machine-9 shared dictionary.
 | Zstandard + trained dictionary | 34.32 |
 | raw | 100.00 |
 
-Read cost: EKBLOOM `DecodeRecord` p50 ≈ 3.2 µs, **0 allocs/op** on the reusable
-`DictDecoder` path (below); Parquet per-value ≈ 96 ns (after loading the column).
+Read cost: EKBLOOM `DecodeRecord` p50 ≈ 2.8 µs, **0 allocs/op** on the reusable
+`DictDecoder` path (below); Parquet per-value ≈ 95 ns (after loading the column).
 
 **Honest boundary.** The column is deliberately Parquet-favourable: a dictionary
 page *dedupes identical values*, so with only 512 distinct values it collapses
@@ -82,8 +82,8 @@ stored as its header-less core (`Dictionary.EncodeRecord`) in a Pebble DB; a
 | metric | value |
 | --- | ---: |
 | bytes/record (codec payload) | 63.36 |
-| Get p50 | 872 ns |
-| Get p99 | 1,563 ns |
+| Get p50 | 862 ns |
+| Get p99 | 1,142 ns |
 | decode allocs/op | **0** |
 | allocation breaches | 0 |
 | `worst_case_steps_for` | 100 |
@@ -112,10 +112,10 @@ compaction measured).
 
 | scenario | result |
 | --- | --- |
-| **scan** (`db.NewIter`) | 20,000 keys, **482 ns/key**, 207 MB/s decoded, p99 481 ns, 0 mismatches |
-| **ingest** (`sstable.NewWriter` + `db.Ingest`) | 20,000 records / 2 MB logical; build 12.2 ms + ingest 0.19 ms (161 MB/s, ingest is a link+metadata op), 0 mismatches on all 40,000 live keys |
-| **compaction** (`db.Flush` + `db.Compact`) | flush 3.1 ms, compact **7.0 ms**, 3.07 MB written / 3.07 MB read, **write amplification 1.15** (1.82 vs the stored cores); all 40,000 keys re-verified |
-| **cache pressure** (128 KiB cache vs default 8 MiB) | warm p50/p99/p99.9 **1,292 / 2,414 / 3,878 ns** (100% hit); pressure **3,977 / 5,140 / 9,658 ns** (0% hit, 3 misses/Get) |
+| **scan** (`db.NewIter`) | 20,000 keys, **472 ns/key**, 212 MB/s decoded, p99 461 ns, 0 mismatches |
+| **ingest** (`sstable.NewWriter` + `db.Ingest`) | 20,000 records / 2 MB logical; build 12.4 ms + ingest 0.13 ms (160 MB/s, ingest is a link+metadata op), 0 mismatches on all 40,000 live keys |
+| **compaction** (`db.Flush` + `db.Compact`) | flush 3.0 ms, compact **6.3 ms**, 3.07 MB written / 3.07 MB read, **write amplification 1.15** (1.82 vs the stored cores); all 40,000 keys re-verified |
+| **cache pressure** (128 KiB cache vs default 8 MiB) | warm p50/p99/p99.9 **1,272 / 1,613 / 2,464 ns** (100% hit); pressure **3,967 / 5,190 / 6,553 ns** (0% hit, 3 misses/Get) |
 
 **Honest boundary.** `bytes_per_record` is the codec payload only. `write_amplification`
 is all SST bytes Pebble wrote (flush + compaction) over the **logical source**
@@ -141,7 +141,7 @@ caller buffer with **no allocation** on the steady path.
 
 | | before | after |
 | --- | ---: | ---: |
-| `ekbloom-m9` read p50 | 2,805 ns | **410 ns** |
+| `ekbloom-m9` read p50 | 2,805 ns | **391 ns** |
 | `ekbloom-m9` allocs/op | 3.0 | **0** |
 
 For a fully materialised `.ekb` image, `Reader.View().Get(i)` is the zero-allocation
@@ -172,7 +172,7 @@ sh scripts/prometheus.sh    # one scrape -> evidence/prometheus-scrape.txt
 ```
 
 Panel values come from `evidence/`: physical `63.38 B/rec`
-(`rocksdb-blobdb.json`), `E_V 0.634`, breach rate `0`, Get p50 `410 ns` /
+(`rocksdb-blobdb.json`), `E_V 0.634`, breach rate `0`, Get p50 `391 ns` /
 p99 `16,471 ns`, `worst_case_steps_for` bounded by `bound.json` (1.2M samples,
 0 violations). `Reader.Metrics()` and `MetricsText` remain available directly for a
 custom exposition (`docs/OPERATIONS.md`).

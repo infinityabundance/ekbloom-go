@@ -5,6 +5,17 @@ proof in `testdata/` and the test suite. Artifacts marked **(CI)** were produced
 the GitHub Actions jobs (`.github/workflows/ci.yml`) and downloaded verbatim,
 because they need hardware or privileges a laptop may not have.
 
+**Timing correction.** Every latency/throughput artifact here was re-measured after
+`scripts/sandbox.sh` began pinning `GOMAXPROCS` to the container CPU cap
+(`--cpus=2`). Go 1.23 does not read the cgroup CPU quota, so without the pin the
+sandbox scheduler was sized for the host's cores, CFS throttling inflated every
+measured latency, and the micro-benchmarks ran as `-16` instead of `-2`; the pin
+keeps the scheduler honest. The sandbox toolchain is Go 1.23.12. **Sizes and
+identities are unaffected** — `physical_bytes`, `E_V`, `bytes_per_record`,
+`bytes_per_value`, `expansion_ratio`, `dict_bytes`, `worst_case_steps`,
+`write_amplification`, fixture sha256s and decoded hashes are unchanged; only
+`*_ns`, `ns/op`, `MB/s` and `ops/s` fields moved.
+
 | Artifact | What it proves |
 | --- | --- |
 | `environment.txt` | toolchain, determinism and cross-compile results for the local run |

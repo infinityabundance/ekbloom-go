@@ -266,158 +266,159 @@ function handleMouseUp(evt) {
 		state = '';
 	}
 }
-]]></script><g id="viewport" transform="scale(0.5,0.5) translate(0,0)"><g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 668)">
+]]></script><g id="viewport" transform="scale(0.5,0.5) translate(0,0)"><g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1419)">
 <title>ekbloom.test</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-668 755.5,-668 755.5,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-1419 798.5,-1419 798.5,4 -4,4"/>
 <g id="clust1" class="cluster">
 <title>cluster_L</title>
-<polygon fill="none" stroke="black" points="8,-505 8,-656 534,-656 534,-505 8,-505"/>
+<polygon fill="none" stroke="black" points="8,-1256 8,-1407 534,-1407 534,-1256 8,-1256"/>
 </g>
 <!-- File: ekbloom.test -->
 <g id="node1" class="node">
 <title>File: ekbloom.test</title>
 <g id="a_node1"><a xlink:title="ekbloom.test">
-<polygon fill="#f8f8f8" stroke="black" points="525.5,-648 16.5,-648 16.5,-513 525.5,-513 525.5,-648"/>
-<text text-anchor="start" x="24.5" y="-631.2" font-family="Times,serif" font-size="16.00">File: ekbloom.test</text>
-<text text-anchor="start" x="24.5" y="-613.2" font-family="Times,serif" font-size="16.00">Type: cpu</text>
-<text text-anchor="start" x="24.5" y="-595.2" font-family="Times,serif" font-size="16.00">Time: Oct 14, 2026 at 4:19pm (UTC)</text>
-<text text-anchor="start" x="24.5" y="-577.2" font-family="Times,serif" font-size="16.00">Duration: 501.42ms, Total samples = 370ms (73.79%)</text>
-<text text-anchor="start" x="24.5" y="-559.2" font-family="Times,serif" font-size="16.00">Showing nodes accounting for 370ms, 100% of 370ms total</text>
-<text text-anchor="start" x="24.5" y="-522.2" font-family="Times,serif" font-size="16.00">See https://git.io/JfYMW for how to read the graph</text>
+<polygon fill="#f8f8f8" stroke="black" points="525.5,-1399 16.5,-1399 16.5,-1264 525.5,-1264 525.5,-1399"/>
+<text text-anchor="start" x="24.5" y="-1382.2" font-family="Times,serif" font-size="16.00">File: ekbloom.test</text>
+<text text-anchor="start" x="24.5" y="-1364.2" font-family="Times,serif" font-size="16.00">Type: cpu</text>
+<text text-anchor="start" x="24.5" y="-1346.2" font-family="Times,serif" font-size="16.00">Time: Oct 14, 2026 at 5:20pm (UTC)</text>
+<text text-anchor="start" x="24.5" y="-1328.2" font-family="Times,serif" font-size="16.00">Duration: 500.99ms, Total samples = 350ms (69.86%)</text>
+<text text-anchor="start" x="24.5" y="-1310.2" font-family="Times,serif" font-size="16.00">Showing nodes accounting for 350ms, 100% of 350ms total</text>
+<text text-anchor="start" x="24.5" y="-1273.2" font-family="Times,serif" font-size="16.00">See https://git.io/JfYMW for how to read the graph</text>
 </a>
 </g>
 </g>
 <!-- N1 -->
 <g id="node1" class="node">
 <title>N1</title>
-<g id="a_node1"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.rans0.Encode (360ms)">
-<polygon fill="#edd5d5" stroke="#b20100" points="715,-257 473,-257 473,-119 715,-119 715,-257"/>
-<text text-anchor="middle" x="594" y="-233.8" font-family="Times,serif" font-size="24.00">ekb</text>
-<text text-anchor="middle" x="594" y="-207.8" font-family="Times,serif" font-size="24.00">rans0</text>
-<text text-anchor="middle" x="594" y="-181.8" font-family="Times,serif" font-size="24.00">Encode</text>
-<text text-anchor="middle" x="594" y="-155.8" font-family="Times,serif" font-size="24.00">270ms (72.97%)</text>
-<text text-anchor="middle" x="594" y="-129.8" font-family="Times,serif" font-size="24.00">of 360ms (97.30%)</text>
+<g id="a_node1"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.rans0.Encode (350ms)">
+<polygon fill="#edd5d5" stroke="#b20000" points="704,-1023 484,-1023 484,-885 704,-885 704,-1023"/>
+<text text-anchor="middle" x="594" y="-999.8" font-family="Times,serif" font-size="24.00">ekb</text>
+<text text-anchor="middle" x="594" y="-973.8" font-family="Times,serif" font-size="24.00">rans0</text>
+<text text-anchor="middle" x="594" y="-947.8" font-family="Times,serif" font-size="24.00">Encode</text>
+<text text-anchor="middle" x="594" y="-921.8" font-family="Times,serif" font-size="24.00">270ms (77.14%)</text>
+<text text-anchor="middle" x="594" y="-895.8" font-family="Times,serif" font-size="24.00">of 350ms (100%)</text>
 </a>
 </g>
 </g>
 <!-- N3 -->
 <g id="node3" class="node">
 <title>N3</title>
-<g id="a_node3"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.modelFromSource (90ms)">
-<polygon fill="#edddd5" stroke="#b23d00" points="685.5,-68 502.5,-68 502.5,0 685.5,0 685.5,-68"/>
-<text text-anchor="middle" x="594" y="-49.6" font-family="Times,serif" font-size="18.00">ekb</text>
-<text text-anchor="middle" x="594" y="-29.6" font-family="Times,serif" font-size="18.00">modelFromSource</text>
-<text text-anchor="middle" x="594" y="-9.6" font-family="Times,serif" font-size="18.00">90ms (24.32%)</text>
+<g id="a_node3"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.modelFromSource (70ms)">
+<polygon fill="#edded5" stroke="#b24400" points="682.5,-834 505.5,-834 505.5,-769 682.5,-769 682.5,-834"/>
+<text text-anchor="middle" x="594" y="-816.4" font-family="Times,serif" font-size="17.00">ekb</text>
+<text text-anchor="middle" x="594" y="-797.4" font-family="Times,serif" font-size="17.00">modelFromSource</text>
+<text text-anchor="middle" x="594" y="-778.4" font-family="Times,serif" font-size="17.00">70ms (20.00%)</text>
 </a>
 </g>
 </g>
 <!-- N1&#45;&gt;N3 -->
 <g id="edge4" class="edge">
 <title>N1&#45;&gt;N3</title>
-<g id="a_edge4"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.rans0.Encode &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.modelFromSource (90ms)">
-<path fill="none" stroke="#b23d00" stroke-width="2" d="M594,-118.56C594,-104.89 594,-90.9 594,-78.36"/>
-<polygon fill="#b23d00" stroke="#b23d00" stroke-width="2" points="597.5,-78.22 594,-68.22 590.5,-78.22 597.5,-78.22"/>
+<g id="a_edge4"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.rans0.Encode &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.modelFromSource (70ms)">
+<path fill="none" stroke="#b24400" stroke-width="2" d="M594,-884.8C594,-870.94 594,-856.77 594,-844.17"/>
+<polygon fill="#b24400" stroke="#b24400" stroke-width="2" points="597.5,-844 594,-834 590.5,-844 597.5,-844"/>
 </a>
 </g>
-<g id="a_edge4&#45;label"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.rans0.Encode &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.modelFromSource (90ms)">
-<text text-anchor="middle" x="616" y="-89.8" font-family="Times,serif" font-size="14.00"> 90ms</text>
+<g id="a_edge4&#45;label"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.rans0.Encode &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.modelFromSource (70ms)">
+<text text-anchor="middle" x="616" y="-855.8" font-family="Times,serif" font-size="14.00"> 70ms</text>
+</a>
+</g>
+</g>
+<!-- N13 -->
+<g id="node13" class="node">
+<title>N13</title>
+<g id="a_node13"><a xlink:title="runtime.makeslice (10ms)">
+<polygon fill="#edebe9" stroke="#b2a999" points="789.5,-819.5 700.5,-819.5 700.5,-783.5 789.5,-783.5 789.5,-819.5"/>
+<text text-anchor="middle" x="745" y="-808.6" font-family="Times,serif" font-size="8.00">runtime</text>
+<text text-anchor="middle" x="745" y="-799.6" font-family="Times,serif" font-size="8.00">makeslice</text>
+<text text-anchor="middle" x="745" y="-790.6" font-family="Times,serif" font-size="8.00">0 of 10ms (2.86%)</text>
+</a>
+</g>
+</g>
+<!-- N1&#45;&gt;N13 -->
+<g id="edge5" class="edge">
+<title>N1&#45;&gt;N13</title>
+<g id="a_edge5"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.rans0.Encode &#45;&gt; runtime.makeslice (10ms)">
+<path fill="none" stroke="#b2a999" d="M662.43,-884.8C683.22,-864.08 704.73,-842.64 720.58,-826.84"/>
+<polygon fill="#b2a999" stroke="#b2a999" points="723.27,-829.1 727.88,-819.56 718.33,-824.14 723.27,-829.1"/>
+</a>
+</g>
+<g id="a_edge5&#45;label"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.rans0.Encode &#45;&gt; runtime.makeslice (10ms)">
+<text text-anchor="middle" x="713" y="-855.8" font-family="Times,serif" font-size="14.00"> 10ms</text>
 </a>
 </g>
 </g>
 <!-- N2 -->
 <g id="node2" class="node">
 <title>N2</title>
-<g id="a_node2"><a xlink:title="testing.(*B).launch (360ms)">
-<polygon fill="#edd5d5" stroke="#b20100" points="644,-602.5 544,-602.5 544,-558.5 644,-558.5 644,-602.5"/>
-<text text-anchor="middle" x="594" y="-592.1" font-family="Times,serif" font-size="8.00">testing</text>
-<text text-anchor="middle" x="594" y="-583.1" font-family="Times,serif" font-size="8.00">(*B)</text>
-<text text-anchor="middle" x="594" y="-574.1" font-family="Times,serif" font-size="8.00">launch</text>
-<text text-anchor="middle" x="594" y="-565.1" font-family="Times,serif" font-size="8.00">0 of 360ms (97.30%)</text>
+<g id="a_node2"><a xlink:title="testing.(*B).launch (340ms)">
+<polygon fill="#edd5d5" stroke="#b20100" points="644,-1353.5 544,-1353.5 544,-1309.5 644,-1309.5 644,-1353.5"/>
+<text text-anchor="middle" x="594" y="-1343.1" font-family="Times,serif" font-size="8.00">testing</text>
+<text text-anchor="middle" x="594" y="-1334.1" font-family="Times,serif" font-size="8.00">(*B)</text>
+<text text-anchor="middle" x="594" y="-1325.1" font-family="Times,serif" font-size="8.00">launch</text>
+<text text-anchor="middle" x="594" y="-1316.1" font-family="Times,serif" font-size="8.00">0 of 340ms (97.14%)</text>
 </a>
 </g>
 </g>
 <!-- N4 -->
 <g id="node4" class="node">
 <title>N4</title>
-<g id="a_node4"><a xlink:title="testing.(*B).runN (370ms)">
-<polygon fill="#edd5d5" stroke="#b20000" points="640,-462 548,-462 548,-418 640,-418 640,-462"/>
-<text text-anchor="middle" x="594" y="-451.6" font-family="Times,serif" font-size="8.00">testing</text>
-<text text-anchor="middle" x="594" y="-442.6" font-family="Times,serif" font-size="8.00">(*B)</text>
-<text text-anchor="middle" x="594" y="-433.6" font-family="Times,serif" font-size="8.00">runN</text>
-<text text-anchor="middle" x="594" y="-424.6" font-family="Times,serif" font-size="8.00">0 of 370ms (100%)</text>
+<g id="a_node4"><a xlink:title="testing.(*B).runN (350ms)">
+<polygon fill="#edd5d5" stroke="#b20000" points="640,-1213 548,-1213 548,-1169 640,-1169 640,-1213"/>
+<text text-anchor="middle" x="594" y="-1202.6" font-family="Times,serif" font-size="8.00">testing</text>
+<text text-anchor="middle" x="594" y="-1193.6" font-family="Times,serif" font-size="8.00">(*B)</text>
+<text text-anchor="middle" x="594" y="-1184.6" font-family="Times,serif" font-size="8.00">runN</text>
+<text text-anchor="middle" x="594" y="-1175.6" font-family="Times,serif" font-size="8.00">0 of 350ms (100%)</text>
 </a>
 </g>
 </g>
 <!-- N2&#45;&gt;N4 -->
-<g id="edge2" class="edge">
+<g id="edge3" class="edge">
 <title>N2&#45;&gt;N4</title>
-<g id="a_edge2"><a xlink:title="testing.(*B).launch &#45;&gt; testing.(*B).runN (360ms)">
-<path fill="none" stroke="#b20100" stroke-width="5" d="M594,-558.46C594,-535.59 594,-498.77 594,-472.45"/>
-<polygon fill="#b20100" stroke="#b20100" stroke-width="5" points="598.38,-472.23 594,-462.23 589.63,-472.23 598.38,-472.23"/>
+<g id="a_edge3"><a xlink:title="testing.(*B).launch &#45;&gt; testing.(*B).runN (340ms)">
+<path fill="none" stroke="#b20100" stroke-width="5" d="M594,-1309.46C594,-1286.59 594,-1249.77 594,-1223.45"/>
+<polygon fill="#b20100" stroke="#b20100" stroke-width="5" points="598.38,-1223.23 594,-1213.23 589.63,-1223.23 598.38,-1223.23"/>
 </a>
 </g>
-<g id="a_edge2&#45;label"><a xlink:title="testing.(*B).launch &#45;&gt; testing.(*B).runN (360ms)">
-<text text-anchor="middle" x="620.5" y="-483.8" font-family="Times,serif" font-size="14.00"> 360ms</text>
+<g id="a_edge3&#45;label"><a xlink:title="testing.(*B).launch &#45;&gt; testing.(*B).runN (340ms)">
+<text text-anchor="middle" x="620.5" y="-1234.8" font-family="Times,serif" font-size="14.00"> 340ms</text>
 </a>
 </g>
 </g>
 <!-- N7 -->
 <g id="node7" class="node">
 <title>N7</title>
-<g id="a_node7"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode (10ms)">
-<polygon fill="#edece9" stroke="#b2aa9a" points="490.5,-363 363.5,-363 363.5,-327 490.5,-327 490.5,-363"/>
-<text text-anchor="middle" x="427" y="-352.1" font-family="Times,serif" font-size="8.00">ekb</text>
-<text text-anchor="middle" x="427" y="-343.1" font-family="Times,serif" font-size="8.00">BenchmarkMachineEncode</text>
-<text text-anchor="middle" x="427" y="-334.1" font-family="Times,serif" font-size="8.00">0 of 10ms (2.70%)</text>
+<g id="a_node7"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode.func1 (350ms)">
+<polygon fill="#edd5d5" stroke="#b20000" points="657.5,-1118 530.5,-1118 530.5,-1074 657.5,-1074 657.5,-1118"/>
+<text text-anchor="middle" x="594" y="-1107.6" font-family="Times,serif" font-size="8.00">ekb</text>
+<text text-anchor="middle" x="594" y="-1098.6" font-family="Times,serif" font-size="8.00">BenchmarkMachineEncode</text>
+<text text-anchor="middle" x="594" y="-1089.6" font-family="Times,serif" font-size="8.00">func1</text>
+<text text-anchor="middle" x="594" y="-1080.6" font-family="Times,serif" font-size="8.00">0 of 350ms (100%)</text>
 </a>
 </g>
 </g>
 <!-- N4&#45;&gt;N7 -->
-<g id="edge7" class="edge">
+<g id="edge2" class="edge">
 <title>N4&#45;&gt;N7</title>
-<g id="a_edge7"><a xlink:title="testing.(*B).runN &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode (10ms)">
-<path fill="none" stroke="#b2aa9a" d="M556.11,-417.9C529.39,-403.02 493.69,-383.14 466.6,-368.05"/>
-<polygon fill="#b2aa9a" stroke="#b2aa9a" points="468.21,-364.94 457.77,-363.13 464.8,-371.06 468.21,-364.94"/>
+<g id="a_edge2"><a xlink:title="testing.(*B).runN &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode.func1 (350ms)">
+<path fill="none" stroke="#b20000" stroke-width="6" d="M594,-1168.9C594,-1156.89 594,-1141.62 594,-1128.24"/>
+<polygon fill="#b20000" stroke="#b20000" stroke-width="6" points="599.25,-1128.02 594,-1118.02 588.75,-1128.02 599.25,-1128.02"/>
 </a>
 </g>
-<g id="a_edge7&#45;label"><a xlink:title="testing.(*B).runN &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode (10ms)">
-<text text-anchor="middle" x="543" y="-388.8" font-family="Times,serif" font-size="14.00"> 10ms</text>
-</a>
-</g>
-</g>
-<!-- N8 -->
-<g id="node8" class="node">
-<title>N8</title>
-<g id="a_node8"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode.func1 (360ms)">
-<polygon fill="#edd5d5" stroke="#b20100" points="657.5,-367 530.5,-367 530.5,-323 657.5,-323 657.5,-367"/>
-<text text-anchor="middle" x="594" y="-356.6" font-family="Times,serif" font-size="8.00">ekb</text>
-<text text-anchor="middle" x="594" y="-347.6" font-family="Times,serif" font-size="8.00">BenchmarkMachineEncode</text>
-<text text-anchor="middle" x="594" y="-338.6" font-family="Times,serif" font-size="8.00">func1</text>
-<text text-anchor="middle" x="594" y="-329.6" font-family="Times,serif" font-size="8.00">0 of 360ms (97.30%)</text>
-</a>
-</g>
-</g>
-<!-- N4&#45;&gt;N8 -->
-<g id="edge3" class="edge">
-<title>N4&#45;&gt;N8</title>
-<g id="a_edge3"><a xlink:title="testing.(*B).runN &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode.func1 (360ms)">
-<path fill="none" stroke="#b20100" stroke-width="5" d="M594,-417.9C594,-405.89 594,-390.62 594,-377.24"/>
-<polygon fill="#b20100" stroke="#b20100" stroke-width="5" points="598.38,-377.02 594,-367.02 589.63,-377.02 598.38,-377.02"/>
-</a>
-</g>
-<g id="a_edge3&#45;label"><a xlink:title="testing.(*B).runN &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode.func1 (360ms)">
-<text text-anchor="middle" x="620.5" y="-388.8" font-family="Times,serif" font-size="14.00"> 360ms</text>
+<g id="a_edge2&#45;label"><a xlink:title="testing.(*B).runN &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode.func1 (350ms)">
+<text text-anchor="middle" x="620.5" y="-1139.8" font-family="Times,serif" font-size="14.00"> 350ms</text>
 </a>
 </g>
 </g>
 <!-- N5 -->
 <g id="node5" class="node">
 <title>N5</title>
-<g id="a_node5"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.benchPattern (10ms)">
-<polygon fill="#edece9" stroke="#b2aa9a" points="454.5,-211.5 355.5,-211.5 355.5,-164.5 454.5,-164.5 454.5,-211.5"/>
-<text text-anchor="middle" x="405" y="-197.9" font-family="Times,serif" font-size="12.00">ekb</text>
-<text text-anchor="middle" x="405" y="-184.9" font-family="Times,serif" font-size="12.00">benchPattern</text>
-<text text-anchor="middle" x="405" y="-171.9" font-family="Times,serif" font-size="12.00">10ms (2.70%)</text>
+<g id="a_node5"><a xlink:title="runtime.(*mspan).init (10ms)">
+<polygon fill="#edebe9" stroke="#b2a999" points="794.5,-60 695.5,-60 695.5,0 794.5,0 794.5,-60"/>
+<text text-anchor="middle" x="745" y="-46.4" font-family="Times,serif" font-size="12.00">runtime</text>
+<text text-anchor="middle" x="745" y="-33.4" font-family="Times,serif" font-size="12.00">(*mspan)</text>
+<text text-anchor="middle" x="745" y="-20.4" font-family="Times,serif" font-size="12.00">init</text>
+<text text-anchor="middle" x="745" y="-7.4" font-family="Times,serif" font-size="12.00">10ms (2.86%)</text>
 </a>
 </g>
 </g>
@@ -425,52 +426,225 @@ function handleMouseUp(evt) {
 <g id="node6" class="node">
 <title>N6</title>
 <g id="a_node6"><a xlink:title="testing.(*B).run1.func1 (10ms)">
-<polygon fill="#edece9" stroke="#b2aa9a" points="751.5,-607 662.5,-607 662.5,-554 751.5,-554 751.5,-607"/>
-<text text-anchor="middle" x="707" y="-596.6" font-family="Times,serif" font-size="8.00">testing</text>
-<text text-anchor="middle" x="707" y="-587.6" font-family="Times,serif" font-size="8.00">(*B)</text>
-<text text-anchor="middle" x="707" y="-578.6" font-family="Times,serif" font-size="8.00">run1</text>
-<text text-anchor="middle" x="707" y="-569.6" font-family="Times,serif" font-size="8.00">func1</text>
-<text text-anchor="middle" x="707" y="-560.6" font-family="Times,serif" font-size="8.00">0 of 10ms (2.70%)</text>
+<polygon fill="#edebe9" stroke="#b2a999" points="751.5,-1358 662.5,-1358 662.5,-1305 751.5,-1305 751.5,-1358"/>
+<text text-anchor="middle" x="707" y="-1347.6" font-family="Times,serif" font-size="8.00">testing</text>
+<text text-anchor="middle" x="707" y="-1338.6" font-family="Times,serif" font-size="8.00">(*B)</text>
+<text text-anchor="middle" x="707" y="-1329.6" font-family="Times,serif" font-size="8.00">run1</text>
+<text text-anchor="middle" x="707" y="-1320.6" font-family="Times,serif" font-size="8.00">func1</text>
+<text text-anchor="middle" x="707" y="-1311.6" font-family="Times,serif" font-size="8.00">0 of 10ms (2.86%)</text>
 </a>
 </g>
 </g>
 <!-- N6&#45;&gt;N4 -->
-<g id="edge6" class="edge">
+<g id="edge14" class="edge">
 <title>N6&#45;&gt;N4</title>
-<g id="a_edge6"><a xlink:title="testing.(*B).run1.func1 &#45;&gt; testing.(*B).runN (10ms)">
-<path fill="none" stroke="#b2aa9a" d="M696.48,-553.73C686.86,-532.32 671.09,-501.92 651,-480 647.25,-475.91 643,-472.03 638.55,-468.41"/>
-<polygon fill="#b2aa9a" stroke="#b2aa9a" points="640.45,-465.46 630.38,-462.19 636.21,-471.03 640.45,-465.46"/>
+<g id="a_edge14"><a xlink:title="testing.(*B).run1.func1 &#45;&gt; testing.(*B).runN (10ms)">
+<path fill="none" stroke="#b2a999" d="M696.48,-1304.73C686.86,-1283.32 671.09,-1252.92 651,-1231 647.25,-1226.91 643,-1223.03 638.55,-1219.41"/>
+<polygon fill="#b2a999" stroke="#b2a999" points="640.45,-1216.46 630.38,-1213.19 636.21,-1222.03 640.45,-1216.46"/>
 </a>
 </g>
-<g id="a_edge6&#45;label"><a xlink:title="testing.(*B).run1.func1 &#45;&gt; testing.(*B).runN (10ms)">
-<text text-anchor="middle" x="685" y="-483.8" font-family="Times,serif" font-size="14.00"> 10ms</text>
-</a>
-</g>
-</g>
-<!-- N7&#45;&gt;N5 -->
-<g id="edge5" class="edge">
-<title>N7&#45;&gt;N5</title>
-<g id="a_edge5"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.benchPattern (10ms)">
-<path fill="none" stroke="#b2aa9a" d="M424.56,-326.82C420.97,-301.54 414.2,-253.85 409.65,-221.74"/>
-<polygon fill="#b2aa9a" stroke="#b2aa9a" points="413.07,-220.92 408.19,-211.51 406.13,-221.9 413.07,-220.92"/>
-</a>
-</g>
-<g id="a_edge5&#45;label"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.benchPattern (10ms)">
-<text text-anchor="middle" x="449.5" y="-293.8" font-family="Times,serif" font-size="14.00"> 10ms</text>
-<text text-anchor="middle" x="449.5" y="-278.8" font-family="Times,serif" font-size="14.00"> (inline)</text>
+<g id="a_edge14&#45;label"><a xlink:title="testing.(*B).run1.func1 &#45;&gt; testing.(*B).runN (10ms)">
+<text text-anchor="middle" x="685" y="-1234.8" font-family="Times,serif" font-size="14.00"> 10ms</text>
 </a>
 </g>
 </g>
-<!-- N8&#45;&gt;N1 -->
+<!-- N7&#45;&gt;N1 -->
 <g id="edge1" class="edge">
-<title>N8&#45;&gt;N1</title>
-<g id="a_edge1"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode.func1 &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.rans0.Encode (360ms)">
-<path fill="none" stroke="#b20100" stroke-width="5" d="M594,-322.77C594,-308.17 594,-287.77 594,-267.31"/>
-<polygon fill="#b20100" stroke="#b20100" stroke-width="5" points="598.38,-267.28 594,-257.28 589.63,-267.28 598.38,-267.28"/>
+<title>N7&#45;&gt;N1</title>
+<g id="a_edge1"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode.func1 &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.rans0.Encode (350ms)">
+<path fill="none" stroke="#b20000" stroke-width="6" d="M594,-1073.74C594,-1062.67 594,-1048.39 594,-1033.58"/>
+<polygon fill="#b20000" stroke="#b20000" stroke-width="6" points="599.25,-1033.28 594,-1023.28 588.75,-1033.28 599.25,-1033.28"/>
 </a>
 </g>
-<g id="a_edge1&#45;label"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode.func1 &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.rans0.Encode (360ms)">
-<text text-anchor="middle" x="620.5" y="-286.3" font-family="Times,serif" font-size="14.00"> 360ms</text>
+<g id="a_edge1&#45;label"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode.func1 &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.rans0.Encode (350ms)">
+<text text-anchor="middle" x="620.5" y="-1044.8" font-family="Times,serif" font-size="14.00"> 350ms</text>
+</a>
+</g>
+</g>
+<!-- N8 -->
+<g id="node8" class="node">
+<title>N8</title>
+<g id="a_node8"><a xlink:title="runtime.(*mcache).allocLarge (10ms)">
+<polygon fill="#edebe9" stroke="#b2a999" points="789.5,-631 700.5,-631 700.5,-587 789.5,-587 789.5,-631"/>
+<text text-anchor="middle" x="745" y="-620.6" font-family="Times,serif" font-size="8.00">runtime</text>
+<text text-anchor="middle" x="745" y="-611.6" font-family="Times,serif" font-size="8.00">(*mcache)</text>
+<text text-anchor="middle" x="745" y="-602.6" font-family="Times,serif" font-size="8.00">allocLarge</text>
+<text text-anchor="middle" x="745" y="-593.6" font-family="Times,serif" font-size="8.00">0 of 10ms (2.86%)</text>
+</a>
+</g>
+</g>
+<!-- N9 -->
+<g id="node9" class="node">
+<title>N9</title>
+<g id="a_node9"><a xlink:title="runtime.(*mheap).alloc (10ms)">
+<polygon fill="#edebe9" stroke="#b2a999" points="789.5,-536 700.5,-536 700.5,-492 789.5,-492 789.5,-536"/>
+<text text-anchor="middle" x="745" y="-525.6" font-family="Times,serif" font-size="8.00">runtime</text>
+<text text-anchor="middle" x="745" y="-516.6" font-family="Times,serif" font-size="8.00">(*mheap)</text>
+<text text-anchor="middle" x="745" y="-507.6" font-family="Times,serif" font-size="8.00">alloc</text>
+<text text-anchor="middle" x="745" y="-498.6" font-family="Times,serif" font-size="8.00">0 of 10ms (2.86%)</text>
+</a>
+</g>
+</g>
+<!-- N8&#45;&gt;N9 -->
+<g id="edge6" class="edge">
+<title>N8&#45;&gt;N9</title>
+<g id="a_edge6"><a xlink:title="runtime.(*mcache).allocLarge &#45;&gt; runtime.(*mheap).alloc (10ms)">
+<path fill="none" stroke="#b2a999" d="M745,-586.9C745,-574.89 745,-559.62 745,-546.24"/>
+<polygon fill="#b2a999" stroke="#b2a999" points="748.5,-546.02 745,-536.02 741.5,-546.02 748.5,-546.02"/>
+</a>
+</g>
+<g id="a_edge6&#45;label"><a xlink:title="runtime.(*mcache).allocLarge &#45;&gt; runtime.(*mheap).alloc (10ms)">
+<text text-anchor="middle" x="767" y="-557.8" font-family="Times,serif" font-size="14.00"> 10ms</text>
+</a>
+</g>
+</g>
+<!-- N15 -->
+<g id="node15" class="node">
+<title>N15</title>
+<g id="a_node15"><a xlink:title="runtime.systemstack (10ms)">
+<polygon fill="#edebe9" stroke="#b2a999" points="789.5,-441 700.5,-441 700.5,-405 789.5,-405 789.5,-441"/>
+<text text-anchor="middle" x="745" y="-430.1" font-family="Times,serif" font-size="8.00">runtime</text>
+<text text-anchor="middle" x="745" y="-421.1" font-family="Times,serif" font-size="8.00">systemstack</text>
+<text text-anchor="middle" x="745" y="-412.1" font-family="Times,serif" font-size="8.00">0 of 10ms (2.86%)</text>
+</a>
+</g>
+</g>
+<!-- N9&#45;&gt;N15 -->
+<g id="edge7" class="edge">
+<title>N9&#45;&gt;N15</title>
+<g id="a_edge7"><a xlink:title="runtime.(*mheap).alloc &#45;&gt; runtime.systemstack (10ms)">
+<path fill="none" stroke="#b2a999" d="M745,-491.91C745,-479.78 745,-464.41 745,-451.36"/>
+<polygon fill="#b2a999" stroke="#b2a999" points="748.5,-451.07 745,-441.07 741.5,-451.07 748.5,-451.07"/>
+</a>
+</g>
+<g id="a_edge7&#45;label"><a xlink:title="runtime.(*mheap).alloc &#45;&gt; runtime.systemstack (10ms)">
+<text text-anchor="middle" x="767" y="-462.8" font-family="Times,serif" font-size="14.00"> 10ms</text>
+</a>
+</g>
+</g>
+<!-- N10 -->
+<g id="node10" class="node">
+<title>N10</title>
+<g id="a_node10"><a xlink:title="runtime.(*mheap).alloc.func1 (10ms)">
+<polygon fill="#edebe9" stroke="#b2a999" points="789.5,-354 700.5,-354 700.5,-301 789.5,-301 789.5,-354"/>
+<text text-anchor="middle" x="745" y="-343.6" font-family="Times,serif" font-size="8.00">runtime</text>
+<text text-anchor="middle" x="745" y="-334.6" font-family="Times,serif" font-size="8.00">(*mheap)</text>
+<text text-anchor="middle" x="745" y="-325.6" font-family="Times,serif" font-size="8.00">alloc</text>
+<text text-anchor="middle" x="745" y="-316.6" font-family="Times,serif" font-size="8.00">func1</text>
+<text text-anchor="middle" x="745" y="-307.6" font-family="Times,serif" font-size="8.00">0 of 10ms (2.86%)</text>
+</a>
+</g>
+</g>
+<!-- N11 -->
+<g id="node11" class="node">
+<title>N11</title>
+<g id="a_node11"><a xlink:title="runtime.(*mheap).allocSpan (10ms)">
+<polygon fill="#edebe9" stroke="#b2a999" points="789.5,-250 700.5,-250 700.5,-206 789.5,-206 789.5,-250"/>
+<text text-anchor="middle" x="745" y="-239.6" font-family="Times,serif" font-size="8.00">runtime</text>
+<text text-anchor="middle" x="745" y="-230.6" font-family="Times,serif" font-size="8.00">(*mheap)</text>
+<text text-anchor="middle" x="745" y="-221.6" font-family="Times,serif" font-size="8.00">allocSpan</text>
+<text text-anchor="middle" x="745" y="-212.6" font-family="Times,serif" font-size="8.00">0 of 10ms (2.86%)</text>
+</a>
+</g>
+</g>
+<!-- N10&#45;&gt;N11 -->
+<g id="edge8" class="edge">
+<title>N10&#45;&gt;N11</title>
+<g id="a_edge8"><a xlink:title="runtime.(*mheap).alloc.func1 &#45;&gt; runtime.(*mheap).allocSpan (10ms)">
+<path fill="none" stroke="#b2a999" d="M745,-300.88C745,-288.42 745,-273.32 745,-260.19"/>
+<polygon fill="#b2a999" stroke="#b2a999" points="748.5,-260.17 745,-250.17 741.5,-260.17 748.5,-260.17"/>
+</a>
+</g>
+<g id="a_edge8&#45;label"><a xlink:title="runtime.(*mheap).alloc.func1 &#45;&gt; runtime.(*mheap).allocSpan (10ms)">
+<text text-anchor="middle" x="767" y="-271.8" font-family="Times,serif" font-size="14.00"> 10ms</text>
+</a>
+</g>
+</g>
+<!-- N12 -->
+<g id="node12" class="node">
+<title>N12</title>
+<g id="a_node12"><a xlink:title="runtime.(*mheap).initSpan (10ms)">
+<polygon fill="#edebe9" stroke="#b2a999" points="789.5,-155 700.5,-155 700.5,-111 789.5,-111 789.5,-155"/>
+<text text-anchor="middle" x="745" y="-144.6" font-family="Times,serif" font-size="8.00">runtime</text>
+<text text-anchor="middle" x="745" y="-135.6" font-family="Times,serif" font-size="8.00">(*mheap)</text>
+<text text-anchor="middle" x="745" y="-126.6" font-family="Times,serif" font-size="8.00">initSpan</text>
+<text text-anchor="middle" x="745" y="-117.6" font-family="Times,serif" font-size="8.00">0 of 10ms (2.86%)</text>
+</a>
+</g>
+</g>
+<!-- N11&#45;&gt;N12 -->
+<g id="edge9" class="edge">
+<title>N11&#45;&gt;N12</title>
+<g id="a_edge9"><a xlink:title="runtime.(*mheap).allocSpan &#45;&gt; runtime.(*mheap).initSpan (10ms)">
+<path fill="none" stroke="#b2a999" d="M745,-205.9C745,-193.89 745,-178.62 745,-165.24"/>
+<polygon fill="#b2a999" stroke="#b2a999" points="748.5,-165.02 745,-155.02 741.5,-165.02 748.5,-165.02"/>
+</a>
+</g>
+<g id="a_edge9&#45;label"><a xlink:title="runtime.(*mheap).allocSpan &#45;&gt; runtime.(*mheap).initSpan (10ms)">
+<text text-anchor="middle" x="767" y="-176.8" font-family="Times,serif" font-size="14.00"> 10ms</text>
+</a>
+</g>
+</g>
+<!-- N12&#45;&gt;N5 -->
+<g id="edge10" class="edge">
+<title>N12&#45;&gt;N5</title>
+<g id="a_edge10"><a xlink:title="runtime.(*mheap).initSpan &#45;&gt; runtime.(*mspan).init (10ms)">
+<path fill="none" stroke="#b2a999" d="M745,-110.58C745,-98.86 745,-83.97 745,-70.25"/>
+<polygon fill="#b2a999" stroke="#b2a999" points="748.5,-70.05 745,-60.05 741.5,-70.05 748.5,-70.05"/>
+</a>
+</g>
+<g id="a_edge10&#45;label"><a xlink:title="runtime.(*mheap).initSpan &#45;&gt; runtime.(*mspan).init (10ms)">
+<text text-anchor="middle" x="767" y="-81.8" font-family="Times,serif" font-size="14.00"> 10ms</text>
+</a>
+</g>
+</g>
+<!-- N14 -->
+<g id="node14" class="node">
+<title>N14</title>
+<g id="a_node14"><a xlink:title="runtime.mallocgc (10ms)">
+<polygon fill="#edebe9" stroke="#b2a999" points="789.5,-718 700.5,-718 700.5,-682 789.5,-682 789.5,-718"/>
+<text text-anchor="middle" x="745" y="-707.1" font-family="Times,serif" font-size="8.00">runtime</text>
+<text text-anchor="middle" x="745" y="-698.1" font-family="Times,serif" font-size="8.00">mallocgc</text>
+<text text-anchor="middle" x="745" y="-689.1" font-family="Times,serif" font-size="8.00">0 of 10ms (2.86%)</text>
+</a>
+</g>
+</g>
+<!-- N13&#45;&gt;N14 -->
+<g id="edge11" class="edge">
+<title>N13&#45;&gt;N14</title>
+<g id="a_edge11"><a xlink:title="runtime.makeslice &#45;&gt; runtime.mallocgc (10ms)">
+<path fill="none" stroke="#b2a999" d="M745,-783.17C745,-768.04 745,-745.84 745,-728.33"/>
+<polygon fill="#b2a999" stroke="#b2a999" points="748.5,-728.13 745,-718.13 741.5,-728.13 748.5,-728.13"/>
+</a>
+</g>
+<g id="a_edge11&#45;label"><a xlink:title="runtime.makeslice &#45;&gt; runtime.mallocgc (10ms)">
+<text text-anchor="middle" x="767" y="-739.8" font-family="Times,serif" font-size="14.00"> 10ms</text>
+</a>
+</g>
+</g>
+<!-- N14&#45;&gt;N8 -->
+<g id="edge12" class="edge">
+<title>N14&#45;&gt;N8</title>
+<g id="a_edge12"><a xlink:title="runtime.mallocgc &#45;&gt; runtime.(*mcache).allocLarge (10ms)">
+<path fill="none" stroke="#b2a999" d="M745,-681.84C745,-670.44 745,-655.13 745,-641.58"/>
+<polygon fill="#b2a999" stroke="#b2a999" points="748.5,-641.19 745,-631.19 741.5,-641.19 748.5,-641.19"/>
+</a>
+</g>
+<g id="a_edge12&#45;label"><a xlink:title="runtime.mallocgc &#45;&gt; runtime.(*mcache).allocLarge (10ms)">
+<text text-anchor="middle" x="767" y="-652.8" font-family="Times,serif" font-size="14.00"> 10ms</text>
+</a>
+</g>
+</g>
+<!-- N15&#45;&gt;N10 -->
+<g id="edge13" class="edge">
+<title>N15&#45;&gt;N10</title>
+<g id="a_edge13"><a xlink:title="runtime.systemstack &#45;&gt; runtime.(*mheap).alloc.func1 (10ms)">
+<path fill="none" stroke="#b2a999" d="M745,-404.85C745,-393.51 745,-378.22 745,-364.3"/>
+<polygon fill="#b2a999" stroke="#b2a999" points="748.5,-364.01 745,-354.01 741.5,-364.01 748.5,-364.01"/>
+</a>
+</g>
+<g id="a_edge13&#45;label"><a xlink:title="runtime.systemstack &#45;&gt; runtime.(*mheap).alloc.func1 (10ms)">
+<text text-anchor="middle" x="767" y="-375.8" font-family="Times,serif" font-size="14.00"> 10ms</text>
 </a>
 </g>
 </g>

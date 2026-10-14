@@ -32,7 +32,7 @@ for the RocksDB and Parquet case studies.
 | `.ekb` container (header, sections, footer, manifest) | ✅ identical | `internal/ekb/compat_test.go`, `scripts/roundtrip.sh` |
 | Machines 1–9 core codecs | ✅ identical (bit-exact encode/decode) | `internal/ekb/compat_test.go` |
 | Reader API (`Open`, `ByteAt`, `ReadAt`, `PhysicalBytes`, `Estimate`, `WorstCaseStepsFor`) | ✅ | `internal/ekb/reader.go`, `internal/ekb/roundtrip_test.go` |
-| Accelerated reads (path bloom / history / checkpoints) | ✅ O(1) path bloom ≈2.3 ns | `internal/ekb/fastpath.go`, `internal/ekb/fastpath_test.go`, `internal/ekb/bench_test.go` |
+| Accelerated reads (path bloom / history / checkpoints) | ✅ O(1) path bloom ≈7 ns | `internal/ekb/fastpath.go`, `internal/ekb/fastpath_test.go`, `internal/ekb/bench_test.go` |
 | Writer (`WriteBody`/`AppendGeneration`: root/full/sparse/path) | ✅ Rust-readable; path bloom + certificate | `internal/ekb/writer.go`, `internal/ekb/writer_path.go`, `internal/ekb/append.go` |
 | Writer parity (universal/regional blooms, tiles) | ✅ Rust-readable shells; Flat-directory TileSet | `internal/ekb/writer_bloom.go`, `internal/ekb/writer_tiles.go`, `internal/ekb/writer_test.go` |
 | Legacy v0.3/v0.4 fixtures open byte-identically | ✅ frozen Rust fixtures | `testdata/legacy/`, `internal/ekb/legacy_test.go` |
@@ -40,22 +40,22 @@ for the RocksDB and Parquet case studies.
 | Allocation-free `ResidentView.Get` (zero allocs/op) | ✅ ≈1.35 ns | `internal/ekb/resident.go`, `internal/ekb/resident_test.go` |
 | Metrics export (physical_bytes, expansion ratio, breaches) | ✅ | `internal/ekb/metrics.go`, `internal/ekb/metrics_test.go` |
 | `worst_case_steps_for` bound | ✅ 1.2M samples, 0 violations | `internal/ekb/bound_test.go`, `evidence/bound.json` |
-| 64 readers, quiet vs 1 writer publish, p99.9 (`-race` clean) | ✅ tails indistinguishable (≈1 µs) | `internal/ekb/concurrency_test.go`, `evidence/concurrency.json` |
+| 64 readers, quiet vs 1 writer publish, p99.9 (`-race` clean) | ✅ tails indistinguishable (≈1.5 µs) | `internal/ekb/concurrency_test.go`, `evidence/concurrency.json` |
 | Shared dictionaries (machine 9) | ✅ P5: 83.5 vs 590.0 B/rec, break-even 2 recs | `internal/ekb/dictionary.go`, `internal/ekb/dictbench_test.go`, `docs/DICTIONARY.md` |
-| Zero-allocation dictionary decode (`DictDecoder`) | ✅ 0 allocs/op, 410 ns (was 2805) | `internal/ekb/dictionary.go`, `evidence/ycsb.json` |
+| Zero-allocation dictionary decode (`DictDecoder`) | ✅ 0 allocs/op, 391 ns (was 2,805) | `internal/ekb/dictionary.go`, `evidence/ycsb.json` |
 | RocksDB value codec (Put/Get + MergeOperator) | ✅ containerized, honest boundary | `integrations/rocksdb/`, `evidence/rocksdb-blobdb.json` |
 | Parquet dictionary-page comparison | ✅ real `RLE_DICTIONARY`, honest boundary | `integrations/parquet/`, `evidence/parquet-dict.json` |
-| Pebble value-log adapter (zero-alloc decode) | ✅ 63.36 B/rec, 0 allocs/op, p50 872 ns | `courts/pebble/`, `evidence/pebble-vlog.json` |
-| Pebble integration depth (scan / ingest / compaction / cache pressure) | ✅ 40k keys verified; compact 7.0 ms, WA 1.15; pressure p50 4.0 µs vs 1.3 µs warm | `courts/pebblebench/`, `evidence/pebble-integration.json` |
+| Pebble value-log adapter (zero-alloc decode) | ✅ 63.36 B/rec, 0 allocs/op, p50 862 ns | `courts/pebble/`, `evidence/pebble-vlog.json` |
+| Pebble integration depth (scan / ingest / compaction / cache pressure) | ✅ 40k keys verified; compact 6.3 ms, WA 1.15; pressure p50 4.0 µs vs 1.3 µs warm | `courts/pebblebench/`, `evidence/pebble-integration.json` |
 | Prometheus exporter + Grafana dashboard | ✅ 5 metrics / 5 panels | `integrations/prometheus/`, `grafana/ekbloom-dashboard.json` |
 | Implementation-neutral conformance suite | ✅ 73 fixtures, Go + Rust verifiers | `conformance/`, `evidence/conformance.json` |
-| Long-run randomized roundtrip (soak) | ✅ 2.19e9 symbols, peak heap ~81 MiB, 0 mismatches | `internal/tools/soak/`, `evidence/soak.json` |
+| Long-run randomized roundtrip (soak) | ✅ 1.0e9 symbols, peak heap ~83 MiB, 0 mismatches | `internal/tools/soak/`, `evidence/soak.json` |
 | `io.ReaderAt` + batch reads + cancellation | ✅ race-clean; prompt cancel | `internal/ekb/readerat.go`, `evidence/readerat.json` |
 | Corruption detection (`Corrupt{Section,Offset}`) | ✅ 100% of covered bits, ≤1 structure (≤4096 B) | `internal/ekb/corruption_test.go` |
 | Streaming (`StreamBuilder`/`StreamReader`, bounded RSS) | ✅ 2 GiB @ 9.5 MiB peak heap | `internal/ekb/stream_test.go`, `internal/ekb/scale_test.go` |
 | Resource policy (1 GiB default cap + breach counter) | ✅ | `internal/ekb/resource.go` |
 | Fault injection (torn append / ENOSPC-EIO) | ✅ newest valid generation picked | `append_test.go` |
-| Per-machine `byte_at` p50/p99/p99.9 | ✅ 20 / 31 / 40 ns | `internal/ekb/latency_test.go`, `evidence/byteat.json` |
+| Per-machine `byte_at` p50/p99/p99.9 | ✅ 20 / 31 / 31 ns | `internal/ekb/latency_test.go`, `evidence/byteat.json` |
 | Fuzzers (Open, Stream, machine roundtrip) | ✅ | `internal/ekb/fuzz_test.go`, `evidence/fuzz/` |
 | Benchmarks (`go test -bench`, incl. native arm64) | ✅ amd64 + native arm64 (CI) | `internal/ekb/bench_test.go`, `evidence/bench.txt`, `evidence/aarch64-native-bench.txt` |
 | Cross-FS determinism (ext4/xfs/btrfs/tmpfs (CI); ext4/btrfs/tmpfs locally) | ✅ identical fingerprints | `scripts/cross-fs.sh`, `evidence/cross-fs.json` |

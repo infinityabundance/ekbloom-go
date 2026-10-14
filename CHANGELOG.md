@@ -11,6 +11,19 @@ The wire format is **frozen** and follows the Rust reference
 
 ## [Unreleased]
 
+### Fixed
+
+- **Sandbox scheduler sizing (`GOMAXPROCS`).** Go 1.23 does not read the cgroup CPU
+  quota, so the `--cpus=2` sandbox ran with `GOMAXPROCS` sized for the host's cores
+  (`go test -bench` printed `-16`), and CFS throttling inflated every measured
+  latency. `scripts/sandbox.sh` and the capped court scripts now pin
+  `GOMAXPROCS=$CPUS`; every timing artifact (`bench.txt`, `bench-history.jsonl`,
+  `byteat.json`, `sweep.json`, `concurrency.json`, `dictionary.json`,
+  `courts.json`, `courts-point.json`, `ycsb.json`, `pebble-vlog.json`,
+  `pebble-integration.json`, `parquet-dict.json`, `profile.json`, `soak.json`) was
+  re-measured under the corrected scheduler. Deterministic size/identity fields
+  (`E_V`, `physical_bytes`, `bytes_per_record`, hashes) are unchanged.
+
 ## [0.5.0] - 2026-10-14
 
 ### Added
@@ -44,7 +57,7 @@ The wire format is **frozen** and follows the Rust reference
   the same manifest and import neither the other implementation nor the generator.
 - **Long-run randomized roundtrip soak** (`internal/tools/soak/`): random machines,
   profiles, sizes and content, round-tripped byte-exact with **no per-iteration
-  retention**; reaches the 1e9-symbol target in ~25 s at ~77 MiB peak heap (a 60 s
+  retention**; reaches the 1e9-symbol target in ~26 s at ~83 MiB peak heap (a 60 s
   run reached 2.19e9 symbols at ~81 MiB, 0 mismatches) — bounded well inside the 2g
   container cap. `scripts/soak.sh` → `evidence/soak.json`. CI job `soak` (60 s).
 
@@ -60,7 +73,7 @@ The wire format is **frozen** and follows the Rust reference
 
 - **Pebble value-log case study** (`courts/pebble/`) — machine-9 cores stored as
   Pebble values, decoded with a reused `DictDecoder` buffer: 63.36 B/record,
-  Get p50 872 ns / p99 1,563 ns, **0 allocs/op**, 0 breaches. Evidence:
+  Get p50 862 ns / p99 1,142 ns, **0 allocs/op**, 0 breaches. Evidence:
   `evidence/pebble-vlog.json`.
 - **Prometheus exporter + Grafana dashboard** (`integrations/prometheus/`,
   `grafana/ekbloom-dashboard.json`) — `ekbloom_physical_bytes`,
@@ -77,7 +90,7 @@ The wire format is **frozen** and follows the Rust reference
 - **`DictDecoder`** — a reusable, zero-allocation dictionary decoder
   (`NewDictDecoder`, `DecodeInto`, `Decode`). The dictionary model is fixed, so the
   prepared rANS context is built once and reused; `DecodeInto` writes into a caller
-  buffer with **0 allocs/op** (machine-9 read p50 2,805 ns → **410 ns**).
+  buffer with **0 allocs/op** (machine-9 read p50 2,805 ns → **391 ns**).
 - **`integrations/rocksdb`** — RocksDB value-codec case study: a separate Go module
   built `-buildmode=c-shared` (`ekbloom_train` / `ekbloom_compress` /
   `ekbloom_decompress`) and a C++ program that stores EKBLOOM-encoded values in

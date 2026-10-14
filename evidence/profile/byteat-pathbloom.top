@@ -1,24 +1,28 @@
 File: ekbloom.test
 Type: cpu
-Time: Oct 14, 2026 at 4:19pm (UTC)
-Duration: 701.44ms, Total samples = 590ms (84.11%)
-Showing nodes accounting for 590ms, 100% of 590ms total
+Time: Oct 14, 2026 at 5:20pm (UTC)
+Duration: 501.41ms, Total samples = 360ms (71.80%)
+Showing nodes accounting for 360ms, 100% of 360ms total
       flat  flat%   sum%        cum   cum%
-     160ms 27.12% 27.12%      280ms 47.46%  runtime.mallocgc
-     120ms 20.34% 47.46%      440ms 74.58%  github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).readPathBloom (inline)
-      70ms 11.86% 59.32%      550ms 93.22%  github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).ByteAt
-      40ms  6.78% 66.10%       40ms  6.78%  github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).directlyAddressable (inline)
-      40ms  6.78% 72.88%      590ms   100%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkByteAtPathBloom
-      40ms  6.78% 79.66%       40ms  6.78%  runtime.getMCache (inline)
-      40ms  6.78% 86.44%      320ms 54.24%  runtime.makeslice
-      30ms  5.08% 91.53%       30ms  5.08%  runtime.deductAssistCredit
-      20ms  3.39% 94.92%       20ms  3.39%  runtime.nextFreeFast (inline)
-      20ms  3.39% 98.31%       20ms  3.39%  runtime.releasem (inline)
-      10ms  1.69%   100%       10ms  1.69%  runtime.tracebackPCs
-         0     0%   100%       10ms  1.69%  runtime.callers
-         0     0%   100%       10ms  1.69%  runtime.callers.func1
-         0     0%   100%       10ms  1.69%  runtime.mProf_Malloc
-         0     0%   100%       10ms  1.69%  runtime.profilealloc
-         0     0%   100%       10ms  1.69%  runtime.systemstack
-         0     0%   100%      590ms   100%  testing.(*B).launch
-         0     0%   100%      590ms   100%  testing.(*B).runN
+      90ms 25.00% 25.00%      160ms 44.44%  runtime.mallocgc
+      80ms 22.22% 47.22%      340ms 94.44%  github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).ByteAt
+      50ms 13.89% 61.11%      210ms 58.33%  runtime.makeslice
+      40ms 11.11% 72.22%       40ms 11.11%  runtime.nextFreeFast (inline)
+      30ms  8.33% 80.56%      240ms 66.67%  github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).readPathBloom (inline)
+      20ms  5.56% 86.11%       20ms  5.56%  github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).directlyAddressable (inline)
+      10ms  2.78% 88.89%      350ms 97.22%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkByteAtPathBloom
+      10ms  2.78% 91.67%       10ms  2.78%  runtime.deductAssistCredit
+      10ms  2.78% 94.44%       10ms  2.78%  runtime.releasem (inline)
+      10ms  2.78% 97.22%       10ms  2.78%  runtime.stkbucket
+      10ms  2.78%   100%       10ms  2.78%  runtime.unlock2
+         0     0%   100%       10ms  2.78%  runtime.(*sweepLocked).sweep
+         0     0%   100%       10ms  2.78%  runtime.bgsweep
+         0     0%   100%       10ms  2.78%  runtime.freeSpecial
+         0     0%   100%       10ms  2.78%  runtime.mProf_Free
+         0     0%   100%       10ms  2.78%  runtime.mProf_Malloc
+         0     0%   100%       10ms  2.78%  runtime.profilealloc
+         0     0%   100%       10ms  2.78%  runtime.sweepone
+         0     0%   100%       10ms  2.78%  runtime.unlock (inline)
+         0     0%   100%       10ms  2.78%  runtime.unlockWithRank (inline)
+         0     0%   100%      350ms 97.22%  testing.(*B).launch
+         0     0%   100%      350ms 97.22%  testing.(*B).runN

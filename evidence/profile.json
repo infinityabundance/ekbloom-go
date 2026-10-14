@@ -19,635 +19,417 @@
       "cpu": {
         "type": "cpu",
         "unit": "time",
-        "accounted": "460ms",
+        "accounted": "450ms",
         "accounted_pct": 100,
-        "total": "460ms",
-        "total_value": 460000000,
+        "total": "450ms",
+        "total_value": 450000000,
         "entries": [
           {
             "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.nl2.Encode",
-            "flat": "440ms",
-            "flat_pct": 95.65,
-            "cum": "440ms",
-            "cum_pct": 95.65
+            "flat": "420ms",
+            "flat_pct": 93.33,
+            "cum": "430ms",
+            "cum_pct": 95.56
           },
           {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.benchPattern (inline)",
+            "function": "runtime.memclrNoHeapPointers",
             "flat": "10ms",
-            "flat_pct": 2.17,
+            "flat_pct": 2.22,
             "cum": "10ms",
-            "cum_pct": 2.17
+            "cum_pct": 2.22
           },
           {
-            "function": "runtime.futex",
+            "function": "runtime.scanblock",
             "flat": "10ms",
-            "flat_pct": 2.17,
+            "flat_pct": 2.22,
             "cum": "10ms",
-            "cum_pct": 2.17
+            "cum_pct": 2.22
           },
           {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode",
-            "flat": "0",
-            "flat_pct": 0,
+            "function": "runtime.typePointers.next",
+            "flat": "10ms",
+            "flat_pct": 2.22,
             "cum": "10ms",
-            "cum_pct": 2.17
+            "cum_pct": 2.22
           },
           {
             "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "440ms",
-            "cum_pct": 95.65
+            "cum": "430ms",
+            "cum_pct": 95.56
           },
           {
-            "function": "runtime.findRunnable",
+            "function": "runtime.gcBgMarkWorker",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "20ms",
+            "cum_pct": 4.44
+          },
+          {
+            "function": "runtime.gcBgMarkWorker.func2",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "20ms",
+            "cum_pct": 4.44
+          },
+          {
+            "function": "runtime.gcDrain",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "20ms",
+            "cum_pct": 4.44
+          },
+          {
+            "function": "runtime.gcDrainMarkWorkerFractional (inline)",
             "flat": "0",
             "flat_pct": 0,
             "cum": "10ms",
-            "cum_pct": 2.17
+            "cum_pct": 2.22
           },
           {
-            "function": "runtime.futexwakeup",
+            "function": "runtime.gcDrainMarkWorkerIdle (inline)",
             "flat": "0",
             "flat_pct": 0,
             "cum": "10ms",
-            "cum_pct": 2.17
+            "cum_pct": 2.22
           },
           {
-            "function": "runtime.gopreempt_m",
+            "function": "runtime.makeslice",
             "flat": "0",
             "flat_pct": 0,
             "cum": "10ms",
-            "cum_pct": 2.17
+            "cum_pct": 2.22
           },
           {
-            "function": "runtime.goschedImpl",
+            "function": "runtime.mallocgc",
             "flat": "0",
             "flat_pct": 0,
             "cum": "10ms",
-            "cum_pct": 2.17
+            "cum_pct": 2.22
           },
           {
-            "function": "runtime.mcall",
+            "function": "runtime.markroot",
             "flat": "0",
             "flat_pct": 0,
             "cum": "10ms",
-            "cum_pct": 2.17
+            "cum_pct": 2.22
           },
           {
-            "function": "runtime.notewakeup",
+            "function": "runtime.markrootBlock",
             "flat": "0",
             "flat_pct": 0,
             "cum": "10ms",
-            "cum_pct": 2.17
+            "cum_pct": 2.22
           },
           {
-            "function": "runtime.runSafePointFn",
+            "function": "runtime.memclrNoHeapPointersChunked",
             "flat": "0",
             "flat_pct": 0,
             "cum": "10ms",
-            "cum_pct": 2.17
+            "cum_pct": 2.22
           },
           {
-            "function": "runtime.schedule",
+            "function": "runtime.scanobject",
             "flat": "0",
             "flat_pct": 0,
             "cum": "10ms",
-            "cum_pct": 2.17
-          },
-          {
-            "function": "testing.(*B).launch",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "440ms",
-            "cum_pct": 95.65
-          },
-          {
-            "function": "testing.(*B).run1.func1",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "10ms",
-            "cum_pct": 2.17
-          },
-          {
-            "function": "testing.(*B).runN",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "450ms",
-            "cum_pct": 97.83
-          }
-        ]
-      },
-      "alloc_space": {
-        "type": "alloc_space",
-        "unit": "bytes",
-        "accounted": "630MB",
-        "accounted_pct": 99.45,
-        "total": "633.49MB",
-        "total_value": 664262410.24,
-        "entries": [
-          {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.nl2.Encode",
-            "flat": "630MB",
-            "flat_pct": 99.45,
-            "cum": "630MB",
-            "cum_pct": 99.45
-          },
-          {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "630MB",
-            "cum_pct": 99.45
-          },
-          {
-            "function": "testing.(*B).launch",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "629MB",
-            "cum_pct": 99.29
-          },
-          {
-            "function": "testing.(*B).runN",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "631.11MB",
-            "cum_pct": 99.62
-          }
-        ]
-      },
-      "inuse_space": {
-        "type": "inuse_space",
-        "unit": "bytes",
-        "accounted": "8.45kB",
-        "accounted_pct": 100,
-        "total": "8.45kB",
-        "total_value": 8652.8,
-        "entries": [
-          {
-            "function": "runtime.malg",
-            "flat": "8.45kB",
-            "flat_pct": 100,
-            "cum": "8.45kB",
-            "cum_pct": 100
-          },
-          {
-            "function": "runtime.newproc.func1",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "8.45kB",
-            "cum_pct": 100
-          },
-          {
-            "function": "runtime.newproc1",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "8.45kB",
-            "cum_pct": 100
+            "cum_pct": 2.22
           },
           {
             "function": "runtime.systemstack",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "8.45kB",
-            "cum_pct": 100
-          }
-        ]
-      },
-      "total_alloc_bytes": 664262410.24,
-      "retained_bytes": 8652.8
-    },
-    {
-      "name": "m2-encode",
-      "benchmark": "BenchmarkMachineEncode/m2",
-      "cpu": {
-        "type": "cpu",
-        "unit": "time",
-        "accounted": "370ms",
-        "accounted_pct": 100,
-        "total": "370ms",
-        "total_value": 370000000,
-        "entries": [
-          {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.rans0.Encode",
-            "flat": "270ms",
-            "flat_pct": 72.97,
-            "cum": "360ms",
-            "cum_pct": 97.3
-          },
-          {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.modelFromSource",
-            "flat": "90ms",
-            "flat_pct": 24.32,
-            "cum": "90ms",
-            "cum_pct": 24.32
-          },
-          {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.benchPattern (inline)",
-            "flat": "10ms",
-            "flat_pct": 2.7,
-            "cum": "10ms",
-            "cum_pct": 2.7
-          },
-          {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "10ms",
-            "cum_pct": 2.7
-          },
-          {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "360ms",
-            "cum_pct": 97.3
+            "cum": "20ms",
+            "cum_pct": 4.44
           },
           {
             "function": "testing.(*B).launch",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "360ms",
-            "cum_pct": 97.3
-          },
-          {
-            "function": "testing.(*B).run1.func1",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "10ms",
-            "cum_pct": 2.7
+            "cum": "430ms",
+            "cum_pct": 95.56
           },
           {
             "function": "testing.(*B).runN",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "370ms",
-            "cum_pct": 100
+            "cum": "430ms",
+            "cum_pct": 95.56
           }
         ]
       },
       "alloc_space": {
         "type": "alloc_space",
         "unit": "bytes",
-        "accounted": "88.49MB",
-        "accounted_pct": 99.32,
-        "total": "89.10MB",
-        "total_value": 93428121.6,
+        "accounted": "653MB",
+        "accounted_pct": 99.46,
+        "total": "656.52MB",
+        "total_value": 688411115.52,
         "entries": [
           {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.rans0.Encode",
-            "flat": "85.42MB",
-            "flat_pct": 95.87,
-            "cum": "85.60MB",
-            "cum_pct": 96.08
-          },
-          {
-            "function": "runtime/pprof.StartCPUProfile",
-            "flat": "1.12MB",
-            "flat_pct": 1.26,
-            "cum": "1.12MB",
-            "cum_pct": 1.26
-          },
-          {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.benchPattern (inline)",
-            "flat": "1MB",
-            "flat_pct": 1.12,
-            "cum": "1MB",
-            "cum_pct": 1.12
-          },
-          {
-            "function": "compress/flate.NewWriter (inline)",
-            "flat": "0.63MB",
-            "flat_pct": 0.71,
-            "cum": "1.14MB",
-            "cum_pct": 1.28
-          },
-          {
-            "function": "compress/flate.(*compressor).init",
-            "flat": "0.31MB",
-            "flat_pct": 0.35,
-            "cum": "0.51MB",
-            "cum_pct": 0.57
-          },
-          {
-            "function": "compress/gzip.(*Writer).Write",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "1.15MB",
-            "cum_pct": 1.29
-          },
-          {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "1.13MB",
-            "cum_pct": 1.27
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.nl2.Encode",
+            "flat": "653MB",
+            "flat_pct": 99.46,
+            "cum": "653MB",
+            "cum_pct": 99.46
           },
           {
             "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "85.60MB",
-            "cum_pct": 96.08
-          },
-          {
-            "function": "main.main",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "1.19MB",
-            "cum_pct": 1.33
-          },
-          {
-            "function": "runtime.main",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "1.19MB",
-            "cum_pct": 1.33
-          },
-          {
-            "function": "runtime/pprof.(*profileBuilder).build",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "1.17MB",
-            "cum_pct": 1.32
-          },
-          {
-            "function": "runtime/pprof.profileWriter",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "1.17MB",
-            "cum_pct": 1.32
+            "cum": "653MB",
+            "cum_pct": 99.46
           },
           {
             "function": "testing.(*B).launch",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "84.40MB",
-            "cum_pct": 94.73
-          },
-          {
-            "function": "testing.(*B).run1.func1",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "2.34MB",
-            "cum_pct": 2.62
+            "cum": "652MB",
+            "cum_pct": 99.31
           },
           {
             "function": "testing.(*B).runN",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "86.75MB",
-            "cum_pct": 97.37
-          },
-          {
-            "function": "testing.(*M).Run",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "1.19MB",
-            "cum_pct": 1.33
-          },
-          {
-            "function": "testing.(*M).before",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "1.12MB",
-            "cum_pct": 1.26
-          },
-          {
-            "function": "testing/internal/testdeps.TestDeps.StartCPUProfile",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "1.12MB",
-            "cum_pct": 1.26
+            "cum": "654.12MB",
+            "cum_pct": 99.64
           }
         ]
       },
       "inuse_space": {
         "type": "inuse_space",
         "unit": "bytes",
-        "accounted": "46.49kB",
+        "accounted": "49.43kB",
         "accounted_pct": 100,
-        "total": "46.49kB",
-        "total_value": 47605.76,
+        "total": "49.43kB",
+        "total_value": 50616.32,
         "entries": [
           {
             "function": "regexp.(*bitState).reset",
             "flat": "32.01kB",
-            "flat_pct": 68.85,
+            "flat_pct": 64.75,
             "cum": "32.01kB",
-            "cum_pct": 68.85
+            "cum_pct": 64.75
           },
           {
             "function": "hash/crc32.slicingMakeTable",
             "flat": "9.25kB",
-            "flat_pct": 19.9,
+            "flat_pct": 18.72,
             "cum": "9.25kB",
-            "cum_pct": 19.9
+            "cum_pct": 18.72
           },
           {
             "function": "sync.(*Pool).pinSlow",
-            "flat": "5.23kB",
-            "flat_pct": 11.25,
-            "cum": "5.23kB",
-            "cum_pct": 11.25
+            "flat": "4.13kB",
+            "flat_pct": 8.35,
+            "cum": "4.13kB",
+            "cum_pct": 8.35
+          },
+          {
+            "function": "runtime.acquireSudog",
+            "flat": "4.05kB",
+            "flat_pct": 8.19,
+            "cum": "4.05kB",
+            "cum_pct": 8.19
           },
           {
             "function": "compress/gzip.(*Writer).Write",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 19.9
-          },
-          {
-            "function": "fmt.Fprintf",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 11.25
-          },
-          {
-            "function": "fmt.newPrinter",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 11.25
+            "cum_pct": 18.72
           },
           {
             "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "37.24kB",
-            "cum_pct": 80.1
+            "cum": "36.14kB",
+            "cum_pct": 73.1
           },
           {
             "function": "hash/crc32.Update (inline)",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 19.9
+            "cum_pct": 18.72
           },
           {
             "function": "hash/crc32.archInitIEEE (inline)",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 19.9
+            "cum_pct": 18.72
           },
           {
             "function": "hash/crc32.ieeeInit",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 19.9
+            "cum_pct": 18.72
           },
           {
             "function": "hash/crc32.update",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 19.9
+            "cum_pct": 18.72
           },
           {
             "function": "regexp.(*Regexp).MatchString (inline)",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "32.01kB",
-            "cum_pct": 68.85
+            "cum": "36.14kB",
+            "cum_pct": 73.1
           },
           {
             "function": "regexp.(*Regexp).backtrack",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "32.01kB",
-            "cum_pct": 68.85
+            "cum": "36.14kB",
+            "cum_pct": 73.1
           },
           {
             "function": "regexp.(*Regexp).doExecute",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "32.01kB",
-            "cum_pct": 68.85
+            "cum": "36.14kB",
+            "cum_pct": 73.1
           },
           {
             "function": "regexp.(*Regexp).doMatch (inline)",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "32.01kB",
-            "cum_pct": 68.85
+            "cum": "36.14kB",
+            "cum_pct": 73.1
+          },
+          {
+            "function": "regexp.newBitState (inline)",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.13kB",
+            "cum_pct": 8.35
+          },
+          {
+            "function": "runtime.gcBgMarkWorker",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.05kB",
+            "cum_pct": 8.19
+          },
+          {
+            "function": "runtime.gcMarkDone",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.05kB",
+            "cum_pct": 8.19
+          },
+          {
+            "function": "runtime.semacquire (inline)",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.05kB",
+            "cum_pct": 8.19
+          },
+          {
+            "function": "runtime.semacquire1",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.05kB",
+            "cum_pct": 8.19
           },
           {
             "function": "runtime/pprof.(*profileBuilder).build",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 19.9
+            "cum_pct": 18.72
           },
           {
             "function": "runtime/pprof.profileWriter",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 19.9
+            "cum_pct": 18.72
           },
           {
             "function": "sync.(*Once).Do (inline)",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 19.9
+            "cum_pct": 18.72
           },
           {
             "function": "sync.(*Once).doSlow",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 19.9
+            "cum_pct": 18.72
           },
           {
             "function": "sync.(*Pool).Get",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 11.25
+            "cum": "4.13kB",
+            "cum_pct": 8.35
           },
           {
             "function": "sync.(*Pool).pin",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 11.25
+            "cum": "4.13kB",
+            "cum_pct": 8.35
           },
           {
             "function": "testing.(*B).Run",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "37.24kB",
-            "cum_pct": 80.1
-          },
-          {
-            "function": "testing.(*B).run",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 11.25
+            "cum": "36.14kB",
+            "cum_pct": 73.1
           },
           {
             "function": "testing.(*B).run1.func1",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "37.24kB",
-            "cum_pct": 80.1
+            "cum": "36.14kB",
+            "cum_pct": 73.1
           },
           {
             "function": "testing.(*B).runN",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "37.24kB",
-            "cum_pct": 80.1
-          },
-          {
-            "function": "testing.(*benchContext).processBench",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 11.25
+            "cum": "36.14kB",
+            "cum_pct": 73.1
           },
           {
             "function": "testing.(*matcher).fullName",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "32.01kB",
-            "cum_pct": 68.85
-          },
-          {
-            "function": "testing.BenchmarkResult.String",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 11.25
+            "cum": "36.14kB",
+            "cum_pct": 73.1
           },
           {
             "function": "testing.simpleMatch.matches",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "32.01kB",
-            "cum_pct": 68.85
+            "cum": "36.14kB",
+            "cum_pct": 73.1
           },
           {
             "function": "testing/internal/testdeps.TestDeps.MatchString",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "32.01kB",
-            "cum_pct": 68.85
+            "cum": "36.14kB",
+            "cum_pct": 73.1
           }
         ]
       },
-      "total_alloc_bytes": 93428121.6,
-      "retained_bytes": 47605.76
+      "total_alloc_bytes": 688411115.52,
+      "retained_bytes": 50616.32
     },
     {
-      "name": "m9-encode",
-      "benchmark": "BenchmarkMachineEncode/m9",
+      "name": "m2-encode",
+      "benchmark": "BenchmarkMachineEncode/m2",
       "cpu": {
         "type": "cpu",
         "unit": "time",
@@ -657,37 +439,23 @@
         "total_value": 350000000,
         "entries": [
           {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.Dictionary.EncodeRecord",
-            "flat": "310ms",
-            "flat_pct": 88.57,
-            "cum": "320ms",
-            "cum_pct": 91.43
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.rans0.Encode",
+            "flat": "270ms",
+            "flat_pct": 77.14,
+            "cum": "350ms",
+            "cum_pct": 100
           },
           {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.TrainDictionary",
-            "flat": "20ms",
-            "flat_pct": 5.71,
-            "cum": "20ms",
-            "cum_pct": 5.71
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.modelFromSource",
+            "flat": "70ms",
+            "flat_pct": 20,
+            "cum": "70ms",
+            "cum_pct": 20
           },
           {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.benchPattern (inline)",
+            "function": "runtime.(*mspan).init",
             "flat": "10ms",
             "flat_pct": 2.86,
-            "cum": "10ms",
-            "cum_pct": 2.86
-          },
-          {
-            "function": "runtime.newBucket",
-            "flat": "10ms",
-            "flat_pct": 2.86,
-            "cum": "10ms",
-            "cum_pct": 2.86
-          },
-          {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode",
-            "flat": "0",
-            "flat_pct": 0,
             "cum": "10ms",
             "cum_pct": 2.86
           },
@@ -695,18 +463,39 @@
             "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "340ms",
-            "cum_pct": 97.14
+            "cum": "350ms",
+            "cum_pct": 100
           },
           {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.dictMachine.Encode",
+            "function": "runtime.(*mcache).allocLarge",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "340ms",
-            "cum_pct": 97.14
+            "cum": "10ms",
+            "cum_pct": 2.86
           },
           {
-            "function": "runtime.mProf_Malloc",
+            "function": "runtime.(*mheap).alloc",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "10ms",
+            "cum_pct": 2.86
+          },
+          {
+            "function": "runtime.(*mheap).alloc.func1",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "10ms",
+            "cum_pct": 2.86
+          },
+          {
+            "function": "runtime.(*mheap).allocSpan",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "10ms",
+            "cum_pct": 2.86
+          },
+          {
+            "function": "runtime.(*mheap).initSpan",
             "flat": "0",
             "flat_pct": 0,
             "cum": "10ms",
@@ -727,14 +516,7 @@
             "cum_pct": 2.86
           },
           {
-            "function": "runtime.profilealloc",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "10ms",
-            "cum_pct": 2.86
-          },
-          {
-            "function": "runtime.stkbucket",
+            "function": "runtime.systemstack",
             "flat": "0",
             "flat_pct": 0,
             "cum": "10ms",
@@ -766,399 +548,434 @@
       "alloc_space": {
         "type": "alloc_space",
         "unit": "bytes",
-        "accounted": "97.29MB",
-        "accounted_pct": 99.4,
-        "total": "97.88MB",
-        "total_value": 102634618.88,
+        "accounted": "87.29MB",
+        "accounted_pct": 99.41,
+        "total": "87.81MB",
+        "total_value": 92075458.56,
         "entries": [
           {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.Dictionary.EncodeRecord",
-            "flat": "80.61MB",
-            "flat_pct": 82.36,
-            "cum": "80.61MB",
-            "cum_pct": 82.36
-          },
-          {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.frameEmbedded",
-            "flat": "13.61MB",
-            "flat_pct": 13.9,
-            "cum": "13.65MB",
-            "cum_pct": 13.95
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.rans0.Encode",
+            "flat": "84.22MB",
+            "flat_pct": 95.91,
+            "cum": "84.36MB",
+            "cum_pct": 96.07
           },
           {
             "function": "runtime/pprof.StartCPUProfile",
             "flat": "1.12MB",
-            "flat_pct": 1.15,
+            "flat_pct": 1.28,
             "cum": "1.12MB",
-            "cum_pct": 1.15
+            "cum_pct": 1.28
           },
           {
             "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.benchPattern (inline)",
             "flat": "1MB",
-            "flat_pct": 1.02,
+            "flat_pct": 1.14,
             "cum": "1MB",
-            "cum_pct": 1.02
+            "cum_pct": 1.14
           },
           {
             "function": "compress/flate.NewWriter (inline)",
             "flat": "0.63MB",
-            "flat_pct": 0.65,
-            "cum": "1.15MB",
-            "cum_pct": 1.17
+            "flat_pct": 0.72,
+            "cum": "1.14MB",
+            "cum_pct": 1.3
           },
           {
             "function": "compress/flate.(*compressor).init",
             "flat": "0.31MB",
-            "flat_pct": 0.32,
-            "cum": "0.52MB",
-            "cum_pct": 0.53
+            "flat_pct": 0.36,
+            "cum": "0.51MB",
+            "cum_pct": 0.58
           },
           {
             "function": "compress/gzip.(*Writer).Write",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "1.16MB",
-            "cum_pct": 1.18
+            "cum": "1.15MB",
+            "cum_pct": 1.31
           },
           {
             "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "1.06MB",
-            "cum_pct": 1.08
+            "cum": "1.08MB",
+            "cum_pct": 1.23
           },
           {
             "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "94.43MB",
-            "cum_pct": 96.48
-          },
-          {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.dictMachine.Encode",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "94.43MB",
-            "cum_pct": 96.48
+            "cum": "84.36MB",
+            "cum_pct": 96.07
           },
           {
             "function": "main.main",
             "flat": "0",
             "flat_pct": 0,
             "cum": "1.17MB",
-            "cum_pct": 1.2
+            "cum_pct": 1.33
           },
           {
             "function": "runtime.main",
             "flat": "0",
             "flat_pct": 0,
             "cum": "1.17MB",
-            "cum_pct": 1.2
+            "cum_pct": 1.33
           },
           {
             "function": "runtime/pprof.(*profileBuilder).build",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "1.21MB",
-            "cum_pct": 1.23
+            "cum": "1.18MB",
+            "cum_pct": 1.35
           },
           {
             "function": "runtime/pprof.profileWriter",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "1.21MB",
-            "cum_pct": 1.23
+            "cum": "1.20MB",
+            "cum_pct": 1.37
           },
           {
             "function": "testing.(*B).launch",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "93.02MB",
-            "cum_pct": 95.04
+            "cum": "83.15MB",
+            "cum_pct": 94.7
           },
           {
             "function": "testing.(*B).run1.func1",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "2.47MB",
-            "cum_pct": 2.52
+            "cum": "2.29MB",
+            "cum_pct": 2.61
           },
           {
             "function": "testing.(*B).runN",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "95.49MB",
-            "cum_pct": 97.56
+            "cum": "85.44MB",
+            "cum_pct": 97.3
           },
           {
             "function": "testing.(*M).Run",
             "flat": "0",
             "flat_pct": 0,
             "cum": "1.17MB",
-            "cum_pct": 1.2
+            "cum_pct": 1.33
           },
           {
             "function": "testing.(*M).before",
             "flat": "0",
             "flat_pct": 0,
             "cum": "1.12MB",
-            "cum_pct": 1.15
+            "cum_pct": 1.28
           },
           {
             "function": "testing/internal/testdeps.TestDeps.StartCPUProfile",
             "flat": "0",
             "flat_pct": 0,
             "cum": "1.12MB",
-            "cum_pct": 1.15
+            "cum_pct": 1.28
           }
         ]
       },
       "inuse_space": {
         "type": "inuse_space",
         "unit": "bytes",
-        "accounted": "21.92kB",
+        "accounted": "45.34kB",
         "accounted_pct": 100,
-        "total": "21.92kB",
-        "total_value": 22446.08,
+        "total": "45.34kB",
+        "total_value": 46428.16,
         "entries": [
           {
-            "function": "runtime.malg",
-            "flat": "12.67kB",
-            "flat_pct": 57.79,
-            "cum": "12.67kB",
-            "cum_pct": 57.79
+            "function": "regexp.(*bitState).reset",
+            "flat": "32.01kB",
+            "flat_pct": 70.6,
+            "cum": "32.01kB",
+            "cum_pct": 70.6
           },
           {
             "function": "hash/crc32.slicingMakeTable",
             "flat": "9.25kB",
-            "flat_pct": 42.21,
+            "flat_pct": 20.41,
             "cum": "9.25kB",
-            "cum_pct": 42.21
+            "cum_pct": 20.41
+          },
+          {
+            "function": "regexp/syntax.(*compiler).inst (inline)",
+            "flat": "4.08kB",
+            "flat_pct": 8.99,
+            "cum": "4.08kB",
+            "cum_pct": 8.99
           },
           {
             "function": "compress/gzip.(*Writer).Write",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 42.21
+            "cum_pct": 20.41
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "36.09kB",
+            "cum_pct": 79.59
           },
           {
             "function": "hash/crc32.Update (inline)",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 42.21
+            "cum_pct": 20.41
           },
           {
             "function": "hash/crc32.archInitIEEE (inline)",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 42.21
+            "cum_pct": 20.41
           },
           {
             "function": "hash/crc32.ieeeInit",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 42.21
+            "cum_pct": 20.41
           },
           {
             "function": "hash/crc32.update",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 42.21
+            "cum_pct": 20.41
           },
           {
-            "function": "runtime.newproc.func1",
+            "function": "regexp.(*Regexp).MatchString (inline)",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "12.67kB",
-            "cum_pct": 57.79
+            "cum": "32.01kB",
+            "cum_pct": 70.6
           },
           {
-            "function": "runtime.newproc1",
+            "function": "regexp.(*Regexp).backtrack",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "12.67kB",
-            "cum_pct": 57.79
+            "cum": "32.01kB",
+            "cum_pct": 70.6
           },
           {
-            "function": "runtime.systemstack",
+            "function": "regexp.(*Regexp).doExecute",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "12.67kB",
-            "cum_pct": 57.79
+            "cum": "32.01kB",
+            "cum_pct": 70.6
+          },
+          {
+            "function": "regexp.(*Regexp).doMatch (inline)",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "32.01kB",
+            "cum_pct": 70.6
+          },
+          {
+            "function": "regexp.Compile (inline)",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.08kB",
+            "cum_pct": 8.99
+          },
+          {
+            "function": "regexp.compile",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.08kB",
+            "cum_pct": 8.99
+          },
+          {
+            "function": "regexp/syntax.(*compiler).compile",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.08kB",
+            "cum_pct": 8.99
+          },
+          {
+            "function": "regexp/syntax.(*compiler).rune",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.08kB",
+            "cum_pct": 8.99
+          },
+          {
+            "function": "regexp/syntax.Compile",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.08kB",
+            "cum_pct": 8.99
           },
           {
             "function": "runtime/pprof.(*profileBuilder).build",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 42.21
+            "cum_pct": 20.41
           },
           {
             "function": "runtime/pprof.profileWriter",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 42.21
+            "cum_pct": 20.41
           },
           {
             "function": "sync.(*Once).Do (inline)",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 42.21
+            "cum_pct": 20.41
           },
           {
             "function": "sync.(*Once).doSlow",
             "flat": "0",
             "flat_pct": 0,
             "cum": "9.25kB",
-            "cum_pct": 42.21
-          }
-        ]
-      },
-      "total_alloc_bytes": 102634618.88,
-      "retained_bytes": 22446.08
-    },
-    {
-      "name": "byteat-pathbloom",
-      "benchmark": "BenchmarkByteAtPathBloom",
-      "cpu": {
-        "type": "cpu",
-        "unit": "time",
-        "accounted": "590ms",
-        "accounted_pct": 100,
-        "total": "590ms",
-        "total_value": 590000000,
-        "entries": [
-          {
-            "function": "runtime.mallocgc",
-            "flat": "160ms",
-            "flat_pct": 27.12,
-            "cum": "280ms",
-            "cum_pct": 47.46
+            "cum_pct": 20.41
           },
           {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).readPathBloom (inline)",
-            "flat": "120ms",
-            "flat_pct": 20.34,
-            "cum": "440ms",
-            "cum_pct": 74.58
-          },
-          {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).ByteAt",
-            "flat": "70ms",
-            "flat_pct": 11.86,
-            "cum": "550ms",
-            "cum_pct": 93.22
-          },
-          {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).directlyAddressable (inline)",
-            "flat": "40ms",
-            "flat_pct": 6.78,
-            "cum": "40ms",
-            "cum_pct": 6.78
-          },
-          {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkByteAtPathBloom",
-            "flat": "40ms",
-            "flat_pct": 6.78,
-            "cum": "590ms",
-            "cum_pct": 100
-          },
-          {
-            "function": "runtime.getMCache (inline)",
-            "flat": "40ms",
-            "flat_pct": 6.78,
-            "cum": "40ms",
-            "cum_pct": 6.78
-          },
-          {
-            "function": "runtime.makeslice",
-            "flat": "40ms",
-            "flat_pct": 6.78,
-            "cum": "320ms",
-            "cum_pct": 54.24
-          },
-          {
-            "function": "runtime.deductAssistCredit",
-            "flat": "30ms",
-            "flat_pct": 5.08,
-            "cum": "30ms",
-            "cum_pct": 5.08
-          },
-          {
-            "function": "runtime.nextFreeFast (inline)",
-            "flat": "20ms",
-            "flat_pct": 3.39,
-            "cum": "20ms",
-            "cum_pct": 3.39
-          },
-          {
-            "function": "runtime.releasem (inline)",
-            "flat": "20ms",
-            "flat_pct": 3.39,
-            "cum": "20ms",
-            "cum_pct": 3.39
-          },
-          {
-            "function": "runtime.tracebackPCs",
-            "flat": "10ms",
-            "flat_pct": 1.69,
-            "cum": "10ms",
-            "cum_pct": 1.69
-          },
-          {
-            "function": "runtime.callers",
+            "function": "testing.(*B).Run",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "10ms",
-            "cum_pct": 1.69
+            "cum": "36.09kB",
+            "cum_pct": 79.59
           },
           {
-            "function": "runtime.callers.func1",
+            "function": "testing.(*B).run1.func1",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "10ms",
-            "cum_pct": 1.69
-          },
-          {
-            "function": "runtime.mProf_Malloc",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "10ms",
-            "cum_pct": 1.69
-          },
-          {
-            "function": "runtime.profilealloc",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "10ms",
-            "cum_pct": 1.69
-          },
-          {
-            "function": "runtime.systemstack",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "10ms",
-            "cum_pct": 1.69
-          },
-          {
-            "function": "testing.(*B).launch",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "590ms",
-            "cum_pct": 100
+            "cum": "36.09kB",
+            "cum_pct": 79.59
           },
           {
             "function": "testing.(*B).runN",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "590ms",
+            "cum": "36.09kB",
+            "cum_pct": 79.59
+          },
+          {
+            "function": "testing.(*matcher).fullName",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "36.09kB",
+            "cum_pct": 79.59
+          },
+          {
+            "function": "testing.simpleMatch.matches",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "36.09kB",
+            "cum_pct": 79.59
+          },
+          {
+            "function": "testing/internal/testdeps.TestDeps.MatchString",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "36.09kB",
+            "cum_pct": 79.59
+          }
+        ]
+      },
+      "total_alloc_bytes": 92075458.56,
+      "retained_bytes": 46428.16
+    },
+    {
+      "name": "m9-encode",
+      "benchmark": "BenchmarkMachineEncode/m9",
+      "cpu": {
+        "type": "cpu",
+        "unit": "time",
+        "accounted": "360ms",
+        "accounted_pct": 100,
+        "total": "360ms",
+        "total_value": 360000000,
+        "entries": [
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.Dictionary.EncodeRecord",
+            "flat": "310ms",
+            "flat_pct": 86.11,
+            "cum": "320ms",
+            "cum_pct": 88.89
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.TrainDictionary",
+            "flat": "40ms",
+            "flat_pct": 11.11,
+            "cum": "40ms",
+            "cum_pct": 11.11
+          },
+          {
+            "function": "runtime.memclrNoHeapPointers",
+            "flat": "10ms",
+            "flat_pct": 2.78,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "360ms",
+            "cum_pct": 100
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.dictMachine.Encode",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "360ms",
+            "cum_pct": 100
+          },
+          {
+            "function": "runtime.makeslice",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "runtime.mallocgc",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "runtime.memclrNoHeapPointersChunked",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "testing.(*B).launch",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "350ms",
+            "cum_pct": 97.22
+          },
+          {
+            "function": "testing.(*B).run1.func1",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "testing.(*B).runN",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "360ms",
             "cum_pct": 100
           }
         ]
@@ -1166,288 +983,807 @@
       "alloc_space": {
         "type": "alloc_space",
         "unit": "bytes",
-        "accounted": "76.80MB",
-        "accounted_pct": 99.54,
-        "total": "77.15MB",
-        "total_value": 80897638.4,
+        "accounted": "102.60MB",
+        "accounted_pct": 99.2,
+        "total": "103.43MB",
+        "total_value": 108454215.68,
         "entries": [
           {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).readPathBloom (inline)",
-            "flat": "74.73MB",
-            "flat_pct": 96.86,
-            "cum": "74.73MB",
-            "cum_pct": 96.86
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.Dictionary.EncodeRecord",
+            "flat": "85.42MB",
+            "flat_pct": 82.59,
+            "cum": "85.42MB",
+            "cum_pct": 82.59
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.frameEmbedded",
+            "flat": "14.42MB",
+            "flat_pct": 13.94,
+            "cum": "14.47MB",
+            "cum_pct": 13.99
           },
           {
             "function": "runtime/pprof.StartCPUProfile",
             "flat": "1.12MB",
-            "flat_pct": 1.46,
+            "flat_pct": 1.09,
             "cum": "1.12MB",
-            "cum_pct": 1.46
+            "cum_pct": 1.09
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.benchPattern (inline)",
+            "flat": "1MB",
+            "flat_pct": 0.97,
+            "cum": "1MB",
+            "cum_pct": 0.97
           },
           {
             "function": "compress/flate.NewWriter (inline)",
             "flat": "0.63MB",
-            "flat_pct": 0.82,
+            "flat_pct": 0.61,
             "cum": "1.14MB",
-            "cum_pct": 1.48
-          },
-          {
-            "function": "compress/flate.(*compressor).init",
-            "flat": "0.31MB",
-            "flat_pct": 0.41,
-            "cum": "0.51MB",
-            "cum_pct": 0.66
+            "cum_pct": 1.11
           },
           {
             "function": "compress/gzip.(*Writer).Write",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "1.14MB",
-            "cum_pct": 1.48
+            "cum": "1.15MB",
+            "cum_pct": 1.12
           },
           {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).ByteAt",
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "74.73MB",
-            "cum_pct": 96.86
+            "cum": "1.03MB",
+            "cum_pct": 1
           },
           {
-            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkByteAtPathBloom",
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "74.75MB",
-            "cum_pct": 96.89
+            "cum": "100.03MB",
+            "cum_pct": 96.71
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.dictMachine.Encode",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "100.03MB",
+            "cum_pct": 96.71
           },
           {
             "function": "main.main",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "1.17MB",
-            "cum_pct": 1.52
+            "cum": "1.18MB",
+            "cum_pct": 1.14
           },
           {
             "function": "runtime.main",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "1.17MB",
-            "cum_pct": 1.52
+            "cum": "1.18MB",
+            "cum_pct": 1.14
           },
           {
             "function": "runtime/pprof.(*profileBuilder).build",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "1.20MB",
-            "cum_pct": 1.56
+            "cum": "1.18MB",
+            "cum_pct": 1.14
           },
           {
             "function": "runtime/pprof.profileWriter",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "1.22MB",
-            "cum_pct": 1.58
+            "cum": "1.19MB",
+            "cum_pct": 1.15
           },
           {
             "function": "testing.(*B).launch",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "74.75MB",
-            "cum_pct": 96.89
+            "cum": "98.62MB",
+            "cum_pct": 95.35
+          },
+          {
+            "function": "testing.(*B).run1.func1",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "2.44MB",
+            "cum_pct": 2.36
           },
           {
             "function": "testing.(*B).runN",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "74.76MB",
-            "cum_pct": 96.91
+            "cum": "101.06MB",
+            "cum_pct": 97.71
           },
           {
             "function": "testing.(*M).Run",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "1.17MB",
-            "cum_pct": 1.52
+            "cum": "1.18MB",
+            "cum_pct": 1.14
           },
           {
             "function": "testing.(*M).before",
             "flat": "0",
             "flat_pct": 0,
             "cum": "1.12MB",
-            "cum_pct": 1.46
+            "cum_pct": 1.09
           },
           {
             "function": "testing/internal/testdeps.TestDeps.StartCPUProfile",
             "flat": "0",
             "flat_pct": 0,
             "cum": "1.12MB",
-            "cum_pct": 1.46
+            "cum_pct": 1.09
           }
         ]
       },
       "inuse_space": {
         "type": "inuse_space",
         "unit": "bytes",
-        "accounted": "9.45kB",
+        "accounted": "9.25kB",
         "accounted_pct": 100,
-        "total": "9.45kB",
-        "total_value": 9676.8,
+        "total": "9.25kB",
+        "total_value": 9472,
         "entries": [
           {
-            "function": "sync.(*Pool).pinSlow",
-            "flat": "5.23kB",
-            "flat_pct": 55.33,
-            "cum": "5.23kB",
-            "cum_pct": 55.33
+            "function": "hash/crc32.slicingMakeTable",
+            "flat": "9.25kB",
+            "flat_pct": 100,
+            "cum": "9.25kB",
+            "cum_pct": 100
           },
           {
-            "function": "runtime.malg",
-            "flat": "4.22kB",
-            "flat_pct": 44.67,
-            "cum": "4.22kB",
-            "cum_pct": 44.67
-          },
-          {
-            "function": "fmt.Fprintf",
+            "function": "compress/gzip.(*Writer).Write",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 55.33
+            "cum": "9.25kB",
+            "cum_pct": 100
           },
           {
-            "function": "fmt.newPrinter",
+            "function": "hash/crc32.Update (inline)",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 55.33
+            "cum": "9.25kB",
+            "cum_pct": 100
           },
           {
-            "function": "main.main",
+            "function": "hash/crc32.archInitIEEE (inline)",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 55.33
+            "cum": "9.25kB",
+            "cum_pct": 100
           },
           {
-            "function": "runtime.main",
+            "function": "hash/crc32.ieeeInit",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 55.33
+            "cum": "9.25kB",
+            "cum_pct": 100
           },
           {
-            "function": "runtime.newproc.func1",
+            "function": "hash/crc32.update",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "4.22kB",
-            "cum_pct": 44.67
+            "cum": "9.25kB",
+            "cum_pct": 100
           },
           {
-            "function": "runtime.newproc1",
+            "function": "runtime/pprof.(*profileBuilder).build",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "4.22kB",
-            "cum_pct": 44.67
+            "cum": "9.25kB",
+            "cum_pct": 100
           },
           {
-            "function": "runtime.systemstack",
+            "function": "runtime/pprof.profileWriter",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "4.22kB",
-            "cum_pct": 44.67
+            "cum": "9.25kB",
+            "cum_pct": 100
           },
           {
-            "function": "sync.(*Pool).Get",
+            "function": "sync.(*Once).Do (inline)",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 55.33
+            "cum": "9.25kB",
+            "cum_pct": 100
           },
           {
-            "function": "sync.(*Pool).pin",
+            "function": "sync.(*Once).doSlow",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 55.33
+            "cum": "9.25kB",
+            "cum_pct": 100
+          }
+        ]
+      },
+      "total_alloc_bytes": 108454215.68,
+      "retained_bytes": 9472
+    },
+    {
+      "name": "byteat-pathbloom",
+      "benchmark": "BenchmarkByteAtPathBloom",
+      "cpu": {
+        "type": "cpu",
+        "unit": "time",
+        "accounted": "360ms",
+        "accounted_pct": 100,
+        "total": "360ms",
+        "total_value": 360000000,
+        "entries": [
+          {
+            "function": "runtime.mallocgc",
+            "flat": "90ms",
+            "flat_pct": 25,
+            "cum": "160ms",
+            "cum_pct": 44.44
           },
           {
-            "function": "testing.(*B).Run",
-            "flat": "0",
-            "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 55.33
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).ByteAt",
+            "flat": "80ms",
+            "flat_pct": 22.22,
+            "cum": "340ms",
+            "cum_pct": 94.44
           },
           {
-            "function": "testing.(*B).run",
+            "function": "runtime.makeslice",
+            "flat": "50ms",
+            "flat_pct": 13.89,
+            "cum": "210ms",
+            "cum_pct": 58.33
+          },
+          {
+            "function": "runtime.nextFreeFast (inline)",
+            "flat": "40ms",
+            "flat_pct": 11.11,
+            "cum": "40ms",
+            "cum_pct": 11.11
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).readPathBloom (inline)",
+            "flat": "30ms",
+            "flat_pct": 8.33,
+            "cum": "240ms",
+            "cum_pct": 66.67
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).directlyAddressable (inline)",
+            "flat": "20ms",
+            "flat_pct": 5.56,
+            "cum": "20ms",
+            "cum_pct": 5.56
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkByteAtPathBloom",
+            "flat": "10ms",
+            "flat_pct": 2.78,
+            "cum": "350ms",
+            "cum_pct": 97.22
+          },
+          {
+            "function": "runtime.deductAssistCredit",
+            "flat": "10ms",
+            "flat_pct": 2.78,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "runtime.releasem (inline)",
+            "flat": "10ms",
+            "flat_pct": 2.78,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "runtime.stkbucket",
+            "flat": "10ms",
+            "flat_pct": 2.78,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "runtime.unlock2",
+            "flat": "10ms",
+            "flat_pct": 2.78,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "runtime.(*sweepLocked).sweep",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 55.33
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "runtime.bgsweep",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "runtime.freeSpecial",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "runtime.mProf_Free",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "runtime.mProf_Malloc",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "runtime.profilealloc",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "runtime.sweepone",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "runtime.unlock (inline)",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "runtime.unlockWithRank (inline)",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "10ms",
+            "cum_pct": 2.78
+          },
+          {
+            "function": "testing.(*B).launch",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "350ms",
+            "cum_pct": 97.22
           },
           {
             "function": "testing.(*B).runN",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 55.33
+            "cum": "350ms",
+            "cum_pct": 97.22
+          }
+        ]
+      },
+      "alloc_space": {
+        "type": "alloc_space",
+        "unit": "bytes",
+        "accounted": "48.52MB",
+        "accounted_pct": 99.18,
+        "total": "48.92MB",
+        "total_value": 51296337.92,
+        "entries": [
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).readPathBloom (inline)",
+            "flat": "46.45MB",
+            "flat_pct": 94.95,
+            "cum": "46.45MB",
+            "cum_pct": 94.95
+          },
+          {
+            "function": "runtime/pprof.StartCPUProfile",
+            "flat": "1.12MB",
+            "flat_pct": 2.3,
+            "cum": "1.12MB",
+            "cum_pct": 2.3
+          },
+          {
+            "function": "compress/flate.NewWriter (inline)",
+            "flat": "0.63MB",
+            "flat_pct": 1.29,
+            "cum": "1.15MB",
+            "cum_pct": 2.35
+          },
+          {
+            "function": "compress/flate.(*compressor).init",
+            "flat": "0.31MB",
+            "flat_pct": 0.64,
+            "cum": "0.52MB",
+            "cum_pct": 1.06
+          },
+          {
+            "function": "compress/gzip.(*Writer).Write",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "1.15MB",
+            "cum_pct": 2.35
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.(*Reader).ByteAt",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "46.45MB",
+            "cum_pct": 94.95
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkByteAtPathBloom",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "46.52MB",
+            "cum_pct": 95.1
+          },
+          {
+            "function": "main.main",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "1.17MB",
+            "cum_pct": 2.39
+          },
+          {
+            "function": "runtime.main",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "1.17MB",
+            "cum_pct": 2.39
+          },
+          {
+            "function": "runtime/pprof.(*profileBuilder).build",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "1.19MB",
+            "cum_pct": 2.44
+          },
+          {
+            "function": "runtime/pprof.profileWriter",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "1.22MB",
+            "cum_pct": 2.48
+          },
+          {
+            "function": "testing.(*B).launch",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "46.50MB",
+            "cum_pct": 95.05
+          },
+          {
+            "function": "testing.(*B).runN",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "46.53MB",
+            "cum_pct": 95.11
           },
           {
             "function": "testing.(*M).Run",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 55.33
+            "cum": "1.17MB",
+            "cum_pct": 2.39
           },
           {
-            "function": "testing.(*benchContext).processBench",
+            "function": "testing.(*M).before",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 55.33
+            "cum": "1.12MB",
+            "cum_pct": 2.3
           },
           {
-            "function": "testing.BenchmarkResult.String",
+            "function": "testing/internal/testdeps.TestDeps.StartCPUProfile",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 55.33
+            "cum": "1.12MB",
+            "cum_pct": 2.3
+          }
+        ]
+      },
+      "inuse_space": {
+        "type": "inuse_space",
+        "unit": "bytes",
+        "accounted": "22.51kB",
+        "accounted_pct": 100,
+        "total": "22.51kB",
+        "total_value": 23050.24,
+        "entries": [
+          {
+            "function": "hash/crc32.slicingMakeTable",
+            "flat": "9.25kB",
+            "flat_pct": 41.11,
+            "cum": "9.25kB",
+            "cum_pct": 41.11
+          },
+          {
+            "function": "runtime.makeProfStackFP (inline)",
+            "flat": "9.18kB",
+            "flat_pct": 40.77,
+            "cum": "9.18kB",
+            "cum_pct": 40.77
+          },
+          {
+            "function": "regexp.compile",
+            "flat": "4.08kB",
+            "flat_pct": 18.12,
+            "cum": "4.08kB",
+            "cum_pct": 18.12
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkByteAtPathBloom",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.25kB",
+            "cum_pct": 41.11
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.Open",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.25kB",
+            "cum_pct": 41.11
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.Scan",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.25kB",
+            "cum_pct": 41.11
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.benchReader",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.25kB",
+            "cum_pct": 41.11
+          },
+          {
+            "function": "github.com/infinityabundance/ekbloom-go/internal/ekb.parseCommit",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.25kB",
+            "cum_pct": 41.11
+          },
+          {
+            "function": "hash/crc32.ChecksumIEEE",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.25kB",
+            "cum_pct": 41.11
+          },
+          {
+            "function": "hash/crc32.archInitIEEE (inline)",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.25kB",
+            "cum_pct": 41.11
+          },
+          {
+            "function": "hash/crc32.ieeeInit",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.25kB",
+            "cum_pct": 41.11
+          },
+          {
+            "function": "main.main",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.08kB",
+            "cum_pct": 18.12
+          },
+          {
+            "function": "regexp.Compile (inline)",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.08kB",
+            "cum_pct": 18.12
+          },
+          {
+            "function": "runtime.allocm",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.18kB",
+            "cum_pct": 40.77
+          },
+          {
+            "function": "runtime.gcBgMarkWorker.func2",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.18kB",
+            "cum_pct": 40.77
+          },
+          {
+            "function": "runtime.gcDrain",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.18kB",
+            "cum_pct": 40.77
+          },
+          {
+            "function": "runtime.gcDrainMarkWorkerIdle (inline)",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.18kB",
+            "cum_pct": 40.77
+          },
+          {
+            "function": "runtime.mProfStackInit (inline)",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.18kB",
+            "cum_pct": 40.77
+          },
+          {
+            "function": "runtime.main",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.08kB",
+            "cum_pct": 18.12
+          },
+          {
+            "function": "runtime.markroot",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.18kB",
+            "cum_pct": 40.77
+          },
+          {
+            "function": "runtime.markroot.func1",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.18kB",
+            "cum_pct": 40.77
+          },
+          {
+            "function": "runtime.mcommoninit",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.18kB",
+            "cum_pct": 40.77
+          },
+          {
+            "function": "runtime.newm",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.18kB",
+            "cum_pct": 40.77
+          },
+          {
+            "function": "runtime.ready",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.18kB",
+            "cum_pct": 40.77
+          },
+          {
+            "function": "runtime.resumeG",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.18kB",
+            "cum_pct": 40.77
+          },
+          {
+            "function": "runtime.startm",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.18kB",
+            "cum_pct": 40.77
+          },
+          {
+            "function": "runtime.systemstack",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.18kB",
+            "cum_pct": 40.77
+          },
+          {
+            "function": "runtime.wakep",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.18kB",
+            "cum_pct": 40.77
+          },
+          {
+            "function": "sync.(*Once).Do (inline)",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.25kB",
+            "cum_pct": 41.11
+          },
+          {
+            "function": "sync.(*Once).doSlow",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.25kB",
+            "cum_pct": 41.11
+          },
+          {
+            "function": "testing.(*B).run1.func1",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.25kB",
+            "cum_pct": 41.11
+          },
+          {
+            "function": "testing.(*B).runN",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "9.25kB",
+            "cum_pct": 41.11
+          },
+          {
+            "function": "testing.(*M).Run",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.08kB",
+            "cum_pct": 18.12
+          },
+          {
+            "function": "testing.newMatcher",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.08kB",
+            "cum_pct": 18.12
           },
           {
             "function": "testing.runBenchmarks",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 55.33
+            "cum": "4.08kB",
+            "cum_pct": 18.12
           },
           {
-            "function": "testing.runBenchmarks.func1",
+            "function": "testing.simpleMatch.verify",
             "flat": "0",
             "flat_pct": 0,
-            "cum": "5.23kB",
-            "cum_pct": 55.33
+            "cum": "4.08kB",
+            "cum_pct": 18.12
+          },
+          {
+            "function": "testing/internal/testdeps.TestDeps.MatchString",
+            "flat": "0",
+            "flat_pct": 0,
+            "cum": "4.08kB",
+            "cum_pct": 18.12
           }
         ]
       },
-      "total_alloc_bytes": 80897638.4,
-      "retained_bytes": 9676.8
+      "total_alloc_bytes": 51296337.92,
+      "retained_bytes": 23050.24
     }
   ],
   "gc": {
-    "seconds": 15.001934704,
-    "iterations": 5292,
-    "symbols": 520746726,
-    "heap_peak_bytes": 22080600,
-    "heap_inuse_bytes": 1826816,
-    "heap_alloc_bytes": 1475784,
-    "heap_sys_bytes": 37060608,
-    "heap_peak_inuse_bytes": 22642688,
-    "num_gc": 1758,
-    "gc_pause_total_ns": 46742071,
-    "gc_pause_count": 3516,
-    "gc_pause_p50_s": 0.000007680000000000001,
-    "gc_pause_p99_s": 0.00012288000000000002,
-    "gc_pause_p99_9_s": 0.000851968,
-    "gc_pause_max_s": 0.001703936,
+    "seconds": 15.009965156,
+    "iterations": 5398,
+    "symbols": 533347347,
+    "heap_peak_bytes": 26656696,
+    "heap_inuse_bytes": 9936896,
+    "heap_alloc_bytes": 9562968,
+    "heap_sys_bytes": 33226752,
+    "heap_peak_inuse_bytes": 27213824,
+    "num_gc": 1858,
+    "gc_pause_total_ns": 27431708,
+    "gc_pause_count": 3716,
+    "gc_pause_p50_s": 0.000005632,
+    "gc_pause_p99_s": 0.000022528,
+    "gc_pause_p99_9_s": 0.00024576000000000003,
+    "gc_pause_max_s": 0.000851968,
     "note": "Stop-the-world GC pauses sampled from runtime/metrics /gc/pauses:seconds; peak/retained heap from runtime.MemStats during a soak-style roundtrip + machine-9 decode workload."
   },
   "notes": [

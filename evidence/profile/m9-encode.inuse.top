@@ -1,19 +1,15 @@
 File: ekbloom.test
 Type: inuse_space
-Time: Oct 14, 2026 at 4:19pm (UTC)
-Showing nodes accounting for 21.92kB, 100% of 21.92kB total
+Time: Oct 14, 2026 at 5:20pm (UTC)
+Showing nodes accounting for 9.25kB, 100% of 9.25kB total
       flat  flat%   sum%        cum   cum%
-   12.67kB 57.79% 57.79%    12.67kB 57.79%  runtime.malg
-    9.25kB 42.21%   100%     9.25kB 42.21%  hash/crc32.slicingMakeTable
-         0     0%   100%     9.25kB 42.21%  compress/gzip.(*Writer).Write
-         0     0%   100%     9.25kB 42.21%  hash/crc32.Update (inline)
-         0     0%   100%     9.25kB 42.21%  hash/crc32.archInitIEEE (inline)
-         0     0%   100%     9.25kB 42.21%  hash/crc32.ieeeInit
-         0     0%   100%     9.25kB 42.21%  hash/crc32.update
-         0     0%   100%    12.67kB 57.79%  runtime.newproc.func1
-         0     0%   100%    12.67kB 57.79%  runtime.newproc1
-         0     0%   100%    12.67kB 57.79%  runtime.systemstack
-         0     0%   100%     9.25kB 42.21%  runtime/pprof.(*profileBuilder).build
-         0     0%   100%     9.25kB 42.21%  runtime/pprof.profileWriter
-         0     0%   100%     9.25kB 42.21%  sync.(*Once).Do (inline)
-         0     0%   100%     9.25kB 42.21%  sync.(*Once).doSlow
+    9.25kB   100%   100%     9.25kB   100%  hash/crc32.slicingMakeTable
+         0     0%   100%     9.25kB   100%  compress/gzip.(*Writer).Write
+         0     0%   100%     9.25kB   100%  hash/crc32.Update (inline)
+         0     0%   100%     9.25kB   100%  hash/crc32.archInitIEEE (inline)
+         0     0%   100%     9.25kB   100%  hash/crc32.ieeeInit
+         0     0%   100%     9.25kB   100%  hash/crc32.update
+         0     0%   100%     9.25kB   100%  runtime/pprof.(*profileBuilder).build
+         0     0%   100%     9.25kB   100%  runtime/pprof.profileWriter
+         0     0%   100%     9.25kB   100%  sync.(*Once).Do (inline)
+         0     0%   100%     9.25kB   100%  sync.(*Once).doSlow

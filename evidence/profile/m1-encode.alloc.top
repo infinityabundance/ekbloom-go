@@ -1,10 +1,10 @@
 File: ekbloom.test
 Type: alloc_space
-Time: Oct 14, 2026 at 4:19pm (UTC)
-Showing nodes accounting for 630MB, 99.45% of 633.49MB total
-Dropped 83 nodes (cum <= 3.17MB)
+Time: Oct 14, 2026 at 5:20pm (UTC)
+Showing nodes accounting for 653MB, 99.46% of 656.52MB total
+Dropped 86 nodes (cum <= 3.28MB)
       flat  flat%   sum%        cum   cum%
-     630MB 99.45% 99.45%      630MB 99.45%  github.com/infinityabundance/ekbloom-go/internal/ekb.nl2.Encode
-         0     0% 99.45%      630MB 99.45%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
-         0     0% 99.45%      629MB 99.29%  testing.(*B).launch
-         0     0% 99.45%   631.11MB 99.62%  testing.(*B).runN
+     653MB 99.46% 99.46%      653MB 99.46%  github.com/infinityabundance/ekbloom-go/internal/ekb.nl2.Encode
+         0     0% 99.46%      653MB 99.46%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
+         0     0% 99.46%      652MB 99.31%  testing.(*B).launch
+         0     0% 99.46%   654.12MB 99.64%  testing.(*B).runN

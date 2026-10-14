@@ -30,8 +30,8 @@ the shared dictionary amortised over the whole corpus.
 
 | method | total bytes | bytes/record | decode p50 |
 | --- | ---: | ---: | ---: |
-| **`OrANS-DICT` (machine 9)** | **341,947** | **83.5** | 391 ns |
-| machine 2, per record | 2,416,529 | 590.0 | 2364 ns |
+| **`OrANS-DICT` (machine 9)** | **341,947** | **83.5** | 401 ns |
+| machine 2, per record | 2,416,529 | 590.0 | 2695 ns |
 | raw records | 409,600 | 100.0 | — |
 
 The shared dictionary is **7.1× smaller** than per-record machine 2 (83.5 vs 590.0

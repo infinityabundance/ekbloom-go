@@ -24,12 +24,12 @@ service, `internal/ekb/metrics.go` provides ready-made exports:
 - `Reader.WorstCaseMetric(off, length)` — the certified step bound.
 - `MetricsText(r)` / `MetricsJSON(r)` — Prometheus-style / JSON rendering.
 
-Measured latency (this host): `ByteAt` via path bloom ≈2.3 ns (≈1.35 ns via the
+Measured latency (this host): `ByteAt` via path bloom ≈7 ns (≈1.35 ns via the
 borrowed `ResidentView.Get`, zero allocs/op) single-threaded. Under 64 concurrent
 readers the end-to-end `ByteAt` (including the timing harness) is reported in two
-phases in `evidence/concurrency.json`: **quiet** (readers only) p50 ≈200 ns /
-p99 ≈560 ns / p99.9 ≈1.5 µs, and **publish** (a live writer RCU-republishing
-generations) p50 ≈210 ns / p99 ≈550 ns / p99.9 ≈1.1 µs. The tail is dominated by
+phases in `evidence/concurrency.json`: **quiet** (readers only) p50 ≈90 ns /
+p99 ≈330 ns / p99.9 ≈1.5 µs, and **publish** (a live writer RCU-republishing
+generations) p50 ≈110 ns / p99 ≈260 ns / p99.9 ≈1.6 µs. The tail is dominated by
 cross-core cache traffic on the shared published pointer and the per-read clock
 read, not by the codec; the quiet and publish distributions are statistically
 indistinguishable, which is the property the RCU publication exists to provide.
@@ -142,20 +142,20 @@ committed generation.
 
 ## Expected numbers (this host, scalar, no SIMD)
 
-From `go test -bench` (`internal/ekb/bench_test.go`), AMD Ryzen 7 9800X3D, Go 1.27:
+From `go test -bench` (`internal/ekb/bench_test.go`), AMD Ryzen 7 9800X3D, Go 1.23:
 
 | benchmark | result |
 | --- | --- |
-| machine 1 encode, 1 MiB | ≈1.60 GB/s |
-| machine 2 encode, 1 MiB | ≈216 MB/s |
-| machine 2 decode, 1 MiB | ≈133 MB/s |
-| BLAKE3, 1 MiB (pure Go) | ≈324 MB/s |
-| `ByteAt` via exact path bloom | ≈2.3 ns/op |
-| `ByteAt` via full history | ≈3.8 ns/op |
-| `ByteAt` via nearest checkpoint (K=64) | ≈67 ns/op |
-| `ByteAt` materialised fallback | ≈5.3 ns/op |
+| machine 1 encode, 1 MiB | ≈1.59 GB/s |
+| machine 2 encode, 1 MiB | ≈211 MB/s |
+| machine 2 decode, 1 MiB | ≈130 MB/s |
+| BLAKE3, 1 MiB (pure Go) | ≈316 MB/s |
+| `ByteAt` via exact path bloom | ≈7 ns/op |
+| `ByteAt` via full history | ≈4.0 ns/op |
+| `ByteAt` via nearest checkpoint (K=64) | ≈68 ns/op |
+| `ByteAt` materialised fallback | ≈5.5 ns/op |
 | `ResidentView.Get` (borrowed, zero allocs) | ≈1.35 ns/op |
-| `ReadAt` 4 KiB via path bloom | ≈350 ns (≈11.7 GB/s) |
+| `ReadAt` 4 KiB via path bloom | ≈321 ns (≈12.8 GB/s) |
 | stream build, 2 GiB, 64 KiB blocks | ≈16 s at **9.46 MiB peak heap** (≈125 MiB/s) |
 
 Captured verbatim in `evidence/bench.txt` (`go test -bench . -benchmem -benchtime 200ms`).
@@ -164,12 +164,12 @@ Captured verbatim in `evidence/bench.txt` (`go test -bench . -benchmem -benchtim
 
 | benchmark | amd64 (9800X3D) | native arm64 |
 | --- | ---: | ---: |
-| machine 1 encode, 1 MiB | ≈1.60 GB/s | ≈0.96 GB/s |
-| BLAKE3, 1 MiB | ≈324 MB/s | ≈170 MB/s |
-| `ByteAt` via exact path bloom | ≈2.3 ns/op | ≈13.3 ns/op |
-| `ByteAt` via full history | ≈3.8 ns/op | ≈7.4 ns/op |
+| machine 1 encode, 1 MiB | ≈1.59 GB/s | ≈0.96 GB/s |
+| BLAKE3, 1 MiB | ≈316 MB/s | ≈170 MB/s |
+| `ByteAt` via exact path bloom | ≈7 ns/op | ≈13.3 ns/op |
+| `ByteAt` via full history | ≈4.0 ns/op | ≈7.4 ns/op |
 | `ResidentView.Get` | ≈1.35 ns/op | ≈1.77 ns/op |
-| `ReadAt` 4 KiB via path bloom | ≈350 ns | ≈881 ns |
+| `ReadAt` 4 KiB via path bloom | ≈321 ns | ≈881 ns |
 
 The arm64 fingerprint is byte-identical to amd64
 (`evidence/aarch64-native-fingerprint.txt`).

@@ -1,24 +1,42 @@
 File: ekbloom.test
 Type: inuse_space
-Time: Oct 14, 2026 at 4:19pm (UTC)
-Showing nodes accounting for 9.45kB, 100% of 9.45kB total
+Time: Oct 14, 2026 at 5:20pm (UTC)
+Showing nodes accounting for 22.51kB, 100% of 22.51kB total
       flat  flat%   sum%        cum   cum%
-    5.23kB 55.33% 55.33%     5.23kB 55.33%  sync.(*Pool).pinSlow
-    4.22kB 44.67%   100%     4.22kB 44.67%  runtime.malg
-         0     0%   100%     5.23kB 55.33%  fmt.Fprintf
-         0     0%   100%     5.23kB 55.33%  fmt.newPrinter
-         0     0%   100%     5.23kB 55.33%  main.main
-         0     0%   100%     5.23kB 55.33%  runtime.main
-         0     0%   100%     4.22kB 44.67%  runtime.newproc.func1
-         0     0%   100%     4.22kB 44.67%  runtime.newproc1
-         0     0%   100%     4.22kB 44.67%  runtime.systemstack
-         0     0%   100%     5.23kB 55.33%  sync.(*Pool).Get
-         0     0%   100%     5.23kB 55.33%  sync.(*Pool).pin
-         0     0%   100%     5.23kB 55.33%  testing.(*B).Run
-         0     0%   100%     5.23kB 55.33%  testing.(*B).run
-         0     0%   100%     5.23kB 55.33%  testing.(*B).runN
-         0     0%   100%     5.23kB 55.33%  testing.(*M).Run
-         0     0%   100%     5.23kB 55.33%  testing.(*benchContext).processBench
-         0     0%   100%     5.23kB 55.33%  testing.BenchmarkResult.String
-         0     0%   100%     5.23kB 55.33%  testing.runBenchmarks
-         0     0%   100%     5.23kB 55.33%  testing.runBenchmarks.func1
+    9.25kB 41.11% 41.11%     9.25kB 41.11%  hash/crc32.slicingMakeTable
+    9.18kB 40.77% 81.88%     9.18kB 40.77%  runtime.makeProfStackFP (inline)
+    4.08kB 18.12%   100%     4.08kB 18.12%  regexp.compile
+         0     0%   100%     9.25kB 41.11%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkByteAtPathBloom
+         0     0%   100%     9.25kB 41.11%  github.com/infinityabundance/ekbloom-go/internal/ekb.Open
+         0     0%   100%     9.25kB 41.11%  github.com/infinityabundance/ekbloom-go/internal/ekb.Scan
+         0     0%   100%     9.25kB 41.11%  github.com/infinityabundance/ekbloom-go/internal/ekb.benchReader
+         0     0%   100%     9.25kB 41.11%  github.com/infinityabundance/ekbloom-go/internal/ekb.parseCommit
+         0     0%   100%     9.25kB 41.11%  hash/crc32.ChecksumIEEE
+         0     0%   100%     9.25kB 41.11%  hash/crc32.archInitIEEE (inline)
+         0     0%   100%     9.25kB 41.11%  hash/crc32.ieeeInit
+         0     0%   100%     4.08kB 18.12%  main.main
+         0     0%   100%     4.08kB 18.12%  regexp.Compile (inline)
+         0     0%   100%     9.18kB 40.77%  runtime.allocm
+         0     0%   100%     9.18kB 40.77%  runtime.gcBgMarkWorker.func2
+         0     0%   100%     9.18kB 40.77%  runtime.gcDrain
+         0     0%   100%     9.18kB 40.77%  runtime.gcDrainMarkWorkerIdle (inline)
+         0     0%   100%     9.18kB 40.77%  runtime.mProfStackInit (inline)
+         0     0%   100%     4.08kB 18.12%  runtime.main
+         0     0%   100%     9.18kB 40.77%  runtime.markroot
+         0     0%   100%     9.18kB 40.77%  runtime.markroot.func1
+         0     0%   100%     9.18kB 40.77%  runtime.mcommoninit
+         0     0%   100%     9.18kB 40.77%  runtime.newm
+         0     0%   100%     9.18kB 40.77%  runtime.ready
+         0     0%   100%     9.18kB 40.77%  runtime.resumeG
+         0     0%   100%     9.18kB 40.77%  runtime.startm
+         0     0%   100%     9.18kB 40.77%  runtime.systemstack
+         0     0%   100%     9.18kB 40.77%  runtime.wakep
+         0     0%   100%     9.25kB 41.11%  sync.(*Once).Do (inline)
+         0     0%   100%     9.25kB 41.11%  sync.(*Once).doSlow
+         0     0%   100%     9.25kB 41.11%  testing.(*B).run1.func1
+         0     0%   100%     9.25kB 41.11%  testing.(*B).runN
+         0     0%   100%     4.08kB 18.12%  testing.(*M).Run
+         0     0%   100%     4.08kB 18.12%  testing.newMatcher
+         0     0%   100%     4.08kB 18.12%  testing.runBenchmarks
+         0     0%   100%     4.08kB 18.12%  testing.simpleMatch.verify
+         0     0%   100%     4.08kB 18.12%  testing/internal/testdeps.TestDeps.MatchString

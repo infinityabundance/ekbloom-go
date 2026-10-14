@@ -6,14 +6,14 @@
       "method": "ekbloom-m9",
       "total_bytes": 341947,
       "bytes_per_record": 83.483154296875,
-      "decode_p50_ns": 481,
+      "decode_p50_ns": 401,
       "note": "one 540-byte shared dictionary + header-less cores"
     },
     {
       "method": "machine2-per-record",
       "total_bytes": 2416529,
       "bytes_per_record": 589.972900390625,
-      "decode_p50_ns": 2715,
+      "decode_p50_ns": 2695,
       "note": "a 516-byte model header in every core"
     },
     {

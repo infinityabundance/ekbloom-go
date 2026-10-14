@@ -1,21 +1,17 @@
 File: ekbloom.test
 Type: cpu
-Time: Oct 14, 2026 at 4:19pm (UTC)
-Duration: 502.25ms, Total samples = 350ms (69.69%)
-Showing nodes accounting for 350ms, 100% of 350ms total
+Time: Oct 14, 2026 at 5:20pm (UTC)
+Duration: 500.98ms, Total samples = 360ms (71.86%)
+Showing nodes accounting for 360ms, 100% of 360ms total
       flat  flat%   sum%        cum   cum%
-     310ms 88.57% 88.57%      320ms 91.43%  github.com/infinityabundance/ekbloom-go/internal/ekb.Dictionary.EncodeRecord
-      20ms  5.71% 94.29%       20ms  5.71%  github.com/infinityabundance/ekbloom-go/internal/ekb.TrainDictionary
-      10ms  2.86% 97.14%       10ms  2.86%  github.com/infinityabundance/ekbloom-go/internal/ekb.benchPattern (inline)
-      10ms  2.86%   100%       10ms  2.86%  runtime.newBucket
-         0     0%   100%       10ms  2.86%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode
-         0     0%   100%      340ms 97.14%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
-         0     0%   100%      340ms 97.14%  github.com/infinityabundance/ekbloom-go/internal/ekb.dictMachine.Encode
-         0     0%   100%       10ms  2.86%  runtime.mProf_Malloc
-         0     0%   100%       10ms  2.86%  runtime.makeslice
-         0     0%   100%       10ms  2.86%  runtime.mallocgc
-         0     0%   100%       10ms  2.86%  runtime.profilealloc
-         0     0%   100%       10ms  2.86%  runtime.stkbucket
-         0     0%   100%      340ms 97.14%  testing.(*B).launch
-         0     0%   100%       10ms  2.86%  testing.(*B).run1.func1
-         0     0%   100%      350ms   100%  testing.(*B).runN
+     310ms 86.11% 86.11%      320ms 88.89%  github.com/infinityabundance/ekbloom-go/internal/ekb.Dictionary.EncodeRecord
+      40ms 11.11% 97.22%       40ms 11.11%  github.com/infinityabundance/ekbloom-go/internal/ekb.TrainDictionary
+      10ms  2.78%   100%       10ms  2.78%  runtime.memclrNoHeapPointers
+         0     0%   100%      360ms   100%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
+         0     0%   100%      360ms   100%  github.com/infinityabundance/ekbloom-go/internal/ekb.dictMachine.Encode
+         0     0%   100%       10ms  2.78%  runtime.makeslice
+         0     0%   100%       10ms  2.78%  runtime.mallocgc
+         0     0%   100%       10ms  2.78%  runtime.memclrNoHeapPointersChunked
+         0     0%   100%      350ms 97.22%  testing.(*B).launch
+         0     0%   100%       10ms  2.78%  testing.(*B).run1.func1
+         0     0%   100%      360ms   100%  testing.(*B).runN
