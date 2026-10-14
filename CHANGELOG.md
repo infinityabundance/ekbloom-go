@@ -11,6 +11,17 @@ The wire format is **frozen** and follows the Rust reference
 
 ## [Unreleased]
 
+### Added
+
+- **Implementation-neutral conformance suite** (`conformance/`): an authoritative
+  `SPEC.md`, an immutable format-versioned `manifest.json` of **73 golden fixtures**
+  (positive + negative with expected error kinds, and each expectation labelled
+  `derived` vs `asserted`), and **independent Go and Rust verifiers** that consume
+  the same manifest and import neither the other implementation nor the generator.
+  `sh scripts/conformance.sh` → `evidence/conformance.json`. It already records 21
+  documented divergences between the two implementations' error kinds, which
+  `SPEC.md` §7.2/§7.3 rules on. CI job `conformance`.
+
 ## [0.4.0] - 2026-10-14
 
 ### Added

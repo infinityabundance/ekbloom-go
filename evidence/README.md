@@ -36,6 +36,7 @@ because they need hardware or privileges a laptop may not have.
 | `rocksdb-blobdb.json` / `rocksdb-blobdb.log` | EKBLOOM-encoded values inside RocksDB (`Put`/`Get` + a registered `MergeOperator`), containerized (`scripts/rocksdb.sh`) |
 | `pebble-vlog.json` / `pebble-vlog.prom` | machine-9 cores as Pebble values; zero-alloc `DecodeInto` (`scripts/pebble.sh`) |
 | `prometheus-scrape.txt` / `grafana-dashboard.json` | the exporter's five metric families and the Grafana dashboard (`scripts/prometheus.sh`) |
+| `conformance.json` / `conformance.log` | the implementation-neutral conformance suite: 73 immutable fixtures verified independently by Go and Rust (`scripts/conformance.sh`) |
 | `pebble-vlog.json` / `pebble-vlog.log` / `pebble-vlog.prom` | machine-9 as a **Pebble value-log adapter**: 20,000 × 100 B cores via `db.Set`, 50,000 80/20 Gets with a single reusable `DictDecoder.DecodeInto` (0 allocs/op), plus a sealed-body `worst_case_steps`/`E_V` probe (`scripts/pebble.sh`) |
 | `container-test.json`, `container-reproduce.json` | the suite and CLI inside the ~9.7 MB image |
 | `reproduce.json` | JSON summary from `scripts/reproduce.sh` |

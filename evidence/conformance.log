@@ -1,0 +1,10 @@
+== conformance: Go verifier (sandbox, capped) ==
+conformance(go): pass — fixtures=73 checks=310 failures=0 (ekbloom-go public API)
+RESULT go=pass fixtures=73 checks=310 failures=0
+== conformance: Rust verifier (ekbloom-rust:1.99.0, capped) ==
+   Compiling fixturegen v0.1.0 (/src/.reference/fixturegen)
+    Finished `release` profile [optimized] target(s) in 0.38s
+conformance(rust): pass — fixtures=73 checks=269 failures=0 skipped=41
+RESULT rust=pass fixtures=73 checks=269 failures=0 skipped=41
+wrote /mnt/1tb_kingston/EKBLOOM-GO/evidence/conformance.json:
+{"go":"pass","rust":"pass","fixtures":73}

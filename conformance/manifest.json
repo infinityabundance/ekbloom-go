@@ -1,0 +1,2258 @@
+{
+  "format_version": "ekb-format-0.3-conformance-1",
+  "authority": "conformance/SPEC.md",
+  "immutable": true,
+  "note": "Golden set for the EKBLOOM .ekb byte format. Immutable: regenerating any file requires a format-version bump and a note in conformance/SPEC.md. format_version keys the fixture corpus, not the wire format (which is 0.3). See conformance/README.md.",
+  "fixtures": [
+    {
+      "name": "go_auth",
+      "file": "fixtures/go/go_auth.ekb",
+      "sha256": "5f7e0b79ed4e684bfd727187344e5159a83be847c5004fb736ad6a62783f08cc",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_auth.src",
+      "dict_file": null,
+      "auth_key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 300,
+        "physical_bytes": 1504,
+        "blake3_of_decoded": "d937df80958cbd9bbc80ec9294d2b7eb321dbac90128acd6f1b3f2423b137381",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 300
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m1_full_rand",
+      "file": "fixtures/go/go_m1_full_rand.ekb",
+      "sha256": "65466dcd255740164e3803ec325552ff32f8bf250f473855375ea519ff8f5102",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m1_full_rand.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 2048,
+        "physical_bytes": 10244,
+        "blake3_of_decoded": "14bc65cc2c5e88e6169c5cfecebe9dfde23f04f0c2029ead0483bedff85f5e3b",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 2048
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m1_path4_text",
+      "file": "fixtures/go/go_m1_path4_text.ekb",
+      "sha256": "32c1372c5119eadfc9792ddb755c237072f56e32574590461af5c97667f49ade",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m1_path4_text.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 4000,
+        "physical_bytes": 12235,
+        "blake3_of_decoded": "de582f134f9cd1fb0cc1b796918286459326d9c20ff96ab0915ff3936bd98630",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 4000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m1_regional_text",
+      "file": "fixtures/go/go_m1_regional_text.ekb",
+      "sha256": "03d12f8ea3cca30aabf77cdd98c50fa0a017faa1659fd62fd89012fad79aa7a0",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m1_regional_text.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 400,
+        "physical_bytes": 1980,
+        "blake3_of_decoded": "41e74d78df256e689b971849c2804313d74bd79e0245c0ad1ecc3c16f09daed9",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 400
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m1_root_allbytes",
+      "file": "fixtures/go/go_m1_root_allbytes.ekb",
+      "sha256": "4dab350c7f1514125b4d2ac688f8253e11e2333e5810ee2b8a3076e14b3891e8",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m1_root_allbytes.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 256,
+        "physical_bytes": 256,
+        "blake3_of_decoded": "4a495ba42461748eca8fdad618f976aa726cc2903de9fcb40735a786ac1c196b",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 256
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m1_root_empty",
+      "file": "fixtures/go/go_m1_root_empty.ekb",
+      "sha256": "b06103b85057da8ae328660ff8428d5420cbf79e12690ce2f0e2b274b4bd3405",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m1_root_empty.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 0,
+        "physical_bytes": 0,
+        "blake3_of_decoded": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 0
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m1_root_text",
+      "file": "fixtures/go/go_m1_root_text.ekb",
+      "sha256": "f2e71904dc7defbac618839b0824720de2b6c0fca49d2c35b532e99bc11ba073",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m1_root_text.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 100,
+        "physical_bytes": 100,
+        "blake3_of_decoded": "3cb5e9ee40cd863a46f190085cb9b53e1898ed9ab718fea411a1ac149ef2ad9e",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 100
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m1_sparse64_text",
+      "file": "fixtures/go/go_m1_sparse64_text.ekb",
+      "sha256": "d6b8bda6445d4fc7ac62b96b7117891b8cf8980de22e46b07789410e2eeacf7f",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m1_sparse64_text.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 1000,
+        "physical_bytes": 1032,
+        "blake3_of_decoded": "06503ee2d01776640f0188f187e3b714dafc42824a3118c5d79c113ff8581cd3",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 1000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m1_univ4_text",
+      "file": "fixtures/go/go_m1_univ4_text.ekb",
+      "sha256": "238f372e30a95d746f6d1ecbaef448a4ee245f720797d623064141857d022fdb",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m1_univ4_text.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 400,
+        "physical_bytes": 533100,
+        "blake3_of_decoded": "41e74d78df256e689b971849c2804313d74bd79e0245c0ad1ecc3c16f09daed9",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 400
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m2_full_skew",
+      "file": "fixtures/go/go_m2_full_skew.ekb",
+      "sha256": "b4e2c56584cea138b13f21086864b542bb7a039e201dedb885fbbf401afc3727",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m2_full_skew.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 2,
+        "logical_len": 3000,
+        "physical_bytes": 13157,
+        "blake3_of_decoded": "998f27eb4b2e8c707d1986e058371007a8bcd7c05af6b1c321543efb9a475c5e",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 3000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m2_root_skew",
+      "file": "fixtures/go/go_m2_root_skew.ekb",
+      "sha256": "37c27e03e3a4da05b11cd1f6d425e5b5cfbf0d07207fd805e26ba24deced269f",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m2_root_skew.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 2,
+        "logical_len": 5000,
+        "physical_bytes": 1541,
+        "blake3_of_decoded": "99757d94f502d6f79b074ffe252cd68bef57bc405a51933d3969b315fc1f7804",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 5000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m3_root_rand",
+      "file": "fixtures/go/go_m3_root_rand.ekb",
+      "sha256": "371bd05085fa68e3de8797c0f8a4e10f949801155d3ff473f429e160bff475b2",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m3_root_rand.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 3,
+        "logical_len": 4096,
+        "physical_bytes": 4096,
+        "blake3_of_decoded": "b12c70d6be88a8fdb3051375f1bfd19869e29004a44d38e649d9d3d5bcbe3dee",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 4096
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m4_root_skew",
+      "file": "fixtures/go/go_m4_root_skew.ekb",
+      "sha256": "6cc557e5c623e85dde19b2d6091d1b0c159db76ed952feef1b37e7552e257d5a",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m4_root_skew.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 4,
+        "logical_len": 5000,
+        "physical_bytes": 1560,
+        "blake3_of_decoded": "d8c00e7f539c3162db468293bb961bc262a26b5729bab11ca711fe69275a5606",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 5000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m5_root_skew",
+      "file": "fixtures/go/go_m5_root_skew.ekb",
+      "sha256": "3b452276da56c815b3f35b087951545a94ad410c8e38277c76690b1da7f1cf13",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m5_root_skew.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 5,
+        "logical_len": 5000,
+        "physical_bytes": 1264,
+        "blake3_of_decoded": "7abc175a1f95e9501835e1cf44041e9f5acc71e2aeb7068304405e7213307f34",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 5000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m6_root_mixed",
+      "file": "fixtures/go/go_m6_root_mixed.ekb",
+      "sha256": "9c382b872ce012772cd4427b19a2824b44ba8a4c35c47d0a61e7b223a7aff514",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m6_root_mixed.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 6,
+        "logical_len": 8192,
+        "physical_bytes": 8400,
+        "blake3_of_decoded": "90810c3cb03efb61e71bc4ea4a9f5c6b9d2769492db3d39e61c52e029bcac602",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 8192
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m7_root_skew",
+      "file": "fixtures/go/go_m7_root_skew.ekb",
+      "sha256": "4d1e73c0bb7570875be06ff67929e1d970aaee2a59bdf1bdb5b361bab1799c2a",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m7_root_skew.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 7,
+        "logical_len": 5000,
+        "physical_bytes": 1556,
+        "blake3_of_decoded": "8577b6e1002b7edcf35b5adcc7a7d238da0d1a2925d8135ecce7e2046917bd60",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 5000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m8_root_skew",
+      "file": "fixtures/go/go_m8_root_skew.ekb",
+      "sha256": "eea6ecdfe7909c07013a00396690c2f3ae63c20972df943ea30d0900cc2bbc88",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m8_root_skew.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 8,
+        "logical_len": 5000,
+        "physical_bytes": 1581,
+        "blake3_of_decoded": "2586ca2014eb13ff9849ca510eb4b11d86811ac3690123cfd4c2d848482013f0",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 5000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m9_full_small",
+      "file": "fixtures/go/go_m9_full_small.ekb",
+      "sha256": "3457f271cb30e7659e4166cb3bcb097f704ea1cb4755a7c8af16a212bf993cfc",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m9_full_small.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 9,
+        "logical_len": 38,
+        "physical_bytes": 756,
+        "blake3_of_decoded": "dabae838934a2b273a0dff216928d88e777eda184099ec9cf073c9ccbe7cf83e",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 38
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m9_ref",
+      "file": "fixtures/go/go_m9_ref.ekb",
+      "sha256": "3299023f315391445c29db66edfe004d257209562af34eaec24c58bd7943e203",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m9_ref.src",
+      "dict_file": "fixtures/go/go_m9_ref.dict",
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 9,
+        "logical_len": 100,
+        "physical_bytes": 86,
+        "blake3_of_decoded": "aa660bc15acbe09cfb45e7d7563fabe0a7da77aca43e72440b13f45487c6a7b9",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 100
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_m9_root_small",
+      "file": "fixtures/go/go_m9_root_small.ekb",
+      "sha256": "ac4925a823ac96190427aa73b08f043c20de9529709bf05df2f38f5882db8237",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_m9_root_small.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 9,
+        "logical_len": 38,
+        "physical_bytes": 600,
+        "blake3_of_decoded": "dabae838934a2b273a0dff216928d88e777eda184099ec9cf073c9ccbe7cf83e",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 38
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "go_tiles",
+      "file": "fixtures/go/go_tiles.ekb",
+      "sha256": "044851dcb8fbcaac02b41edf2d88ae27fdbdb9933faba963efe0becb880d9a1b",
+      "origin": "go",
+      "polarity": "positive",
+      "src_file": "fixtures/go/go_tiles.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 4096,
+        "physical_bytes": 8196,
+        "blake3_of_decoded": "d70c9c587b8ec68a42e4ebc1e7765f9ab95efd952a017a1739090732efcdf55b",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 4096
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "neg_auth_bitflip",
+      "file": "fixtures/negative/neg_auth_bitflip.ekb",
+      "sha256": "0297f29a8b4175d33d858bc882b97ece5cdfad6041029723524cb10372c0e11d",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "AUTH payload byte flipped",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrRecoveryFailed",
+        "error_kind_accept": [
+          "ErrBadSection",
+          "ErrChecksumMismatch",
+          "ErrRecoveryFailed",
+          "ErrCorrupt"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_bad_magic",
+      "file": "fixtures/negative/neg_bad_magic.ekb",
+      "sha256": "060f38106520ed777dce512fc38deea185a559fd54f20acd7341ad4015f2b206",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "core byte 0 of the magic flipped",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrBadMagic",
+        "error_kind_accept": [],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "derived",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_bad_magic_all",
+      "file": "fixtures/negative/neg_bad_magic_all.ekb",
+      "sha256": "7e294a6d579d602beba209169b535a2e30c55e3cb4a2fe1963d2b2fbd6394529",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "magic replaced",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrBadMagic",
+        "error_kind_accept": [],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "derived",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_bloom_global_bitflip",
+      "file": "fixtures/negative/neg_bloom_global_bitflip.ekb",
+      "sha256": "6605f7263a1dfb7bf4aea96fa3ec45895e66722a5a218359967c01fbf78e1f01",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "bloom-global payload byte flipped",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrRecoveryFailed",
+        "error_kind_accept": [
+          "ErrChecksumMismatch",
+          "ErrRecoveryFailed",
+          "ErrCorrupt"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_bloom_path_bitflip",
+      "file": "fixtures/negative/neg_bloom_path_bitflip.ekb",
+      "sha256": "4bd513557d70aea46ba48c6654f2b799e20b8d51af791c413ca9c36f1718a184",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "bloom-path payload byte flipped",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrRecoveryFailed",
+        "error_kind_accept": [
+          "ErrChecksumMismatch",
+          "ErrRecoveryFailed",
+          "ErrCorrupt"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_bloom_region_bitflip",
+      "file": "fixtures/negative/neg_bloom_region_bitflip.ekb",
+      "sha256": "12c23b81456ca4d0402e77ec736280bd667d0a055fc30ccb15b07bec4f269ffd",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "bloom-region payload byte flipped",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrRecoveryFailed",
+        "error_kind_accept": [
+          "ErrChecksumMismatch",
+          "ErrRecoveryFailed",
+          "ErrCorrupt"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_certificate_bitflip",
+      "file": "fixtures/negative/neg_certificate_bitflip.ekb",
+      "sha256": "dfdb935f86791400b1370998abfe4169917eb34da9006a5e1c5002e788d0d3e1",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "certificate payload byte flipped",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrRecoveryFailed",
+        "error_kind_accept": [
+          "ErrChecksumMismatch",
+          "ErrRecoveryFailed",
+          "ErrCorrupt"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_checkpoint_bitflip",
+      "file": "fixtures/negative/neg_checkpoint_bitflip.ekb",
+      "sha256": "09588986c5e6f44b448625971c059dda9deecaad16b4a4665f728aa01d0e09fa",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "checkpoint payload byte flipped",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrRecoveryFailed",
+        "error_kind_accept": [
+          "ErrChecksumMismatch",
+          "ErrRecoveryFailed",
+          "ErrCorrupt"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_core_bitflip",
+      "file": "fixtures/negative/neg_core_bitflip.ekb",
+      "sha256": "1351b96160b492e7bb2573fd235fa322badbde10277ff6fce49e41ece1e08d4e",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "one core byte flipped: manifest core_hash no longer matches",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrChecksumMismatch",
+        "error_kind_accept": [
+          "ErrCorrupt"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "derived",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_core_bitflip_m6",
+      "file": "fixtures/negative/neg_core_bitflip_m6.ekb",
+      "sha256": "e484f28f4dfb581f8adae6dbc4da10eb9fe4bb76d7c3730c07521a3f78aa9c51",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "core byte flipped in a machine-6 (SEG) core",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrChecksumMismatch",
+        "error_kind_accept": [
+          "ErrCorrupt"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "derived",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_core_bitflip_m9",
+      "file": "fixtures/negative/neg_core_bitflip_m9.ekb",
+      "sha256": "faf38c4520f370d15b0e2101332cff7a33586af6e9372010cfdca5fdce8979a2",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "core byte flipped in a machine-9 (DICT) core",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrChecksumMismatch",
+        "error_kind_accept": [
+          "ErrCorrupt"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "derived",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_core_only",
+      "file": "fixtures/negative/neg_core_only.ekb",
+      "sha256": "96c67309e23550ba1afe67f3c9a98457bdf49295b5b1bcc1daebd42df8f04bfb",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "valid header+core, no commit block",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrRecoveryFailed",
+        "error_kind_accept": [],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "derived",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_core_version",
+      "file": "fixtures/negative/neg_core_version.ekb",
+      "sha256": "42753ee03e7e8ae3a9bf0b3a55a1dbad1d8ff884ae178f62b1333715f0a7d725",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "core_version 9 on a known machine",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrUnsupportedCoreVersion",
+        "error_kind_accept": [],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "derived",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_empty",
+      "file": "fixtures/negative/neg_empty.ekb",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "empty file",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrTruncated",
+        "error_kind_accept": [],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "derived",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_feature_flags",
+      "file": "fixtures/negative/neg_feature_flags.ekb",
+      "sha256": "64f7d44a1544c4132e047e19b80508884d7b2ba936304b87e247ae9780edb83c",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "feature_flags set non-zero",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrBadSection",
+        "error_kind_accept": [],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "derived",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_footer_checksum",
+      "file": "fixtures/negative/neg_footer_checksum.ekb",
+      "sha256": "2e88ec74db2af3c8748dad63487a05a7d1907b5abf55b856674189b2b7abf7d6",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "footer generation flipped without fixing the footer checksum",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrRecoveryFailed",
+        "error_kind_accept": [
+          "ErrChecksumMismatch",
+          "ErrBadSection",
+          "ErrRecoveryFailed",
+          "ErrCorrupt"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_footer_marker",
+      "file": "fixtures/negative/neg_footer_marker.ekb",
+      "sha256": "6dc9f2447e56df73c06aadf79baee7aecc7a6e4ebfddb3b12ed27e5c6567777f",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "commit marker corrupted",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrRecoveryFailed",
+        "error_kind_accept": [
+          "ErrBadSection",
+          "ErrRecoveryFailed",
+          "ErrCorrupt"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_format_major",
+      "file": "fixtures/negative/neg_format_major.ekb",
+      "sha256": "bd650d415d6c75e3fb6e1e24f029f2c829958bbd53cc721725dadfce58908d96",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "format_major set to 1",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrUnsupportedVersion",
+        "error_kind_accept": [],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "derived",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_format_minor_future",
+      "file": "fixtures/negative/neg_format_minor_future.ekb",
+      "sha256": "c5be121ba92ddeb9c1cc03cbd389c4c65d88113e06a9412d58fda5de01e753c6",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "format_minor set beyond the supported 3",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrUnsupportedVersion",
+        "error_kind_accept": [],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "derived",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_header_len",
+      "file": "fixtures/negative/neg_header_len.ekb",
+      "sha256": "05c0c5c746db8b6d787ceb277fd07aac94530e62a62834c799a284a2d82f8652",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "header_len field set to 81",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrBadSection",
+        "error_kind_accept": [],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "derived",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_header_short",
+      "file": "fixtures/negative/neg_header_short.ekb",
+      "sha256": "f071184f204ab5352d2135cf744978bdbb3c8841446c093bbeb9e6bc2e535017",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "truncated inside the 80-byte genesis header",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrTruncated",
+        "error_kind_accept": [],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "derived",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_history_bitflip",
+      "file": "fixtures/negative/neg_history_bitflip.ekb",
+      "sha256": "539375f3ddeecf86ccff7cc68b0cf86e453e73a5832d444486e19fb86c691c92",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "history-full payload byte flipped",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrRecoveryFailed",
+        "error_kind_accept": [
+          "ErrChecksumMismatch",
+          "ErrRecoveryFailed",
+          "ErrCorrupt"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_logical_mismatch",
+      "file": "fixtures/negative/neg_logical_mismatch.ekb",
+      "sha256": "b7f40a67b314d616d3dde0b246fc538bd68a135035fe127b35aa692de911563e",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "header logical_symbols disagrees with the manifest",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrBadSection",
+        "error_kind_accept": [
+          "ErrBadSection",
+          "ErrCorrupt",
+          "ErrRecoveryFailed"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_machine_mismatch",
+      "file": "fixtures/negative/neg_machine_mismatch.ekb",
+      "sha256": "c4e99a4d70dc9f429a3eb0926c0aff38ba3b2975742e04c49572adea8903c08b",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "header machine id disagrees with the manifest",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrBadSection",
+        "error_kind_accept": [
+          "ErrBadSection",
+          "ErrCorrupt",
+          "ErrRecoveryFailed"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_manifest_bitflip",
+      "file": "fixtures/negative/neg_manifest_bitflip.ekb",
+      "sha256": "c4fe765c4f6d7bd683d880916fb0478721f150798793d0e2d32b75e4174ee230",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "manifest payload byte flipped (section CRC-32 now wrong)",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrRecoveryFailed",
+        "error_kind_accept": [
+          "ErrChecksumMismatch",
+          "ErrRecoveryFailed",
+          "ErrCorrupt"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_manifest_version",
+      "file": "fixtures/negative/neg_manifest_version.ekb",
+      "sha256": "aa8ae7cfcbb26bcc868c185a93aef1d266cfc4f62d8730a131123039eeab58e1",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "manifest record version 2 (CRC + footer hash repaired)",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrRecoveryFailed",
+        "error_kind_accept": [
+          "ErrUnsupportedManifestVersion",
+          "ErrRecoveryFailed"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_object_id_mismatch",
+      "file": "fixtures/negative/neg_object_id_mismatch.ekb",
+      "sha256": "097f29e53a799ba0267673225a3b6022d085de0ca148e8cf6fedeffbedb02c0b",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "header object_id disagrees with the manifest",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrBadSection",
+        "error_kind_accept": [
+          "ErrBadSection",
+          "ErrCorrupt",
+          "ErrRecoveryFailed"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_section_kind",
+      "file": "fixtures/negative/neg_section_kind.ekb",
+      "sha256": "98e08c29a26c5424f85ad16a2f12a3aef290ab9ed059f6af513672db2d669eb4",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "manifest section kind replaced with an unknown wire code",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrRecoveryFailed",
+        "error_kind_accept": [
+          "ErrBadSection",
+          "ErrRecoveryFailed",
+          "ErrCorrupt"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_tiles_bitflip",
+      "file": "fixtures/negative/neg_tiles_bitflip.ekb",
+      "sha256": "1ddba29f2986f2ddec2a24cfa4da1eda8754655f293383c37acd02d628d224dc",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "tiles payload byte flipped",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrRecoveryFailed",
+        "error_kind_accept": [
+          "ErrChecksumMismatch",
+          "ErrRecoveryFailed",
+          "ErrCorrupt"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_trunc_commit",
+      "file": "fixtures/negative/neg_trunc_commit.ekb",
+      "sha256": "70085e40719363aa4012af58fd457330b328cae2e84fdaca0813ce74f5333115",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "truncated inside the single commit block",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrRecoveryFailed",
+        "error_kind_accept": [
+          "ErrTruncated",
+          "ErrRecoveryFailed"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_trunc_core",
+      "file": "fixtures/negative/neg_trunc_core.ekb",
+      "sha256": "e4014ea3caf5316007d3c83d9b0bd521f08ca9e5ef63779217e0339b269262a7",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "truncated midway through the core",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrTruncated",
+        "error_kind_accept": [],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "derived",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "neg_unknown_machine",
+      "file": "fixtures/negative/neg_unknown_machine.ekb",
+      "sha256": "9834a6e2efded60396d62e921c4529f6b43d9bb4849a4862683d80b74bebec8a",
+      "origin": "negative",
+      "polarity": "negative",
+      "src_file": null,
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": "header machine id 42 (unregistered)",
+      "expected": {
+        "machine_id": null,
+        "logical_len": null,
+        "physical_bytes": null,
+        "blake3_of_decoded": null,
+        "error_kind": "ErrBadSection",
+        "error_kind_accept": [
+          "ErrBadSection",
+          "ErrCorrupt",
+          "ErrRecoveryFailed"
+        ],
+        "worst_case_steps": null
+      },
+      "expectation_source": {
+        "machine_id": "",
+        "logical_len": "",
+        "physical_bytes": "",
+        "blake3_of_decoded": "",
+        "error_kind": "asserted",
+        "worst_case_steps": ""
+      }
+    },
+    {
+      "name": "rust_m1_full_rand",
+      "file": "fixtures/rust/m1_full_rand.ekb",
+      "sha256": "cf0fb02793de86b7dd2a443134d48299fe93922e4ba0d129635d9a59af58b4f7",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m1_full_rand.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 4096,
+        "physical_bytes": 20484,
+        "blake3_of_decoded": "4e91f9851100e2e6cfafd795cd6d70719c41d25c2e8314390e8efcf82993c202",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 4096
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m1_path4_rand",
+      "file": "fixtures/rust/m1_path4_rand.ekb",
+      "sha256": "ef8f5ec28bd151ca19336031aa3f99bf5924508213739e2b075af478d28b08b7",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m1_path4_rand.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 4096,
+        "physical_bytes": 12523,
+        "blake3_of_decoded": "3ac7808c334364f709a2bb92836bd4e214d14a555783b2b25ed765c149315fce",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 4096
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m1_root_allbytes",
+      "file": "fixtures/rust/m1_root_allbytes.ekb",
+      "sha256": "4dab350c7f1514125b4d2ac688f8253e11e2333e5810ee2b8a3076e14b3891e8",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m1_root_allbytes.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 256,
+        "physical_bytes": 256,
+        "blake3_of_decoded": "4a495ba42461748eca8fdad618f976aa726cc2903de9fcb40735a786ac1c196b",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 256
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m1_root_empty",
+      "file": "fixtures/rust/m1_root_empty.ekb",
+      "sha256": "b06103b85057da8ae328660ff8428d5420cbf79e12690ce2f0e2b274b4bd3405",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m1_root_empty.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 0,
+        "physical_bytes": 0,
+        "blake3_of_decoded": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 0
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m1_root_text",
+      "file": "fixtures/rust/m1_root_text.ekb",
+      "sha256": "f2e71904dc7defbac618839b0824720de2b6c0fca49d2c35b532e99bc11ba073",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m1_root_text.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 100,
+        "physical_bytes": 100,
+        "blake3_of_decoded": "3cb5e9ee40cd863a46f190085cb9b53e1898ed9ab718fea411a1ac149ef2ad9e",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 100
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m1_sparse64_text",
+      "file": "fixtures/rust/m1_sparse64_text.ekb",
+      "sha256": "34458a19f87a6ffec4fc8b0354225696ff80cb399c0b0a86bbe6b24e337c41c7",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m1_sparse64_text.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 1,
+        "logical_len": 1000,
+        "physical_bytes": 1032,
+        "blake3_of_decoded": "06503ee2d01776640f0188f187e3b714dafc42824a3118c5d79c113ff8581cd3",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 1000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m2_root_skew",
+      "file": "fixtures/rust/m2_root_skew.ekb",
+      "sha256": "534f31e7956de7f0ee207a90d5aef558cf4ecf3cb17ed1b08c1fc50c07e1aa0f",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m2_root_skew.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 2,
+        "logical_len": 5000,
+        "physical_bytes": 1561,
+        "blake3_of_decoded": "769df46c6f33aae432f969bfbb75d131e75fc53f80d76533b7fea0413bcb79be",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 5000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m2_sparse256_skew",
+      "file": "fixtures/rust/m2_sparse256_skew.ekb",
+      "sha256": "b23b1a9a477f415c550695345c91223afc078b493c7f26f03eb5971394e98a82",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m2_sparse256_skew.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 2,
+        "logical_len": 5000,
+        "physical_bytes": 1801,
+        "blake3_of_decoded": "769df46c6f33aae432f969bfbb75d131e75fc53f80d76533b7fea0413bcb79be",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 5000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m3_root_rand",
+      "file": "fixtures/rust/m3_root_rand.ekb",
+      "sha256": "02f15ae02c5f605bc06f9dd0957e18c3c42ef1b427e11561f9813948c6ebbd7c",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m3_root_rand.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 3,
+        "logical_len": 4096,
+        "physical_bytes": 4096,
+        "blake3_of_decoded": "f1d0c2a328e3ed82154c0ce79921204274c49e6e9421193598d419a9cc208da2",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 4096
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m4_root_skew",
+      "file": "fixtures/rust/m4_root_skew.ekb",
+      "sha256": "50ae9981469ee5e5ca3720524f1b62a7239d2c7dd76fc87f9194ede52c0c20d0",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m4_root_skew.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 4,
+        "logical_len": 5000,
+        "physical_bytes": 1550,
+        "blake3_of_decoded": "1f8868fa6a6ad22d624861a2598e05b933eb6a7d42dd5fc1f9cbf60dbd6f455c",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 5000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m5_root_const",
+      "file": "fixtures/rust/m5_root_const.ekb",
+      "sha256": "223ec7c121c7f7ccb74502314f8fd6ff55241aa00940d1f2b20c1e955227f399",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m5_root_const.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 5,
+        "logical_len": 500,
+        "physical_bytes": 11,
+        "blake3_of_decoded": "c1dd38f5a0fc96b0715808b62deaf388618163166b3a5992c3d75b6b4f764ab9",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 500
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m5_root_skew",
+      "file": "fixtures/rust/m5_root_skew.ekb",
+      "sha256": "aca33ab16fc0fdea9723c7ff5b90cbeef6775d7d814bec5ee37038037245ad17",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m5_root_skew.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 5,
+        "logical_len": 5000,
+        "physical_bytes": 1264,
+        "blake3_of_decoded": "e762fbde4f13ec50d09ec2ee63e3c73e5845c51edc3eb13968cc3e9d14415ff4",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 5000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m6_root_const",
+      "file": "fixtures/rust/m6_root_const.ekb",
+      "sha256": "7ef6ab8a48e40aa5d8281cd4ca13488eb8fdb34e9d59ea5304bdfd3206828e71",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m6_root_const.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 6,
+        "logical_len": 9000,
+        "physical_bytes": 267,
+        "blake3_of_decoded": "e659ff0e970ccbbe71e7abca2ce4fd0dce4bf35c95796270c93a9ee21cca6935",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 9000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m6_root_mixed",
+      "file": "fixtures/rust/m6_root_mixed.ekb",
+      "sha256": "9c382b872ce012772cd4427b19a2824b44ba8a4c35c47d0a61e7b223a7aff514",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m6_root_mixed.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 6,
+        "logical_len": 8192,
+        "physical_bytes": 8400,
+        "blake3_of_decoded": "90810c3cb03efb61e71bc4ea4a9f5c6b9d2769492db3d39e61c52e029bcac602",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 8192
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m7_root_skew",
+      "file": "fixtures/rust/m7_root_skew.ekb",
+      "sha256": "42b46e7e658767e47fe9fcc0c2c3155cb404dc4b70174a13819ec14d530ac04e",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m7_root_skew.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 7,
+        "logical_len": 5000,
+        "physical_bytes": 1562,
+        "blake3_of_decoded": "7aca45d4f078e54282f846544dda753a73419f33493456d72b3d466349c68d91",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 5000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m8_root_skew",
+      "file": "fixtures/rust/m8_root_skew.ekb",
+      "sha256": "9ae356d8708d8d24337e17499176e2211ba2a28a3076fd0a2b32125524dea45c",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m8_root_skew.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 8,
+        "logical_len": 5000,
+        "physical_bytes": 1575,
+        "blake3_of_decoded": "d24a625b81f07664f9fa7a9b3d1f3a299d60310c534ca7e3f8eb88cc12ed25c8",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 5000
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m9_embed_kv",
+      "file": "fixtures/rust/m9_embed_kv.ekb",
+      "sha256": "4720b6d38355092348a9b918bace63dec0f0c8199372e1b33a4a350fecf5eb19",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m9_embed_kv.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 9,
+        "logical_len": 41,
+        "physical_bytes": 596,
+        "blake3_of_decoded": "4e4d6b06bb7b232e6911f4e00f3644941b4d32296087dc22300fccee9b61db54",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 41
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m9_full_small",
+      "file": "fixtures/rust/m9_full_small.ekb",
+      "sha256": "3457f271cb30e7659e4166cb3bcb097f704ea1cb4755a7c8af16a212bf993cfc",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m9_full_small.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 9,
+        "logical_len": 38,
+        "physical_bytes": 756,
+        "blake3_of_decoded": "dabae838934a2b273a0dff216928d88e777eda184099ec9cf073c9ccbe7cf83e",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 38
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m9_ref_kv",
+      "file": "fixtures/rust/m9_ref_kv.ekb",
+      "sha256": "2d9885e9ff26fa76b3b797cae1555cc0f50a6fc7b806fa9aebd267a90ccfd646",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m9_ref_kv.src",
+      "dict_file": "fixtures/rust/m9_ref_kv.dict",
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 9,
+        "logical_len": 38,
+        "physical_bytes": 56,
+        "blake3_of_decoded": "7ded57e8443d515ed947921d9560d2b6881712084580fd4fa2e1551b5c07fc5c",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 38
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    },
+    {
+      "name": "rust_m9_root_small",
+      "file": "fixtures/rust/m9_root_small.ekb",
+      "sha256": "ac4925a823ac96190427aa73b08f043c20de9529709bf05df2f38f5882db8237",
+      "origin": "rust",
+      "polarity": "positive",
+      "src_file": "fixtures/rust/m9_root_small.src",
+      "dict_file": null,
+      "auth_key_hex": null,
+      "mutation": null,
+      "expected": {
+        "machine_id": 9,
+        "logical_len": 38,
+        "physical_bytes": 600,
+        "blake3_of_decoded": "dabae838934a2b273a0dff216928d88e777eda184099ec9cf073c9ccbe7cf83e",
+        "error_kind": null,
+        "error_kind_accept": [],
+        "worst_case_steps": 38
+      },
+      "expectation_source": {
+        "machine_id": "derived",
+        "logical_len": "derived",
+        "physical_bytes": "asserted",
+        "blake3_of_decoded": "derived",
+        "error_kind": "",
+        "worst_case_steps": "derived"
+      }
+    }
+  ],
+  "divergences": [
+    {
+      "fixture": "neg_machine_mismatch",
+      "go": "ErrBadSection",
+      "rust": "ErrCorrupt",
+      "note": "header/manifest machine id disagree"
+    },
+    {
+      "fixture": "neg_unknown_machine",
+      "go": "ErrBadSection",
+      "rust": "ErrCorrupt",
+      "note": "unknown header machine id reaches the manifest cross-check first"
+    },
+    {
+      "fixture": "neg_object_id_mismatch",
+      "go": "ErrBadSection",
+      "rust": "ErrCorrupt",
+      "note": "header/manifest object_id disagree"
+    },
+    {
+      "fixture": "neg_logical_mismatch",
+      "go": "ErrBadSection",
+      "rust": "ErrCorrupt",
+      "note": "header/manifest logical length disagree"
+    },
+    {
+      "fixture": "neg_trunc_commit",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrTruncated",
+      "note": "torn first commit: Go wraps the torn error as RecoveryFailed, Rust surfaces the raw Truncated"
+    },
+    {
+      "fixture": "neg_manifest_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+    },
+    {
+      "fixture": "neg_history_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+    },
+    {
+      "fixture": "neg_checkpoint_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+    },
+    {
+      "fixture": "neg_bloom_path_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+    },
+    {
+      "fixture": "neg_bloom_global_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+    },
+    {
+      "fixture": "neg_bloom_region_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+    },
+    {
+      "fixture": "neg_certificate_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+    },
+    {
+      "fixture": "neg_tiles_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+    },
+    {
+      "fixture": "neg_footer_checksum",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrChecksumMismatch",
+      "note": "torn first commit: Go wraps the section checksum mismatch, Rust surfaces it raw"
+    },
+    {
+      "fixture": "neg_core_bitflip",
+      "go": "ErrChecksumMismatch",
+      "rust": "ErrCorrupt",
+      "note": "core hash mismatch: Go surfaces ChecksumMismatch(section=core), Rust surfaces CorruptGeneration"
+    },
+    {
+      "fixture": "neg_core_bitflip_m6",
+      "go": "ErrChecksumMismatch",
+      "rust": "ErrCorrupt",
+      "note": "core hash mismatch: Go surfaces ChecksumMismatch(section=core), Rust surfaces CorruptGeneration"
+    },
+    {
+      "fixture": "neg_core_bitflip_m9",
+      "go": "ErrChecksumMismatch",
+      "rust": "ErrCorrupt",
+      "note": "core hash mismatch: Go surfaces ChecksumMismatch(section=core), Rust surfaces CorruptGeneration"
+    },
+    {
+      "fixture": "neg_footer_marker",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrBadSection",
+      "note": "torn first commit: Go wraps the footer marker error, Rust surfaces it raw"
+    },
+    {
+      "fixture": "neg_section_kind",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrBadSection",
+      "note": "torn first commit: Go wraps the unknown-section-kind error, Rust surfaces it raw"
+    },
+    {
+      "fixture": "neg_auth_bitflip",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrBadSection",
+      "note": "torn first commit after the AUTH section fails its CRC"
+    },
+    {
+      "fixture": "neg_manifest_version",
+      "go": "ErrRecoveryFailed",
+      "rust": "ErrUnsupportedManifestVersion",
+      "note": "torn first commit: Go wraps the manifest-version error, Rust surfaces it raw"
+    }
+  ]
+}
