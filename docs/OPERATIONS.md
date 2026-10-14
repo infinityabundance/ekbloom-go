@@ -5,7 +5,7 @@
 | Metric | Source | Notes |
 | --- | --- | --- |
 | `physical_bytes` | `Reader.PhysicalBytes()` | equal to Rust `inspect_file`; counts the core once plus each structure |
-| `visible_bytes` / `E_V` | `Reader.VisibleBytes()` | `E_V = physical / visible` (`Reader.Report().ExpansionRatio`) |
+| `visible_bytes` / expansion ratio | `Reader.VisibleBytes()`, `Report().ExpansionRatio` | `expansion_ratio = physical / visible` (the reference `EkbloomBody::expansion_ratio`). The standard-corpus footprint `E_V = physical / N` (N = raw size) is a *different* ratio — see `docs/CORPORA.md` |
 | `worst_case` | `Reader.WorstCaseStepsFor(off, len)` | upper bound on positioning + output steps |
 | `read_at` p50/p99 | timing `Reader.ReadAt` | in-memory decode; the first random read materialises the symbol array once |
 | `bytes_fetched` | — | the in-memory reader holds the file; the bounded-work analogue is the stream reader's per-block decode |
@@ -18,7 +18,9 @@ service, `metrics.go` provides ready-made exports:
 - `ResourcePolicySnapshot()` — `{max_single_allocation, allocation_breaches}`
   (the reference's `resource_breaches` counter).
 - `Reader.Metrics()` — `{machine_id, logical_len, visible_bytes, physical_bytes,
-  concealed_bytes, expansion_ratio (E_V), generation}`.
+  concealed_bytes, expansion_ratio, generation}` (`expansion_ratio = physical /
+  visible`, the reference's `EkbloomBody::expansion_ratio`; distinct from the
+  standard-corpus `E_V = physical / N`, see `docs/CORPORA.md`).
 - `Reader.WorstCaseMetric(off, length)` — the certified step bound.
 - `MetricsText(r)` / `MetricsJSON(r)` — Prometheus-style / JSON rendering.
 

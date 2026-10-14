@@ -5,7 +5,10 @@
 slice of every file (`EKB_CORPORA_CAP`, default 4 MiB), for machines 1 and 2 under
 the Root profile:
 
-- `E_V = physical_bytes / logical_len` (lower is smaller; `1.000` = raw size);
+- `E_V = physical_bytes / logical_len` (lower is smaller; `1.000` = raw size) —
+  the standard-corpus **footprint** ratio. This is distinct from the reader's
+  `Report().ExpansionRatio = physical_bytes / visible_bytes` (the reference's
+  `EkbloomBody::expansion_ratio`), which measures the manifested expansion;
 - single-byte read latency (`byte_at` p50/p99/p99.9), over 4096 deterministic
   samples.
 

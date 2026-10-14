@@ -6,7 +6,7 @@
       "method": "ekbloom-m9",
       "total_bytes": 341947,
       "bytes_per_record": 83.483154296875,
-      "decode_p50_ns": 2946,
+      "decode_p50_ns": 2846,
       "note": "one 540-byte shared dictionary + header-less cores"
     },
     {

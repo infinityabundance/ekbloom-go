@@ -6,8 +6,8 @@
       "machine_id": 1,
       "logical_len": 100,
       "p50_ns": 100,
-      "p99_ns": 140,
-      "p99_9_ns": 181,
+      "p99_ns": 120,
+      "p99_9_ns": 190,
       "surface": "materialized"
     },
     {
@@ -15,8 +15,8 @@
       "machine_id": 1,
       "logical_len": 4096,
       "p50_ns": 70,
-      "p99_ns": 100,
-      "p99_9_ns": 130,
+      "p99_ns": 90,
+      "p99_9_ns": 120,
       "surface": "history"
     },
     {
@@ -24,17 +24,17 @@
       "machine_id": 1,
       "logical_len": 4096,
       "p50_ns": 70,
-      "p99_ns": 90,
-      "p99_9_ns": 170,
+      "p99_ns": 100,
+      "p99_9_ns": 160,
       "surface": "path-bloom"
     },
     {
       "fixture": "m1_sparse64_text",
       "machine_id": 1,
       "logical_len": 1000,
-      "p50_ns": 491,
-      "p99_ns": 962,
-      "p99_9_ns": 2205,
+      "p50_ns": 501,
+      "p99_ns": 972,
+      "p99_9_ns": 1713,
       "surface": "checkpoint"
     },
     {
@@ -42,8 +42,8 @@
       "machine_id": 2,
       "logical_len": 5000,
       "p50_ns": 100,
-      "p99_ns": 140,
-      "p99_9_ns": 171,
+      "p99_ns": 141,
+      "p99_9_ns": 201,
       "surface": "materialized"
     },
     {
@@ -60,26 +60,26 @@
       "machine_id": 4,
       "logical_len": 5000,
       "p50_ns": 100,
-      "p99_ns": 130,
-      "p99_9_ns": 170,
+      "p99_ns": 120,
+      "p99_9_ns": 171,
       "surface": "materialized"
     },
     {
       "fixture": "m5_root_skew",
       "machine_id": 5,
       "logical_len": 5000,
-      "p50_ns": 100,
+      "p50_ns": 110,
       "p99_ns": 121,
-      "p99_9_ns": 180,
+      "p99_9_ns": 191,
       "surface": "direct"
     },
     {
       "fixture": "m6_root_mixed",
       "machine_id": 6,
       "logical_len": 8192,
-      "p50_ns": 110,
-      "p99_ns": 130,
-      "p99_9_ns": 191,
+      "p50_ns": 111,
+      "p99_ns": 170,
+      "p99_9_ns": 210,
       "surface": "direct"
     },
     {
@@ -87,7 +87,7 @@
       "machine_id": 7,
       "logical_len": 5000,
       "p50_ns": 100,
-      "p99_ns": 111,
+      "p99_ns": 140,
       "p99_9_ns": 180,
       "surface": "materialized"
     },
@@ -104,9 +104,9 @@
       "fixture": "m9_root_small",
       "machine_id": 9,
       "logical_len": 38,
-      "p50_ns": 91,
+      "p50_ns": 100,
       "p99_ns": 111,
-      "p99_9_ns": 171,
+      "p99_9_ns": 160,
       "surface": "materialized"
     }
   ]

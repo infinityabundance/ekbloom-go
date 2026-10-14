@@ -21,6 +21,8 @@ go vet ./...
   newest valid generation).
 - `corruption_test.go` — 100% single-bit-flip detection per covered structure,
   and localized `Corrupt { Section, Offset }`.
+- `metrics_test.go` — the per-object metrics snapshot and the Prometheus/JSON
+  resource-policy exports, including the 1 GiB allocation-cap breach counter.
 - `roundtrip_test.go` — Go write/read round-trip for every machine and profile;
   64 concurrent readers under `-race`.
 - `stream_test.go` / `scale_test.go` — Rust stream golden identity; the 2 GiB
