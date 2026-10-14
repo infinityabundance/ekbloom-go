@@ -1,6 +1,7 @@
 #!/bin/sh
 # Local CI: run every gate and capture its log under evidence/, so the repository
-# carries the passing logs the reviewer asked for.
+# carries the passing logs a reviewer asked for. A failing gate fails the script
+# (unlike a bare `cmd | tee`, which would hide the exit status).
 # Run from the repository root: sh scripts/ci.sh
 set -eu
 
@@ -8,33 +9,48 @@ root=$(cd "$(dirname "$0")/.." && pwd)
 cd "$root"
 mkdir -p evidence
 
+# logged <log> <cmd...>: run cmd, capture combined output to <log>, echo it, and
+# exit non-zero if cmd failed.
+logged() {
+    log=$1
+    shift
+    if "$@" >"$log" 2>&1; then
+        cat "$log"
+    else
+        status=$?
+        cat "$log" >&2
+        echo "FAILED ($status): $*" >&2
+        exit "$status"
+    fi
+}
+
 echo "== go vet =="
-go vet ./... 2>&1 | tee evidence/vet.log
+logged evidence/vet.log go vet ./...
 
 echo
 echo "== go test -race ./... =="
-go test -race ./... 2>&1 | tee evidence/test-race.log
+logged evidence/test-race.log go test -race ./...
 
 echo
 echo "== go test -bench -benchmem =="
-go test -run '^$' -bench . -benchmem -benchtime 200ms . 2>&1 | tee evidence/bench.txt
+logged evidence/bench.txt go test -run '^$' -bench . -benchmem -benchtime 200ms .
 
 echo
 echo "== cross-filesystem determinism =="
-sh scripts/cross-fs.sh 2>&1 | tee evidence/cross-fs.log
+logged evidence/cross-fs.log sh scripts/cross-fs.sh
 
 echo
 echo "== skewed small-record court =="
-( cd courts && go run . ) 2>&1 | tee evidence/courts.log
+logged evidence/courts.log sh -c 'cd courts && go run .'
 
-if command -v cargo >/dev/null 2>&1; then
-    [ -d .reference/fixturegen ] || sh scripts/setup-reference.sh || true
+if command -v cargo >/dev/null 2>&1 && [ ! -d .reference/fixturegen ]; then
+    sh scripts/setup-reference.sh >/dev/null 2>&1 || true
 fi
 
 if command -v cargo >/dev/null 2>&1 && [ -d .reference/fixturegen ]; then
     echo
     echo "== bidirectional Rust round-trip =="
-    sh scripts/roundtrip.sh 2>&1 | tee evidence/roundtrip.log
+    logged evidence/roundtrip.log sh scripts/roundtrip.sh
 else
     echo
     echo "note: Rust toolchain / .reference not present; skipping roundtrip.sh"
@@ -42,4 +58,6 @@ fi
 
 echo
 echo "== JSON summary =="
-go test -json ./... 2>/dev/null | go run ./internal/tools/testsum | tee evidence/reproduce.json
+go test -json ./... 2>/dev/null > evidence/reproduce.raw.json || true
+go run ./internal/tools/testsum < evidence/reproduce.raw.json | tee evidence/reproduce.json
+rm -f evidence/reproduce.raw.json

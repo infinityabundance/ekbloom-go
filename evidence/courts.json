@@ -9,8 +9,8 @@
       "bytes_per_record": 100,
       "bytes_fetched_per_get": 100,
       "decode_p50_ns": 30,
-      "decode_p99_9_ns": 461,
-      "allocs_per_get": 1.0015,
+      "decode_p99_9_ns": 410,
+      "allocs_per_get": 1.00158,
       "ratio_vs_raw": 1
     },
     {
@@ -18,7 +18,7 @@
       "bytes_per_record": 101.936,
       "bytes_fetched_per_get": 101.936,
       "decode_p50_ns": 20,
-      "decode_p99_9_ns": 51,
+      "decode_p99_9_ns": 111,
       "allocs_per_get": 0.00008,
       "ratio_vs_raw": 1.01936
     },
@@ -27,8 +27,8 @@
       "bytes_per_record": 113,
       "bytes_fetched_per_get": 113,
       "decode_p50_ns": 100,
-      "decode_p99_9_ns": 1492,
-      "allocs_per_get": 1.0002,
+      "decode_p99_9_ns": 1412,
+      "allocs_per_get": 1.00042,
       "ratio_vs_raw": 1.13
     },
     {
@@ -36,7 +36,7 @@
       "bytes_per_record": 47.3815,
       "bytes_fetched_per_get": 47.3815,
       "decode_p50_ns": 250,
-      "decode_p99_9_ns": 2154,
+      "decode_p99_9_ns": 1814,
       "allocs_per_get": 1.8665,
       "ratio_vs_raw": 0.47381500000000004
     },
@@ -44,9 +44,9 @@
       "codec": "ekbloom-m9",
       "bytes_per_record": 59.798,
       "bytes_fetched_per_get": 59.798,
-      "decode_p50_ns": 2274,
-      "decode_p99_9_ns": 69430,
-      "allocs_per_get": 3.00046,
+      "decode_p50_ns": 2314,
+      "decode_p99_9_ns": 77444,
+      "allocs_per_get": 3.0006,
       "ratio_vs_raw": 0.5979800000000001
     }
   ]

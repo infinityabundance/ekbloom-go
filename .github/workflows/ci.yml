@@ -20,7 +20,9 @@ jobs:
       - name: compat + legacy fixtures
         run: go test -run 'TestRustFixtures|TestLegacy|TestVersionTags' -v .
       - name: bidirectional Rust round-trip (Go writes, Rust reads)
-        run: sh scripts/roundtrip.sh 2>&1 | tee evidence/roundtrip.log
+        run: |
+          set -o pipefail
+          sh scripts/roundtrip.sh 2>&1 | tee evidence/roundtrip.log
       - name: cross-filesystem determinism
         run: sh scripts/cross-fs.sh
       - name: benchmarks (short)
