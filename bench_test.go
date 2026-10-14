@@ -2,6 +2,7 @@ package ekbloom
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"path/filepath"
 	"testing"
@@ -168,6 +169,94 @@ func BenchmarkReadAt4KiBPathBloom(b *testing.B) {
 		if err := readInto(r, off, buf); err != nil {
 			b.Fatal(err)
 		}
+	}
+}
+
+// ResidentView.Get: one bounds check and a bare load, zero allocations.
+func BenchmarkResidentViewGet(b *testing.B) {
+	r := benchReader(b, "m1_path4_rand")
+	v, err := r.Resident()
+	if err != nil {
+		b.Fatal(err)
+	}
+	n := v.Len()
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = v.At(uint64(i) % n)
+	}
+}
+
+// A bare slice load, as the raw-Vec parity reference point.
+func BenchmarkBareSliceLoad(b *testing.B) {
+	data := benchPattern(4096)
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = data[i%len(data)]
+	}
+}
+
+// Encode/decode/sequential benchmarks for all nine machines.
+func BenchmarkMachineEncode(b *testing.B) {
+	src := benchPattern(1 << 20)
+	for id := uint32(1); id <= 9; id++ {
+		m, _ := MachineByID(id)
+		b.Run(fmt.Sprintf("m%d", id), func(b *testing.B) {
+			b.SetBytes(int64(len(src)))
+			b.ReportAllocs()
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				if _, err := m.Encode(src); err != nil {
+					b.Fatal(err)
+				}
+			}
+		})
+	}
+}
+
+func BenchmarkMachineDecode(b *testing.B) {
+	src := benchPattern(1 << 20)
+	for id := uint32(1); id <= 9; id++ {
+		m, _ := MachineByID(id)
+		core, err := m.Encode(src)
+		if err != nil {
+			b.Fatal(err)
+		}
+		b.Run(fmt.Sprintf("m%d", id), func(b *testing.B) {
+			b.SetBytes(int64(len(src)))
+			b.ReportAllocs()
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				if _, err := decodeAll(m, core, uint64(len(src))); err != nil {
+					b.Fatal(err)
+				}
+			}
+		})
+	}
+}
+
+func BenchmarkMachineSequential(b *testing.B) {
+	src := benchPattern(1 << 20)
+	for id := uint32(1); id <= 9; id++ {
+		eqb, err := WriteBody(id, src, rootProfile())
+		if err != nil {
+			b.Fatal(err)
+		}
+		r, err := Open(eqb)
+		if err != nil {
+			b.Fatal(err)
+		}
+		b.Run(fmt.Sprintf("m%d", id), func(b *testing.B) {
+			b.SetBytes(int64(len(src)))
+			b.ReportAllocs()
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				if _, err := r.ReadAt(0, uint64(len(src))); err != nil {
+					b.Fatal(err)
+				}
+			}
+		})
 	}
 }
 

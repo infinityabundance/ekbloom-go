@@ -59,8 +59,17 @@ func writeBody(machineID uint32, source []byte, profile Profile, key *[32]byte) 
 		sections = append(sections, pendingSection{SectionCheckpoints, payload})
 		layout, _ := parseCheckpointLayout(payload)
 		components = append(components, ComponentReport{Name: "checkpoint", Kind: "checkpoint", Bytes: layout.count * uint64(layout.entryLen)})
+	case ProfilePath:
+		shell, cert, err := buildPathBloom(machine, core, uint64(len(source)), profile.Depth, 1, coreHash)
+		if err != nil {
+			return nil, err
+		}
+		sections = append(sections, pendingSection{SectionBloomPath, shell})
+		sections = append(sections, pendingSection{SectionCertificate, cert})
+		components = append(components, ComponentReport{Name: "bloom", Kind: "bloom", Bytes: uint64(len(shell)) - shellHeaderLenBytes})
+		components = append(components, ComponentReport{Name: "certificate", Kind: "certificate", Bytes: uint64(len(cert))})
 	default:
-		return nil, &Error{Kind: KindInvalidArgument, Reason: "writer supports root, full and sparse profiles"}
+		return nil, &Error{Kind: KindInvalidArgument, Reason: "writer supports root, full, sparse and path profiles"}
 	}
 
 	manifest := ManifestRecord{

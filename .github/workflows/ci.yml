@@ -1,0 +1,58 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+      - name: vet
+        run: go vet ./...
+      - name: test (race)
+        run: go test -race ./... 2>&1 | tee evidence/test-race.log
+      - name: compat + legacy fixtures
+        run: go test -run 'TestRustFixtures|TestLegacy|TestVersionTags' -v .
+      - name: cross-filesystem determinism
+        run: sh scripts/cross-fs.sh
+      - name: benchmarks (short)
+        run: go test -run '^$' -bench . -benchmem -benchtime 1x . | tee evidence/bench-ci.txt
+      - name: 2 GiB bounded-memory stream
+        run: EKB_RUN_SCALE=1 go test -run TestStreamBoundedMemory2GiB -v .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: evidence
+          path: evidence/
+
+  court:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+      - name: skewed small-record court
+        working-directory: courts
+        run: go run .
+
+  arm64:
+    # Cross-architecture runtime determinism under qemu.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+      - uses: docker/setup-qemu-action@v3
+      - name: arm64 suite + fingerprints
+        run: sh scripts/container-aarch64.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aarch64-determinism
+          path: evidence/aarch64-determinism.json

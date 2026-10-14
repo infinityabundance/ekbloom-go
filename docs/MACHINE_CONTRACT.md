@@ -6,6 +6,9 @@ required.
 
 ## Required API
 
+See `docs/CORE-LAYOUT.md` §2 for the exact core byte layout a machine 10 must
+produce, and §2.0 for the header-bearing-machines diagram.
+
 ```go
 type Machine interface {
     ID() uint32

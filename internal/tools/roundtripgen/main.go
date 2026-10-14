@@ -113,6 +113,7 @@ func main() {
 		{"go_m8_root_skew", 8, profRoot, skewed(18, 5000)},
 		{"go_m9_root_small", 9, profRoot, []byte("user=alice|region=us-east-1|role=admin")},
 		{"go_m9_full_small", 9, profFull, []byte("user=alice|region=us-east-1|role=admin")},
+		{"go_m1_path4_text", 1, ekbloom.Profile{Kind: ekbloom.ProfilePath, Depth: 4}, text(4000)},
 	}
 
 	fail := 0

@@ -38,6 +38,7 @@ const (
 	KindRecoveryFailed
 	KindNotCertified
 	KindBadInterval
+	KindBadDepth
 )
 
 // Error is the single typed error returned by this package. It carries the
@@ -116,6 +117,8 @@ func (e *Error) Error() string {
 		return e.Section + " is not certified"
 	case KindBadInterval:
 		return "unsupported checkpoint interval " + strconv.FormatUint(e.Offset, 10)
+	case KindBadDepth:
+		return "unsupported bloom depth " + strconv.FormatUint(e.Offset, 10)
 	default:
 		return "ekbloom error"
 	}
@@ -152,6 +155,7 @@ var (
 	ErrRecoveryFailed             = &Error{Kind: KindRecoveryFailed}
 	ErrNotCertified               = &Error{Kind: KindNotCertified}
 	ErrBadInterval                = &Error{Kind: KindBadInterval}
+	ErrBadDepth                   = &Error{Kind: KindBadDepth}
 )
 
 func badSection(reason string) *Error { return &Error{Kind: KindBadSection, Reason: reason} }

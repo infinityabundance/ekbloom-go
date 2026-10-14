@@ -1,0 +1,20 @@
+fuzz: elapsed: 0s, gathering baseline coverage: 0/318 completed
+fuzz: elapsed: 0s, gathering baseline coverage: 318/318 completed, now fuzzing with 16 workers
+fuzz: elapsed: 3s, execs: 22823 (7604/sec), new interesting: 6 (total: 324)
+fuzz: elapsed: 6s, execs: 22823 (0/sec), new interesting: 6 (total: 324)
+fuzz: elapsed: 9s, execs: 22823 (0/sec), new interesting: 6 (total: 324)
+fuzz: elapsed: 12s, execs: 22823 (0/sec), new interesting: 6 (total: 324)
+fuzz: elapsed: 15s, execs: 22823 (0/sec), new interesting: 6 (total: 324)
+fuzz: elapsed: 18s, execs: 22823 (0/sec), new interesting: 6 (total: 324)
+fuzz: elapsed: 21s, execs: 73394 (16868/sec), new interesting: 7 (total: 325)
+fuzz: elapsed: 24s, execs: 73394 (0/sec), new interesting: 7 (total: 325)
+fuzz: elapsed: 27s, execs: 89156 (5257/sec), new interesting: 8 (total: 326)
+fuzz: elapsed: 30s, execs: 89156 (0/sec), new interesting: 8 (total: 326)
+fuzz: elapsed: 33s, execs: 152169 (21018/sec), new interesting: 9 (total: 327)
+fuzz: elapsed: 36s, execs: 152169 (0/sec), new interesting: 9 (total: 327)
+fuzz: elapsed: 39s, execs: 170083 (5974/sec), new interesting: 10 (total: 328)
+fuzz: elapsed: 42s, execs: 170083 (0/sec), new interesting: 10 (total: 328)
+fuzz: elapsed: 45s, execs: 170083 (0/sec), new interesting: 10 (total: 328)
+fuzz: elapsed: 46s, execs: 170083 (0/sec), new interesting: 10 (total: 328)
+PASS
+ok  	github.com/infinityabundance/ekbloom-go	46.020s

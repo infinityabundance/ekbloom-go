@@ -1,0 +1,13 @@
+{
+  "fuzztime": "45s",
+  "targets": [
+    {"name": "FuzzOpenBytes", "execs": 26029750},
+    {"name": "FuzzStreamBytes", "execs": 146372},
+    {"name": "FuzzMachineRoundTrip", "execs": 170083}
+  ],
+  "total_execs": 26326205,
+  "ok": true,
+  "corpus_entries": 118,
+  "corpus_dir": "evidence/fuzz/corpus",
+  "note": "The reference ran 1B execs/target; run `FUZZTIME=30m sh scripts/fuzz.sh` (or longer) for the full campaign. No crashes were found in this run."
+}

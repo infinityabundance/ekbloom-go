@@ -1,0 +1,78 @@
+{
+  "samples": 1200000,
+  "violations": 0,
+  "fixtures": [
+    {
+      "fixture": "m1_root_text",
+      "samples": 100000,
+      "violations": 0,
+      "accelerated": false
+    },
+    {
+      "fixture": "m1_full_rand",
+      "samples": 100000,
+      "violations": 0,
+      "accelerated": true
+    },
+    {
+      "fixture": "m1_path4_rand",
+      "samples": 100000,
+      "violations": 0,
+      "accelerated": true
+    },
+    {
+      "fixture": "m1_sparse64_text",
+      "samples": 100000,
+      "violations": 0,
+      "accelerated": false
+    },
+    {
+      "fixture": "m2_root_skew",
+      "samples": 100000,
+      "violations": 0,
+      "accelerated": false
+    },
+    {
+      "fixture": "m2_sparse256_skew",
+      "samples": 100000,
+      "violations": 0,
+      "accelerated": false
+    },
+    {
+      "fixture": "m3_root_rand",
+      "samples": 100000,
+      "violations": 0,
+      "accelerated": false
+    },
+    {
+      "fixture": "m4_root_skew",
+      "samples": 100000,
+      "violations": 0,
+      "accelerated": false
+    },
+    {
+      "fixture": "m5_root_skew",
+      "samples": 100000,
+      "violations": 0,
+      "accelerated": false
+    },
+    {
+      "fixture": "m6_root_mixed",
+      "samples": 100000,
+      "violations": 0,
+      "accelerated": false
+    },
+    {
+      "fixture": "m7_root_skew",
+      "samples": 100000,
+      "violations": 0,
+      "accelerated": false
+    },
+    {
+      "fixture": "m8_root_skew",
+      "samples": 100000,
+      "violations": 0,
+      "accelerated": false
+    }
+  ]
+}

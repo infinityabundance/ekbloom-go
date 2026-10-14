@@ -34,6 +34,13 @@ type Reader struct {
 	hotOnce sync.Once
 	hot     []byte
 	hotErr  error
+
+	packOnce sync.Once
+	packCtx  *packContext
+	packErr  error
+	segOnce  sync.Once
+	segCtx   *segContext
+	segErr   error
 }
 
 // Open validates and opens an in-memory `.ekb` file, returning a Reader.
@@ -226,6 +233,11 @@ func (r *Reader) ReadAt(off, length uint64) ([]byte, error) {
 		return []byte{}, nil
 	}
 	if r.directlyAddressable() {
+		if r.machine.ID() == MachineStore {
+			out := make([]byte, length)
+			copy(out, r.core[off:end])
+			return out, nil
+		}
 		out := make([]byte, length)
 		for i := uint64(0); i < length; i++ {
 			b, err := r.symbolAtDirect(off + i)
@@ -269,17 +281,17 @@ func (r *Reader) symbolAtDirect(off uint64) (byte, error) {
 	case MachineStore:
 		return r.core[off], nil
 	case MachinePack:
-		ctx, err := packContextFromCore(r.core)
-		if err != nil {
-			return 0, err
+		r.packOnce.Do(func() { r.packCtx, r.packErr = packContextFromCore(r.core) })
+		if r.packErr != nil {
+			return 0, r.packErr
 		}
-		return ctx.byteAt(r.core, off)
+		return r.packCtx.byteAt(r.core, off)
 	case MachineSeg:
-		ctx, err := segContextFromCore(r.core)
-		if err != nil {
-			return 0, err
+		r.segOnce.Do(func() { r.segCtx, r.segErr = segContextFromCore(r.core) })
+		if r.segErr != nil {
+			return 0, r.segErr
 		}
-		return ctx.byteAt(r.core, off)
+		return r.segCtx.byteAt(r.core, off)
 	}
 	return 0, badSection("machine is not directly addressable")
 }
@@ -312,6 +324,9 @@ func (r *Reader) WorstCaseStepsFor(off, length uint64) (uint64, error) {
 	}
 	var positioning uint64
 	switch {
+	case r.fast.pathHot != nil:
+		// A certified path bloom serves any position with no positioning steps.
+		positioning = 0
 	case r.hasHistory && r.cursorPositional:
 		positioning = 0
 	case len(r.checkpointIvls) > 0:

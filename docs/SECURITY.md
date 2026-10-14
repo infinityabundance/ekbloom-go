@@ -17,11 +17,13 @@ lengths, no `unsafe`, no panics. Every malformed input is a typed `*Error`.
   absolute offset: `Corrupt { Section, Offset }`.
 
 **Measured.** `corruption_test.go` flips up to 1024 single bits in every covered
-structure of every fixture (core and every section payload) and requires 100%
-detection. Detection granularity is the containing structure, bounded to ≤4096
-bytes for every structure the writer emits. **Inert alignment padding and reserved
-header metadata are never interpreted**, so a flip confined to them is not (and
-must not be) reported — matching the reference contract.
+structure of every fixture (core and every section payload) and requires **100%
+detection** (`1024/1024` per structure). Detection granularity is the containing
+structure, bounded to ≤4096 bytes for every structure the writer emits (the
+containing section/frame), reported as `Corrupt { Section, Offset }`. **Inert
+alignment padding and reserved header metadata are never interpreted**
+(`0/1024` — a flip confined to them is not, and must not be, reported), matching
+the reference contract.
 
 ## Authenticity (opt-in AUTH)
 
@@ -37,6 +39,14 @@ it (fail-closed — a missing, stripped or mismatching tag is a typed error, nev
 fallback to an unkeyed read). Cross-checked against the Rust reference: Go verifies
 a Rust-written AUTH fixture, and Rust's `open_authenticated` verifies a Go-written
 one (`scripts/roundtrip.sh`).
+
+**Coverage and honest limits.** The keyed MAC covers `file[0, auth_header_offset)`
+— the genesis header, the core, alignment padding, and every section up to and
+including the manifest. It does **not** cover the commit footer or the AUTH tag
+itself (validated structurally and by the footer↔manifest cross-check). There is
+**no anti-rollback**: an attacker with write access can truncate to an earlier
+valid generation. `AUTH` is integrity + authenticity of the covered bytes, not
+freshness.
 
 - **Key lifecycle.** The key `K` is a 32-byte secret owned by the caller; it is
   never stored in the file and never printed. Rotation is a re-write: produce a

@@ -1,0 +1,40 @@
+== Go -> .ekb ==
+wrote go_m1_root_text        machine=1 profile=0 bytes=400
+wrote go_m1_root_allbytes    machine=1 profile=0 bytes=552
+wrote go_m1_root_empty       machine=1 profile=0 bytes=296
+wrote go_m1_full_rand        machine=1 profile=3 bytes=10680
+wrote go_m1_sparse64_text    machine=1 profile=1 bytes=1440
+wrote go_m2_root_skew        machine=2 profile=0 bytes=1840
+wrote go_m2_full_skew        machine=2 profile=3 bytes=13600
+wrote go_m3_root_rand        machine=3 profile=0 bytes=4392
+wrote go_m4_root_skew        machine=4 profile=0 bytes=1856
+wrote go_m5_root_skew        machine=5 profile=0 bytes=1560
+wrote go_m6_root_mixed       machine=6 profile=0 bytes=8696
+wrote go_m7_root_skew        machine=7 profile=0 bytes=1856
+wrote go_m8_root_skew        machine=8 profile=0 bytes=1880
+wrote go_m9_root_small       machine=9 profile=0 bytes=896
+wrote go_m9_full_small       machine=9 profile=3 bytes=1192
+wrote go_m1_path4_text       machine=1 profile=6 bytes=12768
+wrote go_stream              stream blocks=9 logical=30000
+wrote go_auth                authenticated 2016 bytes
+
+== Rust reads the Go-written .ekb files ==
+go_auth: OK n=300 visible=300 physical=1504
+go_m1_full_rand: OK n=2048 visible=2048 physical=10244
+go_m1_path4_text: OK n=4000 visible=4000 physical=12235
+go_m1_root_allbytes: OK n=256 visible=256 physical=256
+go_m1_root_empty: OK n=0 visible=0 physical=0
+go_m1_root_text: OK n=100 visible=100 physical=100
+go_m1_sparse64_text: OK n=1000 visible=1000 physical=1032
+go_m2_full_skew: OK n=3000 visible=1153 physical=13157
+go_m2_root_skew: OK n=5000 visible=1541 physical=1541
+go_m3_root_rand: OK n=4096 visible=4096 physical=4096
+go_m4_root_skew: OK n=5000 visible=1560 physical=1560
+go_m5_root_skew: OK n=5000 visible=1264 physical=1264
+go_m6_root_mixed: OK n=8192 visible=8400 physical=8400
+go_m7_root_skew: OK n=5000 visible=1556 physical=1556
+go_m8_root_skew: OK n=5000 visible=1581 physical=1581
+go_m9_full_small: OK n=38 visible=600 physical=756
+go_m9_root_small: OK n=38 visible=600 physical=600
+go_stream: OK (stream) n=30000
+verified 18 file(s), 0 failure(s)

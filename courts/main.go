@@ -67,15 +67,22 @@ func skewIndex(s *lcg, n int) int {
 }
 
 type row struct {
-	Codec       string  `json:"codec"`
-	BytesPerRec float64 `json:"bytes_per_record"`
-	P50ns       float64 `json:"decode_p50_ns"`
-	Ratio       float64 `json:"ratio_vs_raw"`
+	Codec        string  `json:"codec"`
+	BytesPerRec  float64 `json:"bytes_per_record"`
+	BytesFetched float64 `json:"bytes_fetched_per_get"`
+	P50ns        float64 `json:"decode_p50_ns"`
+	P999ns       float64 `json:"decode_p99_9_ns"`
+	Ratio        float64 `json:"ratio_vs_raw"`
 }
 
 func p50(durs []time.Duration) time.Duration {
 	sort.Slice(durs, func(i, j int) bool { return durs[i] < durs[j] })
 	return durs[len(durs)/2]
+}
+
+func p999(durs []time.Duration) time.Duration {
+	sort.Slice(durs, func(i, j int) bool { return durs[i] < durs[j] })
+	return durs[len(durs)*999/1000]
 }
 
 func main() {
@@ -102,7 +109,7 @@ func main() {
 			_ = append([]byte(nil), records[idx]...)
 			durs[i] = time.Since(t0)
 		}
-		rows = append(rows, row{"raw", float64(total) / numRecords, float64(p50(durs).Nanoseconds()), 1.0})
+		rows = append(rows, row{"raw", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), 1.0})
 	}
 
 	// lz4 block
@@ -129,7 +136,7 @@ func main() {
 			}
 			durs[i] = time.Since(t0)
 		}
-		rows = append(rows, row{"lz4", float64(total) / numRecords, float64(p50(durs).Nanoseconds()), 0})
+		rows = append(rows, row{"lz4", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), 0})
 	}
 
 	// zstd (no dictionary)
@@ -149,7 +156,7 @@ func main() {
 			_, _ = dec.DecodeAll(comps[idx], nil)
 			durs[i] = time.Since(t0)
 		}
-		rows = append(rows, row{"zstd", float64(total) / numRecords, float64(p50(durs).Nanoseconds()), 0})
+		rows = append(rows, row{"zstd", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), 0})
 	}
 
 	// zstd with a dictionary trained on the same set (raw content dict)
@@ -173,7 +180,7 @@ func main() {
 			_, _ = dec.DecodeAll(comps[idx], nil)
 			durs[i] = time.Since(t0)
 		}
-		rows = append(rows, row{"zstd-dict", float64(total) / numRecords, float64(p50(durs).Nanoseconds()), 0})
+		rows = append(rows, row{"zstd-dict", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), 0})
 	}
 
 	// EKBLOOM machine 9 (shared trained order-0 dictionary)
@@ -204,7 +211,7 @@ func main() {
 			}
 			durs[i] = time.Since(t0)
 		}
-		rows = append(rows, row{"ekbloom-m9", float64(total) / numRecords, float64(p50(durs).Nanoseconds()), 0})
+		rows = append(rows, row{"ekbloom-m9", float64(total) / numRecords, float64(total) / numRecords, float64(p50(durs).Nanoseconds()), float64(p999(durs).Nanoseconds()), 0})
 	}
 
 	// ratio vs raw
@@ -214,9 +221,9 @@ func main() {
 	}
 
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-	fmt.Fprintf(w, "codec\tB/record\tvs raw\tdecode p50\n")
+	fmt.Fprintf(w, "codec\tB/rec\tB/fetch\tvs raw\tp50\tp99.9\n")
 	for _, r := range rows {
-		fmt.Fprintf(w, "%s\t%.1f\t%.3f\t%.0f ns\n", r.Codec, r.BytesPerRec, r.Ratio, r.P50ns)
+		fmt.Fprintf(w, "%s\t%.1f\t%.1f\t%.3f\t%.0f ns\t%.0f ns\n", r.Codec, r.BytesPerRec, r.BytesFetched, r.Ratio, r.P50ns, r.P999ns)
 	}
 	w.Flush()
 

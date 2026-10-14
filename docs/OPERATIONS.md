@@ -12,10 +12,26 @@
 | `resource_policy breaches` | `Breaches()` | whole-object allocations refused by the 1 GiB default cap |
 
 `Reader.Report()` returns a full `Report` (logical/visible/physical/concealed
-bytes, expansion ratio, generation, profiles, per-structure components) that a
-service can expose directly, e.g. as JSON.
+bytes, expansion ratio, generation, profiles, per-structure components). For a
+service, `metrics.go` provides ready-made exports:
+
+- `ResourcePolicySnapshot()` — `{max_single_allocation, allocation_breaches}`
+  (the reference's `resource_breaches` counter).
+- `Reader.Metrics()` — `{machine_id, logical_len, visible_bytes, physical_bytes,
+  concealed_bytes, expansion_ratio (E_V), generation}`.
+- `Reader.WorstCaseMetric(off, length)` — the certified step bound.
+- `MetricsText(r)` / `MetricsJSON(r)` — Prometheus-style / JSON rendering.
+
+Measured latency (this host): `ByteAt` via path bloom ≈2.2 ns (≈3 ns via the
+borrowed `ResidentView.Get`, zero allocs/op); 64 concurrent readers against a live
+publishing writer p50 ≈20 ns / p99 ≈40 ns / **p99.9 ≈60 ns** (`evidence/concurrency.json`).
 
 ## Recovery runbook
+
+```sh
+sh scripts/reproduce.sh    # clean build + full tests -> evidence/reproduce.json
+sh scripts/ci.sh           # every gate + captured logs under evidence/
+```
 
 The reader exposes the valid commit prefix directly:
 

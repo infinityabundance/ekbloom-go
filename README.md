@@ -25,8 +25,13 @@ byte-compatible with the Rust reference implementation
 | Machines 1–9 core codecs | ✅ identical (bit-exact encode/decode) | `compat_test.go` |
 | Reader API (`Open`, `ByteAt`, `ReadAt`, `PhysicalBytes`, `Estimate`, `WorstCaseStepsFor`) | ✅ | `reader.go`, `roundtrip_test.go` |
 | Accelerated reads (path bloom / history / checkpoints) | ✅ O(1) path bloom ~2.5 ns | `fastpath.go`, `fastpath_test.go`, `bench_test.go` |
-| Writer (`WriteBody`: root/full/sparse) + `AppendGeneration` | ✅ Rust-readable; torn-write safe | `writer.go`, `append.go`, `append_test.go` |
+| Writer (`WriteBody`/`AppendGeneration`: root/full/sparse/path) | ✅ Rust-readable; path bloom + certificate | `writer.go`, `writer_path.go`, `append.go` |
+| Legacy v0.3/v0.4 fixtures open byte-identically | ✅ frozen Rust fixtures | `testdata/legacy/`, `legacy_test.go` |
 | Opt-in keyed AUTH (write + verify) | ✅ | `auth.go`, `auth_test.go`, Rust `open_authenticated` |
+| Allocation-free `ResidentView.Get` (zero allocs/op) | ✅ ≈3 ns | `resident.go`, `resident_test.go` |
+| Metrics export (physical_bytes, E_V, breaches) | ✅ | `metrics.go` |
+| `worst_case_steps_for` bound | ✅ 1.2M samples, 0 violations | `bound_test.go`, `evidence/bound.json` |
+| 64 readers + 1 writer p99.9 (`-race` clean) | ✅ p99.9 ≈60 ns | `concurrency_test.go`, `evidence/concurrency.json` |
 | Shared dictionaries (machine 9) | ✅ | `dictionary.go`, `compat_test.go` |
 | Corruption detection (`Corrupt{Section,Offset}`) | ✅ 100% of covered bits, ≤1 structure (≤4096 B) | `corruption_test.go` |
 | Streaming (`StreamBuilder`/`StreamReader`, bounded RSS) | ✅ 2 GiB @ 9.46 MiB peak heap | `stream_test.go`, `scale_test.go` |
@@ -35,8 +40,10 @@ byte-compatible with the Rust reference implementation
 | Fuzzers (Open, Stream, machine roundtrip) | ✅ | `fuzz_test.go`, `evidence/fuzz/` |
 | Benchmarks (`go test -bench`) | ✅ | `bench_test.go` |
 | Cross-FS determinism (disk vs tmpfs) | ✅ identical fingerprints | `scripts/cross-fs.sh` |
-| Cross-arch runtime determinism | ✅ amd64 == arm64 fingerprints (qemu) | `scripts/container-aarch64.sh` |
+| Cross-arch runtime determinism | ✅ amd64 == arm64 fingerprints | `evidence/aarch64-determinism.json` |
 | Skewed small-record court vs zstd/lz4/zstd-dict | ✅ space win, decode cost (honest) | `courts/`, `docs/COURTS.md`, `evidence/courts.json` |
+| Fuzz campaign | ✅ 26M+ execs, corpus published | `evidence/fuzz.json`, `evidence/fuzz/` |
+| CI + captured logs | ✅ | `.github/workflows/ci.yml`, `scripts/ci.sh`, `evidence/` |
 
 ## Quick start
 
@@ -61,8 +68,9 @@ app, gen, _ := ekbloom.AppendGeneration(data, 1, src, ekbloom.Profile{Kind: ekbl
 The pipeline (all run inside this repository):
 
 ```sh
-go test ./...                     # unit, compat, corruption, concurrency (-race), stream, auth, append
-go test -bench . -benchmem ./     # micro-benchmarks
+sh scripts/ci.sh                  # every gate + captured logs under evidence/
+go test ./...                     # unit, compat, legacy, corruption, concurrency (-race), stream, auth, append
+go test -bench . -benchmem ./     # micro-benchmarks (all 9 machines)
 go test -fuzz FuzzOpenBytes .     # fuzzing (see docs/TESTING.md for the long campaign)
 go test -race ./...               # the 64-reader path, race-detector clean
 EKB_RUN_SCALE=1 go test -run 2GiB .   # the 2 GiB bounded-memory stream build (~9.5 MiB peak)
@@ -91,12 +99,15 @@ package `ekbloom` at the repository root:
   machine*.go      the nine machines (encode/decode/check, prepared contexts)
   dictionary.go    machine-9 shared order-0 dictionaries + registry
   fastpath.go      accelerated reads: path bloom / history / checkpoints
+  resident.go      allocation-free borrowed ResidentView (Get(i), zero allocs/op)
   estimate.go      profile labels and the upper-bound estimator
   inspect.go       physical accounting (mirrors the Rust FileBody::inspect)
   reader.go        Open / ByteAt / ReadAt / PhysicalBytes / Estimate / WorstCaseStepsFor
   writer.go        WriteBody / WriteBodyAuthenticated (Rust-readable .ekb images)
+  writer_path.go   exact path-bloom writer (P_D[j] + certificate)
   append.go        AppendGeneration (additive generations) + TruncateToValid
   auth.go          OpenAuthenticated / VerifyAuthenticated (keyed AUTH)
+  metrics.go       Metrics / MetricsText / MetricsJSON / ResourcePolicySnapshot
   verify.go        structural + deep verification with localized Corrupt errors
   stream.go        bounded-memory stream container builder/reader
   resource.go      ResourcePolicy (default 1 GiB) + breach counter

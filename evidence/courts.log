@@ -1,0 +1,8 @@
+codec       B/rec  B/fetch  vs raw  p50      p99.9
+raw         100.0  100.0    1.000   30 ns    441 ns
+lz4         101.9  101.9    1.019   20 ns    111 ns
+zstd        113.0  113.0    1.130   100 ns   1072 ns
+zstd-dict   47.4   47.4     0.474   231 ns   1903 ns
+ekbloom-m9  59.8   59.8     0.598   2154 ns  83627 ns
+
+wrote ../evidence/courts.json

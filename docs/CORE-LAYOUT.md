@@ -108,6 +108,19 @@ checkpoint bytes.
 Each `encode(source)` produces the core placed at offset 80. `Omega_0` and the
 per-step reveal are below.
 
+### 2.0 Core byte diagrams (header-bearing machines)
+
+```text
+machine 2  OrANS-RANS0    [freq: 256*u16 LE = 512] [initial_state u32] [renorm bytes, reversed]
+machine 4  OrANS-RANS0I   [freq 512] [K u32] [initial_states: K*u32] [interleaved renorm, reversed]
+machine 5  OrANS-PACK     [bits u8][k u8][alphabet: k][logical_len u64][packed payload ceil(N*bits/8)]
+machine 6  OrANS-SEG      hdr[ESEG |ver u16|flags u16|count u32|entry_bytes u32|seg_shift u8|window_shift u8|resv 6|logical_len u64|dir_bytes u64|payload_off u64|payload_bytes u64|dir_hash 32|resv 8] dir[count*(56-entry)] [win entries] [payloads]
+machine 7  OrANS-RANS0W   [freq 512] [initial_state u32] [renorm words: u16 LE, reversed]
+machine 8  OrANS-RANS0IL  [freq 512] [K u32] [lane_len: K*u32] [states: K*u32] [lane payloads, each reversed]
+machine 9  OrANS-DICT     [dict_id 16][dict_len u32][dict_bytes: dict_len][logical_len u32][initial_state u32][renorm bytes, reversed]
+machine 1/3              no header: core is N bytes
+```
+
 ### 2.1 Machine 1 — `OrANS-NL2` (V = N)
 
 No header; `core` is `N` bytes. `S(v) = v ^ (v<<1) ^ (v<<3)` (8-bit). Step at

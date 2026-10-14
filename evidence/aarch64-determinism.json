@@ -1,0 +1,7 @@
+{
+  "platforms": ["linux/amd64", "linux/arm64"],
+  "identical": true,
+  "files": 34,
+  "amd64_fingerprint_sha256": "50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720",
+  "arm64_fingerprint_sha256": "50675cfdfcea2e9d30d44a5fba8c9e8e42960668b4f7314c5712853ff7233720"
+}

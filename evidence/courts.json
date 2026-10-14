@@ -7,31 +7,41 @@
     {
       "codec": "raw",
       "bytes_per_record": 100,
+      "bytes_fetched_per_get": 100,
       "decode_p50_ns": 30,
+      "decode_p99_9_ns": 441,
       "ratio_vs_raw": 1
     },
     {
       "codec": "lz4",
       "bytes_per_record": 101.936,
+      "bytes_fetched_per_get": 101.936,
       "decode_p50_ns": 20,
+      "decode_p99_9_ns": 111,
       "ratio_vs_raw": 1.01936
     },
     {
       "codec": "zstd",
       "bytes_per_record": 113,
+      "bytes_fetched_per_get": 113,
       "decode_p50_ns": 100,
+      "decode_p99_9_ns": 1072,
       "ratio_vs_raw": 1.13
     },
     {
       "codec": "zstd-dict",
       "bytes_per_record": 47.3815,
-      "decode_p50_ns": 251,
+      "bytes_fetched_per_get": 47.3815,
+      "decode_p50_ns": 231,
+      "decode_p99_9_ns": 1903,
       "ratio_vs_raw": 0.47381500000000004
     },
     {
       "codec": "ekbloom-m9",
       "bytes_per_record": 59.798,
-      "decode_p50_ns": 2144,
+      "bytes_fetched_per_get": 59.798,
+      "decode_p50_ns": 2154,
+      "decode_p99_9_ns": 83627,
       "ratio_vs_raw": 0.5979800000000001
     }
   ]
