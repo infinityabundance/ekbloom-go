@@ -1,7 +1,12 @@
 {
-  "packages": 8,
-  "passed": 379,
+  "image": "ghcr.io/infinityabundance/ekbloom-go:test",
+  "tag": "test",
+  "reference": "ghcr.io/infinityabundance/ekbloom-go@sha256:5d5a92076591b6f077028b8d72490a3c0c8bb5c85fd6ffa532659a23df1ccbaf",
+  "digest": "sha256:5d5a92076591b6f077028b8d72490a3c0c8bb5c85fd6ffa532659a23df1ccbaf",
+  "pulled_anonymously": true,
+  "packages": 11,
+  "passed": 409,
   "failed": 0,
-  "skipped": 7,
+  "skipped": 9,
   "ok": true
 }

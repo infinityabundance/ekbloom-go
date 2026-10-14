@@ -150,9 +150,45 @@ docker run --rm ghcr.io/infinityabundance/ekbloom-go:test            # full suit
 sh scripts/verify-external.sh                                       # emits evidence/external-reproduce.json
 ```
 
-Images are published for every release as `:0.1.0` (runtime) and `:0.1.0-test`
-(suite), plus moving `:latest`/`:test`. Verified from a clean machine: the
-published `:test` image runs **379 tests, 0 failures** (`evidence/external-reproduce.json`).
+Images are published for every release as `:0.5.0` (runtime) and `:0.5.0-test`
+(suite), plus moving `:latest`/`:test`. The image tags are the semver **without**
+the leading `v` (git tag `v0.5.0` → image tag `0.5.0`).
+
+#### Third-party reproduction
+
+A stranger with only Docker — no clone, no Go toolchain — can verify the published
+suite and get back a machine-readable summary that pins the exact image digest:
+
+```sh
+sh scripts/verify-external.sh
+```
+
+It pulls `ghcr.io/infinityabundance/ekbloom-go:test` **anonymously** (the image is
+public), resolves its immutable digest, runs `go test -json ./...` *inside* that
+image, and writes `evidence/external-reproduce.json`:
+
+```json
+{
+  "image": "ghcr.io/infinityabundance/ekbloom-go:test",
+  "tag": "test",
+  "reference": "ghcr.io/infinityabundance/ekbloom-go@sha256:5d5a9207…",
+  "digest": "sha256:5d5a9207…",
+  "pulled_anonymously": true,
+  "packages": 11,
+  "passed": 409,
+  "failed": 0,
+  "skipped": 9,
+  "ok": true
+}
+```
+
+`failed` must be `0` and `ok` must be `true`; the script exits non-zero otherwise.
+Set `IMAGE=ghcr.io/infinityabundance/ekbloom-go:0.5.0-test` to verify a fixed
+release instead of the moving `:test` tag. `digest` is the immutable
+`sha256:…` of the manifest actually verified, so the claim is tied to a concrete
+object rather than a floating tag. CI re-runs this on every `publish` completion on
+`main` (`.github/workflows/external-reproduce.yml`), so the reproduction is
+continuously verified from the published image, not a local checkout.
 
 The test image on GHCR is pushed unconditionally; Docker Hub
 (`infinityabundance/ekbloom-go`) is used when `DOCKERHUB_USERNAME`/`DOCKERHUB_TOKEN`

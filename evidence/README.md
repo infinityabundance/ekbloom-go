@@ -29,7 +29,7 @@ because they need hardware or privileges a laptop may not have.
 | `ycsb.json` | YCSB value-log court (zipfian) vs zstd-dict / Pebble / m2 |
 | `bench-history.jsonl` | append-only performance regression history (commit + ns/op) |
 | `wasip1-fingerprint.txt` / `wasip1-test.log` | WebAssembly (wasip1) fingerprint + full suite, identical to amd64/arm64 |
-| `external-reproduce.json` | the suite run from the **published** `ghcr.io/…:test` image (no clone) |
+| `external-reproduce.json` | the suite run from the **published** `ghcr.io/…:test` image (no clone): pass/fail counts plus provenance — the resolved `reference`, immutable `digest` (`sha256:…`), `tag`, and `pulled_anonymously` (`scripts/verify-external.sh`, re-enforced by `.github/workflows/external-reproduce.yml`) |
 | `chaos.json` | 400 append/damage/repair rounds (truncate + bit flips): 400/400 recovered exact |
 | `fuzz.json`, `fuzz/` | fuzz campaign logs and the published corpus (`FuzzOpenBytes` 1.13B execs) |
 | `roundtrip.log` | Go-written `.ekb`/`.stream` opened and decoded by the Rust reference (22 files) |

@@ -1,0 +1,62 @@
+name: external-reproduce
+
+# Prove that the *published* image — not a checkout of the module's source —
+# reproduces the suite with 0 failures, the way a stranger would: no clone, no
+# Go toolchain, only Docker pulling a public image.
+#
+# Trigger choice:
+#   * `workflow_run` on `publish` (branches: main) fires only once the publish
+#     workflow has *fully completed*, so the freshly built `:test` image is
+#     already in GHCR when we pull it — there is no race with the build/push job.
+#     verify-external.sh records the resolved image digest in the artifact, so
+#     the claim is pinned to an immutable object, not the moving `:test` tag.
+#   * `workflow_dispatch` lets anyone re-run the same verification on demand
+#     (optionally against a specific tag, e.g. `...:0.5.0-test`).
+#
+# The build itself is never re-run here: this workflow only pulls the already
+# published image and runs the suite inside it.
+
+on:
+  workflow_dispatch:
+    inputs:
+      image:
+        description: Image reference to verify
+        required: false
+        default: ghcr.io/infinityabundance/ekbloom-go:test
+  workflow_run:
+    workflows: [publish]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: read
+
+concurrency:
+  group: external-reproduce-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    env:
+      IMAGE: ${{ github.event.inputs.image || 'ghcr.io/infinityabundance/ekbloom-go:test' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pull the public image and run the suite inside it
+        run: sh scripts/verify-external.sh
+
+      - name: Assert the published image reported 0 failures
+        run: |
+          test -s evidence/external-reproduce.json
+          grep -q '"failed": 0' evidence/external-reproduce.json
+          grep -q '"ok": true' evidence/external-reproduce.json
+          grep -q '"digest": "sha256:' evidence/external-reproduce.json
+          cat evidence/external-reproduce.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: external-reproduce
+          path: evidence/external-reproduce.json
