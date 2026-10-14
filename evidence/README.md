@@ -23,6 +23,9 @@ because they need hardware or privileges a laptop may not have.
 | `byteat.json` | per-machine `byte_at` p50/p99/p99.9 |
 | `concurrency.json` | 64 readers quiet vs 1 writer publish, p50/p99/p99.9 |
 | `profile/` | CPU profiles (`*.prof`), SVG call graphs, and top functions for m1/m2/m9 + path bloom |
+| `sweep.json` | writer-profile frontier: `E_V` / `byte_at` / 4 KiB / bulk per profile |
+| `wasip1-fingerprint.txt` | WebAssembly (wasip1) fingerprint, byte-identical to amd64/arm64 |
+| `external-reproduce.json` | the suite run from the **published** `ghcr.io/…:test` image (no clone) |
 | `fuzz.json`, `fuzz/` | fuzz campaign logs and the published corpus (`FuzzOpenBytes` 1.13B execs) |
 | `roundtrip.log` | Go-written `.ekb`/`.stream` opened and decoded by the Rust reference (22 files) |
 | `container-test.json`, `container-reproduce.json` | the suite and CLI inside the ~9.7 MB image |

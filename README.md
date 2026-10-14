@@ -121,6 +121,10 @@ docker run --rm ghcr.io/infinityabundance/ekbloom-go:test            # full suit
 sh scripts/verify-external.sh                                       # emits evidence/external-reproduce.json
 ```
 
+Images are published for every release as `:0.1.0` (runtime) and `:0.1.0-test`
+(suite), plus moving `:latest`/`:test`. Verified from a clean machine: the
+published `:test` image runs **379 tests, 0 failures** (`evidence/external-reproduce.json`).
+
 The test image on GHCR is pushed unconditionally; Docker Hub
 (`infinityabundance/ekbloom-go`) is used when `DOCKERHUB_USERNAME`/`DOCKERHUB_TOKEN`
 secrets are set. See `CHANGELOG.md` for the release history and `docs/STABILITY.md`
