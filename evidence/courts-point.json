@@ -1,0 +1,64 @@
+{
+  "values": 4096,
+  "value_bytes": 4096,
+  "gets": 20000,
+  "rows": [
+    {
+      "codec": "raw-slab",
+      "bytes_per_value": 4096,
+      "get_p50_ns": 191,
+      "get_p99_ns": 871,
+      "get_p999_ns": 59519,
+      "total_bytes": 16777216
+    },
+    {
+      "codec": "lz4-block",
+      "bytes_per_value": 1067.103759765625,
+      "get_p50_ns": 982,
+      "get_p99_ns": 1192,
+      "get_p999_ns": 2204,
+      "total_bytes": 4370857
+    },
+    {
+      "codec": "zstd",
+      "bytes_per_value": 669.71044921875,
+      "get_p50_ns": 4548,
+      "get_p99_ns": 6893,
+      "get_p999_ns": 13945,
+      "total_bytes": 2743134
+    },
+    {
+      "codec": "pebble",
+      "bytes_per_value": 4096,
+      "get_p50_ns": 4438,
+      "get_p99_ns": 5731,
+      "get_p999_ns": 8676,
+      "total_bytes": 16777216
+    },
+    {
+      "codec": "ekbloom-m1-root",
+      "bytes_per_value": 4096,
+      "get_p50_ns": 361,
+      "get_p99_ns": 1613,
+      "get_p999_ns": 8565,
+      "total_bytes": 16777216
+    },
+    {
+      "codec": "ekbloom-m1-path4",
+      "bytes_per_value": 12288.057373046875,
+      "get_p50_ns": 301,
+      "get_p99_ns": 1683,
+      "get_p999_ns": 29865,
+      "total_bytes": 50331883
+    },
+    {
+      "codec": "ekbloom-m2-root",
+      "bytes_per_value": 2398.835693359375,
+      "get_p50_ns": 300,
+      "get_p99_ns": 1553,
+      "get_p999_ns": 9197,
+      "total_bytes": 9825631
+    }
+  ],
+  "note": "One random 4 KiB point read, same payloads, 80/20 skew. EKBLOOM is an in-memory codec; Pebble is an on-disk LSM (block cache warmed). Footprint is bytes/value. Single host, scalar Go — a decision aid, not a portable benchmark."
+}

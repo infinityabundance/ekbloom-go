@@ -45,6 +45,7 @@ byte-compatible with the Rust reference implementation
 | Cross-arch runtime determinism | ✅ native amd64 == arm64 fingerprints | `evidence/aarch64-determinism.json`, `evidence/aarch64-native-fingerprint.txt` |
 | Standard corpora `E_V` (Canterbury/Silesia/enwik8/enwik9) | ✅ Go == Rust, 50/50 rows | `scripts/corpus.sh`, `evidence/corpus-compare.log` |
 | Skewed small-record court vs zstd/lz4/zstd-dict | ✅ space win, decode cost, allocs/get (honest) | `courts/`, `docs/COURTS.md`, `evidence/courts.json` |
+| 4 KiB point-read court vs Pebble/LZ4/Zstd | ✅ honest in-memory vs on-disk | `courts/point/`, `evidence/courts-point.json` |
 | Fuzz campaign | ✅ **1.13B execs** (Open), corpus published | `evidence/fuzz.json`, `evidence/fuzz/FuzzOpenBytes-1b.log` |
 | WebAssembly (`wasip1` == amd64 == arm64) | ✅ fingerprint identical | `scripts/wasm.sh`, `evidence/wasip1-fingerprint.txt` |
 | Release + published container (GHCR/Docker Hub) | ✅ `v0.1.0` ghcr.io/…/ekbloom-go | `CHANGELOG.md`, `.github/workflows/publish.yml` |
@@ -92,7 +93,7 @@ sh scripts/profile.sh             # CPU profiles (SVG + top) for m1/m2/m9 encode
 sh scripts/wasm.sh                # WebAssembly build + amd64 == arm64 == wasip1
 sh scripts/verify-external.sh     # pull the published image, run the suite, no clone
 sh scripts/container-aarch64.sh   # amd64 == arm64 runtime determinism (qemu)
-sh scripts/courts.sh              # 100-byte, 80/20 court vs zstd/lz4/zstd-dict
+sh scripts/courts.sh              # 100-byte 80/20 court + 4 KiB point-read court (Pebble)
 sh scripts/container-reproduce.sh # everything inside a ~10 MB Docker image
 sh scripts/reproduce.sh           # clean build + tests, emits JSON
 ```

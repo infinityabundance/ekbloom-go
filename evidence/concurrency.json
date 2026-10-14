@@ -2,19 +2,19 @@
   "readers": 64,
   "samples_per_phase": 5000,
   "generations_published": 5,
-  "p50_ns": 30,
-  "p99_ns": 40,
+  "p50_ns": 20,
+  "p99_ns": 31,
   "p999_ns": 50,
   "quiet": {
     "samples": 320000,
-    "p50_ns": 30,
-    "p99_ns": 40,
-    "p999_ns": 50
+    "p50_ns": 20,
+    "p99_ns": 31,
+    "p999_ns": 90
   },
   "publish": {
     "samples": 320000,
-    "p50_ns": 30,
-    "p99_ns": 40,
+    "p50_ns": 20,
+    "p99_ns": 31,
     "p999_ns": 50
   }
 }

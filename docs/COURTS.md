@@ -40,3 +40,37 @@ Numbers are single-host, single-run, deterministic seeds; they are a
 decision aid, not a portable benchmark. The Go port's `m9` column uses
 `Dictionary.EncodeRecord` (the header-less referenced core), matching the
 reference's per-record framing (the dictionary is counted once, separately).
+
+## 4 KiB point-read court (vs an embedded LSM)
+
+`courts/point` measures one random **4 KiB point read** when the same payloads are
+held in different representations, with an 80/20 skew, and reports the footprint
+too. EKBLOOM is an in-memory codec; Pebble is an on-disk LSM with a warmed block
+cache — the comparison is "what does a point read cost, and what does a value
+occupy", not a claim that a codec beats a store.
+
+```sh
+sh scripts/courts.sh        # writes evidence/courts.json and courts-point.json
+```
+
+| codec | B/value | Get p50 | Get p99 | Get p99.9 |
+| --- | ---: | ---: | ---: | ---: |
+| raw-slab | 4096.0 | 191 ns | 871 ns | 59,519 ns |
+| lz4-block | 1,067.1 | 982 ns | 1,192 ns | 2,204 ns |
+| zstd | 669.7 | 4,548 ns | 6,893 ns | 13,945 ns |
+| **pebble** | 4096.0 | **4,438 ns** | **5,731 ns** | **8,676 ns** |
+| ekbloom-m1-root | 4096.0 | 361 ns | 1,613 ns | 8,565 ns |
+| ekbloom-m1-path4 | 12,288.1 | 301 ns | 1,683 ns | 29,865 ns |
+| **ekbloom-m2-root** | **2,398.8** | **300 ns** | **1,553 ns** | **9,197 ns** |
+
+Read it honestly:
+
+- **EKBLOOM m2 root holds ≈0.59× raw** (2,398.8 B/value) and serves a point read
+  from memory in ≈300 ns p50 — because the in-memory reader materialises one
+  symbol array on first random access; it is not a cold random-access decoder.
+- **Pebble's `Get` is ≈4.4 µs p50** for the same values at full size — an on-disk
+  LSM point lookup, not a slab read. Raw is the latency floor for an in-memory
+  slab; the codecs trade bytes for decode work.
+- **Numbers are in-memory vs on-disk.** EKBLOOM pays no I/O here; a real service
+  would add `pread`, which is where the reference's `io_uring`/`mmap` wins live
+  (see `docs/SCOPE.md`).
