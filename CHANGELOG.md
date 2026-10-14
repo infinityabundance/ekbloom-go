@@ -21,6 +21,11 @@ The wire format is **frozen** and follows the Rust reference
   `sh scripts/conformance.sh` → `evidence/conformance.json`. It already records 21
   documented divergences between the two implementations' error kinds, which
   `SPEC.md` §7.2/§7.3 rules on. CI job `conformance`.
+- **Long-run randomized roundtrip soak** (`internal/tools/soak/`): random machines,
+  profiles, sizes and content, round-tripped byte-exact with **no per-iteration
+  retention**; reaches the 1e9-symbol target in ~25 s at ~77 MiB peak heap (a 60 s
+  run reached 2.19e9 symbols at ~81 MiB, 0 mismatches) — bounded well inside the 2g
+  container cap. `scripts/soak.sh` → `evidence/soak.json`. CI job `soak` (60 s).
 
 ## [0.4.0] - 2026-10-14
 

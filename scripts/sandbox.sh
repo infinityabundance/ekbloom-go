@@ -24,12 +24,18 @@ if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
     docker build -f Dockerfile.sandbox -t "$IMAGE" . >&2
 fi
 
+# Mark the bind-mounted repo as a safe git directory: the files are owned by the
+# host uid, not the container's root, so git refuses to read them ("dubious
+# ownership") and `go build`/`go test` fail while stamping VCS info.
 exec docker run --rm \
     --memory="$MEM" --memory-swap="$MEM" \
     --cpus="$CPUS" \
     --pids-limit=512 \
     --ulimit nofile=4096:4096 \
     --ulimit nproc=1024:1024 \
+    -e GIT_CONFIG_COUNT=1 \
+    -e GIT_CONFIG_KEY_0=safe.directory \
+    -e GIT_CONFIG_VALUE_0=/src \
     -v "$root":/src -w /src \
     -v ekbloom-gocache:/tmp/gocache \
     -v ekbloom-gomod:/tmp/gomod \

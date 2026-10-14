@@ -48,6 +48,7 @@ for the RocksDB and Parquet case studies.
 | Pebble value-log adapter (zero-alloc decode) | ✅ 63.36 B/rec, 0 allocs/op, p50 872 ns | `courts/pebble/`, `evidence/pebble-vlog.json` |
 | Prometheus exporter + Grafana dashboard | ✅ 5 metrics / 5 panels | `integrations/prometheus/`, `grafana/ekbloom-dashboard.json` |
 | Implementation-neutral conformance suite | ✅ 73 fixtures, Go + Rust verifiers | `conformance/`, `evidence/conformance.json` |
+| Long-run randomized roundtrip (soak) | ✅ 2.19e9 symbols, peak heap ~81 MiB, 0 mismatches | `internal/tools/soak/`, `evidence/soak.json` |
 | Corruption detection (`Corrupt{Section,Offset}`) | ✅ 100% of covered bits, ≤1 structure (≤4096 B) | `internal/ekb/corruption_test.go` |
 | Streaming (`StreamBuilder`/`StreamReader`, bounded RSS) | ✅ 2 GiB @ 9.5 MiB peak heap | `internal/ekb/stream_test.go`, `internal/ekb/scale_test.go` |
 | Resource policy (1 GiB default cap + breach counter) | ✅ | `internal/ekb/resource.go` |
@@ -114,6 +115,7 @@ sh scripts/parquet.sh             # Parquet dictionary-page case study (capped c
 sh scripts/pebble.sh              # Pebble value-log case study (capped container)
 sh scripts/prometheus.sh          # Prometheus scrape + Grafana dashboard
 sh scripts/conformance.sh         # the neutral conformance suite (Go + Rust verifiers)
+sh scripts/soak.sh                # long-run randomized roundtrip (bounded memory, 2g cap)
 sh scripts/container-aarch64.sh   # amd64 == arm64 runtime determinism (qemu)
 sh scripts/courts.sh              # 100-byte 80/20 court + 4 KiB point-read court (Pebble)
 sh scripts/container-reproduce.sh # everything inside a ~10 MB Docker image

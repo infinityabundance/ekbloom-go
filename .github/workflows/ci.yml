@@ -36,6 +36,20 @@ jobs:
           name: evidence
           path: evidence/
 
+  soak:
+    # Long-running randomized round-trip soak: proves the implementation keeps
+    # processing billions of logical symbols with bounded memory inside the
+    # sandbox's 2 GiB cap. Short budget here; evidence/soak.json records the peak.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: randomized round-trip soak (bounded memory)
+        run: SOAK_SECONDS=60 sh scripts/soak.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: soak
+          path: evidence/soak.json
+
   court:
     runs-on: ubuntu-latest
     steps:
