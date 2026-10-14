@@ -22,7 +22,12 @@ go vet ./...
   64 concurrent readers under `-race`.
 - `stream_test.go` / `scale_test.go` — Rust stream golden identity; the 2 GiB
   bounded-memory build (opt-in via `EKB_RUN_SCALE=1`).
-- `example_test.go` — runnable examples (open, dictionary, streaming, corruption).
+- `example_test.go` — runnable examples (open, dictionary, shared-dictionary
+  write/open, streaming, corruption).
+- `dictbench_test.go` — the machine-9 P5 study: one shared dictionary vs
+  per-record machine 2 (83.5 vs 590.0 B/record, break-even 2 records) and the
+  reference-framed `WriteBodyWithDict`/`OpenWithDict` round-trip
+  (`evidence/dictionary.json`).
 
 ## Fuzzing
 
@@ -105,6 +110,7 @@ reproducible and reviewable.
 ```sh
 sh scripts/ci.sh                  # every gate + captured logs under evidence/
 sh scripts/reproduce.sh           # clean build + full tests + JSON summary
+sh scripts/setup-reference.sh     # clone the pinned Rust reference into .reference/
 sh scripts/roundtrip.sh           # Go <-> Rust bidirectional identity
 sh scripts/cross-fs.sh            # cross-filesystem determinism
 sh scripts/container-reproduce.sh # everything inside a ~10 MB Docker image
@@ -112,5 +118,7 @@ sh scripts/container-aarch64.sh   # amd64 == arm64 runtime determinism
 sh scripts/courts.sh              # skewed small-record court
 ```
 
-`scripts/roundtrip.sh` requires the Rust toolchain (and network on first run) to
-build the reference in `.reference/fixturegen`. Everything else is Go-only.
+`scripts/roundtrip.sh` requires the Rust toolchain; from a fresh clone it
+bootstraps itself by calling `scripts/setup-reference.sh`, which clones the Rust
+reference at a pinned commit and stages the committed `tools/fixturegen` crate.
+Everything else is Go-only.

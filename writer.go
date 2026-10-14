@@ -25,6 +25,30 @@ func WriteBodyAuthenticated(machineID uint32, source []byte, profile Profile, ke
 	return writeBody(machineID, source, profile, &key)
 }
 
+// WriteBodyWithDict serializes a machine-9 (`OrANS-DICT`) body whose core
+// **references** a shared trained dict under the Root profile — the
+// small-record path. The dictionary is registered in the process-wide registry
+// (exactly as the reference's create_with_dict does) so Open and OpenWithDict
+// can resolve the core's dictionary id. The dictionary is stored once, outside
+// the image, so the body is not self-contained; use WriteBody(9, ...) for a
+// self-contained (embedded) image, or WriteBodyWithDict + the shared dict bytes
+// to amortise the model across many records.
+func WriteBodyWithDict(source []byte, profile Profile, dict Dictionary) ([]byte, error) {
+	if profile.Kind != ProfileRoot {
+		return nil, &Error{Kind: KindInvalidArgument, Reason: "WriteBodyWithDict supports the root profile"}
+	}
+	machine, ok := machineByID(MachineDict)
+	if !ok {
+		return nil, &Error{Kind: KindUnknownMachine, MachineID: MachineDict}
+	}
+	record, err := dict.EncodeRecord(source)
+	if err != nil {
+		return nil, err
+	}
+	RegisterDictionary(dict)
+	return assembleBody(machine, MachineDict, source, frameReference(dict, record), profile, profile.label(), nil)
+}
+
 func writeBody(machineID uint32, source []byte, profile Profile, key *[32]byte) ([]byte, error) {
 	machine, ok := machineByID(machineID)
 	if !ok {
@@ -34,6 +58,12 @@ func writeBody(machineID uint32, source []byte, profile Profile, key *[32]byte) 
 	if err != nil {
 		return nil, err
 	}
+	return assembleBody(machine, machineID, source, core, profile, profile.label(), key)
+}
+
+// assembleBody builds a `.ekb` image (generation 1) from an already-computed
+// core, applying the manifesting profile named by label.
+func assembleBody(machine Machine, machineID uint32, source, core []byte, profile Profile, label string, key *[32]byte) ([]byte, error) {
 	coreHash := blake3Hash(core)
 	objectID := deriveObjectID(coreHash)
 
@@ -99,7 +129,7 @@ func writeBody(machineID uint32, source []byte, profile Profile, key *[32]byte) 
 		ObjectID:   objectID,
 		MachineID:  machineID,
 		CoreHash:   coreHash,
-		Profiles:   []string{profile.label()},
+		Profiles:   []string{label},
 		Components: toManifestComponents(components),
 	}
 	sections = append(sections, pendingSection{SectionManifest, manifest.encode()})

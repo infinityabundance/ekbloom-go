@@ -27,6 +27,10 @@ echo
 echo "== skewed small-record court =="
 ( cd courts && go run . ) 2>&1 | tee evidence/courts.log
 
+if command -v cargo >/dev/null 2>&1; then
+    [ -d .reference/fixturegen ] || sh scripts/setup-reference.sh || true
+fi
+
 if command -v cargo >/dev/null 2>&1 && [ -d .reference/fixturegen ]; then
     echo
     echo "== bidirectional Rust round-trip =="

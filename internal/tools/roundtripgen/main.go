@@ -221,4 +221,49 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Printf("wrote %-22s tiles %d bytes\n", "go_tiles", len(tileBody))
+
+	// A Go-written machine-9 body that *references* a shared trained dictionary
+	// (the reference's create_with_dict path). The dictionary travels out-of-band
+	// as a sibling .dict file, which the Rust verifier registers before opening.
+	var refCorpus [][]byte
+	for i := 0; i < 64; i++ {
+		refCorpus = append(refCorpus, dictText(i, 100))
+	}
+	refDict, err := ekbloom.TrainDictionary(refCorpus)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	refSrc := dictText(7, 100)
+	refBody, err := ekbloom.WriteBodyWithDict(refSrc, profRoot, refDict)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	for suffix, data := range map[string][]byte{
+		"go_m9_ref.ekb":  refBody,
+		"go_m9_ref.src":  refSrc,
+		"go_m9_ref.dict": refDict.Bytes(),
+	} {
+		if err := os.WriteFile(filepath.Join(dir, suffix), data, 0o644); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+	}
+	fmt.Printf("wrote %-22s reference dict=%d bytes body=%d\n", "go_m9_ref", len(refDict.Bytes()), len(refBody))
+}
+
+// dictText builds one text-like record of exactly n bytes from a small token
+// alphabet, seeded by seed — the corpus the shared-dictionary path optimises for.
+func dictText(seed, n int) []byte {
+	parts := []string{"id=", "user", "kind=", "alpha", "beta", "gamma", "region=",
+		"us-east-1", "eu-west-1", "ap-south-1", "score=", "000", "111", "222",
+		"status=", "active", "idle", "|"}
+	out := make([]byte, 0, n+16)
+	s := uint64(seed)
+	for len(out) < n {
+		s = s*6364136223846793005 + 1442695040888963407
+		out = append(out, parts[(s>>33)%uint64(len(parts))]...)
+	}
+	return out[:n]
 }

@@ -53,6 +53,40 @@ func Example_dictionary() {
 	// Output: roundtrip=true core=36 bytes raw=38 bytes
 }
 
+// Example_writeBodyWithDict shows the machine-9 shared-dictionary path: one
+// dictionary trained over a corpus, a record written as a compact core that
+// *references* it, and read back through OpenWithDict.
+func Example_writeBodyWithDict() {
+	corpus := [][]byte{
+		[]byte("user=alice|region=us-east-1|role=admin|status=active"),
+		[]byte("user=bob|region=eu-west-1|role=reader|status=idle"),
+		[]byte("user=carol|region=us-west-2|role=writer|status=active"),
+	}
+	dict, err := ekbloom.TrainDictionary(corpus)
+	if err != nil {
+		fmt.Println("train:", err)
+		return
+	}
+	record := []byte("user=dave|region=ap-south-1|role=admin|status=active")
+	image, err := ekbloom.WriteBodyWithDict(record, ekbloom.Profile{Kind: ekbloom.ProfileRoot}, dict)
+	if err != nil {
+		fmt.Println("write:", err)
+		return
+	}
+	r, err := ekbloom.OpenWithDict(image, dict)
+	if err != nil {
+		fmt.Println("open:", err)
+		return
+	}
+	got, err := r.ReadAt(0, uint64(len(record)))
+	if err != nil {
+		fmt.Println("read:", err)
+		return
+	}
+	fmt.Printf("machine=%d roundtrip=%v\n", r.MachineID(), bytes.Equal(got, record))
+	// Output: machine=9 roundtrip=true
+}
+
 // Example_streaming builds a memory-bounded stream container and seeks a range.
 func Example_streaming() {
 	data := make([]byte, 200000)

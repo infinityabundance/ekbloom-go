@@ -43,6 +43,16 @@ type Reader struct {
 	segErr   error
 }
 
+// OpenWithDict opens an in-memory `.ekb` whose machine-9 (OrANS-DICT) core
+// references a shared dictionary by content id. It registers dict (the same
+// process-wide resolution the reference uses) and then opens normally. Without
+// the matching dictionary the open fails with a typed error, and a record is
+// never decoded against the wrong model.
+func OpenWithDict(data []byte, dict Dictionary) (*Reader, error) {
+	RegisterDictionary(dict)
+	return Open(data)
+}
+
 // Open validates and opens an in-memory `.ekb` file, returning a Reader.
 func Open(data []byte) (*Reader, error) {
 	outcome, err := Scan(data)

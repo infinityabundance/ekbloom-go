@@ -1,0 +1,30 @@
+{
+  "records": 4096,
+  "record_bytes": 100,
+  "methods": [
+    {
+      "method": "ekbloom-m9",
+      "total_bytes": 341947,
+      "bytes_per_record": 83.483154296875,
+      "decode_p50_ns": 391,
+      "note": "one 540-byte shared dictionary + header-less cores"
+    },
+    {
+      "method": "machine2-per-record",
+      "total_bytes": 2416529,
+      "bytes_per_record": 589.972900390625,
+      "decode_p50_ns": 2365,
+      "note": "a 516-byte model header in every core"
+    },
+    {
+      "method": "raw",
+      "total_bytes": 409600,
+      "bytes_per_record": 100,
+      "decode_p50_ns": 0,
+      "note": "uncompressed records"
+    }
+  ],
+  "break_even_vs_machine2_records": 2,
+  "shared_dictionary_bytes": 540,
+  "note": "Reproduces the reference P5 study (docs/DICTIONARY.md). Every row is asserted byte-exact before timing."
+}

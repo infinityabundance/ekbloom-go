@@ -7,7 +7,7 @@
       "logical_len": 100,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 40,
+      "p99_9_ns": 31,
       "surface": "materialized"
     },
     {
@@ -15,8 +15,8 @@
       "machine_id": 1,
       "logical_len": 4096,
       "p50_ns": 20,
-      "p99_ns": 30,
-      "p99_9_ns": 31,
+      "p99_ns": 31,
+      "p99_9_ns": 60,
       "surface": "history"
     },
     {
@@ -24,8 +24,8 @@
       "machine_id": 1,
       "logical_len": 4096,
       "p50_ns": 20,
-      "p99_ns": 30,
-      "p99_9_ns": 31,
+      "p99_ns": 31,
+      "p99_9_ns": 50,
       "surface": "path-bloom"
     },
     {
@@ -34,7 +34,7 @@
       "logical_len": 1000,
       "p50_ns": 90,
       "p99_ns": 160,
-      "p99_9_ns": 170,
+      "p99_9_ns": 171,
       "surface": "checkpoint"
     },
     {
@@ -61,7 +61,7 @@
       "logical_len": 5000,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 50,
+      "p99_9_ns": 31,
       "surface": "materialized"
     },
     {
@@ -88,7 +88,7 @@
       "logical_len": 5000,
       "p50_ns": 20,
       "p99_ns": 31,
-      "p99_9_ns": 40,
+      "p99_9_ns": 31,
       "surface": "materialized"
     },
     {

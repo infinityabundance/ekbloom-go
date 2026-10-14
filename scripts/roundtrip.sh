@@ -8,6 +8,14 @@
 set -eu
 
 root=$(cd "$(dirname "$0")/.." && pwd)
+cd "$root"
+
+# A fresh clone has no Rust reference checkout; bootstrap it (pinned clone +
+# committed fixturegen) so this proof is reproducible from the repository alone.
+if [ ! -d .reference/fixturegen ]; then
+    sh scripts/setup-reference.sh
+fi
+
 out=$(mktemp -d)
 trap 'rm -rf "$out"' EXIT
 

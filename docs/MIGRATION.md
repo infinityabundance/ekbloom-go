@@ -21,10 +21,12 @@ Rust reference (`fixturegen`). `compat_test.go` and `stream_test.go` assert:
 
 ## Write compatibility (Rust reads Go)
 
-`scripts/roundtrip.sh` writes `.ekb` (root/full/sparse) and `.stream` files with
-the Go writer, then opens and fully decodes each with the Rust reference
-(`.reference/fixturegen/src/bin/verifygo.rs`). A green run prints
-`verified N file(s), 0 failure(s)`.
+`scripts/roundtrip.sh` writes `.ekb` (root/full/sparse/path/bloom/regional), a
+machine-9 body that **references** a shared dictionary (with the dictionary
+out-of-band as a sibling `.dict`), a tiles body, an authenticated body and a
+`.stream` file with the Go writer, then opens and fully decodes each with the Rust
+reference (`.reference/fixturegen/src/bin/verifygo.rs`, which registers a sibling
+`.dict` before opening). A green run prints `verified 22 file(s), 0 failure(s)`.
 
 ## Version tags
 
@@ -54,3 +56,7 @@ machine-lookup check).
 - The Go writer emits generation 1 with `prev_generation = 0`; the Rust writer
   emits generation 1 for a fresh `create`+`write_body`. Both produce the same
   valid file; sections are the ones the chosen profile manifests.
+- The machine-9 shared dictionary is resolved through the same process-wide
+  registry the reference uses: `TrainDictionary`/`RegisterDictionary` on write,
+  `OpenWithDict` on read. An unregistered dictionary id is a typed error, never a
+  wrong-model decode (`docs/DICTIONARY.md`).

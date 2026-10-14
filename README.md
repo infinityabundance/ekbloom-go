@@ -33,7 +33,7 @@ byte-compatible with the Rust reference implementation
 | Metrics export (physical_bytes, E_V, breaches) | ✅ | `metrics.go` |
 | `worst_case_steps_for` bound | ✅ 1.2M samples, 0 violations | `bound_test.go`, `evidence/bound.json` |
 | 64 readers, quiet vs 1 writer publish, p99.9 (`-race` clean) | ✅ tails indistinguishable (≈1 µs) | `concurrency_test.go`, `evidence/concurrency.json` |
-| Shared dictionaries (machine 9) | ✅ | `dictionary.go`, `compat_test.go` |
+| Shared dictionaries (machine 9) | ✅ P5: 83.5 vs 590.0 B/rec, break-even 2 recs | `dictionary.go`, `dictbench_test.go`, `docs/DICTIONARY.md` |
 | Corruption detection (`Corrupt{Section,Offset}`) | ✅ 100% of covered bits, ≤1 structure (≤4096 B) | `corruption_test.go` |
 | Streaming (`StreamBuilder`/`StreamReader`, bounded RSS) | ✅ 2 GiB @ 9.5 MiB peak heap | `stream_test.go`, `scale_test.go` |
 | Resource policy (1 GiB default cap + breach counter) | ✅ | `resource.go` |
@@ -62,6 +62,12 @@ steps, _ := r.WorstCaseStepsFor(0, 4096)
 
 // Authenticated open (opt-in keyed AUTH):
 r, _ = ekbloom.OpenAuthenticated(data, key)
+
+// Machine-9 shared dictionary: train once, write a referencing body, read it
+// back with the dictionary out-of-band.
+dict, _ := ekbloom.TrainDictionary(corpus)
+img, _ := ekbloom.WriteBodyWithDict(src, ekbloom.Profile{Kind: ekbloom.ProfileRoot}, dict)
+r, _ = ekbloom.OpenWithDict(img, dict)
 
 // Append a new additive generation:
 app, gen, _ := ekbloom.AppendGeneration(data, 1, src, ekbloom.Profile{Kind: ekbloom.ProfileFull})
@@ -122,9 +128,10 @@ package `ekbloom` at the repository root:
 cmd/ekbloom        minimal CLI (inspect/byte/read/verify/stream) for the container image
 internal/blake3     dependency-free pure-Go BLAKE3 (unkeyed + keyed, streaming)
 internal/tools      roundtripgen, fingerprint, testsum (reproducibility helpers)
+tools/fixturegen    committed Rust crate: fixture generator + verifygo (Rust reads Go)
 testdata/           Rust-generated .ekb/.stream/auth fixtures + BLAKE3 vectors
-docs/               CORE-LAYOUT.md, MIGRATION.md, SECURITY.md, OPERATIONS.md, MACHINE_CONTRACT.md, TESTING.md
-scripts/            roundtrip.sh, cross-fs.sh, bench.sh, fuzz.sh, reproduce.sh, container-*.sh
+docs/               CORE-LAYOUT.md, MIGRATION.md, SECURITY.md, OPERATIONS.md, MACHINE_CONTRACT.md, DICTIONARY.md, COURTS.md, TESTING.md
+scripts/            roundtrip.sh, setup-reference.sh, cross-fs.sh, bench.sh, fuzz.sh, reproduce.sh, container-*.sh
 Dockerfile          minimal multi-stage image (runtime ~9.7 MB, non-root)
 .reference/         (git-ignored) the Rust reference + the fixture generator
 ```

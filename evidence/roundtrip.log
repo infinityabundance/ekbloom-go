@@ -20,6 +20,7 @@ wrote go_m1_regional_text    machine=1 profile=5 bytes=2736
 wrote go_stream              stream blocks=9 logical=30000
 wrote go_auth                authenticated 2016 bytes
 wrote go_tiles               tiles 8688 bytes
+wrote go_m9_ref              reference dict=540 bytes body=384
 
 == Rust reads the Go-written .ekb files ==
 go_auth: OK n=300 visible=300 physical=1504
@@ -40,7 +41,8 @@ go_m6_root_mixed: OK n=8192 visible=8400 physical=8400
 go_m7_root_skew: OK n=5000 visible=1556 physical=1556
 go_m8_root_skew: OK n=5000 visible=1581 physical=1581
 go_m9_full_small: OK n=38 visible=600 physical=756
+go_m9_ref: OK n=100 visible=86 physical=86
 go_m9_root_small: OK n=38 visible=600 physical=600
 go_tiles: OK n=4096 visible=4096 physical=8196
 go_stream: OK (stream) n=30000
-verified 21 file(s), 0 failure(s)
+verified 22 file(s), 0 failure(s)
