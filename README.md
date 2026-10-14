@@ -32,7 +32,7 @@ byte-compatible with the Rust reference implementation
 | Allocation-free `ResidentView.Get` (zero allocs/op) | ✅ ≈3 ns | `resident.go`, `resident_test.go` |
 | Metrics export (physical_bytes, E_V, breaches) | ✅ | `metrics.go` |
 | `worst_case_steps_for` bound | ✅ 1.2M samples, 0 violations | `bound_test.go`, `evidence/bound.json` |
-| 64 readers + 1 writer p99.9 (`-race` clean) | ✅ p99.9 ≈60 ns | `concurrency_test.go`, `evidence/concurrency.json` |
+| 64 readers, quiet vs 1 writer publish, p99.9 (`-race` clean) | ✅ tails indistinguishable (≈1 µs) | `concurrency_test.go`, `evidence/concurrency.json` |
 | Shared dictionaries (machine 9) | ✅ | `dictionary.go`, `compat_test.go` |
 | Corruption detection (`Corrupt{Section,Offset}`) | ✅ 100% of covered bits, ≤1 structure (≤4096 B) | `corruption_test.go` |
 | Streaming (`StreamBuilder`/`StreamReader`, bounded RSS) | ✅ 2 GiB @ 9.46 MiB peak heap | `stream_test.go`, `scale_test.go` |

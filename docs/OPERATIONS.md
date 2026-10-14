@@ -23,8 +23,14 @@ service, `metrics.go` provides ready-made exports:
 - `MetricsText(r)` / `MetricsJSON(r)` — Prometheus-style / JSON rendering.
 
 Measured latency (this host): `ByteAt` via path bloom ≈2.2 ns (≈3 ns via the
-borrowed `ResidentView.Get`, zero allocs/op); 64 concurrent readers against a live
-publishing writer p50 ≈20 ns / p99 ≈40 ns / **p99.9 ≈60 ns** (`evidence/concurrency.json`).
+borrowed `ResidentView.Get`, zero allocs/op) single-threaded. Under 64 concurrent
+readers the end-to-end `ByteAt` (including the timing harness) is reported in two
+phases in `evidence/concurrency.json`: **quiet** (readers only) p50 ≈200 ns /
+p99 ≈560 ns / p99.9 ≈1.5 µs, and **publish** (a live writer RCU-republishing
+generations) p50 ≈210 ns / p99 ≈550 ns / p99.9 ≈1.1 µs. The tail is dominated by
+cross-core cache traffic on the shared published pointer and the per-read clock
+read, not by the codec; the quiet and publish distributions are statistically
+indistinguishable, which is the property the RCU publication exists to provide.
 
 ## Recovery runbook
 
