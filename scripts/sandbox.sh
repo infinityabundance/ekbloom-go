@@ -27,12 +27,19 @@ fi
 # Mark the bind-mounted repo as a safe git directory: the files are owned by the
 # host uid, not the container's root, so git refuses to read them ("dubious
 # ownership") and `go build`/`go test` fail while stamping VCS info.
+#
+# Pin GOMAXPROCS to the CPU cap: Go 1.23 does not read the cgroup CPU quota, so
+# it would otherwise size the scheduler for the host's cores. Running many Ps
+# inside a `--cpus=N` quota causes CFS throttling, which starves runtime
+# goroutines (timers, GC, timer-driven context deadlines) and inflates every
+# measured latency. GOMAXPROCS=$CPUS keeps the scheduler honest.
 exec docker run --rm \
     --memory="$MEM" --memory-swap="$MEM" \
     --cpus="$CPUS" \
     --pids-limit=512 \
     --ulimit nofile=4096:4096 \
     --ulimit nproc=1024:1024 \
+    -e GOMAXPROCS="$CPUS" \
     -e GIT_CONFIG_COUNT=1 \
     -e GIT_CONFIG_KEY_0=safe.directory \
     -e GIT_CONFIG_VALUE_0=/src \

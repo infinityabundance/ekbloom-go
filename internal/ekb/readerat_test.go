@@ -352,39 +352,68 @@ func TestReaderAtCancellation(t *testing.T) {
 	r, src := cancelBackedReader(t)
 	n := uint64(len(src))
 
-	// Baseline: a full decode of the whole object.
-	t0 := time.Now()
-	full, err := r.ReadAt(0, n)
-	fullDur := time.Since(t0)
-	if err != nil || !bytes.Equal(full, src) {
-		t.Fatalf("baseline full read: err=%v", err)
+	// A single wall-clock sample can be inflated by an unlucky scheduler
+	// deschedule (common under a CPU quota), so every latency below is the BEST
+	// (minimum) of a few trials. The baseline is ReadAtContext with a live
+	// context — the exact decode path that cancellation aborts — so the
+	// comparison is apples to apples and does not depend on the materialised
+	// symbol array (which ReadAtContext never uses).
+	const trials = 5
+	const none = time.Duration(1<<63 - 1)
+	live := context.Background()
+
+	fullDur := none
+	for i := 0; i < trials; i++ {
+		t0 := time.Now()
+		full, err := r.ReadAtContext(live, 0, n)
+		if d := time.Since(t0); d < fullDur {
+			fullDur = d
+		}
+		if err != nil || !bytes.Equal(full, src) {
+			t.Fatalf("baseline full decode: err=%v", err)
+		}
 	}
 
 	// Already-cancelled context: returns context.Canceled with no work.
-	ctx, cancel := context.WithCancel(context.Background())
+	ctx, cancel := context.WithCancel(live)
 	cancel()
-	start := time.Now()
-	if _, err := r.ReadAtContext(ctx, 0, n); !errors.Is(err, context.Canceled) {
-		t.Fatalf("cancelled ctx: err=%v, want context.Canceled", err)
-	}
-	if lat := time.Since(start); lat > fullDur {
-		t.Fatalf("cancelled ctx latency %v not below full decode %v", lat, fullDur)
+	cancelledLat := none
+	for i := 0; i < trials; i++ {
+		start := time.Now()
+		_, err := r.ReadAtContext(ctx, 0, n)
+		if d := time.Since(start); d < cancelledLat {
+			cancelledLat = d
+		}
+		if !errors.Is(err, context.Canceled) {
+			t.Fatalf("cancelled ctx: err=%v, want context.Canceled", err)
+		}
 	}
 
-	// A deadline that expires mid-decode: returns context.DeadlineExceeded,
-	// and the latency to return is far below the full decode.
-	dctx, dcancel := context.WithTimeout(context.Background(), time.Millisecond)
-	defer dcancel()
-	start = time.Now()
-	_, err = r.ReadAtContext(dctx, 0, n)
-	lat := time.Since(start)
-	if !errors.Is(err, context.DeadlineExceeded) {
-		t.Fatalf("expired ctx: err=%v, want context.DeadlineExceeded", err)
+	// A deadline that expires mid-decode: returns context.DeadlineExceeded, and
+	// the latency to return is far below the full decode.
+	deadlineLat := none
+	for i := 0; i < trials; i++ {
+		dctx, dcancel := context.WithTimeout(live, time.Millisecond)
+		start := time.Now()
+		_, err := r.ReadAtContext(dctx, 0, n)
+		if d := time.Since(start); d < deadlineLat {
+			deadlineLat = d
+		}
+		dcancel()
+		if !errors.Is(err, context.DeadlineExceeded) {
+			t.Fatalf("expired ctx: err=%v, want context.DeadlineExceeded", err)
+		}
 	}
-	if lat >= fullDur {
-		t.Fatalf("cancel latency %v not below full decode %v", lat, fullDur)
+
+	t.Logf("full decode best-of-%d=%v | cancelled best-of-%d=%v | deadline best-of-%d=%v",
+		trials, fullDur, trials, cancelledLat, trials, deadlineLat)
+
+	if cancelledLat > fullDur {
+		t.Fatalf("cancelled ctx latency %v not below full decode %v", cancelledLat, fullDur)
 	}
-	t.Logf("full decode=%v cancel latency=%v", fullDur, lat)
+	if deadlineLat >= fullDur {
+		t.Fatalf("cancel latency %v not below full decode %v", deadlineLat, fullDur)
+	}
 
 	// A live context still yields the correct bytes.
 	if got, err := r.ReadAtContext(context.Background(), 16, 64); err != nil || !bytes.Equal(got, src[16:80]) {
@@ -441,19 +470,27 @@ func TestReaderAtEvidence(t *testing.T) {
 		t.Errorf("batch measurement failed")
 	}
 
-	// Cancellation latency on a body whose full decode dominates.
+	// Cancellation latency on a body whose full decode dominates: the best of a
+	// few trials, so the recorded number reflects the codec rather than an
+	// occasional scheduler deschedule.
 	cancel := int64(-1)
 	{
 		cr2, _ := cancelBackedReader(t)
 		cn := cr2.LogicalLen()
-		dctx, dcancel := context.WithTimeout(context.Background(), time.Millisecond)
-		start := time.Now()
-		_, err := cr2.ReadAtContext(dctx, 0, cn)
-		cancel = time.Since(start).Nanoseconds()
-		dcancel()
-		if !errors.Is(err, context.DeadlineExceeded) {
-			t.Errorf("cancel: err=%v, want context.DeadlineExceeded", err)
+		best := time.Duration(1<<63 - 1)
+		for i := 0; i < 5; i++ {
+			dctx, dcancel := context.WithTimeout(context.Background(), time.Millisecond)
+			start := time.Now()
+			_, err := cr2.ReadAtContext(dctx, 0, cn)
+			if d := time.Since(start); d < best {
+				best = d
+			}
+			dcancel()
+			if !errors.Is(err, context.DeadlineExceeded) {
+				t.Errorf("cancel: err=%v, want context.DeadlineExceeded", err)
+			}
 		}
+		cancel = best.Nanoseconds()
 	}
 
 	ev := struct {

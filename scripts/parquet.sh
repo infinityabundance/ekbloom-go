@@ -35,6 +35,7 @@ echo "== go -C integrations/parquet mod tidy && go -C integrations/parquet run .
 if ! docker run --rm \
       --memory="$mem" --memory-swap="$mem" \
       --cpus="$cpus" \
+      -e GOMAXPROCS="$cpus" \
       --pids-limit=512 \
       --ulimit nofile=4096:4096 \
       --ulimit nproc=1024:1024 \

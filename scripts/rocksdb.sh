@@ -37,6 +37,7 @@ echo "== docker run --memory=$mem --memory-swap=$mem --cpus=$cpus $image ==" >>"
 if ! docker run --rm \
       --memory="$mem" --memory-swap="$mem" \
       --cpus="$cpus" \
+      -e GOMAXPROCS="$cpus" \
       --pids-limit=512 \
       --ulimit nofile=4096:4096 \
       "$image" >"$out" 2>>"$log"; then
