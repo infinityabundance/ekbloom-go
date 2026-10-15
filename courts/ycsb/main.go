@@ -32,6 +32,7 @@ import (
 
 	"github.com/cockroachdb/pebble"
 	ekbloom "github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go/courts/internal/provenance"
 	"github.com/infinityabundance/ekbloom-go/courts/internal/stats"
 	"github.com/klauspost/compress/zstd"
 )
@@ -402,7 +403,7 @@ func main() {
 	}{records, recordBytes, ops, runs, "median-of-runs", rows,
 		"YCSB-style zipfian (theta=0.99), deterministic trace. read_p50/p99 and ops_per_s are the median across EKB_RUNS runs (min/max retained). Pebble uses NoSync. EKBLOOM is an in-memory codec; the pebble+* rows place the same codec inside an embedded LSM value log. allocs_per_op is testing.AllocsPerRun over the decode path: machine-9 uses the reusable DictDecoder.DecodeInto with a reused buffer (0 allocs), while the other in-memory rows allocate a fresh destination per read. Single host, scalar Go."}
 	out, _ := json.MarshalIndent(report, "", "  ")
-	if err := os.WriteFile("../evidence/ycsb.json", append(out, '\n'), 0o644); err != nil {
+	if err := os.WriteFile("../evidence/ycsb.json", provenance.Stamp(out), 0o644); err != nil {
 		check(err)
 	}
 	fmt.Println("\nwrote ../evidence/ycsb.json")

@@ -1,36 +1,31 @@
 File: ekbloom.test
 Type: inuse_space
-Time: Oct 14, 2026 at 5:20pm (UTC)
-Showing nodes accounting for 49.43kB, 100% of 49.43kB total
+Time: Oct 15, 2026 at 12:14pm (UTC)
+Showing nodes accounting for 51.81kB, 100% of 51.81kB total
       flat  flat%   sum%        cum   cum%
-   32.01kB 64.75% 64.75%    32.01kB 64.75%  regexp.(*bitState).reset
-    9.25kB 18.72% 83.47%     9.25kB 18.72%  hash/crc32.slicingMakeTable
-    4.13kB  8.35% 91.81%     4.13kB  8.35%  sync.(*Pool).pinSlow
-    4.05kB  8.19%   100%     4.05kB  8.19%  runtime.acquireSudog
-         0     0%   100%     9.25kB 18.72%  compress/gzip.(*Writer).Write
-         0     0%   100%    36.14kB 73.10%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode
-         0     0%   100%     9.25kB 18.72%  hash/crc32.Update (inline)
-         0     0%   100%     9.25kB 18.72%  hash/crc32.archInitIEEE (inline)
-         0     0%   100%     9.25kB 18.72%  hash/crc32.ieeeInit
-         0     0%   100%     9.25kB 18.72%  hash/crc32.update
-         0     0%   100%    36.14kB 73.10%  regexp.(*Regexp).MatchString (inline)
-         0     0%   100%    36.14kB 73.10%  regexp.(*Regexp).backtrack
-         0     0%   100%    36.14kB 73.10%  regexp.(*Regexp).doExecute
-         0     0%   100%    36.14kB 73.10%  regexp.(*Regexp).doMatch (inline)
-         0     0%   100%     4.13kB  8.35%  regexp.newBitState (inline)
-         0     0%   100%     4.05kB  8.19%  runtime.gcBgMarkWorker
-         0     0%   100%     4.05kB  8.19%  runtime.gcMarkDone
-         0     0%   100%     4.05kB  8.19%  runtime.semacquire (inline)
-         0     0%   100%     4.05kB  8.19%  runtime.semacquire1
-         0     0%   100%     9.25kB 18.72%  runtime/pprof.(*profileBuilder).build
-         0     0%   100%     9.25kB 18.72%  runtime/pprof.profileWriter
-         0     0%   100%     9.25kB 18.72%  sync.(*Once).Do (inline)
-         0     0%   100%     9.25kB 18.72%  sync.(*Once).doSlow
-         0     0%   100%     4.13kB  8.35%  sync.(*Pool).Get
-         0     0%   100%     4.13kB  8.35%  sync.(*Pool).pin
-         0     0%   100%    36.14kB 73.10%  testing.(*B).Run
-         0     0%   100%    36.14kB 73.10%  testing.(*B).run1.func1
-         0     0%   100%    36.14kB 73.10%  testing.(*B).runN
-         0     0%   100%    36.14kB 73.10%  testing.(*matcher).fullName
-         0     0%   100%    36.14kB 73.10%  testing.simpleMatch.matches
-         0     0%   100%    36.14kB 73.10%  testing/internal/testdeps.TestDeps.MatchString
+   38.34kB 73.99% 73.99%    38.34kB 73.99%  regexp.(*bitState).reset
+    9.25kB 17.86% 91.85%     9.25kB 17.86%  hash/crc32.slicingMakeTable
+    4.22kB  8.15%   100%     4.22kB  8.15%  runtime.malg
+         0     0%   100%     9.25kB 17.86%  compress/gzip.(*Writer).Write
+         0     0%   100%    38.34kB 73.99%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode
+         0     0%   100%     9.25kB 17.86%  hash/crc32.Update (inline)
+         0     0%   100%     9.25kB 17.86%  hash/crc32.archInitIEEE (inline)
+         0     0%   100%     9.25kB 17.86%  hash/crc32.ieeeInit
+         0     0%   100%     9.25kB 17.86%  hash/crc32.update
+         0     0%   100%    38.34kB 73.99%  regexp.(*Regexp).MatchString (inline)
+         0     0%   100%    38.34kB 73.99%  regexp.(*Regexp).backtrack
+         0     0%   100%    38.34kB 73.99%  regexp.(*Regexp).doExecute
+         0     0%   100%    38.34kB 73.99%  regexp.(*Regexp).doMatch (inline)
+         0     0%   100%     4.22kB  8.15%  runtime.newproc.func1
+         0     0%   100%     4.22kB  8.15%  runtime.newproc1
+         0     0%   100%     4.22kB  8.15%  runtime.systemstack
+         0     0%   100%     9.25kB 17.86%  runtime/pprof.(*profileBuilder).build
+         0     0%   100%     9.25kB 17.86%  runtime/pprof.profileWriter
+         0     0%   100%     9.25kB 17.86%  sync.(*Once).Do (inline)
+         0     0%   100%     9.25kB 17.86%  sync.(*Once).doSlow
+         0     0%   100%    38.34kB 73.99%  testing.(*B).Run
+         0     0%   100%    38.34kB 73.99%  testing.(*B).run1.func1
+         0     0%   100%    38.34kB 73.99%  testing.(*B).runN
+         0     0%   100%    38.34kB 73.99%  testing.(*matcher).fullName
+         0     0%   100%    38.34kB 73.99%  testing.simpleMatch.matches
+         0     0%   100%    38.34kB 73.99%  testing/internal/testdeps.TestDeps.MatchString

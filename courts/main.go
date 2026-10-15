@@ -19,6 +19,7 @@ import (
 	"time"
 
 	ekbloom "github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go/courts/internal/provenance"
 	"github.com/infinityabundance/ekbloom-go/courts/internal/stats"
 	"github.com/klauspost/compress/zstd"
 	"github.com/pierrec/lz4/v4"
@@ -294,7 +295,7 @@ func main() {
 		Rows        []row  `json:"rows"`
 	}{numRecords, numTrain, recSize, gets, stats.Runs(), "median-of-runs", rows}
 	out, _ := json.MarshalIndent(report, "", "  ")
-	if err := os.WriteFile("../evidence/courts.json", append(out, '\n'), 0o644); err != nil {
+	if err := os.WriteFile("../evidence/courts.json", provenance.Stamp(out), 0o644); err != nil {
 		fmt.Fprintln(os.Stderr, "write evidence:", err)
 	}
 	fmt.Println("\nwrote ../evidence/courts.json")

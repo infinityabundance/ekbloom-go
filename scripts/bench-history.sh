@@ -1,7 +1,8 @@
 #!/bin/sh
 # Append one JSON performance record to evidence/bench-history.jsonl, so
 # regressions (and improvements) are visible over time. Each line records the
-# commit, Go version, architecture, and the median ns/op — across R = EKB_RUNS
+# commit, Go version, architecture, the full provenance stamp, and the median
+# ns/op — across R = EKB_RUNS
 # runs — of the hot benchmarks, with the observed min/max retained.
 #
 # Nothing heavy runs on the host: the benchmarks run INSIDE the OOM-capped sandbox
@@ -35,6 +36,9 @@ ns()    { awk -F'\t' -v b="$1" '$1 ~ "^"b"-" {print $3; exit}' "$tbl"; }
 nsmin() { awk -F'\t' -v b="$1" '$1 ~ "^"b"-" {print $4; exit}' "$tbl"; }
 nsmax() { awk -F'\t' -v b="$1" '$1 ~ "^"b"-" {print $5; exit}' "$tbl"; }
 hdr() { awk -F= -v k="$1" '$1=="# "k {print $2; exit}' "$tbl"; }
+# The provenance line is a full compact JSON object; extract it with sed rather than
+# the -F= hdr helper because its note text itself contains an "=".
+prov=$(sed -n 's/^# provenance=//p' "$tbl" | sed -n 1p)
 
 runs=$(hdr runs)
 gov=$(hdr go)
@@ -42,14 +46,15 @@ arch=$(hdr goarch)
 commit=$(git rev-parse --short HEAD 2>/dev/null || echo unknown)
 ts=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
-printf '{"ts":"%s","commit":"%s","go":"%s","arch":"%s","runs":%s,"statistic":"median-of-runs","byteat_pathbloom_ns":%s,"byteat_pathbloom_ns_min":%s,"byteat_pathbloom_ns_max":%s,"byteat_history_ns":%s,"byteat_history_ns_min":%s,"byteat_history_ns_max":%s,"byteat_probe_ns":%s,"byteat_probe_ns_min":%s,"byteat_probe_ns_max":%s,"resident_get_ns":%s,"resident_get_ns_min":%s,"resident_get_ns_max":%s,"m1_encode_ns":%s,"m1_encode_ns_min":%s,"m1_encode_ns_max":%s,"m2_decode_ns":%s,"m2_decode_ns_min":%s,"m2_decode_ns_max":%s}\n' \
+printf '{"ts":"%s","commit":"%s","go":"%s","arch":"%s","runs":%s,"statistic":"median-of-runs","byteat_pathbloom_ns":%s,"byteat_pathbloom_ns_min":%s,"byteat_pathbloom_ns_max":%s,"byteat_history_ns":%s,"byteat_history_ns_min":%s,"byteat_history_ns_max":%s,"byteat_probe_ns":%s,"byteat_probe_ns_min":%s,"byteat_probe_ns_max":%s,"resident_get_ns":%s,"resident_get_ns_min":%s,"resident_get_ns_max":%s,"m1_encode_ns":%s,"m1_encode_ns_min":%s,"m1_encode_ns_max":%s,"m2_decode_ns":%s,"m2_decode_ns_min":%s,"m2_decode_ns_max":%s,"provenance":%s}\n' \
     "$ts" "$commit" "$gov" "$arch" "$runs" \
     "$(ns BenchmarkByteAtPathBloom)" "$(nsmin BenchmarkByteAtPathBloom)" "$(nsmax BenchmarkByteAtPathBloom)" \
     "$(ns BenchmarkByteAtHistory)" "$(nsmin BenchmarkByteAtHistory)" "$(nsmax BenchmarkByteAtHistory)" \
     "$(ns BenchmarkByteAtProbe)" "$(nsmin BenchmarkByteAtProbe)" "$(nsmax BenchmarkByteAtProbe)" \
     "$(ns BenchmarkResidentViewGet)" "$(nsmin BenchmarkResidentViewGet)" "$(nsmax BenchmarkResidentViewGet)" \
     "$(ns BenchmarkMachine1Encode)" "$(nsmin BenchmarkMachine1Encode)" "$(nsmax BenchmarkMachine1Encode)" \
-    "$(ns BenchmarkMachine2Decode)" "$(nsmin BenchmarkMachine2Decode)" "$(nsmax BenchmarkMachine2Decode)" >> "$out"
+    "$(ns BenchmarkMachine2Decode)" "$(nsmin BenchmarkMachine2Decode)" "$(nsmax BenchmarkMachine2Decode)" \
+    "$prov" >> "$out"
 
 echo "appended to $out:"
 tail -n 1 "$out"

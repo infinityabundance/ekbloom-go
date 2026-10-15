@@ -28,6 +28,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/infinityabundance/ekbloom-go/internal/tools/provenance"
 	"github.com/infinityabundance/ekbloom-go/internal/tools/stat"
 )
 
@@ -141,6 +142,10 @@ func (a *aggregator) write(w io.Writer) {
 	fmt.Fprintln(w, "# statistic=median-of-runs")
 	fmt.Fprintf(w, "# go=%s\n", runtime.Version())
 	fmt.Fprintf(w, "# goarch=%s\n", runtime.GOARCH)
+	// Full, self-describing environment stamp (toolchain, caps, image digest,
+	// loadavg, cpu_idle_pct), captured in-container; one comment line so the TSV
+	// rows below stay unchanged.
+	fmt.Fprintf(w, "# provenance=%s\n", provenance.Current().Compact())
 
 	hdr := []string{"name", "iters"}
 	for _, u := range units {

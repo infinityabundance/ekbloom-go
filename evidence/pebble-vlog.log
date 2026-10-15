@@ -6,8 +6,8 @@ record_bytes                      100
 gets                              50000
 train_records                     5000
 bytes_per_record (codec payload)  63.3575
-get p50                           901 ns
-get p99                           1462 ns
+get p50                           861 ns
+get p99                           1012 ns
 decode allocs/op                  0.0000
 get+decode allocs/op              0.0000
 roundtrip mismatches              0

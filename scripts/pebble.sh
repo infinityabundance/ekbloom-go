@@ -27,6 +27,7 @@ if ! docker image inspect "$image" >/dev/null 2>&1; then
     echo "== building sandbox image ($image) ==" >&2
     docker build -f Dockerfile.sandbox -t "$image" . >&2
 fi
+image_id=$(docker image inspect --format '{{.Id}}' "$image")
 
 # --- run (hard-capped); stdout is the JSON artifact, stderr is the log -------
 echo "== docker run --memory=$mem --memory-swap=$mem --cpus=$cpus $image ==" >"$log"
@@ -36,6 +37,11 @@ if ! docker run --rm \
       --cpus="$cpus" \
       -e GOMAXPROCS="$cpus" \
       -e EKB_RUNS \
+      -e EKB_CONTAINER_IMAGE="$image" \
+      -e EKB_CONTAINER_IMAGE_ID="$image_id" \
+      -e EKB_LIMIT_MEM="$mem" \
+      -e EKB_LIMIT_CPUS="$cpus" \
+      -e EKB_LIMIT_PIDS=512 \
       --pids-limit=512 \
       --ulimit nofile=4096:4096 \
       --ulimit nproc=1024:1024 \

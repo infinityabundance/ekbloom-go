@@ -4,10 +4,33 @@
   "concurrent_64_race": "pass",
   "runs": 5,
   "statistic": "median-of-runs",
-  "cancel_latency_ns": 1061528,
-  "cancel_latency_ns_min": 948207,
-  "cancel_latency_ns_max": 1065396,
+  "cancel_latency_ns": 1058196,
+  "cancel_latency_ns_min": 1057233,
+  "cancel_latency_ns_max": 1065770,
   "batch_p50_ns": 341,
-  "batch_p50_ns_min": 340,
-  "batch_p50_ns_max": 371
+  "batch_p50_ns_min": 341,
+  "batch_p50_ns_max": 411,
+  "provenance": {
+    "go": "go1.23.12",
+    "goos": "linux",
+    "goarch": "amd64",
+    "gomaxprocs": 2,
+    "nproc": 16,
+    "kernel": "7.2.9-2-cachyos",
+    "container_image": "ekbloom-go-sandbox:latest",
+    "container_image_id": "sha256:2d8af8d4d8a7435bca1d9a4047888c569081929bb0812f6885238b5d62756637",
+    "memory_limit": "2g",
+    "cpu_limit": "2",
+    "pids_limit": "512",
+    "loadavg": {
+      "one": 32.35,
+      "five": 29.15,
+      "fifteen": 28.38
+    },
+    "cpu_idle_pct": 80.13060117590011,
+    "runqueue": 4,
+    "timestamp_utc": "2026-10-15T12:15:54Z",
+    "ekb_runs": 5,
+    "note": "Captured in-container at measure time. /proc/loadavg inside the container is normally the HOST's (containers share the kernel), and Linux counts processes blocked on I/O (I/O-wait) toward load average, so a high loadavg can appear even when the CPU is idle; cpu_idle_pct = (idle+iowait)/total from /proc/stat is recorded alongside so the two can be read together. Each metric's _min is the least-contended run's estimate, and the _min-vs-median gap is the contention signal."
+  }
 }

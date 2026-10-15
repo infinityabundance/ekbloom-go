@@ -1,0 +1,34 @@
+{
+  "readers": 64,
+  "samples_per_phase": 5000,
+  "generations_published": 14,
+  "runs": 5,
+  "statistic": "median-of-runs",
+  "p50_ns": 30,
+  "p99_ns": 70,
+  "p999_ns": 270,
+  "quiet": {
+    "samples": 320000,
+    "p50_ns": 30,
+    "p99_ns": 61,
+    "p999_ns": 320,
+    "p50_ns_min": 30,
+    "p50_ns_max": 30,
+    "p99_ns_min": 60,
+    "p99_ns_max": 120,
+    "p999_ns_min": 230,
+    "p999_ns_max": 370
+  },
+  "publish": {
+    "samples": 320000,
+    "p50_ns": 30,
+    "p99_ns": 70,
+    "p999_ns": 270,
+    "p50_ns_min": 30,
+    "p50_ns_max": 40,
+    "p99_ns_min": 60,
+    "p99_ns_max": 170,
+    "p999_ns_min": 231,
+    "p999_ns_max": 361
+  }
+}

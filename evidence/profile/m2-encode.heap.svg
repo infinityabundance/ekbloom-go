@@ -266,35 +266,35 @@ function handleMouseUp(evt) {
 		state = '';
 	}
 }
-]]></script><g id="viewport" transform="scale(0.5,0.5) translate(0,0)"><g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1552)">
+]]></script><g id="viewport" transform="scale(0.5,0.5) translate(0,0)"><g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1549)">
 <title>ekbloom.test</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-1552 997,-1552 997,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-1549 861.5,-1549 861.5,4 -4,4"/>
 <g id="clust1" class="cluster">
 <title>cluster_L</title>
-<polygon fill="none" stroke="black" points="8,-1407 8,-1540 562,-1540 562,-1407 8,-1407"/>
+<polygon fill="none" stroke="black" points="8,-1404 8,-1537 562,-1537 562,-1404 8,-1404"/>
 </g>
 <!-- File: ekbloom.test -->
 <g id="node1" class="node">
 <title>File: ekbloom.test</title>
 <g id="a_node1"><a xlink:title="ekbloom.test">
-<polygon fill="#f8f8f8" stroke="black" points="553.5,-1532 16.5,-1532 16.5,-1415 553.5,-1415 553.5,-1532"/>
-<text text-anchor="start" x="24.5" y="-1515.2" font-family="Times,serif" font-size="16.00">File: ekbloom.test</text>
-<text text-anchor="start" x="24.5" y="-1497.2" font-family="Times,serif" font-size="16.00">Type: inuse_space</text>
-<text text-anchor="start" x="24.5" y="-1479.2" font-family="Times,serif" font-size="16.00">Time: Oct 14, 2026 at 5:20pm (UTC)</text>
-<text text-anchor="start" x="24.5" y="-1461.2" font-family="Times,serif" font-size="16.00">Showing nodes accounting for 45.34kB, 100% of 45.34kB total</text>
-<text text-anchor="start" x="24.5" y="-1424.2" font-family="Times,serif" font-size="16.00">See https://git.io/JfYMW for how to read the graph</text>
+<polygon fill="#f8f8f8" stroke="black" points="553.5,-1529 16.5,-1529 16.5,-1412 553.5,-1412 553.5,-1529"/>
+<text text-anchor="start" x="24.5" y="-1512.2" font-family="Times,serif" font-size="16.00">File: ekbloom.test</text>
+<text text-anchor="start" x="24.5" y="-1494.2" font-family="Times,serif" font-size="16.00">Type: inuse_space</text>
+<text text-anchor="start" x="24.5" y="-1476.2" font-family="Times,serif" font-size="16.00">Time: Oct 15, 2026 at 12:14pm (UTC)</text>
+<text text-anchor="start" x="24.5" y="-1458.2" font-family="Times,serif" font-size="16.00">Showing nodes accounting for 51.63kB, 100% of 51.63kB total</text>
+<text text-anchor="start" x="24.5" y="-1421.2" font-family="Times,serif" font-size="16.00">See https://git.io/JfYMW for how to read the graph</text>
 </a>
 </g>
 </g>
 <!-- N1 -->
 <g id="node1" class="node">
 <title>N1</title>
-<g id="a_node1"><a xlink:title="regexp.(*bitState).reset (32.01kB)">
-<polygon fill="#edd7d5" stroke="#b21100" points="741,-333 509,-333 509,-221 741,-221 741,-333"/>
+<g id="a_node1"><a xlink:title="regexp.(*bitState).reset (38.34kB)">
+<polygon fill="#edd7d5" stroke="#b20f00" points="741,-333 509,-333 509,-221 741,-221 741,-333"/>
 <text text-anchor="middle" x="625" y="-309.8" font-family="Times,serif" font-size="24.00">regexp</text>
 <text text-anchor="middle" x="625" y="-283.8" font-family="Times,serif" font-size="24.00">(*bitState)</text>
 <text text-anchor="middle" x="625" y="-257.8" font-family="Times,serif" font-size="24.00">reset</text>
-<text text-anchor="middle" x="625" y="-231.8" font-family="Times,serif" font-size="24.00">32.01kB (70.60%)</text>
+<text text-anchor="middle" x="625" y="-231.8" font-family="Times,serif" font-size="24.00">38.34kB (74.26%)</text>
 </a>
 </g>
 </g>
@@ -302,11 +302,11 @@ function handleMouseUp(evt) {
 <g id="NN1_0" class="node">
 <title>NN1_0</title>
 <g id="a_NN1_0"><a xlink:title="32.01kB">
-<polygon fill="#f8f8f8" stroke="black" points="652,-139 602,-139 598,-135 598,-103 648,-103 652,-107 652,-139"/>
-<polyline fill="none" stroke="black" points="648,-135 598,-135 "/>
-<polyline fill="none" stroke="black" points="648,-135 648,-103 "/>
-<polyline fill="none" stroke="black" points="648,-135 652,-139 "/>
-<text text-anchor="middle" x="625" y="-119.1" font-family="Times,serif" font-size="8.00">32kB</text>
+<polygon fill="#f8f8f8" stroke="black" points="615,-139 565,-139 561,-135 561,-103 611,-103 615,-107 615,-139"/>
+<polyline fill="none" stroke="black" points="611,-135 561,-135 "/>
+<polyline fill="none" stroke="black" points="611,-135 611,-103 "/>
+<polyline fill="none" stroke="black" points="611,-135 615,-139 "/>
+<text text-anchor="middle" x="588" y="-119.1" font-family="Times,serif" font-size="8.00">32kB</text>
 </a>
 </g>
 </g>
@@ -314,149 +314,173 @@ function handleMouseUp(evt) {
 <g id="edge1" class="edge">
 <title>N1&#45;&gt;NN1_0</title>
 <g id="a_edge1"><a xlink:title="32.01kB">
-<path fill="none" stroke="black" d="M625,-220.84C625,-196.52 625,-169.02 625,-149.22"/>
-<polygon fill="black" stroke="black" points="628.5,-149.08 625,-139.08 621.5,-149.08 628.5,-149.08"/>
+<path fill="none" stroke="black" d="M594.65,-220.76C592.37,-214.89 590.42,-208.91 589,-203 584.79,-185.44 584.55,-165.13 585.36,-149.23"/>
+<polygon fill="black" stroke="black" points="588.87,-149.24 586.05,-139.02 581.88,-148.76 588.87,-149.24"/>
 </a>
 </g>
 <g id="a_edge1&#45;label"><a xlink:title="32.01kB">
-<text text-anchor="middle" x="657" y="-184.3" font-family="Times,serif" font-size="14.00"> 32.01kB</text>
+<text text-anchor="middle" x="621" y="-184.3" font-family="Times,serif" font-size="14.00"> 32.01kB</text>
+</a>
+</g>
+</g>
+<!-- NN1_1 -->
+<g id="NN1_1" class="node">
+<title>NN1_1</title>
+<g id="a_NN1_1"><a xlink:title="6.33kB">
+<polygon fill="#f8f8f8" stroke="black" points="702,-139 652,-139 648,-135 648,-103 698,-103 702,-107 702,-139"/>
+<polyline fill="none" stroke="black" points="698,-135 648,-135 "/>
+<polyline fill="none" stroke="black" points="698,-135 698,-103 "/>
+<polyline fill="none" stroke="black" points="698,-135 702,-139 "/>
+<text text-anchor="middle" x="675" y="-119.1" font-family="Times,serif" font-size="8.00">4kB</text>
+</a>
+</g>
+</g>
+<!-- N1&#45;&gt;NN1_1 -->
+<g id="edge2" class="edge">
+<title>N1&#45;&gt;NN1_1</title>
+<g id="a_edge2"><a xlink:title="6.33kB">
+<path fill="none" stroke="black" d="M646.84,-220.81C649.01,-214.83 651.1,-208.81 653,-203 658.77,-185.33 664.25,-165.16 668.3,-149.36"/>
+<polygon fill="black" stroke="black" points="671.81,-149.77 670.86,-139.21 665.02,-148.06 671.81,-149.77"/>
+</a>
+</g>
+<g id="a_edge2&#45;label"><a xlink:title="6.33kB">
+<text text-anchor="middle" x="689.5" y="-184.3" font-family="Times,serif" font-size="14.00"> 6.33kB</text>
 </a>
 </g>
 </g>
 <!-- N2 -->
 <g id="node2" class="node">
 <title>N2</title>
-<g id="a_node2"><a xlink:title="testing.(*B).run1.func1 (36.09kB)">
-<polygon fill="#edd7d5" stroke="#b20b00" points="678.5,-1500 571.5,-1500 571.5,-1447 678.5,-1447 678.5,-1500"/>
-<text text-anchor="middle" x="625" y="-1489.6" font-family="Times,serif" font-size="8.00">testing</text>
-<text text-anchor="middle" x="625" y="-1480.6" font-family="Times,serif" font-size="8.00">(*B)</text>
-<text text-anchor="middle" x="625" y="-1471.6" font-family="Times,serif" font-size="8.00">run1</text>
-<text text-anchor="middle" x="625" y="-1462.6" font-family="Times,serif" font-size="8.00">func1</text>
-<text text-anchor="middle" x="625" y="-1453.6" font-family="Times,serif" font-size="8.00">0 of 36.09kB (79.59%)</text>
+<g id="a_node2"><a xlink:title="testing.(*B).run1.func1 (42.38kB)">
+<polygon fill="#edd6d5" stroke="#b20a00" points="678.5,-1497 571.5,-1497 571.5,-1444 678.5,-1444 678.5,-1497"/>
+<text text-anchor="middle" x="625" y="-1486.6" font-family="Times,serif" font-size="8.00">testing</text>
+<text text-anchor="middle" x="625" y="-1477.6" font-family="Times,serif" font-size="8.00">(*B)</text>
+<text text-anchor="middle" x="625" y="-1468.6" font-family="Times,serif" font-size="8.00">run1</text>
+<text text-anchor="middle" x="625" y="-1459.6" font-family="Times,serif" font-size="8.00">func1</text>
+<text text-anchor="middle" x="625" y="-1450.6" font-family="Times,serif" font-size="8.00">0 of 42.38kB (82.08%)</text>
 </a>
 </g>
 </g>
-<!-- N26 -->
-<g id="node26" class="node">
-<title>N26</title>
-<g id="a_node26"><a xlink:title="testing.(*B).runN (36.09kB)">
-<polygon fill="#edd7d5" stroke="#b20b00" points="678.5,-1364 571.5,-1364 571.5,-1320 678.5,-1320 678.5,-1364"/>
-<text text-anchor="middle" x="625" y="-1353.6" font-family="Times,serif" font-size="8.00">testing</text>
-<text text-anchor="middle" x="625" y="-1344.6" font-family="Times,serif" font-size="8.00">(*B)</text>
-<text text-anchor="middle" x="625" y="-1335.6" font-family="Times,serif" font-size="8.00">runN</text>
-<text text-anchor="middle" x="625" y="-1326.6" font-family="Times,serif" font-size="8.00">0 of 36.09kB (79.59%)</text>
+<!-- N27 -->
+<g id="node27" class="node">
+<title>N27</title>
+<g id="a_node27"><a xlink:title="testing.(*B).runN (42.38kB)">
+<polygon fill="#edd6d5" stroke="#b20a00" points="678.5,-1361 571.5,-1361 571.5,-1317 678.5,-1317 678.5,-1361"/>
+<text text-anchor="middle" x="625" y="-1350.6" font-family="Times,serif" font-size="8.00">testing</text>
+<text text-anchor="middle" x="625" y="-1341.6" font-family="Times,serif" font-size="8.00">(*B)</text>
+<text text-anchor="middle" x="625" y="-1332.6" font-family="Times,serif" font-size="8.00">runN</text>
+<text text-anchor="middle" x="625" y="-1323.6" font-family="Times,serif" font-size="8.00">0 of 42.38kB (82.08%)</text>
 </a>
 </g>
 </g>
-<!-- N2&#45;&gt;N26 -->
+<!-- N2&#45;&gt;N27 -->
 <g id="edge6" class="edge">
-<title>N2&#45;&gt;N26</title>
-<g id="a_edge6"><a xlink:title="testing.(*B).run1.func1 &#45;&gt; testing.(*B).runN (36.09kB)">
-<path fill="none" stroke="#b20b00" stroke-width="4" d="M625,-1446.91C625,-1426.14 625,-1396.74 625,-1374.51"/>
-<polygon fill="#b20b00" stroke="#b20b00" stroke-width="4" points="628.5,-1374.25 625,-1364.25 621.5,-1374.25 628.5,-1374.25"/>
+<title>N2&#45;&gt;N27</title>
+<g id="a_edge6"><a xlink:title="testing.(*B).run1.func1 &#45;&gt; testing.(*B).runN (42.38kB)">
+<path fill="none" stroke="#b20a00" stroke-width="5" d="M625,-1443.91C625,-1423.14 625,-1393.74 625,-1371.51"/>
+<polygon fill="#b20a00" stroke="#b20a00" stroke-width="5" points="629.38,-1371.25 625,-1361.25 620.63,-1371.25 629.38,-1371.25"/>
 </a>
 </g>
-<g id="a_edge6&#45;label"><a xlink:title="testing.(*B).run1.func1 &#45;&gt; testing.(*B).runN (36.09kB)">
-<text text-anchor="middle" x="657" y="-1385.8" font-family="Times,serif" font-size="14.00"> 36.09kB</text>
+<g id="a_edge6&#45;label"><a xlink:title="testing.(*B).run1.func1 &#45;&gt; testing.(*B).runN (42.38kB)">
+<text text-anchor="middle" x="657" y="-1382.8" font-family="Times,serif" font-size="14.00"> 42.38kB</text>
 </a>
 </g>
 </g>
 <!-- N3 -->
 <g id="node3" class="node">
 <title>N3</title>
-<g id="a_node3"><a xlink:title="hash/crc32.slicingMakeTable (9.25kB)">
-<polygon fill="#edded5" stroke="#b24300" points="993,-544 825,-544 825,-479 993,-479 993,-544"/>
-<text text-anchor="middle" x="909" y="-526.4" font-family="Times,serif" font-size="17.00">crc32</text>
-<text text-anchor="middle" x="909" y="-507.4" font-family="Times,serif" font-size="17.00">slicingMakeTable</text>
-<text text-anchor="middle" x="909" y="-488.4" font-family="Times,serif" font-size="17.00">9.25kB (20.41%)</text>
+<g id="a_node3"><a xlink:title="testing.(*B).Run (42.38kB)">
+<polygon fill="#edd6d5" stroke="#b20a00" points="678.5,-1156 571.5,-1156 571.5,-1112 678.5,-1112 678.5,-1156"/>
+<text text-anchor="middle" x="625" y="-1145.6" font-family="Times,serif" font-size="8.00">testing</text>
+<text text-anchor="middle" x="625" y="-1136.6" font-family="Times,serif" font-size="8.00">(*B)</text>
+<text text-anchor="middle" x="625" y="-1127.6" font-family="Times,serif" font-size="8.00">Run</text>
+<text text-anchor="middle" x="625" y="-1118.6" font-family="Times,serif" font-size="8.00">0 of 42.38kB (82.08%)</text>
 </a>
 </g>
 </g>
-<!-- NN3_0 -->
-<g id="NN3_0" class="node">
-<title>NN3_0</title>
-<g id="a_NN3_0"><a xlink:title="9.25kB">
-<polygon fill="#f8f8f8" stroke="black" points="936,-424 886,-424 882,-420 882,-388 932,-388 936,-392 936,-424"/>
-<polyline fill="none" stroke="black" points="932,-420 882,-420 "/>
-<polyline fill="none" stroke="black" points="932,-420 932,-388 "/>
-<polyline fill="none" stroke="black" points="932,-420 936,-424 "/>
-<text text-anchor="middle" x="909" y="-404.1" font-family="Times,serif" font-size="8.00">8kB</text>
+<!-- N26 -->
+<g id="node26" class="node">
+<title>N26</title>
+<g id="a_node26"><a xlink:title="testing.(*B).run (4.04kB)">
+<polygon fill="#ede8e3" stroke="#b2916c" points="553,-1061 457,-1061 457,-1017 553,-1017 553,-1061"/>
+<text text-anchor="middle" x="505" y="-1050.6" font-family="Times,serif" font-size="8.00">testing</text>
+<text text-anchor="middle" x="505" y="-1041.6" font-family="Times,serif" font-size="8.00">(*B)</text>
+<text text-anchor="middle" x="505" y="-1032.6" font-family="Times,serif" font-size="8.00">run</text>
+<text text-anchor="middle" x="505" y="-1023.6" font-family="Times,serif" font-size="8.00">0 of 4.04kB (7.82%)</text>
 </a>
 </g>
 </g>
-<!-- N3&#45;&gt;NN3_0 -->
-<g id="edge2" class="edge">
-<title>N3&#45;&gt;NN3_0</title>
-<g id="a_edge2"><a xlink:title="9.25kB">
-<path fill="none" stroke="black" d="M909,-478.88C909,-464.62 909,-447.95 909,-434.25"/>
-<polygon fill="black" stroke="black" points="912.5,-434 909,-424 905.5,-434 912.5,-434"/>
+<!-- N3&#45;&gt;N26 -->
+<g id="edge31" class="edge">
+<title>N3&#45;&gt;N26</title>
+<g id="a_edge31"><a xlink:title="testing.(*B).Run &#45;&gt; testing.(*B).run (4.04kB)">
+<path fill="none" stroke="#b2916c" d="M591.35,-1111.93C582.91,-1106.33 573.99,-1100.13 566,-1094 555.46,-1085.92 544.45,-1076.5 534.73,-1067.81"/>
+<polygon fill="#b2916c" stroke="#b2916c" points="537,-1065.15 527.24,-1061.04 532.31,-1070.34 537,-1065.15"/>
 </a>
 </g>
-<g id="a_edge2&#45;label"><a xlink:title="9.25kB">
-<text text-anchor="middle" x="936.5" y="-449.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
+<g id="a_edge31&#45;label"><a xlink:title="testing.(*B).Run &#45;&gt; testing.(*B).run (4.04kB)">
+<text text-anchor="middle" x="593.5" y="-1082.8" font-family="Times,serif" font-size="14.00"> 4.04kB</text>
+</a>
+</g>
+</g>
+<!-- N29 -->
+<g id="node29" class="node">
+<title>N29</title>
+<g id="a_node29"><a xlink:title="testing.(*matcher).fullName (38.34kB)">
+<polygon fill="#edd7d5" stroke="#b20f00" points="678.5,-1061 571.5,-1061 571.5,-1017 678.5,-1017 678.5,-1061"/>
+<text text-anchor="middle" x="625" y="-1050.6" font-family="Times,serif" font-size="8.00">testing</text>
+<text text-anchor="middle" x="625" y="-1041.6" font-family="Times,serif" font-size="8.00">(*matcher)</text>
+<text text-anchor="middle" x="625" y="-1032.6" font-family="Times,serif" font-size="8.00">fullName</text>
+<text text-anchor="middle" x="625" y="-1023.6" font-family="Times,serif" font-size="8.00">0 of 38.34kB (74.26%)</text>
+</a>
+</g>
+</g>
+<!-- N3&#45;&gt;N29 -->
+<g id="edge12" class="edge">
+<title>N3&#45;&gt;N29</title>
+<g id="a_edge12"><a xlink:title="testing.(*B).Run &#45;&gt; testing.(*matcher).fullName (38.34kB)">
+<path fill="none" stroke="#b20f00" stroke-width="4" d="M625,-1111.9C625,-1099.89 625,-1084.62 625,-1071.24"/>
+<polygon fill="#b20f00" stroke="#b20f00" stroke-width="4" points="628.5,-1071.02 625,-1061.02 621.5,-1071.02 628.5,-1071.02"/>
+</a>
+</g>
+<g id="a_edge12&#45;label"><a xlink:title="testing.(*B).Run &#45;&gt; testing.(*matcher).fullName (38.34kB)">
+<text text-anchor="middle" x="657" y="-1082.8" font-family="Times,serif" font-size="14.00"> 38.34kB</text>
 </a>
 </g>
 </g>
 <!-- N4 -->
 <g id="node4" class="node">
 <title>N4</title>
-<g id="a_node4"><a xlink:title="testing/internal/testdeps.TestDeps.MatchString (36.09kB)">
-<polygon fill="#edd7d5" stroke="#b20b00" points="678.5,-859 571.5,-859 571.5,-815 678.5,-815 678.5,-859"/>
-<text text-anchor="middle" x="625" y="-848.6" font-family="Times,serif" font-size="8.00">testdeps</text>
-<text text-anchor="middle" x="625" y="-839.6" font-family="Times,serif" font-size="8.00">TestDeps</text>
-<text text-anchor="middle" x="625" y="-830.6" font-family="Times,serif" font-size="8.00">MatchString</text>
-<text text-anchor="middle" x="625" y="-821.6" font-family="Times,serif" font-size="8.00">0 of 36.09kB (79.59%)</text>
+<g id="a_node4"><a xlink:title="hash/crc32.slicingMakeTable (9.25kB)">
+<polygon fill="#ede0d7" stroke="#b25312" points="857.5,-541 696.5,-541 696.5,-479 857.5,-479 857.5,-541"/>
+<text text-anchor="middle" x="777" y="-524.2" font-family="Times,serif" font-size="16.00">crc32</text>
+<text text-anchor="middle" x="777" y="-506.2" font-family="Times,serif" font-size="16.00">slicingMakeTable</text>
+<text text-anchor="middle" x="777" y="-488.2" font-family="Times,serif" font-size="16.00">9.25kB (17.92%)</text>
 </a>
 </g>
 </g>
-<!-- N13 -->
-<g id="node13" class="node">
-<title>N13</title>
-<g id="a_node13"><a xlink:title="regexp.(*Regexp).MatchString (32.01kB)">
-<polygon fill="#edd7d5" stroke="#b21100" points="678.5,-749 571.5,-749 571.5,-705 678.5,-705 678.5,-749"/>
-<text text-anchor="middle" x="625" y="-738.6" font-family="Times,serif" font-size="8.00">regexp</text>
-<text text-anchor="middle" x="625" y="-729.6" font-family="Times,serif" font-size="8.00">(*Regexp)</text>
-<text text-anchor="middle" x="625" y="-720.6" font-family="Times,serif" font-size="8.00">MatchString</text>
-<text text-anchor="middle" x="625" y="-711.6" font-family="Times,serif" font-size="8.00">0 of 32.01kB (70.60%)</text>
+<!-- NN4_0 -->
+<g id="NN4_0" class="node">
+<title>NN4_0</title>
+<g id="a_NN4_0"><a xlink:title="9.25kB">
+<polygon fill="#f8f8f8" stroke="black" points="804,-424 754,-424 750,-420 750,-388 800,-388 804,-392 804,-424"/>
+<polyline fill="none" stroke="black" points="800,-420 750,-420 "/>
+<polyline fill="none" stroke="black" points="800,-420 800,-388 "/>
+<polyline fill="none" stroke="black" points="800,-420 804,-424 "/>
+<text text-anchor="middle" x="777" y="-404.1" font-family="Times,serif" font-size="8.00">8kB</text>
 </a>
 </g>
 </g>
-<!-- N4&#45;&gt;N13 -->
-<g id="edge14" class="edge">
-<title>N4&#45;&gt;N13</title>
-<g id="a_edge14"><a xlink:title="testing/internal/testdeps.TestDeps.MatchString &#45;&gt; regexp.(*Regexp).MatchString (32.01kB)">
-<path fill="none" stroke="#b21100" stroke-width="4" d="M625,-814.92C625,-799.09 625,-777.15 625,-759.27"/>
-<polygon fill="#b21100" stroke="#b21100" stroke-width="4" points="628.5,-759.03 625,-749.03 621.5,-759.03 628.5,-759.03"/>
+<!-- N4&#45;&gt;NN4_0 -->
+<g id="edge3" class="edge">
+<title>N4&#45;&gt;NN4_0</title>
+<g id="a_edge3"><a xlink:title="9.25kB">
+<path fill="none" stroke="black" d="M777,-478.95C777,-464.85 777,-448.17 777,-434.42"/>
+<polygon fill="black" stroke="black" points="780.5,-434.13 777,-424.13 773.5,-434.13 780.5,-434.13"/>
 </a>
 </g>
-<g id="a_edge14&#45;label"><a xlink:title="testing/internal/testdeps.TestDeps.MatchString &#45;&gt; regexp.(*Regexp).MatchString (32.01kB)">
-<text text-anchor="middle" x="657" y="-785.8" font-family="Times,serif" font-size="14.00"> 32.01kB</text>
-<text text-anchor="middle" x="657" y="-770.8" font-family="Times,serif" font-size="14.00"> (inline)</text>
-</a>
-</g>
-</g>
-<!-- N17 -->
-<g id="node17" class="node">
-<title>N17</title>
-<g id="a_node17"><a xlink:title="regexp.Compile (4.08kB)">
-<polygon fill="#ede7e2" stroke="#b28b62" points="794,-745 698,-745 698,-709 794,-709 794,-745"/>
-<text text-anchor="middle" x="746" y="-734.1" font-family="Times,serif" font-size="8.00">regexp</text>
-<text text-anchor="middle" x="746" y="-725.1" font-family="Times,serif" font-size="8.00">Compile</text>
-<text text-anchor="middle" x="746" y="-716.1" font-family="Times,serif" font-size="8.00">0 of 4.08kB (8.99%)</text>
-</a>
-</g>
-</g>
-<!-- N4&#45;&gt;N17 -->
-<g id="edge29" class="edge">
-<title>N4&#45;&gt;N17</title>
-<g id="a_edge29"><a xlink:title="testing/internal/testdeps.TestDeps.MatchString &#45;&gt; regexp.Compile (4.08kB)">
-<path fill="none" stroke="#b28b62" d="M667.74,-814.94C676.54,-809.68 685.42,-803.63 693,-797 707.27,-784.52 720.29,-767.7 729.85,-753.78"/>
-<polygon fill="#b28b62" stroke="#b28b62" points="732.98,-755.4 735.62,-745.14 727.16,-751.52 732.98,-755.4"/>
-</a>
-</g>
-<g id="a_edge29&#45;label"><a xlink:title="testing/internal/testdeps.TestDeps.MatchString &#45;&gt; regexp.Compile (4.08kB)">
-<text text-anchor="middle" x="747.5" y="-785.8" font-family="Times,serif" font-size="14.00"> 4.08kB</text>
-<text text-anchor="middle" x="747.5" y="-770.8" font-family="Times,serif" font-size="14.00"> (inline)</text>
+<g id="a_edge3&#45;label"><a xlink:title="9.25kB">
+<text text-anchor="middle" x="804.5" y="-449.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
 </a>
 </g>
 </g>
@@ -464,72 +488,72 @@ function handleMouseUp(evt) {
 <g id="node5" class="node">
 <title>N5</title>
 <g id="a_node5"><a xlink:title="runtime/pprof.profileWriter (9.25kB)">
-<polygon fill="#edded5" stroke="#b24300" points="959.5,-1491.5 858.5,-1491.5 858.5,-1455.5 959.5,-1455.5 959.5,-1491.5"/>
-<text text-anchor="middle" x="909" y="-1480.6" font-family="Times,serif" font-size="8.00">pprof</text>
-<text text-anchor="middle" x="909" y="-1471.6" font-family="Times,serif" font-size="8.00">profileWriter</text>
-<text text-anchor="middle" x="909" y="-1462.6" font-family="Times,serif" font-size="8.00">0 of 9.25kB (20.41%)</text>
+<polygon fill="#ede0d7" stroke="#b25312" points="827.5,-1488.5 726.5,-1488.5 726.5,-1452.5 827.5,-1452.5 827.5,-1488.5"/>
+<text text-anchor="middle" x="777" y="-1477.6" font-family="Times,serif" font-size="8.00">pprof</text>
+<text text-anchor="middle" x="777" y="-1468.6" font-family="Times,serif" font-size="8.00">profileWriter</text>
+<text text-anchor="middle" x="777" y="-1459.6" font-family="Times,serif" font-size="8.00">0 of 9.25kB (17.92%)</text>
 </a>
 </g>
 </g>
-<!-- N22 -->
-<g id="node22" class="node">
-<title>N22</title>
-<g id="a_node22"><a xlink:title="runtime/pprof.(*profileBuilder).build (9.25kB)">
-<polygon fill="#edded5" stroke="#b24300" points="959.5,-1364 858.5,-1364 858.5,-1320 959.5,-1320 959.5,-1364"/>
-<text text-anchor="middle" x="909" y="-1353.6" font-family="Times,serif" font-size="8.00">pprof</text>
-<text text-anchor="middle" x="909" y="-1344.6" font-family="Times,serif" font-size="8.00">(*profileBuilder)</text>
-<text text-anchor="middle" x="909" y="-1335.6" font-family="Times,serif" font-size="8.00">build</text>
-<text text-anchor="middle" x="909" y="-1326.6" font-family="Times,serif" font-size="8.00">0 of 9.25kB (20.41%)</text>
+<!-- N23 -->
+<g id="node23" class="node">
+<title>N23</title>
+<g id="a_node23"><a xlink:title="runtime/pprof.(*profileBuilder).build (9.25kB)">
+<polygon fill="#ede0d7" stroke="#b25312" points="827.5,-1361 726.5,-1361 726.5,-1317 827.5,-1317 827.5,-1361"/>
+<text text-anchor="middle" x="777" y="-1350.6" font-family="Times,serif" font-size="8.00">pprof</text>
+<text text-anchor="middle" x="777" y="-1341.6" font-family="Times,serif" font-size="8.00">(*profileBuilder)</text>
+<text text-anchor="middle" x="777" y="-1332.6" font-family="Times,serif" font-size="8.00">build</text>
+<text text-anchor="middle" x="777" y="-1323.6" font-family="Times,serif" font-size="8.00">0 of 9.25kB (17.92%)</text>
 </a>
 </g>
 </g>
-<!-- N5&#45;&gt;N22 -->
-<g id="edge21" class="edge">
-<title>N5&#45;&gt;N22</title>
-<g id="a_edge21"><a xlink:title="runtime/pprof.profileWriter &#45;&gt; runtime/pprof.(*profileBuilder).build (9.25kB)">
-<path fill="none" stroke="#b24300" stroke-width="2" d="M909,-1455.3C909,-1434.71 909,-1399.83 909,-1374.39"/>
-<polygon fill="#b24300" stroke="#b24300" stroke-width="2" points="912.5,-1374.14 909,-1364.14 905.5,-1374.14 912.5,-1374.14"/>
+<!-- N5&#45;&gt;N23 -->
+<g id="edge22" class="edge">
+<title>N5&#45;&gt;N23</title>
+<g id="a_edge22"><a xlink:title="runtime/pprof.profileWriter &#45;&gt; runtime/pprof.(*profileBuilder).build (9.25kB)">
+<path fill="none" stroke="#b25312" d="M777,-1452.3C777,-1431.71 777,-1396.83 777,-1371.39"/>
+<polygon fill="#b25312" stroke="#b25312" points="780.5,-1371.14 777,-1361.14 773.5,-1371.14 780.5,-1371.14"/>
 </a>
 </g>
-<g id="a_edge21&#45;label"><a xlink:title="runtime/pprof.profileWriter &#45;&gt; runtime/pprof.(*profileBuilder).build (9.25kB)">
-<text text-anchor="middle" x="936.5" y="-1385.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
+<g id="a_edge22&#45;label"><a xlink:title="runtime/pprof.profileWriter &#45;&gt; runtime/pprof.(*profileBuilder).build (9.25kB)">
+<text text-anchor="middle" x="804.5" y="-1382.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
 </a>
 </g>
 </g>
 <!-- N6 -->
 <g id="node6" class="node">
 <title>N6</title>
-<g id="a_node6"><a xlink:title="regexp/syntax.(*compiler).inst (4.08kB)">
-<polygon fill="#ede7e2" stroke="#b28b62" points="870.5,-155 743.5,-155 743.5,-87 870.5,-87 870.5,-155"/>
-<text text-anchor="middle" x="807" y="-139.8" font-family="Times,serif" font-size="14.00">syntax</text>
-<text text-anchor="middle" x="807" y="-124.8" font-family="Times,serif" font-size="14.00">(*compiler)</text>
-<text text-anchor="middle" x="807" y="-109.8" font-family="Times,serif" font-size="14.00">inst</text>
-<text text-anchor="middle" x="807" y="-94.8" font-family="Times,serif" font-size="14.00">4.08kB (8.99%)</text>
+<g id="a_node6"><a xlink:title="fmt.(*buffer).writeString (4.04kB)">
+<polygon fill="#ede8e3" stroke="#b2916c" points="506.5,-155 379.5,-155 379.5,-87 506.5,-87 506.5,-155"/>
+<text text-anchor="middle" x="443" y="-139.8" font-family="Times,serif" font-size="14.00">fmt</text>
+<text text-anchor="middle" x="443" y="-124.8" font-family="Times,serif" font-size="14.00">(*buffer)</text>
+<text text-anchor="middle" x="443" y="-109.8" font-family="Times,serif" font-size="14.00">writeString</text>
+<text text-anchor="middle" x="443" y="-94.8" font-family="Times,serif" font-size="14.00">4.04kB (7.82%)</text>
 </a>
 </g>
 </g>
 <!-- NN6_0 -->
 <g id="NN6_0" class="node">
 <title>NN6_0</title>
-<g id="a_NN6_0"><a xlink:title="4.08kB">
-<polygon fill="#f8f8f8" stroke="black" points="834,-36 784,-36 780,-32 780,0 830,0 834,-4 834,-36"/>
-<polyline fill="none" stroke="black" points="830,-32 780,-32 "/>
-<polyline fill="none" stroke="black" points="830,-32 830,0 "/>
-<polyline fill="none" stroke="black" points="830,-32 834,-36 "/>
-<text text-anchor="middle" x="807" y="-16.1" font-family="Times,serif" font-size="8.00">160B</text>
+<g id="a_NN6_0"><a xlink:title="4.04kB">
+<polygon fill="#f8f8f8" stroke="black" points="470,-36 420,-36 416,-32 416,0 466,0 470,-4 470,-36"/>
+<polyline fill="none" stroke="black" points="466,-32 416,-32 "/>
+<polyline fill="none" stroke="black" points="466,-32 466,0 "/>
+<polyline fill="none" stroke="black" points="466,-32 470,-36 "/>
+<text text-anchor="middle" x="443" y="-16.1" font-family="Times,serif" font-size="8.00">80B</text>
 </a>
 </g>
 </g>
 <!-- N6&#45;&gt;NN6_0 -->
-<g id="edge3" class="edge">
+<g id="edge4" class="edge">
 <title>N6&#45;&gt;NN6_0</title>
-<g id="a_edge3"><a xlink:title="4.08kB">
-<path fill="none" stroke="black" d="M807,-86.93C807,-73.85 807,-58.99 807,-46.51"/>
-<polygon fill="black" stroke="black" points="810.5,-46.26 807,-36.26 803.5,-46.26 810.5,-46.26"/>
+<g id="a_edge4"><a xlink:title="4.04kB">
+<path fill="none" stroke="black" d="M443,-86.93C443,-73.85 443,-58.99 443,-46.51"/>
+<polygon fill="black" stroke="black" points="446.5,-46.26 443,-36.26 439.5,-46.26 446.5,-46.26"/>
 </a>
 </g>
-<g id="a_edge3&#45;label"><a xlink:title="4.08kB">
-<text text-anchor="middle" x="834.5" y="-57.8" font-family="Times,serif" font-size="14.00"> 4.08kB</text>
+<g id="a_edge4&#45;label"><a xlink:title="4.04kB">
+<text text-anchor="middle" x="470.5" y="-57.8" font-family="Times,serif" font-size="14.00"> 4.04kB</text>
 </a>
 </g>
 </g>
@@ -537,499 +561,576 @@ function handleMouseUp(evt) {
 <g id="node7" class="node">
 <title>N7</title>
 <g id="a_node7"><a xlink:title="compress/gzip.(*Writer).Write (9.25kB)">
-<polygon fill="#edded5" stroke="#b24300" points="959.5,-1269 858.5,-1269 858.5,-1225 959.5,-1225 959.5,-1269"/>
-<text text-anchor="middle" x="909" y="-1258.6" font-family="Times,serif" font-size="8.00">gzip</text>
-<text text-anchor="middle" x="909" y="-1249.6" font-family="Times,serif" font-size="8.00">(*Writer)</text>
-<text text-anchor="middle" x="909" y="-1240.6" font-family="Times,serif" font-size="8.00">Write</text>
-<text text-anchor="middle" x="909" y="-1231.6" font-family="Times,serif" font-size="8.00">0 of 9.25kB (20.41%)</text>
-</a>
-</g>
-</g>
-<!-- N9 -->
-<g id="node9" class="node">
-<title>N9</title>
-<g id="a_node9"><a xlink:title="hash/crc32.Update (9.25kB)">
-<polygon fill="#edded5" stroke="#b24300" points="959.5,-1155 858.5,-1155 858.5,-1119 959.5,-1119 959.5,-1155"/>
-<text text-anchor="middle" x="909" y="-1144.1" font-family="Times,serif" font-size="8.00">crc32</text>
-<text text-anchor="middle" x="909" y="-1135.1" font-family="Times,serif" font-size="8.00">Update</text>
-<text text-anchor="middle" x="909" y="-1126.1" font-family="Times,serif" font-size="8.00">0 of 9.25kB (20.41%)</text>
-</a>
-</g>
-</g>
-<!-- N7&#45;&gt;N9 -->
-<g id="edge15" class="edge">
-<title>N7&#45;&gt;N9</title>
-<g id="a_edge15"><a xlink:title="compress/gzip.(*Writer).Write &#45;&gt; hash/crc32.Update (9.25kB)">
-<path fill="none" stroke="#b24300" stroke-width="2" d="M909,-1224.92C909,-1207.88 909,-1183.78 909,-1165.27"/>
-<polygon fill="#b24300" stroke="#b24300" stroke-width="2" points="912.5,-1165.12 909,-1155.12 905.5,-1165.12 912.5,-1165.12"/>
-</a>
-</g>
-<g id="a_edge15&#45;label"><a xlink:title="compress/gzip.(*Writer).Write &#45;&gt; hash/crc32.Update (9.25kB)">
-<text text-anchor="middle" x="936.5" y="-1195.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
-<text text-anchor="middle" x="936.5" y="-1180.8" font-family="Times,serif" font-size="14.00"> (inline)</text>
-</a>
-</g>
-</g>
-<!-- N8 -->
-<g id="node8" class="node">
-<title>N8</title>
-<g id="a_node8"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode (36.09kB)">
-<polygon fill="#edd7d5" stroke="#b20b00" points="688.5,-1265 561.5,-1265 561.5,-1229 688.5,-1229 688.5,-1265"/>
-<text text-anchor="middle" x="625" y="-1254.1" font-family="Times,serif" font-size="8.00">ekb</text>
-<text text-anchor="middle" x="625" y="-1245.1" font-family="Times,serif" font-size="8.00">BenchmarkMachineEncode</text>
-<text text-anchor="middle" x="625" y="-1236.1" font-family="Times,serif" font-size="8.00">0 of 36.09kB (79.59%)</text>
-</a>
-</g>
-</g>
-<!-- N25 -->
-<g id="node25" class="node">
-<title>N25</title>
-<g id="a_node25"><a xlink:title="testing.(*B).Run (36.09kB)">
-<polygon fill="#edd7d5" stroke="#b20b00" points="678.5,-1159 571.5,-1159 571.5,-1115 678.5,-1115 678.5,-1159"/>
-<text text-anchor="middle" x="625" y="-1148.6" font-family="Times,serif" font-size="8.00">testing</text>
-<text text-anchor="middle" x="625" y="-1139.6" font-family="Times,serif" font-size="8.00">(*B)</text>
-<text text-anchor="middle" x="625" y="-1130.6" font-family="Times,serif" font-size="8.00">Run</text>
-<text text-anchor="middle" x="625" y="-1121.6" font-family="Times,serif" font-size="8.00">0 of 36.09kB (79.59%)</text>
-</a>
-</g>
-</g>
-<!-- N8&#45;&gt;N25 -->
-<g id="edge4" class="edge">
-<title>N8&#45;&gt;N25</title>
-<g id="a_edge4"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode &#45;&gt; testing.(*B).Run (36.09kB)">
-<path fill="none" stroke="#b20b00" stroke-width="4" d="M625,-1228.65C625,-1212.65 625,-1188.52 625,-1169.18"/>
-<polygon fill="#b20b00" stroke="#b20b00" stroke-width="4" points="628.5,-1169.01 625,-1159.01 621.5,-1169.01 628.5,-1169.01"/>
-</a>
-</g>
-<g id="a_edge4&#45;label"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode &#45;&gt; testing.(*B).Run (36.09kB)">
-<text text-anchor="middle" x="657" y="-1188.3" font-family="Times,serif" font-size="14.00"> 36.09kB</text>
-</a>
-</g>
-</g>
-<!-- N12 -->
-<g id="node12" class="node">
-<title>N12</title>
-<g id="a_node12"><a xlink:title="hash/crc32.update (9.25kB)">
-<polygon fill="#edded5" stroke="#b24300" points="959.5,-1060 858.5,-1060 858.5,-1024 959.5,-1024 959.5,-1060"/>
-<text text-anchor="middle" x="909" y="-1049.1" font-family="Times,serif" font-size="8.00">crc32</text>
-<text text-anchor="middle" x="909" y="-1040.1" font-family="Times,serif" font-size="8.00">update</text>
-<text text-anchor="middle" x="909" y="-1031.1" font-family="Times,serif" font-size="8.00">0 of 9.25kB (20.41%)</text>
-</a>
-</g>
-</g>
-<!-- N9&#45;&gt;N12 -->
-<g id="edge16" class="edge">
-<title>N9&#45;&gt;N12</title>
-<g id="a_edge16"><a xlink:title="hash/crc32.Update &#45;&gt; hash/crc32.update (9.25kB)">
-<path fill="none" stroke="#b24300" stroke-width="2" d="M909,-1118.94C909,-1105.39 909,-1086.18 909,-1070.47"/>
-<polygon fill="#b24300" stroke="#b24300" stroke-width="2" points="912.5,-1070.26 909,-1060.26 905.5,-1070.26 912.5,-1070.26"/>
-</a>
-</g>
-<g id="a_edge16&#45;label"><a xlink:title="hash/crc32.Update &#45;&gt; hash/crc32.update (9.25kB)">
-<text text-anchor="middle" x="936.5" y="-1085.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
-</a>
-</g>
-</g>
-<!-- N10 -->
-<g id="node10" class="node">
-<title>N10</title>
-<g id="a_node10"><a xlink:title="hash/crc32.archInitIEEE (9.25kB)">
-<polygon fill="#edded5" stroke="#b24300" points="959.5,-635 858.5,-635 858.5,-599 959.5,-599 959.5,-635"/>
-<text text-anchor="middle" x="909" y="-624.1" font-family="Times,serif" font-size="8.00">crc32</text>
-<text text-anchor="middle" x="909" y="-615.1" font-family="Times,serif" font-size="8.00">archInitIEEE</text>
-<text text-anchor="middle" x="909" y="-606.1" font-family="Times,serif" font-size="8.00">0 of 9.25kB (20.41%)</text>
-</a>
-</g>
-</g>
-<!-- N10&#45;&gt;N3 -->
-<g id="edge17" class="edge">
-<title>N10&#45;&gt;N3</title>
-<g id="a_edge17"><a xlink:title="hash/crc32.archInitIEEE &#45;&gt; hash/crc32.slicingMakeTable (9.25kB)">
-<path fill="none" stroke="#b24300" stroke-width="2" d="M909,-598.91C909,-586.76 909,-569.89 909,-554.28"/>
-<polygon fill="#b24300" stroke="#b24300" stroke-width="2" points="912.5,-554.26 909,-544.26 905.5,-554.26 912.5,-554.26"/>
-</a>
-</g>
-<g id="a_edge17&#45;label"><a xlink:title="hash/crc32.archInitIEEE &#45;&gt; hash/crc32.slicingMakeTable (9.25kB)">
-<text text-anchor="middle" x="936.5" y="-565.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
-</a>
-</g>
-</g>
-<!-- N11 -->
-<g id="node11" class="node">
-<title>N11</title>
-<g id="a_node11"><a xlink:title="hash/crc32.ieeeInit (9.25kB)">
-<polygon fill="#edded5" stroke="#b24300" points="959.5,-745 858.5,-745 858.5,-709 959.5,-709 959.5,-745"/>
-<text text-anchor="middle" x="909" y="-734.1" font-family="Times,serif" font-size="8.00">crc32</text>
-<text text-anchor="middle" x="909" y="-725.1" font-family="Times,serif" font-size="8.00">ieeeInit</text>
-<text text-anchor="middle" x="909" y="-716.1" font-family="Times,serif" font-size="8.00">0 of 9.25kB (20.41%)</text>
-</a>
-</g>
-</g>
-<!-- N11&#45;&gt;N10 -->
-<g id="edge18" class="edge">
-<title>N11&#45;&gt;N10</title>
-<g id="a_edge18"><a xlink:title="hash/crc32.ieeeInit &#45;&gt; hash/crc32.archInitIEEE (9.25kB)">
-<path fill="none" stroke="#b24300" stroke-width="2" d="M909,-708.65C909,-691.56 909,-665.22 909,-645.32"/>
-<polygon fill="#b24300" stroke="#b24300" stroke-width="2" points="912.5,-645.31 909,-635.31 905.5,-645.31 912.5,-645.31"/>
-</a>
-</g>
-<g id="a_edge18&#45;label"><a xlink:title="hash/crc32.ieeeInit &#45;&gt; hash/crc32.archInitIEEE (9.25kB)">
-<text text-anchor="middle" x="936.5" y="-675.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
-<text text-anchor="middle" x="936.5" y="-660.8" font-family="Times,serif" font-size="14.00"> (inline)</text>
-</a>
-</g>
-</g>
-<!-- N23 -->
-<g id="node23" class="node">
-<title>N23</title>
-<g id="a_node23"><a xlink:title="sync.(*Once).Do (9.25kB)">
-<polygon fill="#edded5" stroke="#b24300" points="959.5,-954 858.5,-954 858.5,-910 959.5,-910 959.5,-954"/>
-<text text-anchor="middle" x="909" y="-943.6" font-family="Times,serif" font-size="8.00">sync</text>
-<text text-anchor="middle" x="909" y="-934.6" font-family="Times,serif" font-size="8.00">(*Once)</text>
-<text text-anchor="middle" x="909" y="-925.6" font-family="Times,serif" font-size="8.00">Do</text>
-<text text-anchor="middle" x="909" y="-916.6" font-family="Times,serif" font-size="8.00">0 of 9.25kB (20.41%)</text>
-</a>
-</g>
-</g>
-<!-- N12&#45;&gt;N23 -->
-<g id="edge19" class="edge">
-<title>N12&#45;&gt;N23</title>
-<g id="a_edge19"><a xlink:title="hash/crc32.update &#45;&gt; sync.(*Once).Do (9.25kB)">
-<path fill="none" stroke="#b24300" stroke-width="2" d="M909,-1023.65C909,-1007.65 909,-983.52 909,-964.18"/>
-<polygon fill="#b24300" stroke="#b24300" stroke-width="2" points="912.5,-964.01 909,-954.01 905.5,-964.01 912.5,-964.01"/>
-</a>
-</g>
-<g id="a_edge19&#45;label"><a xlink:title="hash/crc32.update &#45;&gt; sync.(*Once).Do (9.25kB)">
-<text text-anchor="middle" x="936.5" y="-990.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
-<text text-anchor="middle" x="936.5" y="-975.8" font-family="Times,serif" font-size="14.00"> (inline)</text>
-</a>
-</g>
-</g>
-<!-- N16 -->
-<g id="node16" class="node">
-<title>N16</title>
-<g id="a_node16"><a xlink:title="regexp.(*Regexp).doMatch (32.01kB)">
-<polygon fill="#edd7d5" stroke="#b21100" points="678.5,-639 571.5,-639 571.5,-595 678.5,-595 678.5,-639"/>
-<text text-anchor="middle" x="625" y="-628.6" font-family="Times,serif" font-size="8.00">regexp</text>
-<text text-anchor="middle" x="625" y="-619.6" font-family="Times,serif" font-size="8.00">(*Regexp)</text>
-<text text-anchor="middle" x="625" y="-610.6" font-family="Times,serif" font-size="8.00">doMatch</text>
-<text text-anchor="middle" x="625" y="-601.6" font-family="Times,serif" font-size="8.00">0 of 32.01kB (70.60%)</text>
-</a>
-</g>
-</g>
-<!-- N13&#45;&gt;N16 -->
-<g id="edge10" class="edge">
-<title>N13&#45;&gt;N16</title>
-<g id="a_edge10"><a xlink:title="regexp.(*Regexp).MatchString &#45;&gt; regexp.(*Regexp).doMatch (32.01kB)">
-<path fill="none" stroke="#b21100" stroke-width="4" d="M625,-704.92C625,-689.09 625,-667.15 625,-649.27"/>
-<polygon fill="#b21100" stroke="#b21100" stroke-width="4" points="628.5,-649.03 625,-639.03 621.5,-649.03 628.5,-649.03"/>
-</a>
-</g>
-<g id="a_edge10&#45;label"><a xlink:title="regexp.(*Regexp).MatchString &#45;&gt; regexp.(*Regexp).doMatch (32.01kB)">
-<text text-anchor="middle" x="657" y="-675.8" font-family="Times,serif" font-size="14.00"> 32.01kB</text>
-<text text-anchor="middle" x="657" y="-660.8" font-family="Times,serif" font-size="14.00"> (inline)</text>
-</a>
-</g>
-</g>
-<!-- N14 -->
-<g id="node14" class="node">
-<title>N14</title>
-<g id="a_node14"><a xlink:title="regexp.(*Regexp).backtrack (32.01kB)">
-<polygon fill="#edd7d5" stroke="#b21100" points="678.5,-428 571.5,-428 571.5,-384 678.5,-384 678.5,-428"/>
-<text text-anchor="middle" x="625" y="-417.6" font-family="Times,serif" font-size="8.00">regexp</text>
-<text text-anchor="middle" x="625" y="-408.6" font-family="Times,serif" font-size="8.00">(*Regexp)</text>
-<text text-anchor="middle" x="625" y="-399.6" font-family="Times,serif" font-size="8.00">backtrack</text>
-<text text-anchor="middle" x="625" y="-390.6" font-family="Times,serif" font-size="8.00">0 of 32.01kB (70.60%)</text>
-</a>
-</g>
-</g>
-<!-- N14&#45;&gt;N1 -->
-<g id="edge11" class="edge">
-<title>N14&#45;&gt;N1</title>
-<g id="a_edge11"><a xlink:title="regexp.(*Regexp).backtrack &#45;&gt; regexp.(*bitState).reset (32.01kB)">
-<path fill="none" stroke="#b21100" stroke-width="4" d="M625,-383.74C625,-372.44 625,-357.87 625,-343.18"/>
-<polygon fill="#b21100" stroke="#b21100" stroke-width="4" points="628.5,-343.03 625,-333.03 621.5,-343.03 628.5,-343.03"/>
-</a>
-</g>
-<g id="a_edge11&#45;label"><a xlink:title="regexp.(*Regexp).backtrack &#45;&gt; regexp.(*bitState).reset (32.01kB)">
-<text text-anchor="middle" x="657" y="-354.8" font-family="Times,serif" font-size="14.00"> 32.01kB</text>
+<polygon fill="#ede0d7" stroke="#b25312" points="827.5,-1266 726.5,-1266 726.5,-1222 827.5,-1222 827.5,-1266"/>
+<text text-anchor="middle" x="777" y="-1255.6" font-family="Times,serif" font-size="8.00">gzip</text>
+<text text-anchor="middle" x="777" y="-1246.6" font-family="Times,serif" font-size="8.00">(*Writer)</text>
+<text text-anchor="middle" x="777" y="-1237.6" font-family="Times,serif" font-size="8.00">Write</text>
+<text text-anchor="middle" x="777" y="-1228.6" font-family="Times,serif" font-size="8.00">0 of 9.25kB (17.92%)</text>
 </a>
 </g>
 </g>
 <!-- N15 -->
 <g id="node15" class="node">
 <title>N15</title>
-<g id="a_node15"><a xlink:title="regexp.(*Regexp).doExecute (32.01kB)">
-<polygon fill="#edd7d5" stroke="#b21100" points="678.5,-533.5 571.5,-533.5 571.5,-489.5 678.5,-489.5 678.5,-533.5"/>
-<text text-anchor="middle" x="625" y="-523.1" font-family="Times,serif" font-size="8.00">regexp</text>
-<text text-anchor="middle" x="625" y="-514.1" font-family="Times,serif" font-size="8.00">(*Regexp)</text>
-<text text-anchor="middle" x="625" y="-505.1" font-family="Times,serif" font-size="8.00">doExecute</text>
-<text text-anchor="middle" x="625" y="-496.1" font-family="Times,serif" font-size="8.00">0 of 32.01kB (70.60%)</text>
+<g id="a_node15"><a xlink:title="hash/crc32.Update (9.25kB)">
+<polygon fill="#ede0d7" stroke="#b25312" points="827.5,-1152 726.5,-1152 726.5,-1116 827.5,-1116 827.5,-1152"/>
+<text text-anchor="middle" x="777" y="-1141.1" font-family="Times,serif" font-size="8.00">crc32</text>
+<text text-anchor="middle" x="777" y="-1132.1" font-family="Times,serif" font-size="8.00">Update</text>
+<text text-anchor="middle" x="777" y="-1123.1" font-family="Times,serif" font-size="8.00">0 of 9.25kB (17.92%)</text>
 </a>
 </g>
 </g>
-<!-- N15&#45;&gt;N14 -->
-<g id="edge12" class="edge">
-<title>N15&#45;&gt;N14</title>
-<g id="a_edge12"><a xlink:title="regexp.(*Regexp).doExecute &#45;&gt; regexp.(*Regexp).backtrack (32.01kB)">
-<path fill="none" stroke="#b21100" stroke-width="4" d="M625,-489.31C625,-474.65 625,-454.91 625,-438.44"/>
-<polygon fill="#b21100" stroke="#b21100" stroke-width="4" points="628.5,-438.17 625,-428.17 621.5,-438.17 628.5,-438.17"/>
+<!-- N7&#45;&gt;N15 -->
+<g id="edge16" class="edge">
+<title>N7&#45;&gt;N15</title>
+<g id="a_edge16"><a xlink:title="compress/gzip.(*Writer).Write &#45;&gt; hash/crc32.Update (9.25kB)">
+<path fill="none" stroke="#b25312" d="M777,-1221.92C777,-1204.88 777,-1180.78 777,-1162.27"/>
+<polygon fill="#b25312" stroke="#b25312" points="780.5,-1162.12 777,-1152.12 773.5,-1162.12 780.5,-1162.12"/>
 </a>
 </g>
-<g id="a_edge12&#45;label"><a xlink:title="regexp.(*Regexp).doExecute &#45;&gt; regexp.(*Regexp).backtrack (32.01kB)">
-<text text-anchor="middle" x="657" y="-449.8" font-family="Times,serif" font-size="14.00"> 32.01kB</text>
+<g id="a_edge16&#45;label"><a xlink:title="compress/gzip.(*Writer).Write &#45;&gt; hash/crc32.Update (9.25kB)">
+<text text-anchor="middle" x="804.5" y="-1192.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
+<text text-anchor="middle" x="804.5" y="-1177.8" font-family="Times,serif" font-size="14.00"> (inline)</text>
 </a>
 </g>
 </g>
-<!-- N16&#45;&gt;N15 -->
-<g id="edge13" class="edge">
-<title>N16&#45;&gt;N15</title>
-<g id="a_edge13"><a xlink:title="regexp.(*Regexp).doMatch &#45;&gt; regexp.(*Regexp).doExecute (32.01kB)">
-<path fill="none" stroke="#b21100" stroke-width="4" d="M625,-594.81C625,-580.15 625,-560.41 625,-543.94"/>
-<polygon fill="#b21100" stroke="#b21100" stroke-width="4" points="628.5,-543.67 625,-533.67 621.5,-543.67 628.5,-543.67"/>
+<!-- N8 -->
+<g id="node8" class="node">
+<title>N8</title>
+<g id="a_node8"><a xlink:title="fmt.(*fmt).fmtS (4.04kB)">
+<polygon fill="#ede8e3" stroke="#b2916c" points="491,-428 395,-428 395,-384 491,-384 491,-428"/>
+<text text-anchor="middle" x="443" y="-417.6" font-family="Times,serif" font-size="8.00">fmt</text>
+<text text-anchor="middle" x="443" y="-408.6" font-family="Times,serif" font-size="8.00">(*fmt)</text>
+<text text-anchor="middle" x="443" y="-399.6" font-family="Times,serif" font-size="8.00">fmtS</text>
+<text text-anchor="middle" x="443" y="-390.6" font-family="Times,serif" font-size="8.00">0 of 4.04kB (7.82%)</text>
 </a>
 </g>
-<g id="a_edge13&#45;label"><a xlink:title="regexp.(*Regexp).doMatch &#45;&gt; regexp.(*Regexp).doExecute (32.01kB)">
-<text text-anchor="middle" x="657" y="-565.8" font-family="Times,serif" font-size="14.00"> 32.01kB</text>
+</g>
+<!-- N9 -->
+<g id="node9" class="node">
+<title>N9</title>
+<g id="a_node9"><a xlink:title="fmt.(*fmt).padString (4.04kB)">
+<polygon fill="#ede8e3" stroke="#b2916c" points="491,-299 395,-299 395,-255 491,-255 491,-299"/>
+<text text-anchor="middle" x="443" y="-288.6" font-family="Times,serif" font-size="8.00">fmt</text>
+<text text-anchor="middle" x="443" y="-279.6" font-family="Times,serif" font-size="8.00">(*fmt)</text>
+<text text-anchor="middle" x="443" y="-270.6" font-family="Times,serif" font-size="8.00">padString</text>
+<text text-anchor="middle" x="443" y="-261.6" font-family="Times,serif" font-size="8.00">0 of 4.04kB (7.82%)</text>
+</a>
+</g>
+</g>
+<!-- N8&#45;&gt;N9 -->
+<g id="edge25" class="edge">
+<title>N8&#45;&gt;N9</title>
+<g id="a_edge25"><a xlink:title="fmt.(*fmt).fmtS &#45;&gt; fmt.(*fmt).padString (4.04kB)">
+<path fill="none" stroke="#b2916c" d="M443,-383.74C443,-363.41 443,-332.51 443,-309.35"/>
+<polygon fill="#b2916c" stroke="#b2916c" points="446.5,-309.33 443,-299.33 439.5,-309.33 446.5,-309.33"/>
+</a>
+</g>
+<g id="a_edge25&#45;label"><a xlink:title="fmt.(*fmt).fmtS &#45;&gt; fmt.(*fmt).padString (4.04kB)">
+<text text-anchor="middle" x="470.5" y="-354.8" font-family="Times,serif" font-size="14.00"> 4.04kB</text>
+</a>
+</g>
+</g>
+<!-- N9&#45;&gt;N6 -->
+<g id="edge26" class="edge">
+<title>N9&#45;&gt;N6</title>
+<g id="a_edge26"><a xlink:title="fmt.(*fmt).padString &#45;&gt; fmt.(*buffer).writeString (4.04kB)">
+<path fill="none" stroke="#b2916c" d="M443,-254.91C443,-232.02 443,-194.83 443,-165.6"/>
+<polygon fill="#b2916c" stroke="#b2916c" points="446.5,-165.23 443,-155.23 439.5,-165.23 446.5,-165.23"/>
+</a>
+</g>
+<g id="a_edge26&#45;label"><a xlink:title="fmt.(*fmt).padString &#45;&gt; fmt.(*buffer).writeString (4.04kB)">
+<text text-anchor="middle" x="470.5" y="-191.8" font-family="Times,serif" font-size="14.00"> 4.04kB</text>
+<text text-anchor="middle" x="470.5" y="-176.8" font-family="Times,serif" font-size="14.00"> (inline)</text>
+</a>
+</g>
+</g>
+<!-- N10 -->
+<g id="node10" class="node">
+<title>N10</title>
+<g id="a_node10"><a xlink:title="fmt.(*pp).doPrintln (4.04kB)">
+<polygon fill="#ede8e3" stroke="#b2916c" points="492,-746 396,-746 396,-702 492,-702 492,-746"/>
+<text text-anchor="middle" x="444" y="-735.6" font-family="Times,serif" font-size="8.00">fmt</text>
+<text text-anchor="middle" x="444" y="-726.6" font-family="Times,serif" font-size="8.00">(*pp)</text>
+<text text-anchor="middle" x="444" y="-717.6" font-family="Times,serif" font-size="8.00">doPrintln</text>
+<text text-anchor="middle" x="444" y="-708.6" font-family="Times,serif" font-size="8.00">0 of 4.04kB (7.82%)</text>
+</a>
+</g>
+</g>
+<!-- N12 -->
+<g id="node12" class="node">
+<title>N12</title>
+<g id="a_node12"><a xlink:title="fmt.(*pp).printArg (4.04kB)">
+<polygon fill="#ede8e3" stroke="#b2916c" points="491,-636 395,-636 395,-592 491,-592 491,-636"/>
+<text text-anchor="middle" x="443" y="-625.6" font-family="Times,serif" font-size="8.00">fmt</text>
+<text text-anchor="middle" x="443" y="-616.6" font-family="Times,serif" font-size="8.00">(*pp)</text>
+<text text-anchor="middle" x="443" y="-607.6" font-family="Times,serif" font-size="8.00">printArg</text>
+<text text-anchor="middle" x="443" y="-598.6" font-family="Times,serif" font-size="8.00">0 of 4.04kB (7.82%)</text>
+</a>
+</g>
+</g>
+<!-- N10&#45;&gt;N12 -->
+<g id="edge27" class="edge">
+<title>N10&#45;&gt;N12</title>
+<g id="a_edge27"><a xlink:title="fmt.(*pp).doPrintln &#45;&gt; fmt.(*pp).printArg (4.04kB)">
+<path fill="none" stroke="#b2916c" d="M443.8,-701.92C443.66,-686.09 443.46,-664.15 443.29,-646.27"/>
+<polygon fill="#b2916c" stroke="#b2916c" points="446.79,-645.99 443.19,-636.03 439.79,-646.06 446.79,-645.99"/>
+</a>
+</g>
+<g id="a_edge27&#45;label"><a xlink:title="fmt.(*pp).doPrintln &#45;&gt; fmt.(*pp).printArg (4.04kB)">
+<text text-anchor="middle" x="471.5" y="-665.3" font-family="Times,serif" font-size="14.00"> 4.04kB</text>
+</a>
+</g>
+</g>
+<!-- N11 -->
+<g id="node11" class="node">
+<title>N11</title>
+<g id="a_node11"><a xlink:title="fmt.(*pp).fmtString (4.04kB)">
+<polygon fill="#ede8e3" stroke="#b2916c" points="491,-532 395,-532 395,-488 491,-488 491,-532"/>
+<text text-anchor="middle" x="443" y="-521.6" font-family="Times,serif" font-size="8.00">fmt</text>
+<text text-anchor="middle" x="443" y="-512.6" font-family="Times,serif" font-size="8.00">(*pp)</text>
+<text text-anchor="middle" x="443" y="-503.6" font-family="Times,serif" font-size="8.00">fmtString</text>
+<text text-anchor="middle" x="443" y="-494.6" font-family="Times,serif" font-size="8.00">0 of 4.04kB (7.82%)</text>
+</a>
+</g>
+</g>
+<!-- N11&#45;&gt;N8 -->
+<g id="edge28" class="edge">
+<title>N11&#45;&gt;N8</title>
+<g id="a_edge28"><a xlink:title="fmt.(*pp).fmtString &#45;&gt; fmt.(*fmt).fmtS (4.04kB)">
+<path fill="none" stroke="#b2916c" d="M443,-487.87C443,-473.51 443,-454.27 443,-438.16"/>
+<polygon fill="#b2916c" stroke="#b2916c" points="446.5,-438.11 443,-428.11 439.5,-438.11 446.5,-438.11"/>
+</a>
+</g>
+<g id="a_edge28&#45;label"><a xlink:title="fmt.(*pp).fmtString &#45;&gt; fmt.(*fmt).fmtS (4.04kB)">
+<text text-anchor="middle" x="470.5" y="-449.8" font-family="Times,serif" font-size="14.00"> 4.04kB</text>
+</a>
+</g>
+</g>
+<!-- N12&#45;&gt;N11 -->
+<g id="edge29" class="edge">
+<title>N12&#45;&gt;N11</title>
+<g id="a_edge29"><a xlink:title="fmt.(*pp).printArg &#45;&gt; fmt.(*pp).fmtString (4.04kB)">
+<path fill="none" stroke="#b2916c" d="M443,-591.87C443,-577.51 443,-558.27 443,-542.16"/>
+<polygon fill="#b2916c" stroke="#b2916c" points="446.5,-542.11 443,-532.11 439.5,-542.11 446.5,-542.11"/>
+</a>
+</g>
+<g id="a_edge29&#45;label"><a xlink:title="fmt.(*pp).printArg &#45;&gt; fmt.(*pp).fmtString (4.04kB)">
+<text text-anchor="middle" x="470.5" y="-562.8" font-family="Times,serif" font-size="14.00"> 4.04kB</text>
+</a>
+</g>
+</g>
+<!-- N13 -->
+<g id="node13" class="node">
+<title>N13</title>
+<g id="a_node13"><a xlink:title="fmt.Fprintln (4.04kB)">
+<polygon fill="#ede8e3" stroke="#b2916c" points="498,-852 402,-852 402,-816 498,-816 498,-852"/>
+<text text-anchor="middle" x="450" y="-841.1" font-family="Times,serif" font-size="8.00">fmt</text>
+<text text-anchor="middle" x="450" y="-832.1" font-family="Times,serif" font-size="8.00">Fprintln</text>
+<text text-anchor="middle" x="450" y="-823.1" font-family="Times,serif" font-size="8.00">0 of 4.04kB (7.82%)</text>
+</a>
+</g>
+</g>
+<!-- N13&#45;&gt;N10 -->
+<g id="edge30" class="edge">
+<title>N13&#45;&gt;N10</title>
+<g id="a_edge30"><a xlink:title="fmt.Fprintln &#45;&gt; fmt.(*pp).doPrintln (4.04kB)">
+<path fill="none" stroke="#b2916c" d="M449.04,-815.65C448.15,-799.65 446.81,-775.52 445.73,-756.18"/>
+<polygon fill="#b2916c" stroke="#b2916c" points="449.22,-755.8 445.17,-746.01 442.23,-756.19 449.22,-755.8"/>
+</a>
+</g>
+<g id="a_edge30&#45;label"><a xlink:title="fmt.Fprintln &#45;&gt; fmt.(*pp).doPrintln (4.04kB)">
+<text text-anchor="middle" x="475.5" y="-775.3" font-family="Times,serif" font-size="14.00"> 4.04kB</text>
+</a>
+</g>
+</g>
+<!-- N14 -->
+<g id="node14" class="node">
+<title>N14</title>
+<g id="a_node14"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode (42.38kB)">
+<polygon fill="#edd6d5" stroke="#b20a00" points="688.5,-1262 561.5,-1262 561.5,-1226 688.5,-1226 688.5,-1262"/>
+<text text-anchor="middle" x="625" y="-1251.1" font-family="Times,serif" font-size="8.00">ekb</text>
+<text text-anchor="middle" x="625" y="-1242.1" font-family="Times,serif" font-size="8.00">BenchmarkMachineEncode</text>
+<text text-anchor="middle" x="625" y="-1233.1" font-family="Times,serif" font-size="8.00">0 of 42.38kB (82.08%)</text>
+</a>
+</g>
+</g>
+<!-- N14&#45;&gt;N3 -->
+<g id="edge5" class="edge">
+<title>N14&#45;&gt;N3</title>
+<g id="a_edge5"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode &#45;&gt; testing.(*B).Run (42.38kB)">
+<path fill="none" stroke="#b20a00" stroke-width="5" d="M625,-1225.65C625,-1209.65 625,-1185.52 625,-1166.18"/>
+<polygon fill="#b20a00" stroke="#b20a00" stroke-width="5" points="629.38,-1166.01 625,-1156.01 620.63,-1166.01 629.38,-1166.01"/>
+</a>
+</g>
+<g id="a_edge5&#45;label"><a xlink:title="github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode &#45;&gt; testing.(*B).Run (42.38kB)">
+<text text-anchor="middle" x="657" y="-1185.3" font-family="Times,serif" font-size="14.00"> 42.38kB</text>
 </a>
 </g>
 </g>
 <!-- N18 -->
 <g id="node18" class="node">
 <title>N18</title>
-<g id="a_node18"><a xlink:title="regexp.compile (4.08kB)">
-<polygon fill="#ede7e2" stroke="#b28b62" points="803,-635 707,-635 707,-599 803,-599 803,-635"/>
-<text text-anchor="middle" x="755" y="-624.1" font-family="Times,serif" font-size="8.00">regexp</text>
-<text text-anchor="middle" x="755" y="-615.1" font-family="Times,serif" font-size="8.00">compile</text>
-<text text-anchor="middle" x="755" y="-606.1" font-family="Times,serif" font-size="8.00">0 of 4.08kB (8.99%)</text>
+<g id="a_node18"><a xlink:title="hash/crc32.update (9.25kB)">
+<polygon fill="#ede0d7" stroke="#b25312" points="827.5,-1057 726.5,-1057 726.5,-1021 827.5,-1021 827.5,-1057"/>
+<text text-anchor="middle" x="777" y="-1046.1" font-family="Times,serif" font-size="8.00">crc32</text>
+<text text-anchor="middle" x="777" y="-1037.1" font-family="Times,serif" font-size="8.00">update</text>
+<text text-anchor="middle" x="777" y="-1028.1" font-family="Times,serif" font-size="8.00">0 of 9.25kB (17.92%)</text>
 </a>
 </g>
 </g>
-<!-- N17&#45;&gt;N18 -->
-<g id="edge24" class="edge">
-<title>N17&#45;&gt;N18</title>
-<g id="a_edge24"><a xlink:title="regexp.Compile &#45;&gt; regexp.compile (4.08kB)">
-<path fill="none" stroke="#b28b62" d="M747.45,-708.65C748.87,-691.56 751.07,-665.22 752.72,-645.32"/>
-<polygon fill="#b28b62" stroke="#b28b62" points="756.21,-645.57 753.56,-635.31 749.24,-644.98 756.21,-645.57"/>
+<!-- N15&#45;&gt;N18 -->
+<g id="edge17" class="edge">
+<title>N15&#45;&gt;N18</title>
+<g id="a_edge17"><a xlink:title="hash/crc32.Update &#45;&gt; hash/crc32.update (9.25kB)">
+<path fill="none" stroke="#b25312" d="M777,-1115.94C777,-1102.39 777,-1083.18 777,-1067.47"/>
+<polygon fill="#b25312" stroke="#b25312" points="780.5,-1067.26 777,-1057.26 773.5,-1067.26 780.5,-1067.26"/>
 </a>
 </g>
-<g id="a_edge24&#45;label"><a xlink:title="regexp.Compile &#45;&gt; regexp.compile (4.08kB)">
-<text text-anchor="middle" x="778.5" y="-668.3" font-family="Times,serif" font-size="14.00"> 4.08kB</text>
-</a>
-</g>
-</g>
-<!-- N21 -->
-<g id="node21" class="node">
-<title>N21</title>
-<g id="a_node21"><a xlink:title="regexp/syntax.Compile (4.08kB)">
-<polygon fill="#ede7e2" stroke="#b28b62" points="807,-529.5 711,-529.5 711,-493.5 807,-493.5 807,-529.5"/>
-<text text-anchor="middle" x="759" y="-518.6" font-family="Times,serif" font-size="8.00">syntax</text>
-<text text-anchor="middle" x="759" y="-509.6" font-family="Times,serif" font-size="8.00">Compile</text>
-<text text-anchor="middle" x="759" y="-500.6" font-family="Times,serif" font-size="8.00">0 of 4.08kB (8.99%)</text>
+<g id="a_edge17&#45;label"><a xlink:title="hash/crc32.Update &#45;&gt; hash/crc32.update (9.25kB)">
+<text text-anchor="middle" x="804.5" y="-1082.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
 </a>
 </g>
 </g>
-<!-- N18&#45;&gt;N21 -->
-<g id="edge25" class="edge">
-<title>N18&#45;&gt;N21</title>
-<g id="a_edge25"><a xlink:title="regexp.compile &#45;&gt; regexp/syntax.Compile (4.08kB)">
-<path fill="none" stroke="#b28b62" d="M755.66,-598.91C756.28,-582.8 757.23,-558.41 757.95,-539.64"/>
-<polygon fill="#b28b62" stroke="#b28b62" points="761.45,-539.74 758.34,-529.62 754.45,-539.47 761.45,-539.74"/>
-</a>
-</g>
-<g id="a_edge25&#45;label"><a xlink:title="regexp.compile &#45;&gt; regexp/syntax.Compile (4.08kB)">
-<text text-anchor="middle" x="784.5" y="-565.8" font-family="Times,serif" font-size="14.00"> 4.08kB</text>
-</a>
-</g>
-</g>
-<!-- N19 -->
-<g id="node19" class="node">
-<title>N19</title>
-<g id="a_node19"><a xlink:title="regexp/syntax.(*compiler).compile (4.08kB)">
-<polygon fill="#ede7e2" stroke="#b28b62" points="821,-428 725,-428 725,-384 821,-384 821,-428"/>
-<text text-anchor="middle" x="773" y="-417.6" font-family="Times,serif" font-size="8.00">syntax</text>
-<text text-anchor="middle" x="773" y="-408.6" font-family="Times,serif" font-size="8.00">(*compiler)</text>
-<text text-anchor="middle" x="773" y="-399.6" font-family="Times,serif" font-size="8.00">compile</text>
-<text text-anchor="middle" x="773" y="-390.6" font-family="Times,serif" font-size="8.00">0 of 4.08kB (8.99%)</text>
+<!-- N16 -->
+<g id="node16" class="node">
+<title>N16</title>
+<g id="a_node16"><a xlink:title="hash/crc32.archInitIEEE (9.25kB)">
+<polygon fill="#ede0d7" stroke="#b25312" points="827.5,-632 726.5,-632 726.5,-596 827.5,-596 827.5,-632"/>
+<text text-anchor="middle" x="777" y="-621.1" font-family="Times,serif" font-size="8.00">crc32</text>
+<text text-anchor="middle" x="777" y="-612.1" font-family="Times,serif" font-size="8.00">archInitIEEE</text>
+<text text-anchor="middle" x="777" y="-603.1" font-family="Times,serif" font-size="8.00">0 of 9.25kB (17.92%)</text>
 </a>
 </g>
 </g>
-<!-- N20 -->
-<g id="node20" class="node">
-<title>N20</title>
-<g id="a_node20"><a xlink:title="regexp/syntax.(*compiler).rune (4.08kB)">
-<polygon fill="#ede7e2" stroke="#b28b62" points="855,-299 759,-299 759,-255 855,-255 855,-299"/>
-<text text-anchor="middle" x="807" y="-288.6" font-family="Times,serif" font-size="8.00">syntax</text>
-<text text-anchor="middle" x="807" y="-279.6" font-family="Times,serif" font-size="8.00">(*compiler)</text>
-<text text-anchor="middle" x="807" y="-270.6" font-family="Times,serif" font-size="8.00">rune</text>
-<text text-anchor="middle" x="807" y="-261.6" font-family="Times,serif" font-size="8.00">0 of 4.08kB (8.99%)</text>
+<!-- N16&#45;&gt;N4 -->
+<g id="edge18" class="edge">
+<title>N16&#45;&gt;N4</title>
+<g id="a_edge18"><a xlink:title="hash/crc32.archInitIEEE &#45;&gt; hash/crc32.slicingMakeTable (9.25kB)">
+<path fill="none" stroke="#b25312" d="M777,-595.7C777,-583.6 777,-566.92 777,-551.56"/>
+<polygon fill="#b25312" stroke="#b25312" points="780.5,-551.21 777,-541.21 773.5,-551.21 780.5,-551.21"/>
+</a>
+</g>
+<g id="a_edge18&#45;label"><a xlink:title="hash/crc32.archInitIEEE &#45;&gt; hash/crc32.slicingMakeTable (9.25kB)">
+<text text-anchor="middle" x="804.5" y="-562.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
 </a>
 </g>
 </g>
-<!-- N19&#45;&gt;N20 -->
-<g id="edge26" class="edge">
-<title>N19&#45;&gt;N20</title>
-<g id="a_edge26"><a xlink:title="regexp/syntax.(*compiler).compile &#45;&gt; regexp/syntax.(*compiler).rune (4.08kB)">
-<path fill="none" stroke="#b28b62" d="M778.69,-383.74C784.16,-363.32 792.48,-332.23 798.69,-309.04"/>
-<polygon fill="#b28b62" stroke="#b28b62" points="802.09,-309.89 801.29,-299.33 795.32,-308.08 802.09,-309.89"/>
-</a>
-</g>
-<g id="a_edge26&#45;label"><a xlink:title="regexp/syntax.(*compiler).compile &#45;&gt; regexp/syntax.(*compiler).rune (4.08kB)">
-<text text-anchor="middle" x="813.5" y="-354.8" font-family="Times,serif" font-size="14.00"> 4.08kB</text>
-</a>
-</g>
-</g>
-<!-- N20&#45;&gt;N6 -->
-<g id="edge27" class="edge">
-<title>N20&#45;&gt;N6</title>
-<g id="a_edge27"><a xlink:title="regexp/syntax.(*compiler).rune &#45;&gt; regexp/syntax.(*compiler).inst (4.08kB)">
-<path fill="none" stroke="#b28b62" d="M807,-254.91C807,-232.02 807,-194.83 807,-165.6"/>
-<polygon fill="#b28b62" stroke="#b28b62" points="810.5,-165.23 807,-155.23 803.5,-165.23 810.5,-165.23"/>
-</a>
-</g>
-<g id="a_edge27&#45;label"><a xlink:title="regexp/syntax.(*compiler).rune &#45;&gt; regexp/syntax.(*compiler).inst (4.08kB)">
-<text text-anchor="middle" x="834.5" y="-191.8" font-family="Times,serif" font-size="14.00"> 4.08kB</text>
-<text text-anchor="middle" x="834.5" y="-176.8" font-family="Times,serif" font-size="14.00"> (inline)</text>
+<!-- N17 -->
+<g id="node17" class="node">
+<title>N17</title>
+<g id="a_node17"><a xlink:title="hash/crc32.ieeeInit (9.25kB)">
+<polygon fill="#ede0d7" stroke="#b25312" points="827.5,-742 726.5,-742 726.5,-706 827.5,-706 827.5,-742"/>
+<text text-anchor="middle" x="777" y="-731.1" font-family="Times,serif" font-size="8.00">crc32</text>
+<text text-anchor="middle" x="777" y="-722.1" font-family="Times,serif" font-size="8.00">ieeeInit</text>
+<text text-anchor="middle" x="777" y="-713.1" font-family="Times,serif" font-size="8.00">0 of 9.25kB (17.92%)</text>
 </a>
 </g>
 </g>
-<!-- N21&#45;&gt;N19 -->
-<g id="edge28" class="edge">
-<title>N21&#45;&gt;N19</title>
-<g id="a_edge28"><a xlink:title="regexp/syntax.Compile &#45;&gt; regexp/syntax.(*compiler).compile (4.08kB)">
-<path fill="none" stroke="#b28b62" d="M761.31,-493.41C763.34,-478.43 766.33,-456.29 768.78,-438.17"/>
-<polygon fill="#b28b62" stroke="#b28b62" points="772.28,-438.43 770.15,-428.05 765.34,-437.49 772.28,-438.43"/>
+<!-- N17&#45;&gt;N16 -->
+<g id="edge19" class="edge">
+<title>N17&#45;&gt;N16</title>
+<g id="a_edge19"><a xlink:title="hash/crc32.ieeeInit &#45;&gt; hash/crc32.archInitIEEE (9.25kB)">
+<path fill="none" stroke="#b25312" d="M777,-705.65C777,-688.56 777,-662.22 777,-642.32"/>
+<polygon fill="#b25312" stroke="#b25312" points="780.5,-642.31 777,-632.31 773.5,-642.31 780.5,-642.31"/>
 </a>
 </g>
-<g id="a_edge28&#45;label"><a xlink:title="regexp/syntax.Compile &#45;&gt; regexp/syntax.(*compiler).compile (4.08kB)">
-<text text-anchor="middle" x="794.5" y="-449.8" font-family="Times,serif" font-size="14.00"> 4.08kB</text>
-</a>
-</g>
-</g>
-<!-- N22&#45;&gt;N7 -->
-<g id="edge20" class="edge">
-<title>N22&#45;&gt;N7</title>
-<g id="a_edge20"><a xlink:title="runtime/pprof.(*profileBuilder).build &#45;&gt; compress/gzip.(*Writer).Write (9.25kB)">
-<path fill="none" stroke="#b24300" stroke-width="2" d="M909,-1319.9C909,-1307.89 909,-1292.62 909,-1279.24"/>
-<polygon fill="#b24300" stroke="#b24300" stroke-width="2" points="912.5,-1279.02 909,-1269.02 905.5,-1279.02 912.5,-1279.02"/>
-</a>
-</g>
-<g id="a_edge20&#45;label"><a xlink:title="runtime/pprof.(*profileBuilder).build &#45;&gt; compress/gzip.(*Writer).Write (9.25kB)">
-<text text-anchor="middle" x="936.5" y="-1290.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
+<g id="a_edge19&#45;label"><a xlink:title="hash/crc32.ieeeInit &#45;&gt; hash/crc32.archInitIEEE (9.25kB)">
+<text text-anchor="middle" x="804.5" y="-672.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
+<text text-anchor="middle" x="804.5" y="-657.8" font-family="Times,serif" font-size="14.00"> (inline)</text>
 </a>
 </g>
 </g>
 <!-- N24 -->
 <g id="node24" class="node">
 <title>N24</title>
-<g id="a_node24"><a xlink:title="sync.(*Once).doSlow (9.25kB)">
-<polygon fill="#edded5" stroke="#b24300" points="959.5,-859 858.5,-859 858.5,-815 959.5,-815 959.5,-859"/>
-<text text-anchor="middle" x="909" y="-848.6" font-family="Times,serif" font-size="8.00">sync</text>
-<text text-anchor="middle" x="909" y="-839.6" font-family="Times,serif" font-size="8.00">(*Once)</text>
-<text text-anchor="middle" x="909" y="-830.6" font-family="Times,serif" font-size="8.00">doSlow</text>
-<text text-anchor="middle" x="909" y="-821.6" font-family="Times,serif" font-size="8.00">0 of 9.25kB (20.41%)</text>
+<g id="a_node24"><a xlink:title="sync.(*Once).Do (9.25kB)">
+<polygon fill="#ede0d7" stroke="#b25312" points="827.5,-951 726.5,-951 726.5,-907 827.5,-907 827.5,-951"/>
+<text text-anchor="middle" x="777" y="-940.6" font-family="Times,serif" font-size="8.00">sync</text>
+<text text-anchor="middle" x="777" y="-931.6" font-family="Times,serif" font-size="8.00">(*Once)</text>
+<text text-anchor="middle" x="777" y="-922.6" font-family="Times,serif" font-size="8.00">Do</text>
+<text text-anchor="middle" x="777" y="-913.6" font-family="Times,serif" font-size="8.00">0 of 9.25kB (17.92%)</text>
 </a>
 </g>
 </g>
-<!-- N23&#45;&gt;N24 -->
-<g id="edge22" class="edge">
-<title>N23&#45;&gt;N24</title>
-<g id="a_edge22"><a xlink:title="sync.(*Once).Do &#45;&gt; sync.(*Once).doSlow (9.25kB)">
-<path fill="none" stroke="#b24300" stroke-width="2" d="M909,-909.9C909,-897.89 909,-882.62 909,-869.24"/>
-<polygon fill="#b24300" stroke="#b24300" stroke-width="2" points="912.5,-869.02 909,-859.02 905.5,-869.02 912.5,-869.02"/>
+<!-- N18&#45;&gt;N24 -->
+<g id="edge20" class="edge">
+<title>N18&#45;&gt;N24</title>
+<g id="a_edge20"><a xlink:title="hash/crc32.update &#45;&gt; sync.(*Once).Do (9.25kB)">
+<path fill="none" stroke="#b25312" d="M777,-1020.65C777,-1004.65 777,-980.52 777,-961.18"/>
+<polygon fill="#b25312" stroke="#b25312" points="780.5,-961.01 777,-951.01 773.5,-961.01 780.5,-961.01"/>
 </a>
 </g>
-<g id="a_edge22&#45;label"><a xlink:title="sync.(*Once).Do &#45;&gt; sync.(*Once).doSlow (9.25kB)">
-<text text-anchor="middle" x="936.5" y="-880.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
+<g id="a_edge20&#45;label"><a xlink:title="hash/crc32.update &#45;&gt; sync.(*Once).Do (9.25kB)">
+<text text-anchor="middle" x="804.5" y="-987.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
+<text text-anchor="middle" x="804.5" y="-972.8" font-family="Times,serif" font-size="14.00"> (inline)</text>
 </a>
 </g>
 </g>
-<!-- N24&#45;&gt;N11 -->
+<!-- N19 -->
+<g id="node19" class="node">
+<title>N19</title>
+<g id="a_node19"><a xlink:title="regexp.(*Regexp).MatchString (38.34kB)">
+<polygon fill="#edd7d5" stroke="#b20f00" points="678.5,-746 571.5,-746 571.5,-702 678.5,-702 678.5,-746"/>
+<text text-anchor="middle" x="625" y="-735.6" font-family="Times,serif" font-size="8.00">regexp</text>
+<text text-anchor="middle" x="625" y="-726.6" font-family="Times,serif" font-size="8.00">(*Regexp)</text>
+<text text-anchor="middle" x="625" y="-717.6" font-family="Times,serif" font-size="8.00">MatchString</text>
+<text text-anchor="middle" x="625" y="-708.6" font-family="Times,serif" font-size="8.00">0 of 38.34kB (74.26%)</text>
+</a>
+</g>
+</g>
+<!-- N22 -->
+<g id="node22" class="node">
+<title>N22</title>
+<g id="a_node22"><a xlink:title="regexp.(*Regexp).doMatch (38.34kB)">
+<polygon fill="#edd7d5" stroke="#b20f00" points="678.5,-636 571.5,-636 571.5,-592 678.5,-592 678.5,-636"/>
+<text text-anchor="middle" x="625" y="-625.6" font-family="Times,serif" font-size="8.00">regexp</text>
+<text text-anchor="middle" x="625" y="-616.6" font-family="Times,serif" font-size="8.00">(*Regexp)</text>
+<text text-anchor="middle" x="625" y="-607.6" font-family="Times,serif" font-size="8.00">doMatch</text>
+<text text-anchor="middle" x="625" y="-598.6" font-family="Times,serif" font-size="8.00">0 of 38.34kB (74.26%)</text>
+</a>
+</g>
+</g>
+<!-- N19&#45;&gt;N22 -->
+<g id="edge8" class="edge">
+<title>N19&#45;&gt;N22</title>
+<g id="a_edge8"><a xlink:title="regexp.(*Regexp).MatchString &#45;&gt; regexp.(*Regexp).doMatch (38.34kB)">
+<path fill="none" stroke="#b20f00" stroke-width="4" d="M625,-701.92C625,-686.09 625,-664.15 625,-646.27"/>
+<polygon fill="#b20f00" stroke="#b20f00" stroke-width="4" points="628.5,-646.03 625,-636.03 621.5,-646.03 628.5,-646.03"/>
+</a>
+</g>
+<g id="a_edge8&#45;label"><a xlink:title="regexp.(*Regexp).MatchString &#45;&gt; regexp.(*Regexp).doMatch (38.34kB)">
+<text text-anchor="middle" x="657" y="-672.8" font-family="Times,serif" font-size="14.00"> 38.34kB</text>
+<text text-anchor="middle" x="657" y="-657.8" font-family="Times,serif" font-size="14.00"> (inline)</text>
+</a>
+</g>
+</g>
+<!-- N20 -->
+<g id="node20" class="node">
+<title>N20</title>
+<g id="a_node20"><a xlink:title="regexp.(*Regexp).backtrack (38.34kB)">
+<polygon fill="#edd7d5" stroke="#b20f00" points="678.5,-428 571.5,-428 571.5,-384 678.5,-384 678.5,-428"/>
+<text text-anchor="middle" x="625" y="-417.6" font-family="Times,serif" font-size="8.00">regexp</text>
+<text text-anchor="middle" x="625" y="-408.6" font-family="Times,serif" font-size="8.00">(*Regexp)</text>
+<text text-anchor="middle" x="625" y="-399.6" font-family="Times,serif" font-size="8.00">backtrack</text>
+<text text-anchor="middle" x="625" y="-390.6" font-family="Times,serif" font-size="8.00">0 of 38.34kB (74.26%)</text>
+</a>
+</g>
+</g>
+<!-- N20&#45;&gt;N1 -->
+<g id="edge9" class="edge">
+<title>N20&#45;&gt;N1</title>
+<g id="a_edge9"><a xlink:title="regexp.(*Regexp).backtrack &#45;&gt; regexp.(*bitState).reset (38.34kB)">
+<path fill="none" stroke="#b20f00" stroke-width="4" d="M625,-383.74C625,-372.44 625,-357.87 625,-343.18"/>
+<polygon fill="#b20f00" stroke="#b20f00" stroke-width="4" points="628.5,-343.03 625,-333.03 621.5,-343.03 628.5,-343.03"/>
+</a>
+</g>
+<g id="a_edge9&#45;label"><a xlink:title="regexp.(*Regexp).backtrack &#45;&gt; regexp.(*bitState).reset (38.34kB)">
+<text text-anchor="middle" x="657" y="-354.8" font-family="Times,serif" font-size="14.00"> 38.34kB</text>
+</a>
+</g>
+</g>
+<!-- N21 -->
+<g id="node21" class="node">
+<title>N21</title>
+<g id="a_node21"><a xlink:title="regexp.(*Regexp).doExecute (38.34kB)">
+<polygon fill="#edd7d5" stroke="#b20f00" points="678.5,-532 571.5,-532 571.5,-488 678.5,-488 678.5,-532"/>
+<text text-anchor="middle" x="625" y="-521.6" font-family="Times,serif" font-size="8.00">regexp</text>
+<text text-anchor="middle" x="625" y="-512.6" font-family="Times,serif" font-size="8.00">(*Regexp)</text>
+<text text-anchor="middle" x="625" y="-503.6" font-family="Times,serif" font-size="8.00">doExecute</text>
+<text text-anchor="middle" x="625" y="-494.6" font-family="Times,serif" font-size="8.00">0 of 38.34kB (74.26%)</text>
+</a>
+</g>
+</g>
+<!-- N21&#45;&gt;N20 -->
+<g id="edge10" class="edge">
+<title>N21&#45;&gt;N20</title>
+<g id="a_edge10"><a xlink:title="regexp.(*Regexp).doExecute &#45;&gt; regexp.(*Regexp).backtrack (38.34kB)">
+<path fill="none" stroke="#b20f00" stroke-width="4" d="M625,-487.87C625,-473.51 625,-454.27 625,-438.16"/>
+<polygon fill="#b20f00" stroke="#b20f00" stroke-width="4" points="628.5,-438.11 625,-428.11 621.5,-438.11 628.5,-438.11"/>
+</a>
+</g>
+<g id="a_edge10&#45;label"><a xlink:title="regexp.(*Regexp).doExecute &#45;&gt; regexp.(*Regexp).backtrack (38.34kB)">
+<text text-anchor="middle" x="657" y="-449.8" font-family="Times,serif" font-size="14.00"> 38.34kB</text>
+</a>
+</g>
+</g>
+<!-- N22&#45;&gt;N21 -->
+<g id="edge11" class="edge">
+<title>N22&#45;&gt;N21</title>
+<g id="a_edge11"><a xlink:title="regexp.(*Regexp).doMatch &#45;&gt; regexp.(*Regexp).doExecute (38.34kB)">
+<path fill="none" stroke="#b20f00" stroke-width="4" d="M625,-591.87C625,-577.51 625,-558.27 625,-542.16"/>
+<polygon fill="#b20f00" stroke="#b20f00" stroke-width="4" points="628.5,-542.11 625,-532.11 621.5,-542.11 628.5,-542.11"/>
+</a>
+</g>
+<g id="a_edge11&#45;label"><a xlink:title="regexp.(*Regexp).doMatch &#45;&gt; regexp.(*Regexp).doExecute (38.34kB)">
+<text text-anchor="middle" x="657" y="-562.8" font-family="Times,serif" font-size="14.00"> 38.34kB</text>
+</a>
+</g>
+</g>
+<!-- N23&#45;&gt;N7 -->
+<g id="edge21" class="edge">
+<title>N23&#45;&gt;N7</title>
+<g id="a_edge21"><a xlink:title="runtime/pprof.(*profileBuilder).build &#45;&gt; compress/gzip.(*Writer).Write (9.25kB)">
+<path fill="none" stroke="#b25312" d="M777,-1316.9C777,-1304.89 777,-1289.62 777,-1276.24"/>
+<polygon fill="#b25312" stroke="#b25312" points="780.5,-1276.02 777,-1266.02 773.5,-1276.02 780.5,-1276.02"/>
+</a>
+</g>
+<g id="a_edge21&#45;label"><a xlink:title="runtime/pprof.(*profileBuilder).build &#45;&gt; compress/gzip.(*Writer).Write (9.25kB)">
+<text text-anchor="middle" x="804.5" y="-1287.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
+</a>
+</g>
+</g>
+<!-- N25 -->
+<g id="node25" class="node">
+<title>N25</title>
+<g id="a_node25"><a xlink:title="sync.(*Once).doSlow (9.25kB)">
+<polygon fill="#ede0d7" stroke="#b25312" points="827.5,-856 726.5,-856 726.5,-812 827.5,-812 827.5,-856"/>
+<text text-anchor="middle" x="777" y="-845.6" font-family="Times,serif" font-size="8.00">sync</text>
+<text text-anchor="middle" x="777" y="-836.6" font-family="Times,serif" font-size="8.00">(*Once)</text>
+<text text-anchor="middle" x="777" y="-827.6" font-family="Times,serif" font-size="8.00">doSlow</text>
+<text text-anchor="middle" x="777" y="-818.6" font-family="Times,serif" font-size="8.00">0 of 9.25kB (17.92%)</text>
+</a>
+</g>
+</g>
+<!-- N24&#45;&gt;N25 -->
 <g id="edge23" class="edge">
-<title>N24&#45;&gt;N11</title>
-<g id="a_edge23"><a xlink:title="sync.(*Once).doSlow &#45;&gt; hash/crc32.ieeeInit (9.25kB)">
-<path fill="none" stroke="#b24300" stroke-width="2" d="M909,-814.92C909,-797.88 909,-773.78 909,-755.27"/>
-<polygon fill="#b24300" stroke="#b24300" stroke-width="2" points="912.5,-755.12 909,-745.12 905.5,-755.12 912.5,-755.12"/>
+<title>N24&#45;&gt;N25</title>
+<g id="a_edge23"><a xlink:title="sync.(*Once).Do &#45;&gt; sync.(*Once).doSlow (9.25kB)">
+<path fill="none" stroke="#b25312" d="M777,-906.9C777,-894.89 777,-879.62 777,-866.24"/>
+<polygon fill="#b25312" stroke="#b25312" points="780.5,-866.02 777,-856.02 773.5,-866.02 780.5,-866.02"/>
 </a>
 </g>
-<g id="a_edge23&#45;label"><a xlink:title="sync.(*Once).doSlow &#45;&gt; hash/crc32.ieeeInit (9.25kB)">
-<text text-anchor="middle" x="936.5" y="-778.3" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
-</a>
-</g>
-</g>
-<!-- N27 -->
-<g id="node27" class="node">
-<title>N27</title>
-<g id="a_node27"><a xlink:title="testing.(*matcher).fullName (36.09kB)">
-<polygon fill="#edd7d5" stroke="#b20b00" points="678.5,-1064 571.5,-1064 571.5,-1020 678.5,-1020 678.5,-1064"/>
-<text text-anchor="middle" x="625" y="-1053.6" font-family="Times,serif" font-size="8.00">testing</text>
-<text text-anchor="middle" x="625" y="-1044.6" font-family="Times,serif" font-size="8.00">(*matcher)</text>
-<text text-anchor="middle" x="625" y="-1035.6" font-family="Times,serif" font-size="8.00">fullName</text>
-<text text-anchor="middle" x="625" y="-1026.6" font-family="Times,serif" font-size="8.00">0 of 36.09kB (79.59%)</text>
+<g id="a_edge23&#45;label"><a xlink:title="sync.(*Once).Do &#45;&gt; sync.(*Once).doSlow (9.25kB)">
+<text text-anchor="middle" x="804.5" y="-877.8" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
 </a>
 </g>
 </g>
-<!-- N25&#45;&gt;N27 -->
-<g id="edge5" class="edge">
-<title>N25&#45;&gt;N27</title>
-<g id="a_edge5"><a xlink:title="testing.(*B).Run &#45;&gt; testing.(*matcher).fullName (36.09kB)">
-<path fill="none" stroke="#b20b00" stroke-width="4" d="M625,-1114.9C625,-1102.89 625,-1087.62 625,-1074.24"/>
-<polygon fill="#b20b00" stroke="#b20b00" stroke-width="4" points="628.5,-1074.02 625,-1064.02 621.5,-1074.02 628.5,-1074.02"/>
+<!-- N25&#45;&gt;N17 -->
+<g id="edge24" class="edge">
+<title>N25&#45;&gt;N17</title>
+<g id="a_edge24"><a xlink:title="sync.(*Once).doSlow &#45;&gt; hash/crc32.ieeeInit (9.25kB)">
+<path fill="none" stroke="#b25312" d="M777,-811.92C777,-794.88 777,-770.78 777,-752.27"/>
+<polygon fill="#b25312" stroke="#b25312" points="780.5,-752.12 777,-742.12 773.5,-752.12 780.5,-752.12"/>
 </a>
 </g>
-<g id="a_edge5&#45;label"><a xlink:title="testing.(*B).Run &#45;&gt; testing.(*matcher).fullName (36.09kB)">
-<text text-anchor="middle" x="657" y="-1085.8" font-family="Times,serif" font-size="14.00"> 36.09kB</text>
-</a>
-</g>
-</g>
-<!-- N26&#45;&gt;N8 -->
-<g id="edge7" class="edge">
-<title>N26&#45;&gt;N8</title>
-<g id="a_edge7"><a xlink:title="testing.(*B).runN &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode (36.09kB)">
-<path fill="none" stroke="#b20b00" stroke-width="4" d="M625,-1319.9C625,-1306.74 625,-1289.68 625,-1275.48"/>
-<polygon fill="#b20b00" stroke="#b20b00" stroke-width="4" points="628.5,-1275.28 625,-1265.28 621.5,-1275.28 628.5,-1275.28"/>
-</a>
-</g>
-<g id="a_edge7&#45;label"><a xlink:title="testing.(*B).runN &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode (36.09kB)">
-<text text-anchor="middle" x="657" y="-1290.8" font-family="Times,serif" font-size="14.00"> 36.09kB</text>
+<g id="a_edge24&#45;label"><a xlink:title="sync.(*Once).doSlow &#45;&gt; hash/crc32.ieeeInit (9.25kB)">
+<text text-anchor="middle" x="804.5" y="-775.3" font-family="Times,serif" font-size="14.00"> 9.25kB</text>
 </a>
 </g>
 </g>
 <!-- N28 -->
 <g id="node28" class="node">
 <title>N28</title>
-<g id="a_node28"><a xlink:title="testing.simpleMatch.matches (36.09kB)">
-<polygon fill="#edd7d5" stroke="#b20b00" points="678.5,-954 571.5,-954 571.5,-910 678.5,-910 678.5,-954"/>
-<text text-anchor="middle" x="625" y="-943.6" font-family="Times,serif" font-size="8.00">testing</text>
-<text text-anchor="middle" x="625" y="-934.6" font-family="Times,serif" font-size="8.00">simpleMatch</text>
-<text text-anchor="middle" x="625" y="-925.6" font-family="Times,serif" font-size="8.00">matches</text>
-<text text-anchor="middle" x="625" y="-916.6" font-family="Times,serif" font-size="8.00">0 of 36.09kB (79.59%)</text>
+<g id="a_node28"><a xlink:title="testing.(*benchContext).processBench (4.04kB)">
+<polygon fill="#ede8e3" stroke="#b2916c" points="521,-951 425,-951 425,-907 521,-907 521,-951"/>
+<text text-anchor="middle" x="473" y="-940.6" font-family="Times,serif" font-size="8.00">testing</text>
+<text text-anchor="middle" x="473" y="-931.6" font-family="Times,serif" font-size="8.00">(*benchContext)</text>
+<text text-anchor="middle" x="473" y="-922.6" font-family="Times,serif" font-size="8.00">processBench</text>
+<text text-anchor="middle" x="473" y="-913.6" font-family="Times,serif" font-size="8.00">0 of 4.04kB (7.82%)</text>
 </a>
 </g>
 </g>
-<!-- N27&#45;&gt;N28 -->
-<g id="edge8" class="edge">
-<title>N27&#45;&gt;N28</title>
-<g id="a_edge8"><a xlink:title="testing.(*matcher).fullName &#45;&gt; testing.simpleMatch.matches (36.09kB)">
-<path fill="none" stroke="#b20b00" stroke-width="4" d="M625,-1019.92C625,-1004.09 625,-982.15 625,-964.27"/>
-<polygon fill="#b20b00" stroke="#b20b00" stroke-width="4" points="628.5,-964.03 625,-954.03 621.5,-964.03 628.5,-964.03"/>
+<!-- N26&#45;&gt;N28 -->
+<g id="edge32" class="edge">
+<title>N26&#45;&gt;N28</title>
+<g id="a_edge32"><a xlink:title="testing.(*B).run &#45;&gt; testing.(*benchContext).processBench (4.04kB)">
+<path fill="none" stroke="#b2916c" d="M498.75,-1016.92C494.02,-1000.94 487.44,-978.73 482.12,-960.77"/>
+<polygon fill="#b2916c" stroke="#b2916c" points="485.43,-959.62 479.23,-951.03 478.72,-961.61 485.43,-959.62"/>
 </a>
 </g>
-<g id="a_edge8&#45;label"><a xlink:title="testing.(*matcher).fullName &#45;&gt; testing.simpleMatch.matches (36.09kB)">
-<text text-anchor="middle" x="657" y="-983.3" font-family="Times,serif" font-size="14.00"> 36.09kB</text>
+<g id="a_edge32&#45;label"><a xlink:title="testing.(*B).run &#45;&gt; testing.(*benchContext).processBench (4.04kB)">
+<text text-anchor="middle" x="520.5" y="-980.3" font-family="Times,serif" font-size="14.00"> 4.04kB</text>
 </a>
 </g>
 </g>
-<!-- N28&#45;&gt;N4 -->
-<g id="edge9" class="edge">
-<title>N28&#45;&gt;N4</title>
-<g id="a_edge9"><a xlink:title="testing.simpleMatch.matches &#45;&gt; testing/internal/testdeps.TestDeps.MatchString (36.09kB)">
-<path fill="none" stroke="#b20b00" stroke-width="4" d="M625,-909.9C625,-897.89 625,-882.62 625,-869.24"/>
-<polygon fill="#b20b00" stroke="#b20b00" stroke-width="4" points="628.5,-869.02 625,-859.02 621.5,-869.02 628.5,-869.02"/>
+<!-- N27&#45;&gt;N14 -->
+<g id="edge7" class="edge">
+<title>N27&#45;&gt;N14</title>
+<g id="a_edge7"><a xlink:title="testing.(*B).runN &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode (42.38kB)">
+<path fill="none" stroke="#b20a00" stroke-width="5" d="M625,-1316.9C625,-1303.74 625,-1286.68 625,-1272.48"/>
+<polygon fill="#b20a00" stroke="#b20a00" stroke-width="5" points="629.38,-1272.28 625,-1262.28 620.63,-1272.28 629.38,-1272.28"/>
 </a>
 </g>
-<g id="a_edge9&#45;label"><a xlink:title="testing.simpleMatch.matches &#45;&gt; testing/internal/testdeps.TestDeps.MatchString (36.09kB)">
-<text text-anchor="middle" x="657" y="-880.8" font-family="Times,serif" font-size="14.00"> 36.09kB</text>
+<g id="a_edge7&#45;label"><a xlink:title="testing.(*B).runN &#45;&gt; github.com/infinityabundance/ekbloom&#45;go/internal/ekb.BenchmarkMachineEncode (42.38kB)">
+<text text-anchor="middle" x="657" y="-1287.8" font-family="Times,serif" font-size="14.00"> 42.38kB</text>
+</a>
+</g>
+</g>
+<!-- N28&#45;&gt;N13 -->
+<g id="edge33" class="edge">
+<title>N28&#45;&gt;N13</title>
+<g id="a_edge33"><a xlink:title="testing.(*benchContext).processBench &#45;&gt; fmt.Fprintln (4.04kB)">
+<path fill="none" stroke="#b2916c" d="M467.78,-906.9C464.5,-893.61 460.22,-876.34 456.69,-862.06"/>
+<polygon fill="#b2916c" stroke="#b2916c" points="460.07,-861.15 454.27,-852.28 453.28,-862.83 460.07,-861.15"/>
+</a>
+</g>
+<g id="a_edge33&#45;label"><a xlink:title="testing.(*benchContext).processBench &#45;&gt; fmt.Fprintln (4.04kB)">
+<text text-anchor="middle" x="490.5" y="-877.8" font-family="Times,serif" font-size="14.00"> 4.04kB</text>
+</a>
+</g>
+</g>
+<!-- N30 -->
+<g id="node30" class="node">
+<title>N30</title>
+<g id="a_node30"><a xlink:title="testing.simpleMatch.matches (38.34kB)">
+<polygon fill="#edd7d5" stroke="#b20f00" points="678.5,-951 571.5,-951 571.5,-907 678.5,-907 678.5,-951"/>
+<text text-anchor="middle" x="625" y="-940.6" font-family="Times,serif" font-size="8.00">testing</text>
+<text text-anchor="middle" x="625" y="-931.6" font-family="Times,serif" font-size="8.00">simpleMatch</text>
+<text text-anchor="middle" x="625" y="-922.6" font-family="Times,serif" font-size="8.00">matches</text>
+<text text-anchor="middle" x="625" y="-913.6" font-family="Times,serif" font-size="8.00">0 of 38.34kB (74.26%)</text>
+</a>
+</g>
+</g>
+<!-- N29&#45;&gt;N30 -->
+<g id="edge13" class="edge">
+<title>N29&#45;&gt;N30</title>
+<g id="a_edge13"><a xlink:title="testing.(*matcher).fullName &#45;&gt; testing.simpleMatch.matches (38.34kB)">
+<path fill="none" stroke="#b20f00" stroke-width="4" d="M625,-1016.92C625,-1001.09 625,-979.15 625,-961.27"/>
+<polygon fill="#b20f00" stroke="#b20f00" stroke-width="4" points="628.5,-961.03 625,-951.03 621.5,-961.03 628.5,-961.03"/>
+</a>
+</g>
+<g id="a_edge13&#45;label"><a xlink:title="testing.(*matcher).fullName &#45;&gt; testing.simpleMatch.matches (38.34kB)">
+<text text-anchor="middle" x="657" y="-980.3" font-family="Times,serif" font-size="14.00"> 38.34kB</text>
+</a>
+</g>
+</g>
+<!-- N31 -->
+<g id="node31" class="node">
+<title>N31</title>
+<g id="a_node31"><a xlink:title="testing/internal/testdeps.TestDeps.MatchString (38.34kB)">
+<polygon fill="#edd7d5" stroke="#b20f00" points="678.5,-856 571.5,-856 571.5,-812 678.5,-812 678.5,-856"/>
+<text text-anchor="middle" x="625" y="-845.6" font-family="Times,serif" font-size="8.00">testdeps</text>
+<text text-anchor="middle" x="625" y="-836.6" font-family="Times,serif" font-size="8.00">TestDeps</text>
+<text text-anchor="middle" x="625" y="-827.6" font-family="Times,serif" font-size="8.00">MatchString</text>
+<text text-anchor="middle" x="625" y="-818.6" font-family="Times,serif" font-size="8.00">0 of 38.34kB (74.26%)</text>
+</a>
+</g>
+</g>
+<!-- N30&#45;&gt;N31 -->
+<g id="edge14" class="edge">
+<title>N30&#45;&gt;N31</title>
+<g id="a_edge14"><a xlink:title="testing.simpleMatch.matches &#45;&gt; testing/internal/testdeps.TestDeps.MatchString (38.34kB)">
+<path fill="none" stroke="#b20f00" stroke-width="4" d="M625,-906.9C625,-894.89 625,-879.62 625,-866.24"/>
+<polygon fill="#b20f00" stroke="#b20f00" stroke-width="4" points="628.5,-866.02 625,-856.02 621.5,-866.02 628.5,-866.02"/>
+</a>
+</g>
+<g id="a_edge14&#45;label"><a xlink:title="testing.simpleMatch.matches &#45;&gt; testing/internal/testdeps.TestDeps.MatchString (38.34kB)">
+<text text-anchor="middle" x="657" y="-877.8" font-family="Times,serif" font-size="14.00"> 38.34kB</text>
+</a>
+</g>
+</g>
+<!-- N31&#45;&gt;N19 -->
+<g id="edge15" class="edge">
+<title>N31&#45;&gt;N19</title>
+<g id="a_edge15"><a xlink:title="testing/internal/testdeps.TestDeps.MatchString &#45;&gt; regexp.(*Regexp).MatchString (38.34kB)">
+<path fill="none" stroke="#b20f00" stroke-width="4" d="M625,-811.92C625,-796.09 625,-774.15 625,-756.27"/>
+<polygon fill="#b20f00" stroke="#b20f00" stroke-width="4" points="628.5,-756.03 625,-746.03 621.5,-756.03 628.5,-756.03"/>
+</a>
+</g>
+<g id="a_edge15&#45;label"><a xlink:title="testing/internal/testdeps.TestDeps.MatchString &#45;&gt; regexp.(*Regexp).MatchString (38.34kB)">
+<text text-anchor="middle" x="657" y="-782.8" font-family="Times,serif" font-size="14.00"> 38.34kB</text>
+<text text-anchor="middle" x="657" y="-767.8" font-family="Times,serif" font-size="14.00"> (inline)</text>
 </a>
 </g>
 </g>

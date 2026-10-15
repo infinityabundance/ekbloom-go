@@ -34,6 +34,10 @@ jobs:
         run: sh scripts/bench-history.sh
       - name: 2 GiB bounded-memory stream
         run: EKB_RUN_SCALE=1 go test -run TestStreamBoundedMemory2GiB -v ./internal/ekb
+      - name: environment capture (generated, sandboxed)
+        # Regenerates evidence/environment.txt from a real sandboxed run so it can
+        # never go stale (scripts/environment.sh).
+        run: sh scripts/environment.sh
       - uses: actions/upload-artifact@v4
         with:
           name: evidence

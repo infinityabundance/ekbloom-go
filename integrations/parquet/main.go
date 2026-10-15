@@ -28,7 +28,8 @@ import (
 	"sort"
 	"time"
 
-	ekbloom "github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go/internal/tools/provenance"
 	"github.com/infinityabundance/ekbloom-go/internal/tools/stat"
 	"github.com/klauspost/compress/zstd"
 	"github.com/parquet-go/parquet-go"
@@ -410,5 +411,5 @@ func main() {
 
 	out, err := json.MarshalIndent(rep, "", "  ")
 	fatal(err)
-	os.Stdout.Write(append(out, '\n'))
+	os.Stdout.Write(provenance.Stamp(out))
 }

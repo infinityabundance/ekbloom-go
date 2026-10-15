@@ -1,25 +1,29 @@
 File: ekbloom.test
 Type: cpu
-Time: Oct 14, 2026 at 5:20pm (UTC)
-Duration: 601.69ms, Total samples = 450ms (74.79%)
-Showing nodes accounting for 450ms, 100% of 450ms total
+Time: Oct 15, 2026 at 12:14pm (UTC)
+Duration: 602.52ms, Total samples = 440ms (73.03%)
+Showing nodes accounting for 440ms, 100% of 440ms total
       flat  flat%   sum%        cum   cum%
-     420ms 93.33% 93.33%      430ms 95.56%  github.com/infinityabundance/ekbloom-go/internal/ekb.nl2.Encode
-      10ms  2.22% 95.56%       10ms  2.22%  runtime.memclrNoHeapPointers
-      10ms  2.22% 97.78%       10ms  2.22%  runtime.scanblock
-      10ms  2.22%   100%       10ms  2.22%  runtime.typePointers.next
-         0     0%   100%      430ms 95.56%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
-         0     0%   100%       20ms  4.44%  runtime.gcBgMarkWorker
-         0     0%   100%       20ms  4.44%  runtime.gcBgMarkWorker.func2
-         0     0%   100%       20ms  4.44%  runtime.gcDrain
-         0     0%   100%       10ms  2.22%  runtime.gcDrainMarkWorkerFractional (inline)
-         0     0%   100%       10ms  2.22%  runtime.gcDrainMarkWorkerIdle (inline)
-         0     0%   100%       10ms  2.22%  runtime.makeslice
-         0     0%   100%       10ms  2.22%  runtime.mallocgc
-         0     0%   100%       10ms  2.22%  runtime.markroot
-         0     0%   100%       10ms  2.22%  runtime.markrootBlock
-         0     0%   100%       10ms  2.22%  runtime.memclrNoHeapPointersChunked
-         0     0%   100%       10ms  2.22%  runtime.scanobject
-         0     0%   100%       20ms  4.44%  runtime.systemstack
-         0     0%   100%      430ms 95.56%  testing.(*B).launch
-         0     0%   100%      430ms 95.56%  testing.(*B).runN
+     390ms 88.64% 88.64%      420ms 95.45%  github.com/infinityabundance/ekbloom-go/internal/ekb.nl2.Encode
+      30ms  6.82% 95.45%       30ms  6.82%  runtime.memclrNoHeapPointers
+      10ms  2.27% 97.73%       10ms  2.27%  github.com/infinityabundance/ekbloom-go/internal/ekb.benchPattern (inline)
+      10ms  2.27%   100%       10ms  2.27%  runtime.pcvalue
+         0     0%   100%       10ms  2.27%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode
+         0     0%   100%      420ms 95.45%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
+         0     0%   100%       10ms  2.27%  runtime.(*stkframe).getStackMap
+         0     0%   100%       10ms  2.27%  runtime.gcBgMarkWorker
+         0     0%   100%       10ms  2.27%  runtime.gcBgMarkWorker.func2
+         0     0%   100%       10ms  2.27%  runtime.gcDrain
+         0     0%   100%       10ms  2.27%  runtime.gcDrainMarkWorkerIdle (inline)
+         0     0%   100%       30ms  6.82%  runtime.makeslice
+         0     0%   100%       30ms  6.82%  runtime.mallocgc
+         0     0%   100%       10ms  2.27%  runtime.markroot
+         0     0%   100%       10ms  2.27%  runtime.markroot.func1
+         0     0%   100%       30ms  6.82%  runtime.memclrNoHeapPointersChunked
+         0     0%   100%       10ms  2.27%  runtime.pcdatavalue
+         0     0%   100%       10ms  2.27%  runtime.scanframeworker
+         0     0%   100%       10ms  2.27%  runtime.scanstack
+         0     0%   100%       10ms  2.27%  runtime.systemstack
+         0     0%   100%      420ms 95.45%  testing.(*B).launch
+         0     0%   100%       10ms  2.27%  testing.(*B).run1.func1
+         0     0%   100%      430ms 97.73%  testing.(*B).runN

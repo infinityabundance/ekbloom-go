@@ -11,65 +11,88 @@
       "bytes_per_record": 100,
       "bytes_fetched_per_get": 100,
       "decode_p50_ns": 30,
-      "decode_p99_9_ns": 551,
-      "allocs_per_get": 1.00004,
+      "decode_p99_9_ns": 281,
+      "allocs_per_get": 1.00002,
       "ratio_vs_raw": 1,
       "decode_p50_ns_min": 30,
       "decode_p50_ns_max": 30,
-      "decode_p99_9_ns_min": 361,
-      "decode_p99_9_ns_max": 701
+      "decode_p99_9_ns_min": 241,
+      "decode_p99_9_ns_max": 451
     },
     {
       "codec": "lz4",
       "bytes_per_record": 101.936,
       "bytes_fetched_per_get": 101.936,
       "decode_p50_ns": 20,
-      "decode_p99_9_ns": 321,
+      "decode_p99_9_ns": 50,
       "allocs_per_get": 0.00002,
       "ratio_vs_raw": 1.01936,
       "decode_p50_ns_min": 20,
       "decode_p50_ns_max": 20,
-      "decode_p99_9_ns_min": 320,
-      "decode_p99_9_ns_max": 340
+      "decode_p99_9_ns_min": 50,
+      "decode_p99_9_ns_max": 51
     },
     {
       "codec": "zstd",
       "bytes_per_record": 113,
       "bytes_fetched_per_get": 113,
-      "decode_p50_ns": 131,
-      "decode_p99_9_ns": 1933,
-      "allocs_per_get": 1.00002,
+      "decode_p50_ns": 130,
+      "decode_p99_9_ns": 1513,
+      "allocs_per_get": 1.00004,
       "ratio_vs_raw": 1.13,
       "decode_p50_ns_min": 100,
-      "decode_p50_ns_max": 150,
-      "decode_p99_9_ns_min": 1393,
-      "decode_p99_9_ns_max": 2304
+      "decode_p50_ns_max": 140,
+      "decode_p99_9_ns_min": 1072,
+      "decode_p99_9_ns_max": 1864
     },
     {
       "codec": "zstd-dict",
       "bytes_per_record": 47.3815,
       "bytes_fetched_per_get": 47.3815,
       "decode_p50_ns": 261,
-      "decode_p99_9_ns": 3798,
-      "allocs_per_get": 1.86682,
+      "decode_p99_9_ns": 3376,
+      "allocs_per_get": 1.86638,
       "ratio_vs_raw": 0.47381500000000004,
-      "decode_p50_ns_min": 260,
-      "decode_p50_ns_max": 361,
-      "decode_p99_9_ns_min": 3216,
-      "decode_p99_9_ns_max": 6041
+      "decode_p50_ns_min": 261,
+      "decode_p50_ns_max": 351,
+      "decode_p99_9_ns_min": 2124,
+      "decode_p99_9_ns_max": 3697
     },
     {
       "codec": "ekbloom-m9",
       "bytes_per_record": 59.798,
       "bytes_fetched_per_get": 59.798,
-      "decode_p50_ns": 2735,
-      "decode_p99_9_ns": 84187,
-      "allocs_per_get": 3.00004,
+      "decode_p50_ns": 2545,
+      "decode_p99_9_ns": 80850,
+      "allocs_per_get": 3.00016,
       "ratio_vs_raw": 0.5979800000000001,
-      "decode_p50_ns_min": 2414,
-      "decode_p50_ns_max": 3456,
-      "decode_p99_9_ns_min": 80771,
-      "decode_p99_9_ns_max": 104335
+      "decode_p50_ns_min": 2535,
+      "decode_p50_ns_max": 2575,
+      "decode_p99_9_ns_min": 78938,
+      "decode_p99_9_ns_max": 82363
     }
-  ]
+  ],
+  "provenance": {
+    "go": "go1.23.12",
+    "goos": "linux",
+    "goarch": "amd64",
+    "gomaxprocs": 2,
+    "nproc": 16,
+    "kernel": "7.2.9-2-cachyos",
+    "container_image": "ekbloom-go-sandbox:latest",
+    "container_image_id": "sha256:2d8af8d4d8a7435bca1d9a4047888c569081929bb0812f6885238b5d62756637",
+    "memory_limit": "2g",
+    "cpu_limit": "2",
+    "pids_limit": "512",
+    "loadavg": {
+      "one": 28.49,
+      "five": 27.35,
+      "fifteen": 27.81
+    },
+    "cpu_idle_pct": 80.13462869900293,
+    "runqueue": 6,
+    "timestamp_utc": "2026-10-15T12:12:20Z",
+    "ekb_runs": 5,
+    "note": "Captured in-container at measure time. /proc/loadavg inside the container is normally the HOST's (containers share the kernel), and Linux counts processes blocked on I/O (I/O-wait) toward load average, so a high loadavg can appear even when the CPU is idle; cpu_idle_pct = (idle+iowait)/total from /proc/stat is recorded alongside so the two can be read together. Each metric's _min is the least-contended run's estimate, and the _min-vs-median gap is the contention signal."
+  }
 }

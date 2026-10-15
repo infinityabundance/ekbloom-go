@@ -10,9 +10,9 @@ ekbloom_generation 1
 # TYPE ekbloom_pebble_vlog_bytes_per_record gauge
 ekbloom_pebble_vlog_bytes_per_record 63.35745
 # TYPE ekbloom_pebble_vlog_get_p50_ns gauge
-ekbloom_pebble_vlog_get_p50_ns 901
+ekbloom_pebble_vlog_get_p50_ns 861
 # TYPE ekbloom_pebble_vlog_get_p99_ns gauge
-ekbloom_pebble_vlog_get_p99_ns 1462
+ekbloom_pebble_vlog_get_p99_ns 1012
 # TYPE ekbloom_pebble_vlog_decode_allocs_per_op gauge
 ekbloom_pebble_vlog_decode_allocs_per_op 0
 ekbloom_pebble_vlog_get_decode_allocs_per_op 0

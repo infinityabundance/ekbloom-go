@@ -33,6 +33,7 @@ import (
 
 	"github.com/cockroachdb/pebble"
 	ekbloom "github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go/courts/internal/provenance"
 	"github.com/infinityabundance/ekbloom-go/courts/internal/stats"
 	"github.com/infinityabundance/ekbloom-go/courts/internal/workload"
 )
@@ -243,10 +244,10 @@ func main() {
 		fmt.Fprintln(os.Stderr, "write prom:", err)
 	}
 
-	// JSON -> stdout ONLY.
+	// JSON -> stdout ONLY, with provenance stamped so the artifact is self-describing.
 	out, err := json.MarshalIndent(rep, "", "  ")
 	check(err)
-	fmt.Println(string(out))
+	fmt.Print(string(provenance.Stamp(out)))
 }
 
 // decodeDst is the caller-reused decode destination (every record is exactly

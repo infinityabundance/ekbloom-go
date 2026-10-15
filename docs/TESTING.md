@@ -155,7 +155,17 @@ sh scripts/bench.sh               # writes bench.txt (median-of-runs, sandboxed)
 sh scripts/bench-history.sh       # append a median-of-runs record to bench-history.jsonl
 sh scripts/profile.sh             # CPU profiles: .prof + SVG call graph + top
 sh scripts/courts.sh              # 100-byte 80/20 court + 4 KiB point read + YCSB (separate module)
+sh scripts/remeasure.sh           # re-capture the whole timing set at EKB_RUNS=5, prints loadavg/cpu_idle_pct
 ```
+
+Every timing artifact is **provenance-stamped** — a top-level `"provenance"`
+object with the toolchain, caps, image digest, `loadavg`, and `cpu_idle_pct` seen
+at measure time (`internal/tools/provenance`) — so a reviewer can tell whether a
+number came from an idle or a contended host. Read `loadavg` alongside
+`cpu_idle_pct`, since a container's `/proc/loadavg` is the host's and counts
+I/O-wait; `_min` is the least-contended estimate. `evidence/environment.txt` is
+*generated* by `scripts/environment.sh` (inside the sandbox), so it cannot go
+stale.
 
 ## Cross-filesystem / cross-architecture determinism
 

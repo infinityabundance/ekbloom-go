@@ -8,18 +8,18 @@
       "method": "ekbloom-m9",
       "total_bytes": 341947,
       "bytes_per_record": 83.483154296875,
-      "decode_p50_ns": 461,
-      "decode_p50_ns_min": 411,
-      "decode_p50_ns_max": 471,
+      "decode_p50_ns": 381,
+      "decode_p50_ns_min": 381,
+      "decode_p50_ns_max": 391,
       "note": "one 540-byte shared dictionary + header-less cores"
     },
     {
       "method": "machine2-per-record",
       "total_bytes": 2416529,
       "bytes_per_record": 589.972900390625,
-      "decode_p50_ns": 3567,
-      "decode_p50_ns_min": 3466,
-      "decode_p50_ns_max": 4298,
+      "decode_p50_ns": 2675,
+      "decode_p50_ns_min": 2675,
+      "decode_p50_ns_max": 2695,
       "note": "a 516-byte model header in every core"
     },
     {
@@ -34,5 +34,28 @@
   ],
   "break_even_vs_machine2_records": 2,
   "shared_dictionary_bytes": 540,
-  "note": "Reproduces the reference P5 study (docs/DICTIONARY.md). Every row is asserted byte-exact before timing. decode_p50_ns is the median across EKB_RUNS runs (min/max retained)."
+  "note": "Reproduces the reference P5 study (docs/DICTIONARY.md). Every row is asserted byte-exact before timing. decode_p50_ns is the median across EKB_RUNS runs (min/max retained).",
+  "provenance": {
+    "go": "go1.23.12",
+    "goos": "linux",
+    "goarch": "amd64",
+    "gomaxprocs": 2,
+    "nproc": 16,
+    "kernel": "7.2.9-2-cachyos",
+    "container_image": "ekbloom-go-sandbox:latest",
+    "container_image_id": "sha256:2d8af8d4d8a7435bca1d9a4047888c569081929bb0812f6885238b5d62756637",
+    "memory_limit": "2g",
+    "cpu_limit": "2",
+    "pids_limit": "512",
+    "loadavg": {
+      "one": 32.35,
+      "five": 29.15,
+      "fifteen": 28.38
+    },
+    "cpu_idle_pct": 80.1306308668042,
+    "runqueue": 7,
+    "timestamp_utc": "2026-10-15T12:15:53Z",
+    "ekb_runs": 5,
+    "note": "Captured in-container at measure time. /proc/loadavg inside the container is normally the HOST's (containers share the kernel), and Linux counts processes blocked on I/O (I/O-wait) toward load average, so a high loadavg can appear even when the CPU is idle; cpu_idle_pct = (idle+iowait)/total from /proc/stat is recorded alongside so the two can be read together. Each metric's _min is the least-contended run's estimate, and the _min-vs-median gap is the contention signal."
+  }
 }

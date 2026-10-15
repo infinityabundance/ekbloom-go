@@ -3,12 +3,12 @@
   "record_bytes": 100,
   "gets": 50000,
   "bytes_per_record": 63.35745,
-  "get_p50_ns": 901,
-  "get_p99_ns": 1462,
-  "get_p50_ns_min": 891,
-  "get_p50_ns_max": 912,
-  "get_p99_ns_min": 1382,
-  "get_p99_ns_max": 1573,
+  "get_p50_ns": 861,
+  "get_p99_ns": 1012,
+  "get_p50_ns_min": 861,
+  "get_p50_ns_max": 862,
+  "get_p99_ns_min": 1012,
+  "get_p99_ns_max": 1082,
   "decode_allocs_per_op": 0,
   "breaches": 0,
   "worst_case_steps": 100,
@@ -16,5 +16,28 @@
   "physical_bytes": 80,
   "dict_bytes": 540,
   "runs": 5,
-  "statistic": "median-of-runs"
+  "statistic": "median-of-runs",
+  "provenance": {
+    "go": "go1.23.12",
+    "goos": "linux",
+    "goarch": "amd64",
+    "gomaxprocs": 2,
+    "nproc": 16,
+    "kernel": "7.2.9-2-cachyos",
+    "container_image": "ekbloom-go-sandbox:latest",
+    "container_image_id": "sha256:2d8af8d4d8a7435bca1d9a4047888c569081929bb0812f6885238b5d62756637",
+    "memory_limit": "2g",
+    "cpu_limit": "2",
+    "pids_limit": "512",
+    "loadavg": {
+      "one": 28.52,
+      "five": 27.51,
+      "fifteen": 27.84
+    },
+    "cpu_idle_pct": 80.13399320432057,
+    "runqueue": 5,
+    "timestamp_utc": "2026-10-15T12:12:58Z",
+    "ekb_runs": 5,
+    "note": "Captured in-container at measure time. /proc/loadavg inside the container is normally the HOST's (containers share the kernel), and Linux counts processes blocked on I/O (I/O-wait) toward load average, so a high loadavg can appear even when the CPU is idle; cpu_idle_pct = (idle+iowait)/total from /proc/stat is recorded alongside so the two can be read together. Each metric's _min is the least-contended run's estimate, and the _min-vs-median gap is the contention signal."
+  }
 }

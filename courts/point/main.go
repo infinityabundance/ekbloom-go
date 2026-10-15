@@ -26,6 +26,7 @@ import (
 
 	"github.com/cockroachdb/pebble"
 	ekbloom "github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go/courts/internal/provenance"
 	"github.com/infinityabundance/ekbloom-go/courts/internal/stats"
 	"github.com/klauspost/compress/zstd"
 	"github.com/pierrec/lz4/v4"
@@ -286,7 +287,7 @@ func main() {
 		"One random 4 KiB point read, same payloads, 80/20 skew. Get p50/p99/p99.9 are the median across EKB_RUNS runs (min/max retained). EKBLOOM is an in-memory codec; Pebble is an on-disk LSM (block cache warmed). Footprint is bytes/value. Single host, scalar Go — a decision aid, not a portable benchmark."}
 
 	out, _ := json.MarshalIndent(report, "", "  ")
-	if err := os.WriteFile("../evidence/courts-point.json", append(out, '\n'), 0o644); err != nil {
+	if err := os.WriteFile("../evidence/courts-point.json", provenance.Stamp(out), 0o644); err != nil {
 		fatal(err)
 	}
 

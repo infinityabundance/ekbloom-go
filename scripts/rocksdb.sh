@@ -33,6 +33,7 @@ if ! {
 fi
 
 # --- run (hard-capped); stdout is the JSON artifact, stderr is the log -------
+image_id=$(docker image inspect --format '{{.Id}}' "$image")
 echo "== docker run --memory=$mem --memory-swap=$mem --cpus=$cpus $image ==" >>"$log"
 if ! docker run --rm \
       --memory="$mem" --memory-swap="$mem" \
@@ -40,6 +41,11 @@ if ! docker run --rm \
       -e GOMAXPROCS="$cpus" \
       -e EKB_RUNS \
       -e CI \
+      -e EKB_CONTAINER_IMAGE="$image" \
+      -e EKB_CONTAINER_IMAGE_ID="$image_id" \
+      -e EKB_LIMIT_MEM="$mem" \
+      -e EKB_LIMIT_CPUS="$cpus" \
+      -e EKB_LIMIT_PIDS=512 \
       --pids-limit=512 \
       --ulimit nofile=4096:4096 \
       "$image" >"$out" 2>>"$log"; then

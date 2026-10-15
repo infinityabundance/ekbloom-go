@@ -4,6 +4,8 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+
+	"github.com/infinityabundance/ekbloom-go/internal/tools/provenance"
 )
 
 // repoRoot is the repository root, computed from this file's location
@@ -35,9 +37,15 @@ func writeEvidence(name string, b []byte, _ ...os.FileMode) error {
 // inflates every measured latency (~5-25x here), so timing evidence is generated
 // WITHOUT -race (the valid measurement method) and `go test -race ./...` stays a
 // pure correctness gate that never overwrites it with race-timed numbers.
+//
+// Every timing artifact is stamped with a "provenance" object (see
+// internal/tools/provenance): the toolchain, the container caps and image digest,
+// and the loadavg / cpu_idle_pct observed at measure time, so a reviewer can tell
+// whether the numbers came from an idle or a contended host. The stamp only appends
+// a key; the deterministic fields are byte-identical.
 func writeTimingEvidence(name string, b []byte, _ ...os.FileMode) error {
 	if raceDetectorEnabled {
 		return nil
 	}
-	return writeEvidence(name, b)
+	return writeEvidence(name, provenance.Stamp(b))
 }

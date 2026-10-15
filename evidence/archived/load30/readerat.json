@@ -1,0 +1,13 @@
+{
+  "readerat_section_copy": "pass",
+  "batch_equal": "pass",
+  "concurrent_64_race": "pass",
+  "runs": 5,
+  "statistic": "median-of-runs",
+  "cancel_latency_ns": 1061528,
+  "cancel_latency_ns_min": 948207,
+  "cancel_latency_ns_max": 1065396,
+  "batch_p50_ns": 341,
+  "batch_p50_ns_min": 340,
+  "batch_p50_ns_max": 371
+}

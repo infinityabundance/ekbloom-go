@@ -24,6 +24,10 @@ if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
     docker build -f Dockerfile.sandbox -t "$IMAGE" . >&2
 fi
 
+# Resolve the immutable image digest once, so the provenance stamp records which
+# image actually produced the numbers (not just its mutable tag).
+IMAGE_ID=$(docker image inspect --format '{{.Id}}' "$IMAGE")
+
 # Mark the bind-mounted repo as a safe git directory: the files are owned by the
 # host uid, not the container's root, so git refuses to read them ("dubious
 # ownership") and `go build`/`go test` fail while stamping VCS info.
@@ -42,6 +46,11 @@ exec docker run --rm \
     -e GOMAXPROCS="$CPUS" \
     -e EKB_RUNS \
     -e CI \
+    -e EKB_CONTAINER_IMAGE="$IMAGE" \
+    -e EKB_CONTAINER_IMAGE_ID="$IMAGE_ID" \
+    -e EKB_LIMIT_MEM="$MEM" \
+    -e EKB_LIMIT_CPUS="$CPUS" \
+    -e EKB_LIMIT_PIDS=512 \
     -e GIT_CONFIG_COUNT=1 \
     -e GIT_CONFIG_KEY_0=safe.directory \
     -e GIT_CONFIG_VALUE_0=/src \

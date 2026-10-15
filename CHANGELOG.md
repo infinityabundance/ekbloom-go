@@ -13,6 +13,40 @@ The wire format is **frozen** and follows the Rust reference
 
 ### Added
 
+- **Provenance stamping — the latency evidence is now self-describing.** Every
+  timing artifact (`byteat`, `sweep`, `concurrency`, `dictionary`, `readerat`,
+  `courts`, `courts-point`, `ycsb`, `pebble-vlog`, `pebble-integration`,
+  `rocksdb-blobdb`, `parquet-dict`, `profile` + `profile/gcstats.json`, and the
+  `benchagg`/`bench-history` output) now carries a top-level `"provenance"` object:
+  `go`, `goos`, `goarch`, `gomaxprocs`, `nproc`, `kernel`, `container_image`,
+  `container_image_id` (the immutable digest), `memory_limit`, `cpu_limit`,
+  `pids_limit`, `loadavg` (`one`/`five`/`fifteen`), `cpu_idle_pct`, `runqueue`,
+  `timestamp_utc`, `ekb_runs`, and a `note`. A small, stdlib-only helper
+  (`internal/tools/provenance`, mirrored for the separate module as
+  `courts/internal/provenance`; the RocksDB C++ artifact gets it from the Go cgo
+  bridge via a new `ekbloom_provenance` export) **appends** the key, so the
+  deterministic fields stay byte-identical (guarded by a unit test). The wrapper
+  scripts (`scripts/sandbox.sh` and the direct-`docker run` scripts) inject the
+  image tag + `docker image inspect` digest and the caps via
+  `EKB_CONTAINER_IMAGE` / `EKB_CONTAINER_IMAGE_ID` / `EKB_LIMIT_MEM` /
+  `EKB_LIMIT_CPUS` / `EKB_LIMIT_PIDS`. Read a high `loadavg` **together with**
+  `cpu_idle_pct`: inside a container `/proc/loadavg` is normally the host's and
+  counts I/O-wait, so a high average with a high idle percentage means unrelated
+  I/O-bound co-tenants, not CPU contention; `_min` is the least-contended estimate
+  and the `_min`-vs-median gap is the contention signal. `scripts/remeasure.sh`
+  re-runs the whole set at `EKB_RUNS=5` in the same capped container and prints the
+  captured `loadavg`/`cpu_idle_pct`. The pre-provenance capture (host `loadavg ≈29`)
+  is preserved byte-for-byte under `evidence/archived/load30/` as the comparison
+  point (`evidence/README.md`).
+
+- **`evidence/environment.txt` is now generated, not hand-written**
+  (`scripts/environment.sh`). It runs every check inside `scripts/sandbox.sh` and
+  records the container's `go version`, the `GOMAXPROCS` pin, the caps, the kernel,
+  the host `nproc`, the module's zero dependencies, no cgo/unsafe, the
+  cross-compile matrix (arm64/riscv64/ppc64le/s390x), and the `go vet ./...` /
+  `go test ./...` counts actually observed — so it can never go stale. CI refreshes
+  it on every run (`.github/workflows/ci.yml`).
+
 - **Writer endurance / fault-injection log** (`internal/ekb/endurance_test.go`,
   `TestEndurance`; `scripts/endurance.sh` → `evidence/endurance.json` +
   `evidence/endurance.log`). A long-run harness that appends a generation, damages

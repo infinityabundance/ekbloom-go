@@ -280,7 +280,7 @@ function handleMouseUp(evt) {
 <polygon fill="#f8f8f8" stroke="black" points="532,-1114 16,-1114 16,-997 532,-997 532,-1114"/>
 <text text-anchor="start" x="24" y="-1097.2" font-family="Times,serif" font-size="16.00">File: ekbloom.test</text>
 <text text-anchor="start" x="24" y="-1079.2" font-family="Times,serif" font-size="16.00">Type: inuse_space</text>
-<text text-anchor="start" x="24" y="-1061.2" font-family="Times,serif" font-size="16.00">Time: Oct 14, 2026 at 5:20pm (UTC)</text>
+<text text-anchor="start" x="24" y="-1061.2" font-family="Times,serif" font-size="16.00">Time: Oct 15, 2026 at 12:14pm (UTC)</text>
 <text text-anchor="start" x="24" y="-1043.2" font-family="Times,serif" font-size="16.00">Showing nodes accounting for 9.25kB, 100% of 9.25kB total</text>
 <text text-anchor="start" x="24" y="-1006.2" font-family="Times,serif" font-size="16.00">See https://git.io/JfYMW for how to read the graph</text>
 </a>

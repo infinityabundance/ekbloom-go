@@ -16,6 +16,8 @@
 //	int  ekbloom_dict(unsigned char *dst, int cap);
 //	int  ekbloom_dict_bytes(void);
 //	long ekbloom_breaches(void);
+//	char *ekbloom_provenance(void);
+//	void ekbloom_provenance_free(char *p);
 //
 // There is exactly one trained Dictionary, guarded by one mutex. Train once
 // (single-writer) and then call compress/decompress from any thread; the codec
@@ -39,7 +41,8 @@ import (
 	"sync"
 	"unsafe"
 
-	ekbloom "github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go/internal/tools/provenance"
 )
 
 var (
@@ -201,6 +204,26 @@ func ekbloom_dict_bytes() C.int {
 //export ekbloom_breaches
 func ekbloom_breaches() C.long {
 	return C.long(ekbloom.ResourcePolicySnapshot().AllocationBreaches)
+}
+
+// ekbloom_provenance returns a newly malloc'd C string holding the container
+// provenance as a single-line JSON object (toolchain, caps, image digest, loadavg,
+// cpu_idle_pct). The caller owns it and must free it with
+// ekbloom_provenance_free. It lets the C++ host embed the same self-describing
+// stamp the Go harnesses do, captured in-container at measure time.
+//
+//export ekbloom_provenance
+func ekbloom_provenance() *C.char {
+	return C.CString(string(provenance.Current().Compact()))
+}
+
+// ekbloom_provenance_free releases a string returned by ekbloom_provenance.
+//
+//export ekbloom_provenance_free
+func ekbloom_provenance_free(p *C.char) {
+	if p != nil {
+		C.free(unsafe.Pointer(p))
+	}
 }
 
 func main() {}

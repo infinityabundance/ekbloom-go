@@ -399,6 +399,10 @@ int main() {
                kRecords, dict_bytes, static_cast<unsigned long long>(physical), runs,
                ng, kOps - static_cast<int>(ng), breaches);
 
+  // The container provenance (toolchain, caps, image digest, loadavg, cpu_idle_pct)
+  // is produced by the Go bridge so this artifact is self-describing just like the
+  // Go harnesses' JSON. The returned string is malloc'd by the bridge; free it.
+  char* prov = ekbloom_provenance();
   std::printf(
       "{\"records\":%d,\"record_bytes\":%d,\"ops\":%d,\"runs\":%d,"
       "\"statistic\":\"median-of-runs\",\"bytes_per_record\":%.6f,"
@@ -406,11 +410,14 @@ int main() {
       "\"get_p50_ns_min\":%lld,\"get_p50_ns_max\":%lld,"
       "\"get_p99_ns_min\":%lld,\"get_p99_ns_max\":%lld,"
       "\"ekbloom_physical_bytes\":%llu,"
-      "\"ekbloom_expansion_ratio\":%.6f,\"breaches\":%ld}\n",
+      "\"ekbloom_expansion_ratio\":%.6f,\"breaches\":%ld,"
+      "\"provenance\":%s}\n",
       kRecords, kRecordBytes, kOps, runs, bytes_per_record,
       static_cast<long long>(p50), static_cast<long long>(p99),
       static_cast<long long>(p50_min), static_cast<long long>(p50_max),
       static_cast<long long>(p99_min), static_cast<long long>(p99_max),
-      static_cast<unsigned long long>(physical), expansion, breaches);
+      static_cast<unsigned long long>(physical), expansion, breaches,
+      prov != nullptr ? prov : "{}");
+  ekbloom_provenance_free(prov);
   return 0;
 }

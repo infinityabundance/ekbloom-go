@@ -1,17 +1,16 @@
 File: ekbloom.test
 Type: cpu
-Time: Oct 14, 2026 at 5:20pm (UTC)
-Duration: 500.98ms, Total samples = 360ms (71.86%)
+Time: Oct 15, 2026 at 12:14pm (UTC)
+Duration: 501.12ms, Total samples = 360ms (71.84%)
 Showing nodes accounting for 360ms, 100% of 360ms total
       flat  flat%   sum%        cum   cum%
-     310ms 86.11% 86.11%      320ms 88.89%  github.com/infinityabundance/ekbloom-go/internal/ekb.Dictionary.EncodeRecord
-      40ms 11.11% 97.22%       40ms 11.11%  github.com/infinityabundance/ekbloom-go/internal/ekb.TrainDictionary
-      10ms  2.78%   100%       10ms  2.78%  runtime.memclrNoHeapPointers
-         0     0%   100%      360ms   100%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
-         0     0%   100%      360ms   100%  github.com/infinityabundance/ekbloom-go/internal/ekb.dictMachine.Encode
-         0     0%   100%       10ms  2.78%  runtime.makeslice
-         0     0%   100%       10ms  2.78%  runtime.mallocgc
-         0     0%   100%       10ms  2.78%  runtime.memclrNoHeapPointersChunked
-         0     0%   100%      350ms 97.22%  testing.(*B).launch
-         0     0%   100%       10ms  2.78%  testing.(*B).run1.func1
+     190ms 52.78% 52.78%      200ms 55.56%  github.com/infinityabundance/ekbloom-go/internal/ekb.Dictionary.EncodeRecord
+     150ms 41.67% 94.44%      150ms 41.67%  github.com/infinityabundance/ekbloom-go/internal/ekb.TrainDictionary
+      10ms  2.78% 97.22%       10ms  2.78%  github.com/infinityabundance/ekbloom-go/internal/ekb.benchPattern (inline)
+      10ms  2.78%   100%       10ms  2.78%  runtime.asyncPreempt
+         0     0%   100%       10ms  2.78%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode
+         0     0%   100%      350ms 97.22%  github.com/infinityabundance/ekbloom-go/internal/ekb.BenchmarkMachineEncode.func1
+         0     0%   100%      350ms 97.22%  github.com/infinityabundance/ekbloom-go/internal/ekb.dictMachine.Encode
+         0     0%   100%      340ms 94.44%  testing.(*B).launch
+         0     0%   100%       20ms  5.56%  testing.(*B).run1.func1
          0     0%   100%      360ms   100%  testing.(*B).runN

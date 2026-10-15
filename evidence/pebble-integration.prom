@@ -9,33 +9,33 @@ ekbloom_pebble_decode_allocs_per_op 0
 # TYPE ekbloom_pebble_scan_keys gauge
 ekbloom_pebble_scan_keys 20000
 # TYPE ekbloom_pebble_scan_ns_per_key gauge
-ekbloom_pebble_scan_ns_per_key 491.2466
+ekbloom_pebble_scan_ns_per_key 486.3228
 # TYPE ekbloom_pebble_scan_mb_per_s gauge
-ekbloom_pebble_scan_mb_per_s 203.56374985597864
+ekbloom_pebble_scan_mb_per_s 205.62474142688765
 # TYPE ekbloom_pebble_scan_p99_ns gauge
-ekbloom_pebble_scan_p99_ns 571
+ekbloom_pebble_scan_p99_ns 461
 # TYPE ekbloom_pebble_scan_mismatches gauge
 ekbloom_pebble_scan_mismatches 0
 # TYPE ekbloom_pebble_ingest_ms gauge
-ekbloom_pebble_ingest_ms 0.207
+ekbloom_pebble_ingest_ms 0.114
 # TYPE ekbloom_pebble_ingest_total_ms gauge
-ekbloom_pebble_ingest_total_ms 12.521
+ekbloom_pebble_ingest_total_ms 11.965
 # TYPE ekbloom_pebble_ingest_mb_per_s gauge
-ekbloom_pebble_ingest_mb_per_s 159.72390764220597
+ekbloom_pebble_ingest_mb_per_s 167.14894709535247
 # TYPE ekbloom_pebble_ingest_sstable_bytes gauge
 ekbloom_pebble_ingest_sstable_bytes 1.533676e+06
 # TYPE ekbloom_pebble_ingest_mismatches gauge
 ekbloom_pebble_ingest_mismatches 0
 # TYPE ekbloom_pebble_flush_ms gauge
-ekbloom_pebble_flush_ms 3.242
+ekbloom_pebble_flush_ms 2.914
 # TYPE ekbloom_pebble_compaction_ms gauge
-ekbloom_pebble_compaction_ms 7.228
+ekbloom_pebble_compaction_ms 6.315
 # TYPE ekbloom_pebble_db_bytes_before_flush gauge
-ekbloom_pebble_db_bytes_before_flush 1.938526e+06
+ekbloom_pebble_db_bytes_before_flush 1.942319e+06
 # TYPE ekbloom_pebble_db_bytes_after_compact gauge
-ekbloom_pebble_db_bytes_after_compact 6.208008e+06
+ekbloom_pebble_db_bytes_after_compact 7.743432e+06
 # TYPE ekbloom_pebble_db_bytes_final gauge
-ekbloom_pebble_db_bytes_final 4.674332e+06
+ekbloom_pebble_db_bytes_final 4.675792e+06
 # TYPE ekbloom_pebble_compact_sst_bytes_written gauge
 ekbloom_pebble_compact_sst_bytes_written 3.066798e+06
 # TYPE ekbloom_pebble_compact_bytes_read gauge
@@ -49,21 +49,21 @@ ekbloom_pebble_post_sample_mismatches 0
 # TYPE ekbloom_pebble_post_scan_mismatches gauge
 ekbloom_pebble_post_scan_mismatches 0
 # TYPE ekbloom_pebble_point_read_warm_p50_ns gauge
-ekbloom_pebble_point_read_warm_p50_ns 1282
+ekbloom_pebble_point_read_warm_p50_ns 1263
 # TYPE ekbloom_pebble_point_read_warm_p99_ns gauge
-ekbloom_pebble_point_read_warm_p99_ns 2235
+ekbloom_pebble_point_read_warm_p99_ns 1623
 # TYPE ekbloom_pebble_point_read_warm_p99_9_ns gauge
-ekbloom_pebble_point_read_warm_p99_9_ns 4148
+ekbloom_pebble_point_read_warm_p99_9_ns 3126
 # TYPE ekbloom_pebble_point_read_warm_cache_hits gauge
 ekbloom_pebble_point_read_warm_cache_hits 150000
 # TYPE ekbloom_pebble_point_read_warm_cache_misses gauge
 ekbloom_pebble_point_read_warm_cache_misses 0
 # TYPE ekbloom_pebble_point_read_pressure_p50_ns gauge
-ekbloom_pebble_point_read_pressure_p50_ns 3948
+ekbloom_pebble_point_read_pressure_p50_ns 3927
 # TYPE ekbloom_pebble_point_read_pressure_p99_ns gauge
-ekbloom_pebble_point_read_pressure_p99_ns 5380
+ekbloom_pebble_point_read_pressure_p99_ns 4469
 # TYPE ekbloom_pebble_point_read_pressure_p99_9_ns gauge
-ekbloom_pebble_point_read_pressure_p99_9_ns 7925
+ekbloom_pebble_point_read_pressure_p99_9_ns 6411
 # TYPE ekbloom_pebble_point_read_pressure_cache_hits gauge
 ekbloom_pebble_point_read_pressure_cache_hits 0
 # TYPE ekbloom_pebble_point_read_pressure_cache_misses gauge

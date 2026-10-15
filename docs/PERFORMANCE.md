@@ -4,9 +4,16 @@ Everything here is measured on one host (AMD Ryzen 7 9800X3D, Go 1.23, scalar, n
 SIMD) unless marked native arm64, and is a decision aid, not a portable
 benchmark. Every latency/throughput value is a **median of `EKB_RUNS` runs**
 (default 5, 3 in CI), measured without `-race`; deterministic sizes (`physical_bytes`,
-`E_V`) are unaffected. The raw logs are `evidence/sweep.json`, `evidence/bench.txt`,
-`evidence/aarch64-native-bench.txt`, `evidence/byteat.json`, `evidence/courts.json`
-and `evidence/corpus-compare.log`.
+`E_V`) are unaffected. Every timing artifact is **provenance-stamped** (`internal/tools/provenance`):
+it records the toolchain, caps and image digest, plus the `loadavg` and
+`cpu_idle_pct` seen at measure time, so a reader can tell an idle capture from a
+contended one — read `loadavg` **together with** `cpu_idle_pct`, because inside a
+container `/proc/loadavg` is the host's and counts I/O-wait; `_min` is the
+least-contended estimate and the `_min`-vs-median gap is the contention signal
+(see `evidence/README.md` and `evidence/archived/load30/`). Re-capture the whole
+set with `sh scripts/remeasure.sh`. The raw logs are `evidence/sweep.json`,
+`evidence/bench.txt`, `evidence/aarch64-native-bench.txt`, `evidence/byteat.json`,
+`evidence/courts.json` and `evidence/corpus-compare.log`.
 
 ## Profile frontier (`evidence/sweep.json`)
 

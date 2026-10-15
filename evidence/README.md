@@ -29,9 +29,41 @@ measured on the non-race build, and `go test -race ./...` is the correctness gat
 that never overwrites the timing evidence (`writeTimingEvidence`). Set `EKB_RUNS`
 to change the run count (odd values are preferred so the median is an observed run).
 
+**Provenance (idle vs contended).** Every timing artifact now carries a top-level
+`"provenance"` object — `go`, `goos`, `goarch`, `gomaxprocs`, `nproc`, `kernel`,
+`container_image`, `container_image_id` (the immutable image digest),
+`memory_limit`, `cpu_limit`, `pids_limit`, `loadavg` (`one`/`five`/`fifteen`),
+`cpu_idle_pct`, `runqueue`, `timestamp_utc`, `ekb_runs`, and a `note`. It is stamped
+by `internal/tools/provenance` (mirrored as `courts/internal/provenance`) at measure
+time, and the wrapper scripts inject the image/tag/digest and caps
+(`EKB_CONTAINER_IMAGE`, `EKB_CONTAINER_IMAGE_ID`, `EKB_LIMIT_MEM`, `EKB_LIMIT_CPUS`,
+`EKB_LIMIT_PIDS`). It only **appends** a key: the deterministic fields stay
+byte-identical (guarded by `internal/tools/provenance`'s test).
+
+How to read it: `_min` is the **least-contended** run's estimate, the median sits
+above it, and the **`_min`-vs-median (and `_max`) gap is the contention signal** —
+a wide gap means a noisy capture. But do **not** read `loadavg` alone: inside a
+container `/proc/loadavg` is normally the **host's** (containers share the kernel),
+and Linux counts processes blocked on I/O (I/O-wait) toward it, so a high `loadavg`
+can coexist with an idle CPU. Read `loadavg` **together with `cpu_idle_pct`**
+(`(idle+iowait)/total` from `/proc/stat`, so I/O-wait counts as idle): a high
+`loadavg` with a high `cpu_idle_pct` means the load came from **unrelated, I/O-bound
+neighbours**, not from CPU contention on this run.
+
+**Comparison point.** `evidence/archived/load30/` is a byte-for-byte copy of the
+**pre-provenance** capture, taken while the host `loadavg` was ≈29 (I/O-bound
+co-tenants) with the CPU largely idle. See `archived/load30/README.md`; diff an
+archived number against its `evidence/` counterpart to see how the median and the
+`_min` moved between a contended and a (later) stamp-carrying capture.
+
+Re-run the whole evidence set at `EKB_RUNS=5` in an idle window with
+`sh scripts/remeasure.sh` (it prints the captured `loadavg`/`cpu_idle_pct`); it goes
+through the same capped container as every other harness.
+
 | Artifact | What it proves |
 | --- | --- |
-| `environment.txt` | toolchain, determinism and cross-compile results for the local run |
+| `environment.txt` | **generated** by `scripts/environment.sh` (inside the sandbox): the container's `go version`, the `GOMAXPROCS` pin, the caps, kernel, host `nproc`, module deps, no cgo/unsafe, the cross-compile matrix, and the `go vet ./...` / `go test ./...` counts actually observed |
+| `archived/load30/` | byte-for-byte copy of the **pre-provenance** timing capture taken at host `loadavg ≈29` (I/O-bound co-tenants, CPU largely idle); the comparison point for the provenance-stamped `evidence/*.json` (see `archived/load30/README.md`) |
 | `test-race.log`, `vet.log` | `go test -race ./...` and `go vet ./...` (local CI) |
 | `bench.txt` | amd64 `go test -bench . -benchmem -benchtime 200ms -count=EKB_RUNS`, aggregated to per-benchmark medians (`ns/op`, `MB/s`, `B/op`, `allocs/op`) with min/max (`internal/tools/benchagg`) |
 | `aarch64-bench.txt` | arm64 benchmarks under qemu (slow, indicative only) |

@@ -1,28 +1,28 @@
 == docker run --memory=2g --memory-swap=2g --cpus=2 ekbloom-go-sandbox:latest ==
 == sh -c 'cd courts && go run ./pebblebench' ==
-2026/10/14 22:45:01 [JOB 1] WAL file /tmp/ekbloom-pebble-integration-3241004319/db/000010.log with log number 000010 stopped reading at offset: 0; replayed 0 keys in 0 batches
+2026/10/15 12:13:03 [JOB 1] WAL file /tmp/ekbloom-pebble-integration-790451032/db/000010.log with log number 000010 stopped reading at offset: 0; replayed 0 keys in 0 batches
 pebble integration depth (machine-9 cores, 80/20 skew)
 records                           20000
 bytes_per_record (codec payload)  63.3575
 scan keys                         20000
-scan ns/key                       491
-scan MB/s                         204
-scan p99                          571 ns
+scan ns/key                       486
+scan MB/s                         206
+scan p99                          461 ns
 scan mismatches                   0
 ingest records                    20000
-ingest build/ingest ms            12.3/0.2
-ingest MB/s                       160
+ingest build/ingest ms            11.8/0.1
+ingest MB/s                       167
 ingest sstable bytes              1533676
 ingest mismatches                 0
-flush ms                          3.2
-compact ms                        7.2
-db bytes before flush             1938526
-db bytes after flush              3483079
-db bytes after compact            6208008
-db bytes final (post-close)       4674332
+flush ms                          2.9
+compact ms                        6.3
+db bytes before flush             1942319
+db bytes after flush              3483077
+db bytes after compact            7743432
+db bytes final (post-close)       4675792
 compact sst bytes written/read    3066798/3067640
 write amplification               1.150  (stored 1.816)
 post-compact sample mismatches    0
 post-compact scan keys            40000              mismatches  0
-warm p50/p99/p99.9                1282/2235/4148 ns  hits        150000  misses  0
-pressure p50/p99/p99.9            3948/5380/7925 ns  hits        0       misses  150000
+warm p50/p99/p99.9                1263/1623/3126 ns  hits        150000  misses  0
+pressure p50/p99/p99.9            3927/4469/6411 ns  hits        0       misses  150000

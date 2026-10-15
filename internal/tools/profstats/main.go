@@ -47,7 +47,8 @@ import (
 	"strings"
 	"time"
 
-	ekbloom "github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go"
+	"github.com/infinityabundance/ekbloom-go/internal/tools/provenance"
 	"github.com/infinityabundance/ekbloom-go/internal/tools/stat"
 )
 
@@ -239,7 +240,10 @@ func writeJSON(path string, v any) error {
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(path, append(b, '\n'), 0o644)
+	// Stamp the measured artifact with its environment (toolchain, caps, image
+	// digest, loadavg, cpu_idle_pct) so a reviewer can judge contention; the
+	// deterministic fields are byte-identical.
+	return os.WriteFile(path, provenance.Stamp(b), 0o644)
 }
 
 // --- GC / heap measurement ---------------------------------------------------
